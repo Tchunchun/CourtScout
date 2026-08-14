@@ -5,7 +5,11 @@ import { createServer } from "node:http";
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { analyzeTeam, ELIGIBILITY_SCOPES } from "../scripts/lib/analysis.mjs";
+import {
+  ANALYSIS_VERSION,
+  analyzeTeam,
+  ELIGIBILITY_SCOPES
+} from "../scripts/lib/analysis.mjs";
 import { readJson, writeJsonAtomic } from "../scripts/lib/io.mjs";
 import {
   listTeamCatalog,
@@ -14,6 +18,7 @@ import {
 import {
   assignTeamToCollection,
   createTeamCollection,
+  deleteTeamCollection,
   getTeamCollection,
   listTeamCollections
 } from "../scripts/lib/team-collections.mjs";
@@ -22,7 +27,7 @@ import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_DIR = join(ROOT, "web", "public");
-const DATA_DIR = join(ROOT, "data");
+const DATA_DIR = resolve(process.env.COURT_SCOUT_DATA_DIR ?? join(ROOT, "data"));
 const PORT = Number(process.env.PORT ?? 4173);
 const UTR_SESSION = "tennis-scout-ui";
 const jobs = new Map();
@@ -580,6 +585,44 @@ function datasetRatingSelections(dataset) {
   };
 }
 
+async function getTeamAnalysis(
+  dataDirectory,
+  teamId,
+  eligibilityScope,
+  refresh = false
+) {
+  if (!Object.hasOwn(ELIGIBILITY_SCOPES, eligibilityScope)) {
+    throw new Error(
+      `Eligibility must be one of: ${Object.keys(ELIGIBILITY_SCOPES).join(", ")}.`
+    );
+  }
+  const dataset = await readCatalogTeam(dataDirectory, teamId);
+  const outputPath = join(
+    dataDirectory,
+    teamId,
+    "analysis",
+    `${eligibilityScope}.json`
+  );
+  if (!refresh) {
+    try {
+      const saved = await readJson(outputPath);
+      if (
+        saved.analysisVersion === ANALYSIS_VERSION &&
+        saved.dataset?.datasetId === dataset.datasetId &&
+        saved.dataset?.generatedAt === dataset.generatedAt &&
+        saved.eligibility?.scope === eligibilityScope
+      ) {
+        return saved;
+      }
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+  }
+  const analysis = analyzeTeam(dataset, { eligibilityScope });
+  await writeJsonAtomic(outputPath, analysis);
+  return analysis;
+}
+
 export function createAppServer(options = {}) {
   const dataDirectory = options.dataDirectory ?? DATA_DIR;
   const runUtrCommand = createUtrCommandQueue();
@@ -731,8 +774,36 @@ export function createAppServer(options = {}) {
 
       if (request.method === "POST" && pathname === "/api/team-collections") {
         const body = await readBody(request);
-        const collection = await createTeamCollection(dataDirectory, body.name);
-        json(response, 201, { collection });
+        if (body.datasetId != null) {
+          const teams = await listTeamCatalog(dataDirectory);
+          if (!teams.some(team => team.datasetId === body.datasetId)) {
+            const error = new Error("Gathered team not found.");
+            error.statusCode = 404;
+            throw error;
+          }
+        }
+        const collection = await createTeamCollection(
+          dataDirectory,
+          body.name,
+          new Date(),
+          body.datasetId ?? null
+        );
+        json(response, 201, {
+          collection,
+          collections: await listTeamCollections(dataDirectory)
+        });
+        return;
+      }
+
+      const collectionMatch = pathname.match(
+        /^\/api\/team-collections\/([a-zA-Z0-9-]+)$/
+      );
+      if (request.method === "DELETE" && collectionMatch) {
+        json(
+          response,
+          200,
+          await deleteTeamCollection(dataDirectory, collectionMatch[1])
+        );
         return;
       }
 
@@ -762,8 +833,16 @@ export function createAppServer(options = {}) {
         if (!teamId) throw new Error("Choose a team dataset.");
         const eligibilityScope =
           requestUrl.searchParams.get("eligibility") ?? "national";
-        const dataset = await readCatalogTeam(dataDirectory, teamId);
-        json(response, 200, analyzeTeam(dataset, { eligibilityScope }));
+        json(
+          response,
+          200,
+          await getTeamAnalysis(
+            dataDirectory,
+            teamId,
+            eligibilityScope,
+            requestUrl.searchParams.get("refresh") === "true"
+          )
+        );
         return;
       }
 

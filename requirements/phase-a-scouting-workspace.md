@@ -28,15 +28,12 @@ schedule from other teams gathered for reconnaissance.
 
 ### Collection
 
-- Collection optionally assigns the new dataset to an event collection.
-- When an event collection is selected, collection asks whether the new
-  dataset is Our team, a scheduled opponent, or a scouting-pool team.
-- When no event collection is selected, the team-role control is unavailable
-  and the resulting report remains unfiled.
-- The first collection defaults to Our team.
-- Later collections default to Scheduled opponent while schedule capacity
-  remains.
-- A role selected before collection survives a page reload while the job runs.
+- Scouting always starts independently and produces an unfiled team report.
+- From the completed report, the user may optionally create or choose an event
+  collection.
+- After filing the report, the user may classify it as Our team, a scheduled
+  opponent, or a scouting-pool team.
+- The team-role control is unavailable while the report remains unfiled.
 
 ### Team navigation
 

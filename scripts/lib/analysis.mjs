@@ -1,4 +1,4 @@
-const ANALYSIS_VERSION = "1.1.0";
+export const ANALYSIS_VERSION = "1.1.0";
 const POSTSEASON_PHASES = new Set([
   "playoff",
   "district",

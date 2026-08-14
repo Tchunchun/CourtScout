@@ -59,12 +59,21 @@ is not itself a collection.
 
 ## Target flow
 
+Court Scout uses three distinct stages:
+
+1. **Scout teams** — enter a team URL, choose optional rating sources, and gather
+   the standalone dataset.
+2. **Reports & analysis** — navigate gathered teams, organize collections,
+   review source data, and run team analysis through an explicit two-step
+   **Review report → Analyze team** flow.
+3. **Match cards** — prepare, edit, finalize, and share scheduled matchups.
+
 ### Phase A — Scouting workspace
 
-1. Gather or select our team and pin it as **Our team**.
-2. Optionally create or choose an event collection.
-3. Within a collection, classify teams as **Our team**, **Scheduled
-   opponents**, or the **Scouting pool**.
+1. Gather or select a team as a standalone report.
+2. From the completed report, optionally create or choose an event collection.
+3. Within that collection, classify the team as **Our team**, a **Scheduled
+   opponent**, or part of the **Scouting pool**.
 4. Leave teams unfiled when only a standalone scouting report is needed.
 5. Keep detailed reports available for every gathered team.
 6. Show scheduled-opponent readiness separately from general scouting

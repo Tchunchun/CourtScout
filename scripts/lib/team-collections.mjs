@@ -68,8 +68,16 @@ export async function listTeamCollections(dataDirectory) {
   return (await readStore(dataDirectory)).collections;
 }
 
-export async function createTeamCollection(dataDirectory, name, createdAt = new Date()) {
+export async function createTeamCollection(
+  dataDirectory,
+  name,
+  createdAt = new Date(),
+  datasetId = null
+) {
   const normalizedName = validateTeamCollectionName(name);
+  if (datasetId != null && (typeof datasetId !== "string" || !datasetId)) {
+    throw new Error("Choose a gathered team.");
+  }
   return queuedWrite(dataDirectory, async () => {
     const store = await readStore(dataDirectory);
     if (store.collections.some(collection =>
@@ -84,12 +92,39 @@ export async function createTeamCollection(dataDirectory, name, createdAt = new 
     const collection = {
       id: randomUUID().slice(0, 8),
       name: normalizedName,
-      teamDatasetIds: [],
+      teamDatasetIds: datasetId ? [datasetId] : [],
       createdAt: createdAt.toISOString()
     };
+    if (datasetId) {
+      for (const existing of store.collections) {
+        existing.teamDatasetIds = existing.teamDatasetIds.filter(
+          id => id !== datasetId
+        );
+      }
+    }
     store.collections.push(collection);
     await writeJsonAtomic(collectionFile(dataDirectory), store);
     return collection;
+  });
+}
+
+export async function deleteTeamCollection(dataDirectory, collectionId) {
+  if (typeof collectionId !== "string" || !collectionId) {
+    throw new Error("Choose an event collection.");
+  }
+  return queuedWrite(dataDirectory, async () => {
+    const store = await readStore(dataDirectory);
+    const index = store.collections.findIndex(
+      collection => collection.id === collectionId
+    );
+    if (index < 0) {
+      const error = new Error("Event collection not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+    const [collection] = store.collections.splice(index, 1);
+    await writeJsonAtomic(collectionFile(dataDirectory), store);
+    return { collection, collections: store.collections };
   });
 }
 

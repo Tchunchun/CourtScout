@@ -41,6 +41,7 @@ const views = {
 const MATCH_CARDS_STORAGE_KEY = "courtScoutMatchCards";
 const TEAM_WORKSPACE_STORAGE_KEY = "courtScoutTeamWorkspace";
 const ACTIVE_COLLECTION_STORAGE_KEY = "courtScoutActiveTeamCollection";
+let collectionCreateDatasetId = null;
 const state = {
   jobId: localStorage.getItem("courtScoutJob"),
   jobKind: null,
@@ -62,8 +63,7 @@ const state = {
   matchCardError: "",
   teamWorkspace: emptyTeamWorkspace(),
   teamWorkspaceStorageError: null,
-  matchCardPrefillOpponentId: null,
-  collectionPurposeInitialized: false
+  matchCardPrefillOpponentId: null
 };
 const analysisScopes = new Set(["national", "sectional", "local"]);
 
@@ -124,10 +124,6 @@ function updateAnalysisAction() {
   updateTeamWorkspaceActions();
 }
 
-function pendingTeamRoleKey(jobId) {
-  return `courtScoutPendingTeamRole:${jobId}`;
-}
-
 function teamCollectionId(team) {
   return state.teamCollections.find(collection =>
     collection.teamDatasetIds.includes(team.datasetId)
@@ -173,7 +169,8 @@ function renderCollectionControls() {
   $("#gatherEventCollection").value = "";
   $("#teamEventCollection").innerHTML = collectionOptions();
   const team = selectedTeam();
-  $("#teamEventCollection").value = team ? teamCollectionId(team) : "";
+  const selectedCollectionId = team ? teamCollectionId(team) : "";
+  $("#teamEventCollection").value = selectedCollectionId;
 }
 
 async function loadTeamCollections() {
@@ -248,65 +245,6 @@ function workspaceRole(teamId) {
   return teamRole(state.teamWorkspace, teamId);
 }
 
-function defaultCollectionRole(workspace = state.teamWorkspace) {
-  if (!workspace.ourTeamId) return "our";
-  return workspace.scheduledOpponentIds.length <
-    TEAM_WORKSPACE_SCHEDULE_LIMIT
-    ? "scheduled"
-    : "scouting";
-}
-
-function syncCollectionPurpose(preferredRole = null) {
-  const select = $("#collectionPurpose");
-  const targetCollectionId = $("#gatherEventCollection").value || null;
-  if (!targetCollectionId) {
-    select.disabled = true;
-    select.value = "scouting";
-    $("#collectionPurposeHint").textContent =
-      "Standalone reports can be assigned to a collection later.";
-    return;
-  }
-  select.disabled = false;
-  let targetWorkspace = state.teamWorkspace;
-  if (targetCollectionId !== state.activeCollectionId) {
-    try {
-      targetWorkspace = readStoredTeamWorkspace(targetCollectionId);
-    } catch (error) {
-      targetWorkspace = emptyTeamWorkspace();
-      state.teamWorkspaceStorageError =
-        `Team roles could not be read: ${error.message}`;
-      select.disabled = true;
-      select.value = "scouting";
-      $("#collectionPurposeHint").textContent =
-        state.teamWorkspaceStorageError;
-      return;
-    }
-  }
-  const scheduledOption = select.querySelector('[value="scheduled"]');
-  const scheduleFull =
-    targetWorkspace.scheduledOpponentIds.length >=
-    TEAM_WORKSPACE_SCHEDULE_LIMIT;
-  scheduledOption.disabled = scheduleFull;
-  if (preferredRole) {
-    select.value = preferredRole;
-    state.collectionPurposeInitialized = true;
-  } else if (!state.collectionPurposeInitialized) {
-    select.value = defaultCollectionRole(targetWorkspace);
-    state.collectionPurposeInitialized = true;
-  }
-  if (select.value === "scheduled" && scheduleFull) {
-    select.value = "scouting";
-  }
-  const hints = {
-    our: targetWorkspace.ourTeamId
-      ? "This will replace the currently pinned Our team."
-      : "Pin the team you are preparing.",
-    scheduled: `${targetWorkspace.scheduledOpponentIds.length} of ${TEAM_WORKSPACE_SCHEDULE_LIMIT} scheduled opponents added.`,
-    scouting: "Keep this team available for research without adding it to the schedule."
-  };
-  $("#collectionPurposeHint").textContent = hints[select.value];
-}
-
 function updateWorkspaceRole(teamId, role) {
   const team = state.teams.find(item => item.id === teamId);
   if (
@@ -331,7 +269,6 @@ function updateWorkspaceRole(teamId, role) {
   }
   $("#teamRoleError").textContent = "";
   renderTeamList();
-  syncCollectionPurpose();
   updateTeamWorkspaceActions();
   if (!views.matchCards.hidden && !state.activeMatchCardId) {
     renderMatchCardsHome();
@@ -360,23 +297,63 @@ function workspaceActionFor(teamId) {
 }
 
 function updateTeamWorkspaceActions() {
+  const teamId = state.selectedTeamId;
   const team = selectedTeam();
   const selectedCollectionId = team ? teamCollectionId(team) : "";
   $("#teamEventCollection").value = selectedCollectionId;
-  $("#teamRoleSelect").disabled = true;
-  $("#teamRoleSelect").value = "scouting";
-  $("#teamRoleSummary").textContent = selectedCollectionId
-    ? "Filed report"
-    : "Standalone report";
-  $("#teamRoleHint").textContent = selectedCollectionId
-    ? "Available in its collection for reports and match planning."
-    : "Add this report to a collection when you are ready.";
+  const rolesAvailable = Boolean(
+    teamId &&
+    state.activeCollectionId &&
+    selectedCollectionId === state.activeCollectionId
+  );
+  if (!rolesAvailable) {
+    const collection = state.teamCollections.find(
+      item => item.id === selectedCollectionId
+    );
+    $("#teamRoleSelect").disabled = true;
+    $("#teamRoleSelect").value = "scouting";
+    $("#teamRoleSummary").textContent = selectedCollectionId
+      ? "Collection role"
+      : "Standalone report";
+    $("#teamRoleHint").textContent = selectedCollectionId
+      ? `Choose ${collection?.name ?? "this event collection"} to assign Our team or an opponent role.`
+      : "Assign this report to a collection before choosing a team role.";
+    $("#teamRoleError").textContent = state.teamWorkspaceStorageError ?? "";
+    [$("#teamNextAction"), $("#analysisNextAction")].forEach(button => {
+      if (button) button.hidden = true;
+    });
+    return;
+  }
+  const role = workspaceRole(teamId);
+  const summaries = {
+    our: {
+      title: "Our team",
+      hint: "Pinned as the home side for Match Cards."
+    },
+    scheduled: {
+      title: "Scheduled opponent",
+      hint: `${state.teamWorkspace.scheduledOpponentIds.length} of ${TEAM_WORKSPACE_SCHEDULE_LIMIT} scheduled opponents added.`
+    },
+    scouting: {
+      title: "Scouting pool",
+      hint: "Available for research and reports without appearing in match preparation."
+    }
+  };
+  $("#teamRoleSelect").disabled = false;
+  $("#teamRoleSelect").value = role;
+  $("#teamRoleSelect").querySelector('[value="scheduled"]').disabled =
+    role !== "scheduled" &&
+    state.teamWorkspace.scheduledOpponentIds.length >=
+      TEAM_WORKSPACE_SCHEDULE_LIMIT;
+  $("#teamRoleSummary").textContent = summaries[role].title;
+  $("#teamRoleHint").textContent = summaries[role].hint;
   $("#teamRoleError").textContent = state.teamWorkspaceStorageError ?? "";
+  const workspaceAction = workspaceActionFor(teamId);
   [$("#teamNextAction"), $("#analysisNextAction")].forEach(button => {
     if (!button) return;
-    button.hidden = true;
-    button.dataset.workspaceAction = "";
-    button.textContent = "";
+    button.hidden = !workspaceAction;
+    button.dataset.workspaceAction = workspaceAction?.action ?? "";
+    button.textContent = workspaceAction?.label ?? "";
   });
 }
 
@@ -384,9 +361,11 @@ function showView(name) {
   Object.entries(views).forEach(([key, element]) => {
     element.hidden = key !== name;
   });
-  const planningStep = name === "matchCards";
+  const matchCardStep = name === "matchCards";
   const reportsStep = ["reports", "results", "analysisSetup", "analysis"].includes(name);
-  document.body.classList.toggle("stage-two", planningStep);
+  document.body.classList.toggle("stage-one", !reportsStep && !matchCardStep);
+  document.body.classList.toggle("stage-two", reportsStep);
+  document.body.classList.toggle("stage-three", matchCardStep);
   document.body.classList.toggle("intake-active", name === "intake");
   if (name !== "intake") {
     document.body.classList.remove("intake-teams-open");
@@ -394,11 +373,21 @@ function showView(name) {
   [$("#scoutStage"), $("#reportsStage"), $("#matchCardsStage")].forEach(button =>
     button.removeAttribute("aria-current")
   );
-  const activeStage = planningStep
+  const activeStage = matchCardStep
     ? $("#matchCardsStage")
     : reportsStep ? $("#reportsStage") : $("#scoutStage");
   activeStage.setAttribute("aria-current", "page");
-  $("#headerStatusText").textContent = planningStep
+  const stageTwoStep = name === "results"
+    ? "report"
+    : ["analysisSetup", "analysis"].includes(name) ? "analysis" : null;
+  $$("[data-stage-two-step]").forEach(button => {
+    if (button.dataset.stageTwoStep === stageTwoStep) {
+      button.setAttribute("aria-current", "step");
+    } else {
+      button.removeAttribute("aria-current");
+    }
+  });
+  $("#headerStatusText").textContent = matchCardStep
     ? "Match day planning"
     : reportsStep ? "Reports & analysis" : "Team scouting";
   const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -587,7 +576,6 @@ async function loadTeams(selectedId = state.selectedTeamId) {
     renderTeamList();
     renderReportsTeamList();
     renderCollectionControls();
-    syncCollectionPurpose();
     updateTeamWorkspaceActions();
     if (!views.matchCards.hidden && !state.activeMatchCardId) {
       renderMatchCardsHome();
@@ -626,6 +614,7 @@ async function openTeamData(teamId) {
   if (!team) return;
   state.selectedTeamId = team.id;
   renderTeamList();
+  renderCollectionControls();
   try {
     const data = await api(`/api/team-data?team=${encodeURIComponent(team.id)}`);
     renderDataset(data);
@@ -680,14 +669,6 @@ $("#includeWtn").addEventListener("change", syncRatingOptions);
 $$('input[name="utrMode"]').forEach(input => {
   input.addEventListener("change", syncRatingOptions);
 });
-$("#collectionPurpose").addEventListener("change", () => {
-  syncCollectionPurpose($("#collectionPurpose").value);
-});
-$("#gatherEventCollection").addEventListener("change", () => {
-  state.collectionPurposeInitialized = false;
-  syncCollectionPurpose();
-});
-
 $("#connectUtr").addEventListener("click", async () => {
   const button = $("#connectUtr");
   if (button.textContent.includes("Check")) {
@@ -716,7 +697,6 @@ $("#collectionForm").addEventListener("submit", async event => {
     ? $('input[name="utrMode"]:checked').value
     : "none";
   const includeWtn = $("#includeWtn").checked;
-  const eventCollectionId = $("#gatherEventCollection").value || null;
   $("#formError").textContent = "";
   submit.disabled = true;
   submit.firstChild.textContent = "Starting collection ";
@@ -727,21 +707,12 @@ $("#collectionForm").addEventListener("submit", async event => {
       body: JSON.stringify({
         teamUrl,
         utrMode,
-        includeWtn,
-        eventCollectionId
+        includeWtn
       })
     });
     state.jobId = job.id;
     state.jobKind = job.kind;
     localStorage.setItem("courtScoutJob", job.id);
-    if (eventCollectionId) {
-      localStorage.setItem(
-        pendingTeamRoleKey(job.id),
-        $("#collectionPurpose").value
-      );
-    } else {
-      localStorage.removeItem(pendingTeamRoleKey(job.id));
-    }
     showView("progress");
     updateProgress(job);
     pollJob();
@@ -897,7 +868,6 @@ async function pollJob() {
       window.setTimeout(pollJob, 1200);
     }
   } catch {
-    localStorage.removeItem(pendingTeamRoleKey(state.jobId));
     localStorage.removeItem("courtScoutJob");
     state.jobId = null;
     showView("intake");
@@ -1058,30 +1028,6 @@ async function loadResults(job) {
     (job?.collectionName ? `collections/${job.collectionName}` : null);
   if (teamId) {
     state.selectedTeamId = teamId;
-  }
-  if (job.kind !== "refresh" && teamId) {
-    if (
-      Object.hasOwn(job, "eventCollectionId") &&
-      job.eventCollectionId !== state.activeCollectionId
-    ) {
-      state.activeCollectionId = job.eventCollectionId;
-      if (state.activeCollectionId) {
-        localStorage.setItem(
-          ACTIVE_COLLECTION_STORAGE_KEY,
-          state.activeCollectionId
-        );
-      } else {
-        localStorage.removeItem(ACTIVE_COLLECTION_STORAGE_KEY);
-      }
-      state.collectionPurposeInitialized = false;
-      loadStoredTeamWorkspace();
-      renderCollectionControls();
-    }
-    const pendingRole = localStorage.getItem(pendingTeamRoleKey(state.jobId));
-    if (pendingRole) {
-      updateWorkspaceRole(teamId, pendingRole);
-      localStorage.removeItem(pendingTeamRoleKey(state.jobId));
-    }
   }
   if (job.kind === "refresh" && teamId) {
     markAnalysisStale(teamId);
@@ -1387,9 +1333,10 @@ function renderAnalysis() {
   showView("analysis");
 }
 
-async function requestAnalysis(team, scope) {
+async function requestAnalysis(team, scope, options = {}) {
+  const refresh = options.refresh ? "&refresh=true" : "";
   const report = await api(
-    `/api/analysis?team=${encodeURIComponent(team.id)}&eligibility=${encodeURIComponent(scope)}`
+    `/api/analysis?team=${encodeURIComponent(team.id)}&eligibility=${encodeURIComponent(scope)}${refresh}`
   );
   state.analysis = report;
   state.analysisTeamId = team.id;
@@ -1446,7 +1393,7 @@ async function runAnalysis() {
   button.disabled = true;
   button.textContent = "Running analysis…";
   try {
-    await requestAnalysis(team, scope);
+    await requestAnalysis(team, scope, { refresh: true });
     renderAnalysis();
   } catch (error) {
     $("#analysisError").textContent = error.message;
@@ -1473,7 +1420,7 @@ async function rerunRefreshedAnalysis() {
   });
   $("#analysisResultError").textContent = "";
   try {
-    await requestAnalysis(team, scope);
+    await requestAnalysis(team, scope, { refresh: true });
     renderAnalysis();
   } catch (error) {
     openAnalysisSetup(team.id);
@@ -1502,7 +1449,7 @@ async function rerunAnalysis() {
   button.disabled = true;
   button.textContent = "Running…";
   try {
-    await requestAnalysis(team, scope);
+    await requestAnalysis(team, scope, { refresh: true });
     renderAnalysis();
   } catch (error) {
     $("#analysisResultError").textContent = error.message;
@@ -2069,7 +2016,7 @@ function updateActiveMatchCard(update, focusSelector = null) {
 function runWorkspaceAction(action) {
   const teamId = state.selectedTeamId;
   if (action === "scout-opponent") {
-    reset("scheduled");
+    reset();
     return;
   }
   if (action === "set-our-team" && teamId) {
@@ -2085,10 +2032,7 @@ function runWorkspaceAction(action) {
   }
 }
 
-function reset(preferredRole = null) {
-  if (state.jobId) {
-    localStorage.removeItem(pendingTeamRoleKey(state.jobId));
-  }
+function reset() {
   localStorage.removeItem("courtScoutJob");
   state.jobId = null;
   state.jobKind = null;
@@ -2097,8 +2041,6 @@ function reset(preferredRole = null) {
   $("#tryAgain").hidden = true;
   $(".progress-copy .eyebrow").textContent = "Collection in progress";
   $(".progress-copy h1").textContent = "Building your scouting dataset.";
-  state.collectionPurposeInitialized = false;
-  syncCollectionPurpose(preferredRole ?? defaultCollectionRole());
   showView("intake");
 }
 
@@ -2114,7 +2056,7 @@ $("#tryAgain").addEventListener("click", () => {
   }
   reset();
 });
-$("#newCollection").addEventListener("click", () => reset());
+$("#newScout").addEventListener("click", () => reset());
 $("#gatherTeam").addEventListener("click", () => reset());
 $("#landingViewTeams").addEventListener("click", () => {
   renderReportsTeamList();
@@ -2175,6 +2117,16 @@ $$("[data-rerun-refreshed-analysis]").forEach(button => {
     void rerunRefreshedAnalysis();
   });
 });
+$$("[data-stage-two-step]").forEach(button => {
+  button.addEventListener("click", () => {
+    if (!state.selectedTeamId) return;
+    if (button.dataset.stageTwoStep === "report") {
+      void openTeamData(state.selectedTeamId);
+    } else {
+      void openCompletedAnalysis(state.selectedTeamId);
+    }
+  });
+});
 $("#teamRoleSelect").addEventListener("change", event => {
   if (!state.selectedTeamId) return;
   if (!updateWorkspaceRole(state.selectedTeamId, event.target.value)) {
@@ -2188,14 +2140,12 @@ function setActiveCollection(collectionId) {
   } else {
     localStorage.removeItem(ACTIVE_COLLECTION_STORAGE_KEY);
   }
-  state.collectionPurposeInitialized = false;
   loadStoredTeamWorkspace();
   $("#teamCollection").value = state.activeCollectionId ?? "";
   $("#reportsCollection").value = state.activeCollectionId ?? "";
   $("#gatherEventCollection").value = "";
   renderTeamList();
   renderReportsTeamList();
-  syncCollectionPurpose();
   updateTeamWorkspaceActions();
   if (!views.matchCards.hidden && !state.activeMatchCardId) {
     renderMatchCardsHome();
@@ -2237,8 +2187,16 @@ $("#teamEventCollection").addEventListener("change", async event => {
       );
       persistTeamWorkspace();
     }
+    state.activeCollectionId = collectionId;
+    if (collectionId) {
+      localStorage.setItem(ACTIVE_COLLECTION_STORAGE_KEY, collectionId);
+    } else {
+      localStorage.removeItem(ACTIVE_COLLECTION_STORAGE_KEY);
+    }
+    loadStoredTeamWorkspace();
     renderCollectionControls();
     renderTeamList();
+    updateTeamWorkspaceActions();
   } catch (error) {
     $("#teamRoleError").textContent = error.message;
     event.target.value = teamCollectionId(team);
@@ -2246,14 +2204,25 @@ $("#teamEventCollection").addEventListener("change", async event => {
     event.target.disabled = false;
   }
 });
-$("#createTeamCollection").addEventListener("click", () => {
+function openCollectionDialog(datasetId = null) {
+  collectionCreateDatasetId = datasetId;
   $("#collectionError").textContent = "";
   $("#collectionName").value = "";
   $("#collectionDialog").showModal();
   $("#collectionName").focus();
+}
+
+$("#createTeamCollection").addEventListener("click", () => {
+  openCollectionDialog();
+});
+$("#createReportCollection").addEventListener("click", () => {
+  openCollectionDialog(selectedTeam()?.datasetId ?? null);
 });
 [$("#closeCollectionDialog"), $("#cancelCollectionDialog")].forEach(button => {
-  button.addEventListener("click", () => $("#collectionDialog").close());
+  button.addEventListener("click", () => {
+    collectionCreateDatasetId = null;
+    $("#collectionDialog").close();
+  });
 });
 $("#collectionCreateForm").addEventListener("submit", async event => {
   event.preventDefault();
@@ -2263,17 +2232,19 @@ $("#collectionCreateForm").addEventListener("submit", async event => {
   try {
     const response = await api("/api/team-collections", {
       method: "POST",
-      body: JSON.stringify({ name: $("#collectionName").value })
+      body: JSON.stringify({
+        name: $("#collectionName").value,
+        datasetId: collectionCreateDatasetId
+      })
     });
-    state.teamCollections.push(response.collection);
+    state.teamCollections = response.collections;
     state.activeCollectionId = response.collection.id;
     localStorage.setItem(ACTIVE_COLLECTION_STORAGE_KEY, state.activeCollectionId);
-    state.collectionPurposeInitialized = false;
     loadStoredTeamWorkspace();
     renderCollectionControls();
     renderTeamList();
-    syncCollectionPurpose();
     updateTeamWorkspaceActions();
+    collectionCreateDatasetId = null;
     $("#collectionDialog").close();
   } catch (error) {
     $("#collectionError").textContent = error.message;
@@ -2366,11 +2337,10 @@ $("#matchCardsWorkspace").addEventListener("click", event => {
     return;
   }
   if (action === "scout-our-team") {
-    reset("our");
+    reset();
     return;
   }
   if (action === "choose-collection") {
-    showView("intake");
     requestAnimationFrame(() => $("#teamCollection").focus());
     return;
   }

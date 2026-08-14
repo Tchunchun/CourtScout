@@ -120,6 +120,12 @@ team dataset:
   eligibility, singles, doubles, source, and data-quality metrics. Supported
   scopes are `local`, `sectional`, and `national`.
 
+Completed analysis is saved beside the canonical dataset at
+`analysis/<eligibility-scope>.json`. Each snapshot includes eligibility,
+singles, doubles, lineup predictions, disclosures, and the source dataset ID and
+generation timestamp. Downstream stages reuse a snapshot only while its
+analysis version, scope, dataset ID, and dataset timestamp still match.
+
 Eligibility thresholds are:
 
 | Scope | Computer rated | Self rated or appealed |

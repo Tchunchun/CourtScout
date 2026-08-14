@@ -8,7 +8,7 @@
     "enrich:utr": "node scripts/enrich-utr.mjs",
     "enrich:utr:public": "node scripts/enrich-utr-public.mjs",
     "enrich:wtn": "node scripts/enrich-wtn-public.mjs",
-    "start": "node web/server.mjs",
+    "start": "node --env-file-if-exists=.env web/server.mjs",
     "validate:data": "node scripts/validate-team-data.mjs",
     "test": "node --test"
   },

@@ -16,8 +16,15 @@ const teamHtml = `
   <tr><td><a href="/adult/profile.aspx?playername=Jane Doe">Jane Doe</a></td><td>Test City, CA</td><td>3.0</td><td>4-1</td><td>2-0</td><td>2-1</td><td>4-1</td><td>3.21</td><td></td></tr>
 </table>
 <table>
-  <tr><th>Local Schedule</th><th>Time</th><th>Opponent</th><th>Match Site</th><th>Result</th></tr>
-  <tr><td>04/01/2026</td><td>6 PM</td><td><a href="/adult/teamprofile.aspx?teamname=OPP&year=2026">OPP</a></td><td>TBA</td><td><a href="/adult/matchresults.aspx?year=2026&mid=1">3-2</a></td></tr>
+  <tr><th>Local Schedule</th><th>Opponent</th></tr>
+  <tr>
+    <td><span>04/01/2026 6:00 PM</span><br><span>TBA</span></td>
+    <td><a href="/adult/teamprofile.aspx?teamname=OPP&year=2026">OPP</a><br><a href="/adult/matchresults.aspx?year=2026&mid=1">3-2</a></td>
+  </tr>
+  <tr>
+    <td><span>04/08/2026 7:00 PM</span><br><span>Test Courts</span></td>
+    <td><a href="/adult/teamprofile.aspx?teamname=NEW%20OPP&year=2026">NEW OPP</a><br><a href="/adult/matchresults.aspx?year=2026&mid=2">4-1</a></td>
+  </tr>
 </table></main>`;
 
 const matchHtml = `
@@ -49,7 +56,19 @@ test("parses TennisRecord team roster and match links", () => {
   assert.equal(parsed.roster[0].location, "Test City, CA");
   assert.equal(parsed.roster[0].dr, 3.21);
   assert.equal(parsed.roster[0].wtn.lookupStatus, "not_started");
-  assert.equal(parsed.matchLinks[0].url, "https://www.tennisrecord.com/adult/matchresults.aspx?year=2026&mid=1");
+  assert.deepEqual(
+    parsed.matchLinks.map(match => ({ date: match.date, url: match.url })),
+    [
+      {
+        date: "04/01/2026",
+        url: "https://www.tennisrecord.com/adult/matchresults.aspx?year=2026&mid=1"
+      },
+      {
+        date: "04/08/2026",
+        url: "https://www.tennisrecord.com/adult/matchresults.aspx?year=2026&mid=2"
+      }
+    ]
+  );
 });
 
 test("parses men's team gender for rating identity matching", () => {

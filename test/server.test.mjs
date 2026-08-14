@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { once } from "node:events";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
@@ -333,6 +333,27 @@ test("server lists teams and returns national analysis by default", async t => {
   assert.equal(analysis.eligibility.scope, "national");
   assert.equal(analysis.eligibility.summary.eligible, 1);
   assert.deepEqual(analysis.lineupPredictions.predictions, []);
+
+  const analysisPath = join(teamDirectory, "analysis", "national.json");
+  const savedAnalysis = JSON.parse(await readFile(analysisPath, "utf8"));
+  assert.deepEqual(savedAnalysis, analysis);
+
+  const cachedResponse = await fetch(
+    `http://127.0.0.1:${port}/api/analysis?team=test-team`
+  );
+  assert.equal(cachedResponse.status, 200);
+  assert.deepEqual(await cachedResponse.json(), savedAnalysis);
+
+  const refreshedResponse = await fetch(
+    `http://127.0.0.1:${port}/api/analysis?team=test-team&refresh=true`
+  );
+  assert.equal(refreshedResponse.status, 200);
+  const refreshedAnalysis = await refreshedResponse.json();
+  assert.equal(refreshedAnalysis.dataset.generatedAt, data.generatedAt);
+  assert.deepEqual(
+    JSON.parse(await readFile(analysisPath, "utf8")),
+    refreshedAnalysis
+  );
 });
 
 test("server creates event collections and assigns gathered teams", async t => {
@@ -360,12 +381,16 @@ test("server creates event collections and assigns gathered teams", async t => {
     {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name: "2026 3.0 Nationals Teams" })
+      body: JSON.stringify({
+        name: "2026 3.0 Nationals Teams",
+        datasetId: "2026-test-team"
+      })
     }
   );
   assert.equal(createResponse.status, 201);
   const { collection } = await createResponse.json();
   assert.equal(collection.name, "2026 3.0 Nationals Teams");
+  assert.deepEqual(collection.teamDatasetIds, ["2026-test-team"]);
 
   const duplicateResponse = await fetch(
     `http://127.0.0.1:${port}/api/team-collections`,
@@ -398,4 +423,41 @@ test("server creates event collections and assigns gathered teams", async t => {
   assert.equal(listResponse.status, 200);
   const listed = await listResponse.json();
   assert.equal(listed.collections[0].name, "2026 3.0 Nationals Teams");
+
+  const moveResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-collections`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: "2026 Sectionals",
+        datasetId: "2026-test-team"
+      })
+    }
+  );
+  assert.equal(moveResponse.status, 201);
+  const moved = await moveResponse.json();
+  assert.deepEqual(moved.collections[0].teamDatasetIds, []);
+  assert.deepEqual(moved.collection.teamDatasetIds, ["2026-test-team"]);
+
+  const deleteMovedResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-collections/${moved.collection.id}`,
+    { method: "DELETE" }
+  );
+  assert.equal(deleteMovedResponse.status, 200);
+
+  const deleteResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-collections/${collection.id}`,
+    { method: "DELETE" }
+  );
+  assert.equal(deleteResponse.status, 200);
+  const deleted = await deleteResponse.json();
+  assert.equal(deleted.collection.id, collection.id);
+  assert.deepEqual(deleted.collections, []);
+
+  const missingDeleteResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-collections/${collection.id}`,
+    { method: "DELETE" }
+  );
+  assert.equal(missingDeleteResponse.status, 404);
 });

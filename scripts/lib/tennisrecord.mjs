@@ -77,9 +77,9 @@ export function parseTeamProfile(html, sourceUrl) {
     const resultLink = $(row).find('a[href*="matchresults.aspx"]').first();
     if (!resultLink.length) return;
     const cells = $(row).find("td");
-    const date = clean(cells.eq(0).text());
+    const date = clean(cells.eq(0).text()).match(/\b\d{2}\/\d{2}\/\d{4}\b/)?.[0];
     const result = clean(resultLink.text());
-    if (!/^\d{2}\/\d{2}\/\d{4}$/.test(date) || result === "0-0") return;
+    if (!date || result === "0-0") return;
     const opponentLink = $(row).find('a[href*="teamprofile.aspx"]').first();
     matchLinks.push({
       date,

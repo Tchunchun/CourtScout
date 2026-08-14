@@ -23,6 +23,10 @@ which optional ratings to collect:
 
 UTR and WTN can be selected independently, together, or both left off.
 
+By default, Court Scout reads and writes reports in `./data`. To share reports
+across Git worktrees, set `COURT_SCOUT_DATA_DIR` in a local `.env` file to the
+shared data folder; see `.env.example`.
+
 Completed datasets are saved in readable, timestamped folders such as
 `data/collections/2026-sunnyvale-mtc-18aw3.0d-public-20260814T161807Z/team-data.json`.
 The web interface provides roster, opponent, match, and source views plus a JSON
@@ -36,14 +40,19 @@ from the canonical datasets:
 
 - Create **Event collections** for sectionals, nationals, or another event, then
   file each gathered team into the relevant collection.
+- From a team report, create a collection and file that team into it.
 - Pin one gathered dataset as **Our team**.
 - Add up to four teams as **Scheduled opponents** for Match Day Cards.
 - Keep other gathered flight teams in the **Scouting pool** for reports and
   reconnaissance without adding them to match preparation.
 
-Event collections are shared through `data/team-collections.json`; newly
-gathered teams can be filed into the active collection during collection.
-Existing teams in a collection begin in its scouting pool until assigned.
+Event collections are shared through `data/team-collections.json`. Scouting
+always creates a standalone report first; the completed report can then be filed
+into a collection and assigned a role.
+
+Team analysis is saved beside each raw dataset as
+`analysis/<eligibility-scope>.json`. Match Cards reuse a saved analysis while it
+matches the current dataset and regenerate it after source data changes.
 Unfiled teams and the aggregate **All gathered teams** view do not have team
 roles. Team roles and Match Day Cards are saved locally in the current browser.
 
