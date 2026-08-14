@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import Tesseract from "tesseract.js";
 import {
   ANALYSIS_VERSION,
   analyzeTeam,
@@ -89,12 +90,12 @@ function json(response, status, body) {
   response.end(JSON.stringify(body));
 }
 
-async function readBody(request) {
+async function readBody(request, maxBytes = 16 * 1024) {
   const chunks = [];
   let size = 0;
   for await (const chunk of request) {
     size += chunk.length;
-    if (size > 16 * 1024) throw new Error("Request body is too large.");
+    if (size > maxBytes) throw new Error("Request body is too large.");
     chunks.push(chunk);
   }
   try {
@@ -625,12 +626,37 @@ async function getTeamAnalysis(
 
 export function createAppServer(options = {}) {
   const dataDirectory = options.dataDirectory ?? DATA_DIR;
+  const recognizeImage = options.recognizeImage ?? (async image => {
+    const cachePath = join(dataDirectory, ".ocr-cache");
+    await mkdir(cachePath, { recursive: true });
+    return Tesseract.recognize(image, "eng", { cachePath });
+  });
   const runUtrCommand = createUtrCommandQueue();
   return createServer(async (request, response) => {
     const requestUrl = new URL(request.url, `http://${request.headers.host ?? "localhost"}`);
     const pathname = requestUrl.pathname;
 
     try {
+      if (request.method === "POST" && pathname === "/api/result-ocr") {
+        const body = await readBody(request, 8 * 1024 * 1024);
+        const match = typeof body.imageDataUrl === "string"
+          ? body.imageDataUrl.match(
+            /^data:image\/(?:png|jpeg|webp);base64,([a-zA-Z0-9+/=]+)$/
+          )
+          : null;
+        if (!match) {
+          throw new Error("Upload a PNG, JPEG, or WebP result screenshot.");
+        }
+        const result = await recognizeImage(Buffer.from(match[1], "base64"));
+        json(response, 200, {
+          text: result.data?.text ?? "",
+          confidence: Number.isFinite(result.data?.confidence)
+            ? Math.round(result.data.confidence)
+            : null
+        });
+        return;
+      }
+
       if (request.method === "POST" && pathname === "/api/jobs") {
         const body = await readBody(request);
         const teamUrl = validateTeamUrl(body.teamUrl);

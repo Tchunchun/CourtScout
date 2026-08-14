@@ -70,6 +70,7 @@ export function createMatchCard(input) {
     title: input.title?.trim() || "Match Day Card",
     date: input.date,
     location: input.location ?? "home",
+    collectionId: input.collectionId ?? null,
     ourTeamId: input.ourTeamId,
     opponentTeamId: input.opponentTeamId,
     opponentPredictionRank: 1,
@@ -79,6 +80,208 @@ export function createMatchCard(input) {
     createdAt: now,
     updatedAt: now
   };
+}
+
+function normalizedLines(lines = {}) {
+  return Object.fromEntries(MATCH_CARD_COURTS.map(({ court, players }) => {
+    const values = Array.isArray(lines[court])
+      ? lines[court].slice(0, players)
+      : [];
+    const normalized = values.map(value =>
+      typeof value === "string" ? value.trim() : ""
+    );
+    while (normalized.length < players) normalized.push("");
+    return [court, normalized];
+  }));
+}
+
+function evidencePlayers(lines) {
+  return MATCH_CARD_COURTS.flatMap(({ court }) => lines[court]).filter(Boolean);
+}
+
+export function createTournamentEvidence(input) {
+  if (
+    typeof input?.id !== "string" ||
+    typeof input.collectionId !== "string" ||
+    typeof input.opponentTeamId !== "string"
+  ) {
+    throw new Error("Tournament evidence requires an ID, collection, and opponent.");
+  }
+  const lines = normalizedLines(input.lines);
+  const observedPlayers = [
+    ...(Array.isArray(input.observedPlayers) ? input.observedPlayers : []),
+    ...evidencePlayers(lines)
+  ]
+    .filter(value => typeof value === "string")
+    .map(value => value.trim())
+    .filter(Boolean);
+  return {
+    id: input.id,
+    collectionId: input.collectionId,
+    opponentTeamId: input.opponentTeamId,
+    sourceName: typeof input.sourceName === "string"
+      ? input.sourceName.trim()
+      : "Tournament result",
+    imageDataUrl: typeof input.imageDataUrl === "string"
+      ? input.imageDataUrl
+      : null,
+    matchDate: typeof input.matchDate === "string" ? input.matchDate : "",
+    observedPlayers: [...new Set(observedPlayers)],
+    lines,
+    extractionMethod: input.extractionMethod === "browser-ocr"
+      ? "browser-ocr"
+      : "manual",
+    createdAt: input.now ?? new Date().toISOString()
+  };
+}
+
+export function parseStoredTournamentEvidence(raw) {
+  if (!raw) return [];
+  const parsed = JSON.parse(raw);
+  if (!Array.isArray(parsed)) {
+    throw new Error("Stored tournament evidence must be an array.");
+  }
+  return parsed
+    .filter(item =>
+      item &&
+      typeof item.id === "string" &&
+      typeof item.collectionId === "string" &&
+      typeof item.opponentTeamId === "string"
+    )
+    .map(item => createTournamentEvidence({
+      ...item,
+      now: typeof item.createdAt === "string" ? item.createdAt : undefined
+    }));
+}
+
+export function confirmedOnsitePlayers(evidence, collectionId, opponentTeamId) {
+  return new Set(evidence
+    .filter(item =>
+      item.collectionId === collectionId &&
+      item.opponentTeamId === opponentTeamId
+    )
+    .flatMap(item => item.observedPlayers));
+}
+
+function normalizedText(value) {
+  return String(value ?? "")
+    .toLocaleLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+}
+
+export function matchRosterNames(text, rosterNames) {
+  const searchable = ` ${normalizedText(text)} `;
+  return rosterNames.filter(name => {
+    const normalizedName = normalizedText(name);
+    return normalizedName && searchable.includes(` ${normalizedName} `);
+  });
+}
+
+export function extractLineupFromText(text, rosterNames) {
+  const lines = normalizedLines();
+  const courtPattern = /\b(S1|S2|D1|D2|D3)\b/gi;
+  const matches = [...String(text ?? "").matchAll(courtPattern)];
+  matches.forEach((match, index) => {
+    const court = match[1].toUpperCase();
+    const segment = String(text).slice(
+      match.index + match[0].length,
+      matches[index + 1]?.index ?? String(text).length
+    );
+    lines[court] = matchRosterNames(segment, rosterNames)
+      .slice(0, lines[court].length);
+    while (lines[court].length < (
+      court.startsWith("S") ? 1 : 2
+    )) {
+      lines[court].push("");
+    }
+  });
+  return lines;
+}
+
+function predictionSignature(lines) {
+  return MATCH_CARD_COURTS.map(({ court }) => {
+    const line = lines.find(item => item.court === court);
+    return `${court}:${[...(line?.players ?? [])].sort((a, b) =>
+      a.localeCompare(b)
+    ).join("|")}`;
+  }).join(";");
+}
+
+function predictionOnsiteDetails(prediction, onsiteNames) {
+  const players = [...new Set(
+    prediction.lines.flatMap(line => line.players).filter(Boolean)
+  )];
+  const onsiteConfirmed = players.filter(name => onsiteNames.has(name)).length;
+  return {
+    onsiteConfirmed,
+    onsiteTotal: players.length,
+    onsiteCoverage: players.length ? onsiteConfirmed / players.length : 0
+  };
+}
+
+function completeEvidencePrediction(evidence, onsiteNames) {
+  const validation = validateDraft(evidence.lines);
+  if (!validation.valid) return null;
+  const prediction = {
+    confidence: "confirmed",
+    historicalSupport: 0,
+    observedTogether: 1,
+    source: "tournament",
+    evidenceId: evidence.id,
+    evidenceDate: evidence.matchDate,
+    lines: MATCH_CARD_COURTS.map(({ court }) => ({
+      court,
+      players: evidence.lines[court],
+      appearances: 1,
+      postseasonAppearances: 1,
+      record: null,
+      lastUsedDate: evidence.matchDate,
+      usageShare: 1
+    }))
+  };
+  return {
+    ...prediction,
+    ...predictionOnsiteDetails(prediction, onsiteNames)
+  };
+}
+
+export function buildOnsitePredictions(predictions = [], evidence = []) {
+  const onsiteNames = new Set(evidence.flatMap(item => item.observedPlayers));
+  const evidencePredictions = evidence
+    .map(item => completeEvidencePrediction(item, onsiteNames))
+    .filter(Boolean)
+    .sort((a, b) =>
+      (b.evidenceDate ?? "").localeCompare(a.evidenceDate ?? "")
+    );
+  const historicalPredictions = predictions
+    .map(prediction => {
+      const onsite = predictionOnsiteDetails(prediction, onsiteNames);
+      return {
+        ...prediction,
+        ...onsite,
+        source: "historical",
+        historicalRank: prediction.rank,
+        onsiteScore:
+          (Number(prediction.historicalSupport) || 0) / 100 * 0.55 +
+          onsite.onsiteCoverage * 0.45
+      };
+    })
+    .sort((a, b) =>
+      b.onsiteScore - a.onsiteScore ||
+      b.onsiteConfirmed - a.onsiteConfirmed ||
+      a.historicalRank - b.historicalRank
+    );
+  const seen = new Set();
+  return [...evidencePredictions, ...historicalPredictions]
+    .filter(prediction => {
+      const signature = predictionSignature(prediction.lines);
+      if (seen.has(signature)) return false;
+      seen.add(signature);
+      return true;
+    })
+    .slice(0, 5)
+    .map((prediction, index) => ({ ...prediction, rank: index + 1 }));
 }
 
 export function cloneMatchCard(card, input) {

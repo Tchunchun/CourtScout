@@ -10,11 +10,17 @@ import {
 } from "./render.mjs";
 import {
   MATCH_CARD_COURTS,
+  buildOnsitePredictions,
   cloneMatchCard,
   compareCourtLine,
+  confirmedOnsitePlayers,
   createMatchCard,
+  createTournamentEvidence,
   draftFromPrediction,
+  extractLineupFromText,
+  matchRosterNames,
   parseStoredMatchCards,
+  parseStoredTournamentEvidence,
   summarizeMatchup,
   validateDraft
 } from "./match-card.mjs";
@@ -39,6 +45,7 @@ const views = {
   matchCards: $("#matchCardsView")
 };
 const MATCH_CARDS_STORAGE_KEY = "courtScoutMatchCards";
+const TOURNAMENT_EVIDENCE_STORAGE_KEY = "courtScoutTournamentEvidence";
 const TEAM_WORKSPACE_STORAGE_KEY = "courtScoutTeamWorkspace";
 const ACTIVE_COLLECTION_STORAGE_KEY = "courtScoutActiveTeamCollection";
 let collectionCreateDatasetId = null;
@@ -57,6 +64,9 @@ const state = {
   tab: "roster",
   search: "",
   matchCards: [],
+  tournamentEvidence: [],
+  tournamentEvidenceError: null,
+  pendingTournamentEvidence: null,
   matchCardStorageError: null,
   activeMatchCardId: null,
   matchCardContext: null,
@@ -1486,6 +1496,34 @@ function persistMatchCards() {
   }
 }
 
+function loadStoredTournamentEvidence() {
+  try {
+    state.tournamentEvidence = parseStoredTournamentEvidence(
+      localStorage.getItem(TOURNAMENT_EVIDENCE_STORAGE_KEY)
+    );
+    state.tournamentEvidenceError = null;
+  } catch (error) {
+    state.tournamentEvidence = [];
+    state.tournamentEvidenceError =
+      `Tournament evidence could not be read: ${error.message}`;
+  }
+}
+
+function persistTournamentEvidence() {
+  try {
+    localStorage.setItem(
+      TOURNAMENT_EVIDENCE_STORAGE_KEY,
+      JSON.stringify(state.tournamentEvidence)
+    );
+    state.tournamentEvidenceError = null;
+    return true;
+  } catch (error) {
+    state.tournamentEvidenceError =
+      `Tournament evidence could not be saved locally: ${error.message}`;
+    return false;
+  }
+}
+
 function matchCardTeam(teamId) {
   return state.teams.find(team => team.id === teamId) ?? null;
 }
@@ -1503,23 +1541,29 @@ function matchCardTeamOption(team, selectedId) {
 }
 
 function matchCardOurTeamOptions(selectedId) {
-  const teams = state.teams;
-  return teams.length
-    ? [
-      '<option value="">Choose a scouted team</option>',
-      ...teams.map(team => matchCardTeamOption(team, selectedId))
-    ].join("")
-    : '<option value="">Scout a team in Step 1</option>';
+  const ourTeam = matchCardTeam(state.teamWorkspace.ourTeamId);
+  return ourTeam
+    ? matchCardTeamOption(ourTeam, selectedId)
+    : '<option value="">Assign Our team in Step 1</option>';
 }
 
-function matchCardOpponentOptions(selectedId, ourTeamId = null) {
-  const teams = state.teams.filter(team => team.id !== ourTeamId);
-  return teams.length
-    ? [
-      '<option value="">Choose a scouted opponent</option>',
-      ...teams.map(team => matchCardTeamOption(team, selectedId))
-    ].join("")
-    : '<option value="">Scout another team in Step 1</option>';
+function matchCardOpponentOptions(selectedId) {
+  const scheduledTeams = state.teamWorkspace.scheduledOpponentIds
+    .map(matchCardTeam)
+    .filter(Boolean);
+  return scheduledTeams.length
+    ? scheduledTeams.map(team => matchCardTeamOption(team, selectedId)).join("")
+    : '<option value="">Add a scheduled opponent in Step 1</option>';
+}
+
+function matchCardCollectionOptions(selectedId) {
+  return [
+    '<option value="">Choose a tournament</option>',
+    ...state.teamCollections.map(collection => `
+      <option value="${escapeHtml(collection.id)}" ${collection.id === selectedId ? "selected" : ""}>
+        ${escapeHtml(collection.name)}
+      </option>`)
+  ].join("");
 }
 
 function newMatchCardId() {
@@ -1530,15 +1574,23 @@ function newMatchCardId() {
 }
 
 function matchCardListHtml() {
-  if (!state.matchCards.length) {
+  const visibleCards = state.matchCards.filter(card =>
+    state.activeCollectionId &&
+    (
+      card.collectionId === state.activeCollectionId ||
+      (!card.collectionId && matchCardTeam(card.ourTeamId) &&
+        teamCollectionId(matchCardTeam(card.ourTeamId)) === state.activeCollectionId)
+    )
+  );
+  if (!visibleCards.length) {
     return `
       <div class="match-card-empty">
         <strong>No Match Day Cards yet</strong>
-        <span>Create the first card after scouting both teams in Step 1.</span>
+        <span>Create the first card for this tournament after choosing an opponent.</span>
       </div>`;
   }
   const groups = new Map();
-  for (const card of [...state.matchCards].sort((a, b) =>
+  for (const card of [...visibleCards].sort((a, b) =>
     (a.date ?? "").localeCompare(b.date ?? "") ||
     (b.updatedAt ?? "").localeCompare(a.updatedAt ?? "")
   )) {
@@ -1575,17 +1627,30 @@ function matchCardListHtml() {
 function renderMatchCardsHome() {
   state.activeMatchCardId = null;
   state.matchCardContext = null;
-  const availableTeams = state.teams;
-  const defaultOurTeam = availableTeams[0]?.id ?? "";
-  const defaultOpponent = availableTeams.find(
-    team => team.id === state.matchCardPrefillOpponentId && team.id !== defaultOurTeam
-  )?.id ?? availableTeams.find(team => team.id !== defaultOurTeam)?.id ?? "";
-  const canCreateCard = availableTeams.length >= 2;
+  const hasActiveCollection = Boolean(state.activeCollectionId);
+  const defaultOurTeam = hasActiveCollection
+    ? matchCardTeam(state.teamWorkspace.ourTeamId)?.id ?? ""
+    : "";
+  const scheduledTeams = hasActiveCollection
+    ? state.teamWorkspace.scheduledOpponentIds.map(matchCardTeam).filter(Boolean)
+    : [];
+  const scoutingCandidates = hasActiveCollection
+    ? activeCollectionTeams().filter(team =>
+      team.id !== defaultOurTeam &&
+      !state.teamWorkspace.scheduledOpponentIds.includes(team.id)
+    )
+    : [];
+  const defaultOpponent = scheduledTeams.some(
+    team => team.id === state.matchCardPrefillOpponentId
+  )
+    ? state.matchCardPrefillOpponentId
+    : scheduledTeams[0]?.id ?? "";
+  const canCreateCard = Boolean(defaultOurTeam && defaultOpponent);
   const today = new Date().toISOString().slice(0, 10);
   $("#matchCardsWorkspace").innerHTML = `
     <div class="match-cards-topbar">
       <div>
-        <p class="eyebrow">Step 3 · Match day planning</p>
+        <p class="eyebrow">Step 3 · Match day planning <span class="feature-status">Work in progress</span></p>
         <h1 class="view-heading" tabindex="-1">Match Day Cards</h1>
         <p>Draft our lineup against a scouted opponent, compare every court, and print a shareable card.</p>
       </div>
@@ -1593,40 +1658,56 @@ function renderMatchCardsHome() {
     ${state.matchCardStorageError
       ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardStorageError)}</p>`
       : ""}
+    ${state.teamWorkspaceStorageError
+      ? `<p class="match-card-alert" role="alert">${escapeHtml(state.teamWorkspaceStorageError)}</p>`
+      : ""}
     <section class="match-readiness" aria-label="Match preparation readiness">
       <div>
-        <span class="step-label">Scouted teams</span>
-        <h2>${canCreateCard ? "Ready to build a matchup" : "Scout at least two teams"}</h2>
+        <span class="step-label">Workspace readiness</span>
+        <h2>${!hasActiveCollection
+          ? "Choose an event collection"
+          : canCreateCard ? "Ready to build a matchup" : "Complete the scouting setup"}</h2>
       </div>
       <div class="match-readiness-items">
         <article class="${defaultOurTeam ? "ready" : ""}">
           <span>${defaultOurTeam ? "✓" : "1"}</span>
-          <div><strong>First team</strong><small>${defaultOurTeam
+          <div><strong>Our team</strong><small>${defaultOurTeam
             ? escapeHtml(matchCardTeamName(defaultOurTeam))
-            : "Scout the team you are preparing."}</small></div>
+            : "Gather or assign the team you are preparing."}</small></div>
         </article>
-        <article class="${defaultOpponent ? "ready" : ""}">
-          <span>${defaultOpponent ? "✓" : "2"}</span>
-          <div><strong>Second team</strong><small>${defaultOpponent
-            ? escapeHtml(matchCardTeamName(defaultOpponent))
-            : "Scout an opponent team."}</small></div>
+        <article class="${scheduledTeams.length ? "ready" : ""}">
+          <span>${scheduledTeams.length ? "✓" : "2"}</span>
+          <div><strong>Scheduled opponents</strong><small>${scheduledTeams.length} of ${TEAM_WORKSPACE_SCHEDULE_LIMIT} added</small></div>
         </article>
       </div>
-      ${canCreateCard ? "" : '<button class="button-secondary compact" type="button" data-card-action="scout-opponent">Scout another team</button>'}
+      ${!hasActiveCollection
+        ? '<button class="button-secondary compact" type="button" data-card-action="choose-collection">Choose collection</button>'
+        : !defaultOurTeam
+        ? activeCollectionTeams().length
+          ? '<button class="button-secondary compact" type="button" data-card-action="choose-our-team">Assign Our team</button>'
+          : '<button class="button-secondary compact" type="button" data-card-action="scout-our-team">Scout Our team</button>'
+        : !scheduledTeams.length
+          ? scoutingCandidates.length
+            ? '<button class="button-secondary compact" type="button" data-card-action="choose-opponent">Add a scheduled opponent</button>'
+            : '<button class="button-secondary compact" type="button" data-card-action="scout-opponent">Scout an opponent</button>'
+          : ""}
     </section>
     <div class="match-card-create-panel">
       <div>
-        <span class="step-label">New card</span>
-        <h2>Set the matchup</h2>
-        <p>Choose any two teams gathered in Step 1.</p>
+        <span class="step-label">Start here</span>
+        <h2>Choose the matchup</h2>
+        <p>Select the tournament first, then the scheduled opponent you are preparing for.</p>
       </div>
       <form id="matchCardCreateForm" class="match-card-create-form">
-        <label>Team
-         <select name="ourTeamId" required>${matchCardOurTeamOptions(defaultOurTeam)}</select>
+        <label>Tournament
+          <select name="collectionId" data-match-collection required>
+            ${matchCardCollectionOptions(state.activeCollectionId)}
+          </select>
         </label>
         <label>Opponent
-         <select name="opponentTeamId" required>${matchCardOpponentOptions(defaultOpponent, defaultOurTeam)}</select>
+         <select name="opponentTeamId" required>${matchCardOpponentOptions(defaultOpponent)}</select>
         </label>
+        <input name="ourTeamId" type="hidden" value="${escapeHtml(defaultOurTeam)}">
         <label>Match date
           <input name="date" type="date" required value="${today}">
         </label>
@@ -1640,7 +1721,7 @@ function renderMatchCardsHome() {
         <label class="match-card-title-field">Card name
           <input name="title" maxlength="80" placeholder="e.g. Nationals semifinal">
         </label>
-        <button class="button-primary compact" type="submit" ${canCreateCard ? "" : "disabled"}>Create Match Day Card</button>
+        <button class="button-primary compact" type="submit" ${canCreateCard ? "" : "disabled"}>Plan this match</button>
       </form>
       <p class="form-error" id="matchCardCreateError" role="alert"></p>
     </div>
@@ -1653,10 +1734,24 @@ function renderMatchCardsHome() {
     </div>`;
 }
 
-function opponentPrediction(context, rank) {
-  return context.opponentAnalysis.lineupPredictions?.predictions
+function evidenceForCard(card) {
+  return state.tournamentEvidence.filter(item =>
+    item.collectionId === card.collectionId &&
+    item.opponentTeamId === card.opponentTeamId
+  );
+}
+
+function matchCardPredictions(card, context) {
+  return buildOnsitePredictions(
+    context.opponentAnalysis.lineupPredictions?.predictions ?? [],
+    evidenceForCard(card)
+  );
+}
+
+function opponentPrediction(card, context, rank) {
+  return matchCardPredictions(card, context)
     ?.find(prediction => prediction.rank === rank) ??
-    context.opponentAnalysis.lineupPredictions?.predictions?.[0] ??
+    matchCardPredictions(card, context)?.[0] ??
     null;
 }
 
@@ -1720,7 +1815,7 @@ function marginDisplay(value, digits) {
 }
 
 function matchCardComparisons(card, context) {
-  const prediction = opponentPrediction(context, card.opponentPredictionRank);
+  const prediction = opponentPrediction(card, context, card.opponentPredictionRank);
   return MATCH_CARD_COURTS.map(({ court }) => {
     const opponent = predictionLine(prediction, court);
     return compareCourtLine({
@@ -1731,6 +1826,140 @@ function matchCardComparisons(card, context) {
       opponentRoster: context.opponentData.roster
     });
   });
+}
+
+function evidencePlayerOptions(roster, selected = "") {
+  return [
+    '<option value="">Not assigned</option>',
+    ...roster.map(player => `
+      <option value="${escapeHtml(player.name)}" ${player.name === selected ? "selected" : ""}>
+        ${escapeHtml(player.name)}
+      </option>`)
+  ].join("");
+}
+
+function pendingEvidenceReviewHtml(card, context) {
+  const pending = state.pendingTournamentEvidence;
+  if (!pending || pending.cardId !== card.id) return "";
+  const detected = new Set(pending.observedPlayers);
+  return `
+    <form id="tournamentEvidenceReviewForm" class="evidence-review">
+      <div class="evidence-review-preview">
+        <img src="${pending.imageDataUrl}" alt="Uploaded tournament result screenshot">
+        <div>
+          <strong>${escapeHtml(pending.sourceName)}</strong>
+          <small>OCR confidence ${pending.ocrConfidence ?? "unavailable"}% · review every field before saving</small>
+          <label>Match date
+            <input name="matchDate" type="date" value="${escapeHtml(pending.matchDate)}">
+          </label>
+        </div>
+      </div>
+      <fieldset>
+        <legend>Players observed onsite</legend>
+        <p>Checked players were found in the screenshot. Add or remove players to correct the extraction.</p>
+        <div class="evidence-player-checks">
+          ${context.opponentData.roster.map(player => `
+            <label>
+              <input type="checkbox" name="observedPlayers" value="${escapeHtml(player.name)}" ${detected.has(player.name) ? "checked" : ""}>
+              <span>${escapeHtml(player.name)}</span>
+            </label>
+          `).join("")}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Extracted opponent lineup</legend>
+        <p>Assign only courts visible in this result. A complete lineup becomes the newest opponent scenario.</p>
+        <div class="evidence-lineup-grid">
+          ${MATCH_CARD_COURTS.map(({ court, players }) => `
+            <div>
+              <strong>${court}</strong>
+              ${Array.from({ length: players }, (_, index) => `
+                <select name="${court}-${index}" aria-label="${court} player ${index + 1}">
+                  ${evidencePlayerOptions(
+                    context.opponentData.roster,
+                    pending.lines[court]?.[index]
+                  )}
+                </select>
+              `).join("")}
+            </div>
+          `).join("")}
+        </div>
+      </fieldset>
+      <p class="form-error" id="tournamentEvidenceError" role="alert"></p>
+      <div class="evidence-review-actions">
+        <button class="button-secondary compact" type="button" data-card-action="cancel-evidence">Cancel</button>
+        <button class="button-primary compact" type="submit">Accept tournament evidence</button>
+      </div>
+    </form>`;
+}
+
+function tournamentEvidenceHtml(card, context) {
+  const evidence = evidenceForCard(card);
+  const onsiteNames = confirmedOnsitePlayers(
+    state.tournamentEvidence,
+    card.collectionId,
+    card.opponentTeamId
+  );
+  const roster = [...context.opponentData.roster].sort((a, b) =>
+    Number(onsiteNames.has(b.name)) - Number(onsiteNames.has(a.name)) ||
+    a.name.localeCompare(b.name)
+  );
+  return `
+    <section class="tournament-evidence no-print">
+      <div class="match-card-section-heading">
+        <div>
+          <span class="step-label">Tournament evidence</span>
+          <h2>Who is onsite?</h2>
+        </div>
+        <label class="button-secondary compact evidence-upload">
+          <input type="file" data-result-screenshot accept="image/png,image/jpeg,image/webp">
+          Add result screenshot
+        </label>
+      </div>
+      <p class="evidence-intro">
+        Result screenshots confirm onsite players and reveal recent lineup patterns.
+        Planning stays available even without evidence.
+      </p>
+      ${state.tournamentEvidenceError
+        ? `<p class="match-card-alert" role="alert">${escapeHtml(state.tournamentEvidenceError)}</p>`
+        : ""}
+      <p class="form-error" id="resultScreenshotError" role="alert"></p>
+      ${pendingEvidenceReviewHtml(card, context)}
+      <div class="active-roster-summary">
+        <div>
+          <strong>${onsiteNames.size}</strong>
+          <span>confirmed onsite</span>
+        </div>
+        <p>${evidence.length
+          ? `Based on ${evidence.length} reviewed result screenshot${evidence.length === 1 ? "" : "s"}.`
+          : "No tournament results added yet. Historical predictions remain available."}</p>
+      </div>
+      <div class="active-roster-grid">
+        ${roster.map(player => `
+          <article class="${onsiteNames.has(player.name) ? "onsite" : ""}">
+            <span aria-hidden="true">${onsiteNames.has(player.name) ? "✓" : "—"}</span>
+            <div>
+              <strong>${escapeHtml(player.name)}</strong>
+              <small>${onsiteNames.has(player.name) ? "Confirmed onsite" : "Not yet observed"}</small>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+      ${evidence.length ? `
+        <div class="evidence-history">
+          <h3>Reviewed results</h3>
+          ${evidence.map(item => `
+            <article>
+              <img src="${item.imageDataUrl}" alt="">
+              <div>
+                <strong>${escapeHtml(item.sourceName)}</strong>
+                <small>${escapeHtml(item.matchDate || "Date not provided")} · ${item.observedPlayers.length} players observed</small>
+              </div>
+              <button type="button" data-card-action="delete-evidence" data-evidence-id="${escapeHtml(item.id)}" aria-label="Remove ${escapeHtml(item.sourceName)}">Remove</button>
+            </article>
+          `).join("")}
+        </div>` : ""}
+    </section>`;
 }
 
 function matchCardCourtHtml(comparison) {
@@ -1772,13 +2001,14 @@ function renderMatchCardEditor() {
   if (!context || context.cardId !== card.id) {
     $("#matchCardsWorkspace").innerHTML = `
       <div class="match-card-loading">
-        <p class="eyebrow">Loading Stage 2</p>
+        <p class="eyebrow">Loading Step 3</p>
         <h1 class="view-heading" tabindex="-1">Building the Match Day Card…</h1>
         <p>Loading both rosters, eligibility, and opponent predictions.</p>
       </div>`;
     return;
   }
-  const prediction = opponentPrediction(context, card.opponentPredictionRank);
+  const predictions = matchCardPredictions(card, context);
+  const prediction = opponentPrediction(card, context, card.opponentPredictionRank);
   const eligibleNames = new Set(
     context.ourAnalysis.eligibility.players
       .filter(player => player.status === "eligible")
@@ -1789,6 +2019,9 @@ function renderMatchCardEditor() {
   const summary = summarizeMatchup(comparisons);
   const ourTeamName = context.ourData.team.name;
   const opponentName = context.opponentData.team.name;
+  const collectionName = state.teamCollections.find(
+    collection => collection.id === card.collectionId
+  )?.name ?? "Tournament";
   $("#matchCardsWorkspace").innerHTML = `
     <div class="match-card-editor">
       <div class="match-card-editor-topbar no-print">
@@ -1806,11 +2039,12 @@ function renderMatchCardEditor() {
       </div>
       <header class="match-card-title">
         <div>
-          <p class="eyebrow">Stage 2 · Match Day Card</p>
+          <p class="eyebrow">Step 3 · Match Day Card</p>
           <h1 class="view-heading" tabindex="-1">${escapeHtml(card.title)}</h1>
           <div class="match-card-meta" aria-label="Match details">
             <span>${escapeHtml(card.date)}</span>
             <span>${escapeHtml(card.location)}</span>
+            <span>${escapeHtml(collectionName)}</span>
             <span>${escapeHtml(ourTeamName)} vs ${escapeHtml(opponentName)}</span>
           </div>
           <p class="match-card-save-note no-print">Saved automatically on this device</p>
@@ -1829,17 +2063,21 @@ function renderMatchCardEditor() {
       ${state.matchCardError
         ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardError)}</p>`
         : ""}
+      ${tournamentEvidenceHtml(card, context)}
       <section class="opponent-prediction-picker no-print">
         <div>
           <span class="step-label">Opponent</span>
-          <h2>Likely lineup</h2>
-          <p>Choose the scenario to plan against.</p>
+          <h2>Onsite-informed lineup</h2>
+          <p>${evidenceForCard(card).length
+            ? "Recent tournament evidence is weighted ahead of older scouting history."
+            : "No onsite evidence yet; scenarios use scouting history only."}</p>
         </div>
         <label class="prediction-select">Opponent scenario
           <select data-card-field="prediction">
-            ${(context.opponentAnalysis.lineupPredictions?.predictions ?? []).map(item => `
+            ${predictions.map(item => `
               <option value="${item.rank}" ${item.rank === card.opponentPredictionRank ? "selected" : ""}>
-                Option ${item.rank} · ${item.historicalSupport}% support${item.observedTogether ? ` · seen together ${item.observedTogether}×` : ""}
+                ${item.source === "tournament" ? "Latest tournament lineup" : `Historical option ${item.historicalRank}`}
+                · ${item.onsiteConfirmed}/${item.onsiteTotal} confirmed onsite
               </option>
             `).join("")}
           </select>
@@ -1888,7 +2126,9 @@ function renderMatchCardEditor() {
         </details>
       </section>
       <footer class="match-card-footnote">
-        Opponent projection #${prediction?.rank ?? "—"} · generated from scouting history.
+        Opponent projection #${prediction?.rank ?? "—"} · ${prediction?.source === "tournament"
+          ? `reviewed tournament result from ${escapeHtml(prediction.evidenceDate || "an unknown date")}`
+          : `${prediction?.onsiteConfirmed ?? 0}/${prediction?.onsiteTotal ?? 0} players confirmed onsite; weighted with Step 1 scouting history`}.
         This card is a planning aid, not a prediction of final match results.
       </footer>
     </div>`;
@@ -1917,6 +2157,12 @@ async function openMatchCard(cardId) {
     renderMatchCardsHome();
     return;
   }
+  if (!card.collectionId) {
+    const ourTeam = matchCardTeam(card.ourTeamId);
+    card.collectionId = (ourTeam ? teamCollectionId(ourTeam) : null) ||
+      state.activeCollectionId;
+    if (card.collectionId) persistMatchCards();
+  }
   state.activeMatchCardId = card.id;
   state.matchCardContext = null;
   state.matchCardError = "";
@@ -1925,8 +2171,7 @@ async function openMatchCard(cardId) {
   try {
     state.matchCardContext = await loadMatchCardContext(card);
     let cardChanged = false;
-    const predictions =
-      state.matchCardContext.opponentAnalysis.lineupPredictions?.predictions ?? [];
+    const predictions = matchCardPredictions(card, state.matchCardContext);
     if (
       predictions.length &&
       !predictions.some(item => item.rank === card.opponentPredictionRank)
@@ -1955,7 +2200,7 @@ async function openMatchCard(cardId) {
     state.matchCardError = `Couldn’t build this Match Day Card. ${error.message}`;
     $("#matchCardsWorkspace").innerHTML = `
       <div class="match-card-loading">
-        <p class="eyebrow">Stage 2 needs attention</p>
+        <p class="eyebrow">Step 3 needs attention</p>
         <h1 class="view-heading" tabindex="-1">Couldn’t load this card.</h1>
         <p class="match-card-alert" role="alert">${escapeHtml(state.matchCardError)}</p>
         <button class="button-secondary" type="button" data-card-action="back">Return to Match Day Cards</button>
@@ -1972,10 +2217,12 @@ function openMatchCardsWorkspace(opponentId = null) {
 
 async function createMatchCardFromForm(form) {
   const values = new FormData(form);
+  const collectionId = values.get("collectionId");
   const ourTeamId = values.get("ourTeamId");
   const opponentTeamId = values.get("opponentTeamId");
-  if (!ourTeamId || !opponentTeamId) {
-    $("#matchCardCreateError").textContent = "Choose both teams.";
+  if (!collectionId || !ourTeamId || !opponentTeamId) {
+    $("#matchCardCreateError").textContent =
+      "Choose a tournament with Our team and a scheduled opponent.";
     return;
   }
   if (ourTeamId === opponentTeamId) {
@@ -1987,6 +2234,7 @@ async function createMatchCardFromForm(form) {
     title: values.get("title"),
     date: values.get("date"),
     location: values.get("location"),
+    collectionId,
     ourTeamId,
     opponentTeamId
   });
@@ -1997,6 +2245,130 @@ async function createMatchCardFromForm(form) {
     return;
   }
   await openMatchCard(card.id);
+}
+
+function prepareResultScreenshot(file) {
+  if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+    throw new Error("Upload a PNG, JPEG, or WebP screenshot.");
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error("Choose a screenshot smaller than 10 MB.");
+  }
+  return new Promise((resolvePromise, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("The screenshot could not be read."));
+    reader.onload = () => {
+      const image = new Image();
+      image.onerror = () => reject(new Error("The screenshot is not a readable image."));
+      image.onload = () => {
+        const resize = (maxDimension, quality) => {
+          const scale = Math.min(
+            1,
+            maxDimension / Math.max(image.naturalWidth, image.naturalHeight)
+          );
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+          canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+          canvas.getContext("2d").drawImage(
+            image,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+          );
+          return canvas.toDataURL("image/jpeg", quality);
+        };
+        resolvePromise({
+          ocrDataUrl: resize(1800, 0.88),
+          previewDataUrl: resize(480, 0.72)
+        });
+      };
+      image.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function reviewResultScreenshot(file) {
+  const card = state.matchCards.find(item => item.id === state.activeMatchCardId);
+  const context = state.matchCardContext;
+  if (!card || !context) return;
+  const input = $("[data-result-screenshot]");
+  const errorElement = $("#resultScreenshotError");
+  input.disabled = true;
+  errorElement.textContent = "Reading the screenshot locally…";
+  try {
+    const { ocrDataUrl, previewDataUrl } = await prepareResultScreenshot(file);
+    const ocr = await api("/api/result-ocr", {
+      method: "POST",
+      body: JSON.stringify({ imageDataUrl: ocrDataUrl })
+    });
+    const rosterNames = context.opponentData.roster.map(player => player.name);
+    state.pendingTournamentEvidence = {
+      cardId: card.id,
+      sourceName: file.name,
+      imageDataUrl: previewDataUrl,
+      ocrConfidence: ocr.confidence,
+      observedPlayers: matchRosterNames(ocr.text, rosterNames),
+      lines: extractLineupFromText(ocr.text, rosterNames),
+      matchDate: card.date
+    };
+    renderMatchCardEditor();
+    requestAnimationFrame(() => {
+      $("#tournamentEvidenceReviewForm input")?.focus({ preventScroll: true });
+    });
+  } catch (error) {
+    errorElement.textContent = error.message;
+    input.disabled = false;
+  }
+}
+
+function acceptTournamentEvidence(form) {
+  const card = state.matchCards.find(item => item.id === state.activeMatchCardId);
+  const pending = state.pendingTournamentEvidence;
+  if (!card || !pending || pending.cardId !== card.id) return;
+  if (!card.collectionId) {
+    $("#tournamentEvidenceError").textContent =
+      "Return to Match Day Cards and choose this card’s tournament before saving evidence.";
+    return;
+  }
+  const values = new FormData(form);
+  const observedPlayers = values.getAll("observedPlayers");
+  const lines = Object.fromEntries(MATCH_CARD_COURTS.map(({ court, players }) => [
+    court,
+    Array.from({ length: players }, (_, index) =>
+      values.get(`${court}-${index}`) ?? ""
+    )
+  ]));
+  if (!observedPlayers.length && !validateDraft(lines).selectedPlayers) {
+    $("#tournamentEvidenceError").textContent =
+      "Confirm at least one observed player before accepting this result.";
+    return;
+  }
+  const evidence = createTournamentEvidence({
+    id: newMatchCardId(),
+    collectionId: card.collectionId,
+    opponentTeamId: card.opponentTeamId,
+    sourceName: pending.sourceName,
+    imageDataUrl: pending.imageDataUrl,
+    matchDate: values.get("matchDate"),
+    observedPlayers,
+    lines,
+    extractionMethod: "browser-ocr"
+  });
+  state.tournamentEvidence.push(evidence);
+  if (!persistTournamentEvidence()) {
+    state.tournamentEvidence = state.tournamentEvidence.filter(
+      item => item.id !== evidence.id
+    );
+    renderMatchCardEditor();
+    return;
+  }
+  state.pendingTournamentEvidence = null;
+  card.opponentPredictionRank = 1;
+  card.updatedAt = new Date().toISOString();
+  persistMatchCards();
+  renderMatchCardEditor();
 }
 
 function updateActiveMatchCard(update, focusSelector = null) {
@@ -2140,6 +2512,7 @@ function setActiveCollection(collectionId) {
   } else {
     localStorage.removeItem(ACTIVE_COLLECTION_STORAGE_KEY);
   }
+  state.matchCardPrefillOpponentId = null;
   loadStoredTeamWorkspace();
   $("#teamCollection").value = state.activeCollectionId ?? "";
   $("#reportsCollection").value = state.activeCollectionId ?? "";
@@ -2277,23 +2650,29 @@ $("#matchCardsStage").addEventListener("click", () => {
   openMatchCardsWorkspace();
 });
 $("#matchCardsWorkspace").addEventListener("submit", event => {
-  if (event.target.id !== "matchCardCreateForm") return;
-  event.preventDefault();
-  void createMatchCardFromForm(event.target);
+  if (event.target.id === "matchCardCreateForm") {
+    event.preventDefault();
+    void createMatchCardFromForm(event.target);
+    return;
+  }
+  if (event.target.id === "tournamentEvidenceReviewForm") {
+    event.preventDefault();
+    acceptTournamentEvidence(event.target);
+  }
 });
 $("#matchCardsWorkspace").addEventListener("change", event => {
   const target = event.target;
-  if (target.matches('#matchCardCreateForm [name="ourTeamId"]')) {
-    const opponentSelect = $("#matchCardCreateForm [name=opponentTeamId]");
-    opponentSelect.innerHTML = matchCardOpponentOptions("", target.value);
-    $("#matchCardCreateForm button[type=submit]").disabled =
-      !target.value || !opponentSelect.value;
+  if (target.matches("[data-result-screenshot]")) {
+    const file = target.files?.[0];
+    if (file) void reviewResultScreenshot(file);
     return;
   }
-  if (target.matches('#matchCardCreateForm [name="opponentTeamId"]')) {
-    const ourTeamId = $("#matchCardCreateForm [name=ourTeamId]").value;
-    $("#matchCardCreateForm button[type=submit]").disabled =
-      !ourTeamId || !target.value || ourTeamId === target.value;
+  if (target.matches("[data-match-collection]")) {
+    setActiveCollection(target.value);
+    renderMatchCardsHome();
+    requestAnimationFrame(() => {
+      $("[data-match-collection]")?.focus({ preventScroll: true });
+    });
     return;
   }
   if (target.matches("[data-card-field=status]")) {
@@ -2361,6 +2740,27 @@ $("#matchCardsWorkspace").addEventListener("click", event => {
     reset("scheduled");
     return;
   }
+  if (action === "cancel-evidence") {
+    state.pendingTournamentEvidence = null;
+    renderMatchCardEditor();
+    return;
+  }
+  if (action === "delete-evidence") {
+    state.tournamentEvidence = state.tournamentEvidence.filter(
+      item => item.id !== button.dataset.evidenceId
+    );
+    persistTournamentEvidence();
+    const activeCard = state.matchCards.find(
+      item => item.id === state.activeMatchCardId
+    );
+    if (activeCard) {
+      activeCard.opponentPredictionRank = 1;
+      activeCard.updatedAt = new Date().toISOString();
+      persistMatchCards();
+    }
+    renderMatchCardEditor();
+    return;
+  }
   if (action === "prediction") {
     updateActiveMatchCard(card => {
       card.opponentPredictionRank = Number(button.dataset.predictionRank);
@@ -2392,6 +2792,7 @@ $("#matchCardsWorkspace").addEventListener("click", event => {
 });
 
 loadStoredMatchCards();
+loadStoredTournamentEvidence();
 void loadTeamCollections()
   .then(() => {
     loadStoredTeamWorkspace();

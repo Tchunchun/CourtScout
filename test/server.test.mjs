@@ -246,6 +246,35 @@ test("server serves the collection UI and reports invalid input", async t => {
   assert.match((await response.json()).error, /tennisrecord\.com/);
 });
 
+test("server extracts text from a locally processed result screenshot", async t => {
+  const recognizedImages = [];
+  const server = createAppServer({
+    recognizeImage: async image => {
+      recognizedImages.push(image);
+      return { data: { text: "S1 Alex Player", confidence: 91 } };
+    }
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(() => server.close());
+  const { port } = server.address();
+
+  const response = await fetch(`http://127.0.0.1:${port}/api/result-ocr`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      imageDataUrl: "data:image/png;base64,aGVsbG8="
+    })
+  });
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), {
+    text: "S1 Alex Player",
+    confidence: 91
+  });
+  assert.equal(recognizedImages[0].toString(), "hello");
+});
+
 test("server lists teams and returns national analysis by default", async t => {
   const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-analysis-"));
   const teamDirectory = join(dataDirectory, "test-team");
