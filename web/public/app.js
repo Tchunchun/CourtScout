@@ -22,7 +22,6 @@ import {
   TEAM_WORKSPACE_SCHEDULE_LIMIT,
   assignTeamRole,
   emptyTeamWorkspace,
-  groupWorkspaceTeams,
   parseTeamWorkspace,
   teamRole
 } from "./team-workspace.mjs";
@@ -33,6 +32,7 @@ const $$ = selector => [...document.querySelectorAll(selector)];
 const views = {
   intake: $("#intakeView"),
   progress: $("#progressView"),
+  reports: $("#reportsView"),
   results: $("#resultsView"),
   analysisSetup: $("#analysisSetupView"),
   analysis: $("#analysisView"),
@@ -71,24 +71,56 @@ function analysisStorageKey(teamId) {
   return `courtScoutAnalysis:${teamId}`;
 }
 
+function staleAnalysisStorageKey(teamId) {
+  return `courtScoutAnalysisStale:${teamId}`;
+}
+
 function completedAnalysisScope(teamId) {
   if (!teamId) return null;
   const scope = localStorage.getItem(analysisStorageKey(teamId));
   return analysisScopes.has(scope) ? scope : null;
 }
 
+function analysisIsStale(teamId) {
+  return Boolean(
+    teamId && localStorage.getItem(staleAnalysisStorageKey(teamId))
+  );
+}
+
+function markAnalysisStale(teamId) {
+  if (!completedAnalysisScope(teamId)) return;
+  localStorage.setItem(staleAnalysisStorageKey(teamId), new Date().toISOString());
+}
+
+function clearAnalysisStale(teamId) {
+  localStorage.removeItem(staleAnalysisStorageKey(teamId));
+}
+
 function rememberCompletedAnalysis(teamId, scope) {
   localStorage.setItem(analysisStorageKey(teamId), scope);
+  clearAnalysisStale(teamId);
+}
+
+function updateAnalysisFreshnessUi() {
+  const stale = analysisIsStale(state.selectedTeamId);
+  $("#analysisRefreshNotice").hidden = !stale;
+  $("#analysisStaleNotice").hidden = !stale;
+  $$(".team-workspace-status").forEach(status => {
+    status.hidden = !stale;
+  });
 }
 
 function updateAnalysisAction() {
   const teamId = state.selectedTeamId;
   const hasCurrentAnalysis =
     state.analysis != null && state.analysisTeamId === teamId;
+  const stale = analysisIsStale(teamId);
+  $("#analyzeCollectedTeam").hidden = stale;
   $("#analyzeCollectedTeam").textContent =
     hasCurrentAnalysis || completedAnalysisScope(teamId)
-      ? "View analysis"
-      : "Analyze team";
+      ? "Open analysis"
+      : "Set up analysis";
+  updateAnalysisFreshnessUi();
   updateTeamWorkspaceActions();
 }
 
@@ -132,11 +164,13 @@ function renderCollectionControls() {
   }
   $("#teamCollection").innerHTML = collectionOptions(true);
   $("#teamCollection").value = state.activeCollectionId ?? "";
+  $("#reportsCollection").innerHTML = collectionOptions(true);
+  $("#reportsCollection").value = state.activeCollectionId ?? "";
   $("#gatherEventCollection").innerHTML = collectionOptions(
     false,
     "No collection (standalone report)"
   );
-  $("#gatherEventCollection").value = state.activeCollectionId ?? "";
+  $("#gatherEventCollection").value = "";
   $("#teamEventCollection").innerHTML = collectionOptions();
   const team = selectedTeam();
   $("#teamEventCollection").value = team ? teamCollectionId(team) : "";
@@ -326,63 +360,23 @@ function workspaceActionFor(teamId) {
 }
 
 function updateTeamWorkspaceActions() {
-  const teamId = state.selectedTeamId;
   const team = selectedTeam();
   const selectedCollectionId = team ? teamCollectionId(team) : "";
   $("#teamEventCollection").value = selectedCollectionId;
-  const rolesAvailable = Boolean(
-    teamId &&
-    state.activeCollectionId &&
-    selectedCollectionId === state.activeCollectionId
-  );
-  if (!rolesAvailable) {
-    const collection = state.teamCollections.find(
-      item => item.id === selectedCollectionId
-    );
-    $("#teamRoleSelect").disabled = true;
-    $("#teamRoleSelect").value = "scouting";
-    $("#teamRoleSummary").textContent = selectedCollectionId
-      ? "Collection role"
-      : "Standalone report";
-    $("#teamRoleHint").textContent = selectedCollectionId
-      ? `Choose ${collection?.name ?? "this event collection"} to assign Our team or an opponent role.`
-      : "Assign this report to a collection before choosing a team role.";
-    $("#teamRoleError").textContent = state.teamWorkspaceStorageError ?? "";
-    [$("#teamNextAction"), $("#analysisNextAction")].forEach(button => {
-      if (button) button.hidden = true;
-    });
-    return;
-  }
-  const role = teamId ? workspaceRole(teamId) : "scouting";
-  const summaries = {
-    our: {
-      title: "Our team",
-      hint: "Pinned as the home side for Match Day Cards."
-    },
-    scheduled: {
-      title: "Scheduled opponent",
-      hint: `${state.teamWorkspace.scheduledOpponentIds.length} of ${TEAM_WORKSPACE_SCHEDULE_LIMIT} scheduled opponents added.`
-    },
-    scouting: {
-      title: "Scouting pool",
-      hint: "Available for research and reports without appearing in match preparation."
-    }
-  };
-  $("#teamRoleSelect").disabled = false;
-  $("#teamRoleSelect").value = role;
-  $("#teamRoleSelect").querySelector('[value="scheduled"]').disabled =
-    role !== "scheduled" &&
-    state.teamWorkspace.scheduledOpponentIds.length >=
-      TEAM_WORKSPACE_SCHEDULE_LIMIT;
-  $("#teamRoleSummary").textContent = summaries[role].title;
-  $("#teamRoleHint").textContent = summaries[role].hint;
+  $("#teamRoleSelect").disabled = true;
+  $("#teamRoleSelect").value = "scouting";
+  $("#teamRoleSummary").textContent = selectedCollectionId
+    ? "Filed report"
+    : "Standalone report";
+  $("#teamRoleHint").textContent = selectedCollectionId
+    ? "Available in its collection for reports and match planning."
+    : "Add this report to a collection when you are ready.";
   $("#teamRoleError").textContent = state.teamWorkspaceStorageError ?? "";
-  const workspaceAction = teamId ? workspaceActionFor(teamId) : null;
   [$("#teamNextAction"), $("#analysisNextAction")].forEach(button => {
     if (!button) return;
-    button.hidden = !workspaceAction;
-    button.dataset.workspaceAction = workspaceAction?.action ?? "";
-    button.textContent = workspaceAction?.label ?? "";
+    button.hidden = true;
+    button.dataset.workspaceAction = "";
+    button.textContent = "";
   });
 }
 
@@ -390,16 +384,23 @@ function showView(name) {
   Object.entries(views).forEach(([key, element]) => {
     element.hidden = key !== name;
   });
-  const stageTwo = name === "matchCards";
-  document.body.classList.toggle("stage-two", stageTwo);
-  if (stageTwo) {
-    $("#scoutStage").removeAttribute("aria-current");
-    $("#matchCardsStage").setAttribute("aria-current", "page");
-  } else {
-    $("#matchCardsStage").removeAttribute("aria-current");
-    $("#scoutStage").setAttribute("aria-current", "page");
+  const planningStep = name === "matchCards";
+  const reportsStep = ["reports", "results", "analysisSetup", "analysis"].includes(name);
+  document.body.classList.toggle("stage-two", planningStep);
+  document.body.classList.toggle("intake-active", name === "intake");
+  if (name !== "intake") {
+    document.body.classList.remove("intake-teams-open");
   }
-  $("#headerStatusText").textContent = stageTwo ? "Match preparation" : "Data collection";
+  [$("#scoutStage"), $("#reportsStage"), $("#matchCardsStage")].forEach(button =>
+    button.removeAttribute("aria-current")
+  );
+  const activeStage = planningStep
+    ? $("#matchCardsStage")
+    : reportsStep ? $("#reportsStage") : $("#scoutStage");
+  activeStage.setAttribute("aria-current", "page");
+  $("#headerStatusText").textContent = planningStep
+    ? "Match day planning"
+    : reportsStep ? "Reports & analysis" : "Team scouting";
   const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ? "auto"
     : "smooth";
@@ -515,6 +516,7 @@ function bestTeamDatasets(teams, pinnedId) {
 function renderTeamList() {
   const list = $("#teamList");
   const visibleTeams = activeCollectionTeams();
+  $("#landingTeamCount").textContent = String(visibleTeams.length);
   if (!visibleTeams.length) {
     list.innerHTML = `<p class="team-list-status">${
       state.teams.length
@@ -542,28 +544,8 @@ function renderTeamList() {
         ? teams.map(teamButton).join("")
         : `<p class="team-list-group-empty">${escapeHtml(emptyMessage)}</p>`}
     </section>`;
-  const grouped = groupWorkspaceTeams(visibleTeams, state.teamWorkspace);
-  list.innerHTML = state.activeCollectionId ? [
-    group(
-      "Our team",
-      grouped.ourTeam ? "1" : "0",
-      grouped.ourTeam ? [grouped.ourTeam] : [],
-      "Open a team and assign it here."
-    ),
-    group(
-      "Scheduled opponents",
-      `${grouped.scheduledOpponents.length}/${TEAM_WORKSPACE_SCHEDULE_LIMIT}`,
-      grouped.scheduledOpponents,
-      "Add the teams on your schedule."
-    ),
-    group(
-      "Scouting pool",
-      String(grouped.scoutingPool.length),
-      grouped.scoutingPool,
-      "Other gathered teams appear here."
-    )
-  ].join("") : group(
-    "All gathered teams",
+  list.innerHTML = group(
+    state.activeCollectionId ? "Teams in this collection" : "All gathered teams",
     String(visibleTeams.length),
     visibleTeams,
     "No gathered teams yet."
@@ -579,6 +561,22 @@ function renderTeamList() {
   }
 }
 
+function renderReportsTeamList() {
+  const teams = activeCollectionTeams();
+  $("#reportsTeamList").innerHTML = teams.length
+    ? teams.map(team => `
+      <button class="report-team-card" type="button" data-report-team-id="${escapeHtml(team.id)}">
+        <span>Scouted team</span>
+        <span>
+          <strong>${escapeHtml(team.team?.name ?? team.datasetId)}</strong>
+          <small>${escapeHtml(team.team?.section ?? "Section unavailable")} · ${team.matchCount ?? 0} matches · ${team.rosterSize ?? 0} players</small>
+        </span>
+        <span>View report & analysis →</span>
+      </button>
+    `).join("")
+    : '<p class="empty-state">No scouted teams in this collection yet.</p>';
+}
+
 async function loadTeams(selectedId = state.selectedTeamId) {
   try {
     const response = await api("/api/teams");
@@ -587,6 +585,7 @@ async function loadTeams(selectedId = state.selectedTeamId) {
       state.selectedTeamId = selectedId;
     }
     renderTeamList();
+    renderReportsTeamList();
     renderCollectionControls();
     syncCollectionPurpose();
     updateTeamWorkspaceActions();
@@ -618,6 +617,7 @@ function openAnalysisSetup(teamId) {
     completedAnalysisScope(team.id) ??
     "national";
   $("#analysisError").textContent = "";
+  updateAnalysisFreshnessUi();
   showView("analysisSetup");
 }
 
@@ -659,15 +659,24 @@ async function checkUtrStatus() {
 
 function syncRatingOptions() {
   const includeUtr = $("#includeUtr").checked;
+  const includeWtn = $("#includeWtn").checked;
   const exact = includeUtr &&
     $('input[name="utrMode"]:checked').value === "authenticated";
   $("#utrOptions").hidden = !includeUtr;
   $("#utrConnect").hidden = !exact;
+  const ratings = [
+    ...(includeUtr ? [exact ? "Exact UTR" : "Public UTR"] : []),
+    ...(includeWtn ? ["WTN"] : [])
+  ];
+  $("#ratingSummary").textContent = ratings.length
+    ? `Ratings: ${ratings.join(" + ")}`
+    : "Ratings: None";
   $("#formError").textContent = "";
   if (exact) void checkUtrStatus();
 }
 
 $("#includeUtr").addEventListener("change", syncRatingOptions);
+$("#includeWtn").addEventListener("change", syncRatingOptions);
 $$('input[name="utrMode"]').forEach(input => {
   input.addEventListener("change", syncRatingOptions);
 });
@@ -1075,12 +1084,7 @@ async function loadResults(job) {
     }
   }
   if (job.kind === "refresh" && teamId) {
-    localStorage.removeItem(analysisStorageKey(teamId));
-    if (state.analysisTeamId === teamId) {
-      state.analysis = null;
-      state.analysisTeamId = null;
-      state.analysisScope = null;
-    }
+    markAnalysisStale(teamId);
   }
   renderDataset(data);
   if (teamId) await loadTeams(teamId);
@@ -1255,7 +1259,7 @@ function renderDoublesAnalysis() {
   return `
     <div class="analysis-section-heading">
       <div><span class="step-label">D1–D3</span><h2>Doubles pairs</h2></div>
-      <p>${doubles.matchStacking.length} ${doubles.matchStacking.length === 1 ? "match" : "matches"} analyzed ·
+      <p>${doubles.summary.matchesAnalyzed} ${doubles.summary.matchesAnalyzed === 1 ? "match" : "matches"} analyzed ·
       ${doubles.summary.uniquePairs} unique pairs ·
       ${doubles.summary.repeatedPairs} repeat pairs ·
       ${doubles.summary.oneOffPairs} one-off pairs.</p>
@@ -1406,6 +1410,10 @@ async function openCompletedAnalysis(teamId) {
     renderAnalysis();
     return;
   }
+  if (analysisIsStale(team.id)) {
+    openAnalysisSetup(team.id);
+    return;
+  }
   const scope = completedAnalysisScope(team.id);
   if (!scope) {
     openAnalysisSetup(team.id);
@@ -1444,7 +1452,38 @@ async function runAnalysis() {
     $("#analysisError").textContent = error.message;
   } finally {
     button.disabled = false;
-    button.textContent = "Run team analysis";
+    button.textContent = "Generate analysis";
+  }
+}
+
+async function rerunRefreshedAnalysis() {
+  const team = selectedTeam();
+  if (!team) return;
+  const scope =
+    (state.analysisTeamId === team.id ? state.analysisScope : null) ??
+    completedAnalysisScope(team.id);
+  if (!scope) {
+    openAnalysisSetup(team.id);
+    return;
+  }
+  const buttons = $$("[data-rerun-refreshed-analysis]");
+  buttons.forEach(button => {
+    button.disabled = true;
+    button.textContent = "Running…";
+  });
+  $("#analysisResultError").textContent = "";
+  try {
+    await requestAnalysis(team, scope);
+    renderAnalysis();
+  } catch (error) {
+    openAnalysisSetup(team.id);
+    $("#analysisError").textContent = `Couldn’t re-run the analysis. ${error.message}`;
+  } finally {
+    buttons.forEach(button => {
+      button.disabled = false;
+      button.textContent = "Re-run analysis";
+    });
+    updateAnalysisAction();
   }
 }
 
@@ -1517,19 +1556,23 @@ function matchCardTeamOption(team, selectedId) {
 }
 
 function matchCardOurTeamOptions(selectedId) {
-  const ourTeam = matchCardTeam(state.teamWorkspace.ourTeamId);
-  return ourTeam
-    ? matchCardTeamOption(ourTeam, selectedId)
-    : '<option value="">Assign Our team in Stage 1</option>';
+  const teams = state.teams;
+  return teams.length
+    ? [
+      '<option value="">Choose a scouted team</option>',
+      ...teams.map(team => matchCardTeamOption(team, selectedId))
+    ].join("")
+    : '<option value="">Scout a team in Step 1</option>';
 }
 
-function matchCardOpponentOptions(selectedId) {
-  const scheduledTeams = state.teamWorkspace.scheduledOpponentIds
-    .map(matchCardTeam)
-    .filter(Boolean);
-  return scheduledTeams.length
-    ? scheduledTeams.map(team => matchCardTeamOption(team, selectedId)).join("")
-    : '<option value="">Add a scheduled opponent in Stage 1</option>';
+function matchCardOpponentOptions(selectedId, ourTeamId = null) {
+  const teams = state.teams.filter(team => team.id !== ourTeamId);
+  return teams.length
+    ? [
+      '<option value="">Choose a scouted opponent</option>',
+      ...teams.map(team => matchCardTeamOption(team, selectedId))
+    ].join("")
+    : '<option value="">Scout another team in Step 1</option>';
 }
 
 function newMatchCardId() {
@@ -1544,7 +1587,7 @@ function matchCardListHtml() {
     return `
       <div class="match-card-empty">
         <strong>No Match Day Cards yet</strong>
-        <span>Create the first card after scouting both teams in Stage 1.</span>
+        <span>Create the first card after scouting both teams in Step 1.</span>
       </div>`;
   }
   const groups = new Map();
@@ -1559,7 +1602,7 @@ function matchCardListHtml() {
   return [...groups.entries()].map(([teamId, cards]) => `
     <section class="match-card-group">
       <div class="match-card-group-heading">
-        <span>Our team</span>
+        <span>Team</span>
         <h3>${escapeHtml(matchCardTeamName(teamId))}</h3>
       </div>
       <div class="saved-card-grid">
@@ -1585,30 +1628,17 @@ function matchCardListHtml() {
 function renderMatchCardsHome() {
   state.activeMatchCardId = null;
   state.matchCardContext = null;
-  const hasActiveCollection = Boolean(state.activeCollectionId);
-  const defaultOurTeam = hasActiveCollection
-    ? matchCardTeam(state.teamWorkspace.ourTeamId)?.id ?? ""
-    : "";
-  const scheduledTeams = hasActiveCollection
-    ? state.teamWorkspace.scheduledOpponentIds.map(matchCardTeam).filter(Boolean)
-    : [];
-  const scoutingCandidates = hasActiveCollection
-    ? activeCollectionTeams().filter(team =>
-      team.id !== defaultOurTeam &&
-      !state.teamWorkspace.scheduledOpponentIds.includes(team.id)
-    )
-    : [];
-  const defaultOpponent = scheduledTeams.some(
-    team => team.id === state.matchCardPrefillOpponentId
-  )
-    ? state.matchCardPrefillOpponentId
-    : scheduledTeams[0]?.id ?? "";
-  const canCreateCard = Boolean(defaultOurTeam && defaultOpponent);
+  const availableTeams = state.teams;
+  const defaultOurTeam = availableTeams[0]?.id ?? "";
+  const defaultOpponent = availableTeams.find(
+    team => team.id === state.matchCardPrefillOpponentId && team.id !== defaultOurTeam
+  )?.id ?? availableTeams.find(team => team.id !== defaultOurTeam)?.id ?? "";
+  const canCreateCard = availableTeams.length >= 2;
   const today = new Date().toISOString().slice(0, 10);
   $("#matchCardsWorkspace").innerHTML = `
     <div class="match-cards-topbar">
       <div>
-        <p class="eyebrow">Stage 2 · Match preparation</p>
+        <p class="eyebrow">Step 3 · Match day planning</p>
         <h1 class="view-heading" tabindex="-1">Match Day Cards</h1>
         <p>Draft our lineup against a scouted opponent, compare every court, and print a shareable card.</p>
       </div>
@@ -1616,52 +1646,39 @@ function renderMatchCardsHome() {
     ${state.matchCardStorageError
       ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardStorageError)}</p>`
       : ""}
-    ${state.teamWorkspaceStorageError
-      ? `<p class="match-card-alert" role="alert">${escapeHtml(state.teamWorkspaceStorageError)}</p>`
-      : ""}
     <section class="match-readiness" aria-label="Match preparation readiness">
       <div>
-        <span class="step-label">Workspace readiness</span>
-        <h2>${!hasActiveCollection
-          ? "Choose an event collection"
-          : canCreateCard ? "Ready to build a matchup" : "Complete the scouting setup"}</h2>
+        <span class="step-label">Scouted teams</span>
+        <h2>${canCreateCard ? "Ready to build a matchup" : "Scout at least two teams"}</h2>
       </div>
       <div class="match-readiness-items">
         <article class="${defaultOurTeam ? "ready" : ""}">
           <span>${defaultOurTeam ? "✓" : "1"}</span>
-          <div><strong>Our team</strong><small>${defaultOurTeam
+          <div><strong>First team</strong><small>${defaultOurTeam
             ? escapeHtml(matchCardTeamName(defaultOurTeam))
-            : "Gather or assign the team you are preparing."}</small></div>
+            : "Scout the team you are preparing."}</small></div>
         </article>
-        <article class="${scheduledTeams.length ? "ready" : ""}">
-          <span>${scheduledTeams.length ? "✓" : "2"}</span>
-          <div><strong>Scheduled opponents</strong><small>${scheduledTeams.length} of ${TEAM_WORKSPACE_SCHEDULE_LIMIT} added</small></div>
+        <article class="${defaultOpponent ? "ready" : ""}">
+          <span>${defaultOpponent ? "✓" : "2"}</span>
+          <div><strong>Second team</strong><small>${defaultOpponent
+            ? escapeHtml(matchCardTeamName(defaultOpponent))
+            : "Scout an opponent team."}</small></div>
         </article>
       </div>
-      ${!hasActiveCollection
-        ? '<button class="button-secondary compact" type="button" data-card-action="choose-collection">Choose collection</button>'
-        : !defaultOurTeam
-        ? activeCollectionTeams().length
-          ? '<button class="button-secondary compact" type="button" data-card-action="choose-our-team">Assign Our team</button>'
-          : '<button class="button-secondary compact" type="button" data-card-action="scout-our-team">Scout Our team</button>'
-        : !scheduledTeams.length
-          ? scoutingCandidates.length
-            ? '<button class="button-secondary compact" type="button" data-card-action="choose-opponent">Add a scheduled opponent</button>'
-            : '<button class="button-secondary compact" type="button" data-card-action="scout-opponent">Scout an opponent</button>'
-          : ""}
+      ${canCreateCard ? "" : '<button class="button-secondary compact" type="button" data-card-action="scout-opponent">Scout another team</button>'}
     </section>
     <div class="match-card-create-panel">
       <div>
         <span class="step-label">New card</span>
         <h2>Set the matchup</h2>
-        <p>Both teams must be gathered in Stage 1 before creating the card.</p>
+        <p>Choose any two teams gathered in Step 1.</p>
       </div>
       <form id="matchCardCreateForm" class="match-card-create-form">
-        <label>Our team
+        <label>Team
          <select name="ourTeamId" required>${matchCardOurTeamOptions(defaultOurTeam)}</select>
         </label>
         <label>Opponent
-         <select name="opponentTeamId" required>${matchCardOpponentOptions(defaultOpponent)}</select>
+         <select name="opponentTeamId" required>${matchCardOpponentOptions(defaultOpponent, defaultOurTeam)}</select>
         </label>
         <label>Match date
           <input name="date" type="date" required value="${today}">
@@ -1883,7 +1900,7 @@ function renderMatchCardEditor() {
       </section>
       <section class="our-lineup-builder">
         <div class="match-card-section-heading">
-          <div><span class="step-label">Our team</span><h2>Set the lineup</h2></div>
+          <div><span class="step-label">Team</span><h2>Set the lineup</h2></div>
           <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
             ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
             : "Nationally eligible roster"}</p>
@@ -1924,7 +1941,7 @@ function renderMatchCardEditor() {
         </details>
       </section>
       <footer class="match-card-footnote">
-        Opponent projection #${prediction?.rank ?? "—"} · generated from Stage 1 scouting history.
+        Opponent projection #${prediction?.rank ?? "—"} · generated from scouting history.
         This card is a planning aid, not a prediction of final match results.
       </footer>
     </div>`;
@@ -2015,7 +2032,7 @@ async function createMatchCardFromForm(form) {
     return;
   }
   if (ourTeamId === opponentTeamId) {
-    $("#matchCardCreateError").textContent = "Our team and opponent must be different.";
+    $("#matchCardCreateError").textContent = "Team and opponent must be different.";
     return;
   }
   const card = createMatchCard({
@@ -2099,12 +2116,64 @@ $("#tryAgain").addEventListener("click", () => {
 });
 $("#newCollection").addEventListener("click", () => reset());
 $("#gatherTeam").addEventListener("click", () => reset());
+$("#landingViewTeams").addEventListener("click", () => {
+  renderReportsTeamList();
+  showView("reports");
+});
+$("#closeTeamSidebar").addEventListener("click", () => {
+  document.body.classList.remove("intake-teams-open");
+  $("#landingViewTeams").focus();
+});
+$("#intakeView").addEventListener("click", event => {
+  if (!event.target.closest("#landingViewTeams")) {
+    document.body.classList.remove("intake-teams-open");
+  }
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && document.body.classList.contains("intake-teams-open")) {
+    document.body.classList.remove("intake-teams-open");
+    $("#landingViewTeams").focus();
+  }
+});
 $("#teamList").addEventListener("click", event => {
   const button = event.target.closest("[data-team-id]");
-  if (button) void openTeamData(button.dataset.teamId);
+  if (button) {
+    document.body.classList.remove("intake-teams-open");
+    void openTeamData(button.dataset.teamId);
+  }
+});
+$("#reportsTeamList").addEventListener("click", event => {
+  const button = event.target.closest("[data-report-team-id]");
+  if (button) void openTeamData(button.dataset.reportTeamId);
+});
+$$("[data-back-to-reports]").forEach(button => {
+  button.addEventListener("click", () => {
+    renderReportsTeamList();
+    showView("reports");
+  });
+});
+$$("[data-team-workspace-view]").forEach(button => {
+  button.addEventListener("click", () => {
+    if (!state.selectedTeamId) return;
+    if (button.dataset.teamWorkspaceView === "report") {
+      void openTeamData(state.selectedTeamId);
+      return;
+    }
+    void openCompletedAnalysis(state.selectedTeamId);
+  });
 });
 $("#analyzeCollectedTeam").addEventListener("click", () => {
-  if (state.selectedTeamId) void openCompletedAnalysis(state.selectedTeamId);
+  if (!state.selectedTeamId) return;
+  if (analysisIsStale(state.selectedTeamId)) {
+    void rerunRefreshedAnalysis();
+    return;
+  }
+  void openCompletedAnalysis(state.selectedTeamId);
+});
+$$("[data-rerun-refreshed-analysis]").forEach(button => {
+  button.addEventListener("click", () => {
+    void rerunRefreshedAnalysis();
+  });
 });
 $("#teamRoleSelect").addEventListener("change", event => {
   if (!state.selectedTeamId) return;
@@ -2112,8 +2181,8 @@ $("#teamRoleSelect").addEventListener("change", event => {
     updateTeamWorkspaceActions();
   }
 });
-$("#teamCollection").addEventListener("change", event => {
-  state.activeCollectionId = event.target.value || null;
+function setActiveCollection(collectionId) {
+  state.activeCollectionId = collectionId || null;
   if (state.activeCollectionId) {
     localStorage.setItem(ACTIVE_COLLECTION_STORAGE_KEY, state.activeCollectionId);
   } else {
@@ -2121,13 +2190,23 @@ $("#teamCollection").addEventListener("change", event => {
   }
   state.collectionPurposeInitialized = false;
   loadStoredTeamWorkspace();
-  $("#gatherEventCollection").value = state.activeCollectionId ?? "";
+  $("#teamCollection").value = state.activeCollectionId ?? "";
+  $("#reportsCollection").value = state.activeCollectionId ?? "";
+  $("#gatherEventCollection").value = "";
   renderTeamList();
+  renderReportsTeamList();
   syncCollectionPurpose();
   updateTeamWorkspaceActions();
   if (!views.matchCards.hidden && !state.activeMatchCardId) {
     renderMatchCardsHome();
   }
+}
+
+$("#teamCollection").addEventListener("change", event => {
+  setActiveCollection(event.target.value);
+});
+$("#reportsCollection").addEventListener("change", event => {
+  setActiveCollection(event.target.value);
 });
 $("#teamEventCollection").addEventListener("change", async event => {
   const team = selectedTeam();
@@ -2217,11 +2296,11 @@ bindTablist("[data-analysis-tab]", "analysisTab", button => {
   renderAnalysisContent();
 });
 $("#scoutStage").addEventListener("click", () => {
-  if (state.selectedTeamId) {
-    void openTeamData(state.selectedTeamId);
-  } else {
-    showView("intake");
-  }
+  showView("intake");
+});
+$("#reportsStage").addEventListener("click", () => {
+  renderReportsTeamList();
+  showView("reports");
 });
 $("#matchCardsStage").addEventListener("click", () => {
   openMatchCardsWorkspace();
@@ -2233,6 +2312,19 @@ $("#matchCardsWorkspace").addEventListener("submit", event => {
 });
 $("#matchCardsWorkspace").addEventListener("change", event => {
   const target = event.target;
+  if (target.matches('#matchCardCreateForm [name="ourTeamId"]')) {
+    const opponentSelect = $("#matchCardCreateForm [name=opponentTeamId]");
+    opponentSelect.innerHTML = matchCardOpponentOptions("", target.value);
+    $("#matchCardCreateForm button[type=submit]").disabled =
+      !target.value || !opponentSelect.value;
+    return;
+  }
+  if (target.matches('#matchCardCreateForm [name="opponentTeamId"]')) {
+    const ourTeamId = $("#matchCardCreateForm [name=ourTeamId]").value;
+    $("#matchCardCreateForm button[type=submit]").disabled =
+      !ourTeamId || !target.value || ourTeamId === target.value;
+    return;
+  }
   if (target.matches("[data-card-field=status]")) {
     updateActiveMatchCard(card => {
       card.status = target.value;
@@ -2343,4 +2435,6 @@ void loadTeamCollections()
 if (state.jobId) {
   showView("progress");
   pollJob();
+} else {
+  showView("intake");
 }

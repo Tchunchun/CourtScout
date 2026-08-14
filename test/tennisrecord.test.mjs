@@ -67,11 +67,31 @@ test("parses target-oriented court data", () => {
     url: "https://www.tennisrecord.com/adult/matchresults.aspx?year=2026&mid=1"
   });
   assert.equal(match.date, "2026-04-01");
+  assert.equal(match.phase, "local");
   assert.deepEqual(match.courts.S1.targetPlayers, ["Jane Doe"]);
   assert.deepEqual(match.courts.S1.opponentPlayers, ["Ann Other"]);
   assert.equal(match.courts.S1.result, "W");
   assert.equal(match.courts.S1.score, "6-2 6-0");
   assert.equal(match.courts.S1.opponentRatings[0].historicalDr.value, 2.91);
+});
+
+test("classifies championship match phases", () => {
+  const source = {
+    url: "https://www.tennisrecord.com/adult/matchresults.aspx?year=2026&mid=3"
+  };
+  for (const [matchType, expectedPhase] of [
+    ["District Championship Match", "district"],
+    ["Sectional Championship Match", "sectionals"],
+    ["National Championship Match", "nationals"],
+    ["Postseason Match", "playoff"]
+  ]) {
+    const match = parseMatch(
+      matchHtml.replace("Local Match", matchType),
+      "TEST TEAM",
+      source
+    );
+    assert.equal(match.phase, expectedPhase);
+  }
 });
 
 test("supports points-based match summaries and derives court results", () => {

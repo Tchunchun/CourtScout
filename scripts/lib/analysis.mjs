@@ -1005,6 +1005,7 @@ export function analyzeDoubles(dataset) {
     summary: {
       record: withRecordMetrics(overallRecord),
       uniquePairs: pairs.length,
+      matchesAnalyzed: new Set(appearances.map(item => item.matchId)).size,
       repeatedPairs: pairs.filter(pair => pair.repeatedPair).length,
       oneOffPairs: pairs.filter(pair => !pair.repeatedPair).length,
       pairsWithIncompleteCurrentUtr: pairs.filter(pair =>

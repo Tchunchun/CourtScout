@@ -16,8 +16,9 @@
         <span>Court Scout</span>
       </a>
       <nav class="stage-navigation" aria-label="Court Scout stages">
-        <button type="button" id="scoutStage" aria-current="page"><span>Stage 1</span> Scout teams</button>
-        <button type="button" id="matchCardsStage"><span>Stage 2</span> Match cards</button>
+        <button type="button" id="scoutStage" aria-current="page"><span>Step 1</span> Scout teams</button>
+        <button type="button" id="reportsStage"><span>Step 2</span> Reports &amp; analysis</button>
+        <button type="button" id="matchCardsStage"><span>Step 3</span> Match day planning</button>
       </nav>
       <div class="header-status"><span></span> <b id="headerStatusText">Data collection</b></div>
     </header>
@@ -25,6 +26,7 @@
     <div class="workspace">
       <aside class="team-sidebar" aria-label="Gathered teams">
         <div class="sidebar-heading">
+          <button class="sidebar-close" id="closeTeamSidebar" type="button" aria-label="Close gathered teams">×</button>
           <span class="step-label">Your data</span>
           <h2>Event collections</h2>
           <p>Group gathered teams by sectional, nationals, or another event.</p>
@@ -44,15 +46,13 @@
 
       <main>
       <section class="hero" id="intakeView">
+        <div class="landing-collection-bar">
+          <button type="button" id="landingViewTeams">View team reports <span id="landingTeamCount">0</span></button>
+        </div>
         <div class="hero-copy">
           <p class="eyebrow">The first set starts here</p>
-          <h1 class="view-heading" tabindex="-1">Turn match history into a <em>clear advantage.</em></h1>
-          <p class="hero-lede">Share a TennisRecord team page. We’ll gather the roster, match history, ratings, and source details into one analysis-ready view.</p>
-          <ol class="process-list" aria-label="Collection process">
-            <li><span>01</span><div><strong>TennisRecord</strong><small>Roster, dynamic ratings, and match results</small></div></li>
-            <li><span>02</span><div><strong>Your rating choices</strong><small>Choose UTR, WTN, both, or neither</small></div></li>
-            <li><span>03</span><div><strong>Ready to review</strong><small>Validated, readable, and fully sourced</small></div></li>
-          </ol>
+          <h1 class="view-heading" tabindex="-1">Turn match history into an <em>advantage.</em></h1>
+          <p class="hero-lede">Gather a roster, match history, and ratings from one TennisRecord team page.</p>
         </div>
 
         <div class="intake-card">
@@ -69,7 +69,7 @@
             </div>
             <p class="field-hint" id="urlHint">Use the URL from a TennisRecord team profile page.</p>
 
-            <div class="collection-purpose">
+            <div class="collection-purpose" hidden aria-hidden="true">
              <label for="gatherEventCollection">Assign to collection <span class="optional-label">Optional</span></label>
              <select id="gatherEventCollection">
               <option value="">No collection (standalone report)</option>
@@ -79,61 +79,66 @@
              <select id="collectionPurpose">
                <option value="our">Our team</option>
                <option value="scheduled">Scheduled opponent</option>
-               <option value="scouting">Scouting pool</option>
+               <option value="scouting" selected>Scouting pool</option>
              </select>
              <small id="collectionPurposeHint">Pin the team you are preparing.</small>
             </div>
 
-            <fieldset class="rating-picker">
-              <legend>Choose ratings to pull</legend>
-              <p class="field-hint rating-hint">Ratings are optional. TennisRecord data is always collected.</p>
-              <label class="mode-option rating-toggle">
-                <input type="checkbox" id="includeUtr" checked>
-                <span class="mode-control" aria-hidden="true"></span>
-                <span class="mode-icon exact" aria-hidden="true">UTR</span>
-                <span class="mode-copy">
-                  <span><strong>Pull UTR ratings</strong></span>
-                  <small>Collect public bands or exact signed-in decimals for roster and opponents.</small>
-                </span>
-              </label>
-              <div class="rating-detail" id="utrOptions">
-                <span class="rating-detail-label">UTR detail</span>
-                <label class="detail-option">
-                  <input type="radio" name="utrMode" value="public" checked>
-                  <span><strong>Public UTR</strong><small>No sign-in · masked bands such as 1.xx</small></span>
+            <details class="rating-disclosure">
+              <summary>
+                <span><strong id="ratingSummary">Ratings: Public UTR + WTN</strong><small>Optional · TennisRecord is always collected</small></span>
+                <b>Customize</b>
+              </summary>
+              <fieldset class="rating-picker">
+                <legend>Rating sources</legend>
+                <label class="mode-option rating-toggle">
+                  <input type="checkbox" id="includeUtr" checked>
+                  <span class="mode-control" aria-hidden="true"></span>
+                  <span class="mode-icon exact" aria-hidden="true">UTR</span>
+                  <span class="mode-copy">
+                    <span><strong>Pull UTR ratings</strong></span>
+                    <small>Public bands or exact signed-in decimals.</small>
+                  </span>
                 </label>
-                <label class="detail-option">
-                  <input type="radio" name="utrMode" value="authenticated">
-                  <span><strong>Exact UTR</strong><small>Sign in directly with UTR for full decimals</small></span>
-                </label>
-                <div class="utr-connect" id="utrConnect" hidden>
-                  <div>
-                    <strong id="utrStatusTitle">UTR sign-in required</strong>
-                    <small id="utrStatusText">Your password stays with UTR. We never receive or store it.</small>
+                <div class="rating-detail" id="utrOptions">
+                  <span class="rating-detail-label">UTR detail</span>
+                  <label class="detail-option">
+                    <input type="radio" name="utrMode" value="public" checked>
+                    <span><strong>Public UTR</strong><small>No sign-in · masked bands such as 1.xx</small></span>
+                  </label>
+                  <label class="detail-option">
+                    <input type="radio" name="utrMode" value="authenticated">
+                    <span><strong>Exact UTR</strong><small>Sign in directly with UTR for full decimals</small></span>
+                  </label>
+                  <div class="utr-connect" id="utrConnect" hidden>
+                    <div>
+                      <strong id="utrStatusTitle">UTR sign-in required</strong>
+                      <small id="utrStatusText">Your password stays with UTR. We never receive or store it.</small>
+                    </div>
+                    <button class="button-secondary" type="button" id="connectUtr">Open UTR sign in</button>
                   </div>
-                  <button class="button-secondary" type="button" id="connectUtr">Open UTR sign in</button>
                 </div>
-              </div>
-              <label class="mode-option rating-toggle">
-                <input type="checkbox" id="includeWtn" checked>
-                <span class="mode-control" aria-hidden="true"></span>
-                <span class="mode-icon public" aria-hidden="true">WTN</span>
-                <span class="mode-copy">
-                  <span><strong>Pull WTN ratings</strong><b class="neutral">No sign-in</b></span>
-                  <small>Collect public singles and doubles WTN for roster players only.</small>
-                </span>
-              </label>
-            </fieldset>
+                <label class="mode-option rating-toggle">
+                  <input type="checkbox" id="includeWtn" checked>
+                  <span class="mode-control" aria-hidden="true"></span>
+                  <span class="mode-icon public" aria-hidden="true">WTN</span>
+                  <span class="mode-copy">
+                    <span><strong>Pull WTN ratings</strong><b class="neutral">No sign-in</b></span>
+                    <small>Public singles and doubles WTN for roster players.</small>
+                  </span>
+                </label>
+              </fieldset>
+            </details>
 
-            <div class="privacy-note">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
-              <span>Collection uses source pages responsibly and keeps provenance with every dataset.</span>
-            </div>
             <p class="form-error" id="formError" role="alert"></p>
             <button class="button-primary" type="submit">
-              Start gathering data
+              Gather team data
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
             </button>
+            <div class="privacy-note">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>Source provenance stays with every dataset.</span>
+            </div>
           </form>
         </div>
       </section>
@@ -160,16 +165,37 @@
         </div>
       </section>
 
+      <section class="reports-view" id="reportsView" hidden>
+        <div class="reports-heading">
+          <div>
+            <p class="eyebrow">Step 2 · Reports &amp; analysis</p>
+            <h1 class="view-heading" tabindex="-1">Team reports</h1>
+            <p>Review every scouted team, inspect match history, and run analysis.</p>
+          </div>
+          <label for="reportsCollection">Collection
+            <select id="reportsCollection">
+              <option value="">All gathered teams</option>
+            </select>
+          </label>
+        </div>
+        <div class="reports-team-grid" id="reportsTeamList">
+          <p class="empty-state">Loading team reports…</p>
+        </div>
+      </section>
+
       <section class="results-view" id="resultsView" hidden>
+        <button class="team-workspace-back" type="button" data-back-to-reports>
+          <span aria-hidden="true">←</span> Back to team reports
+        </button>
         <div class="results-topbar">
           <div>
-            <p class="eyebrow">Collection complete</p>
+            <p class="eyebrow">Team workspace</p>
             <h1 class="view-heading" id="teamName" tabindex="-1">Team data</h1>
             <p id="teamMeta"></p>
           </div>
           <div class="result-actions">
             <button class="button-secondary compact" id="teamNextAction" type="button" hidden></button>
-            <button class="button-primary compact" id="analyzeCollectedTeam" type="button">Analyze team</button>
+            <button class="button-primary compact" id="analyzeCollectedTeam" type="button">Open analysis</button>
             <details class="result-more-menu">
               <summary class="button-secondary compact">More</summary>
               <div>
@@ -180,21 +206,40 @@
             </details>
           </div>
         </div>
-
-        <div class="team-role-bar">
+        <nav class="team-workspace-switch" aria-label="Team workspace views">
+          <button type="button" aria-current="page" data-team-workspace-view="report">
+            <span>Team report</span>
+            <small>Roster, opponents, matches, and sources</small>
+          </button>
+          <button type="button" data-team-workspace-view="analysis">
+            <span>Analysis <b class="team-workspace-status" hidden>Update available</b></span>
+            <small>Eligibility, court trends, and lineups</small>
+          </button>
+        </nav>
+        <div class="analysis-refresh-notice" id="analysisRefreshNotice" hidden>
           <div>
-            <span class="step-label">Scouting workspace</span>
-            <strong id="teamRoleSummary">Scouting pool</strong>
-            <small id="teamRoleHint">Available for research and team reports.</small>
+            <strong>Team data refreshed</strong>
+            <span>Re-run the analysis to update eligibility, trends, and lineup recommendations.</span>
           </div>
-          <label for="teamRoleSelect">Team role
+          <button class="button-primary compact" type="button" data-rerun-refreshed-analysis>Re-run analysis</button>
+        </div>
+
+        <div class="team-role-bar team-collection-assignment">
+          <div>
+            <span class="step-label">Organization</span>
+            <strong>Add this report to a collection</strong>
+            <small>Collections keep related event and opponent reports together.</small>
+          </div>
+          <div hidden aria-hidden="true">
+            <strong id="teamRoleSummary">Scouting report</strong>
+            <small id="teamRoleHint">Available for reports and match planning.</small>
             <select id="teamRoleSelect">
               <option value="our">Our team</option>
               <option value="scheduled">Scheduled opponent</option>
               <option value="scouting">Scouting pool</option>
             </select>
-          </label>
-          <label for="teamEventCollection">Event collection
+          </div>
+          <label for="teamEventCollection">Collection
             <select id="teamEventCollection">
               <option value="">Unfiled</option>
             </select>
@@ -322,38 +367,63 @@
       </dialog>
 
        <section class="analysis-setup-view" id="analysisSetupView" hidden>
-         <div class="analysis-setup-card">
-           <p class="eyebrow">Analysis setup</p>
-           <h1 class="view-heading" id="analysisTeamName" tabindex="-1">Choose a team</h1>
-           <p id="analysisTeamMeta"></p>
-           <div class="analysis-scope">
-             <label for="eligibilityScope">Eligibility target</label>
-             <select id="eligibilityScope">
-               <option value="national" selected>National — 3 computer / 4 self-rated</option>
-               <option value="sectional">Sectional — 2 computer / 3 self-rated</option>
-               <option value="local">Local — no match requirement</option>
-             </select>
-             <small>National is selected by default. Self-rated includes appealed players.</small>
+         <button class="team-workspace-back" type="button" data-back-to-reports>
+           <span aria-hidden="true">←</span> Back to team reports
+         </button>
+         <div class="results-topbar">
+           <div>
+             <p class="eyebrow">Team workspace</p>
+             <h1 class="view-heading" id="analysisTeamName" tabindex="-1">Choose a team</h1>
+             <p id="analysisTeamMeta"></p>
            </div>
-           <p class="form-error" id="analysisError" role="alert"></p>
-           <button class="button-primary" id="runAnalysis" type="button">Run team analysis</button>
          </div>
-         <div class="analysis-preview">
-           <p class="eyebrow">Included in the report</p>
-           <h2>Eligibility, singles, doubles, and lineups.</h2>
-           <ul>
-             <li><strong>Eligibility</strong><span>Match requirements, defaults, status, and remaining appearances.</span></li>
-             <li><strong>Singles</strong><span>S1/S2 usage, records, rating comparisons, upsets, and stacking.</span></li>
-             <li><strong>Doubles</strong><span>D1–D3 strength, repeat pairs, one-offs, pair ratings, and stacking.</span></li>
-             <li><strong>Lineups</strong><span>Three complete predictions weighted by frequency, recency, and postseason use.</span></li>
-           </ul>
+         <nav class="team-workspace-switch" aria-label="Team workspace views">
+           <button type="button" data-team-workspace-view="report">
+             <span>Team report</span>
+             <small>Roster, opponents, matches, and sources</small>
+           </button>
+           <button type="button" aria-current="page" data-team-workspace-view="analysis">
+             <span>Analysis <b class="team-workspace-status" hidden>Update available</b></span>
+             <small>Eligibility, court trends, and lineups</small>
+           </button>
+         </nav>
+         <div class="analysis-setup-content">
+           <div class="analysis-setup-card">
+             <p class="eyebrow">Analysis settings</p>
+             <h2>Choose an eligibility target</h2>
+             <p>Set the competition level before generating this team’s analysis.</p>
+             <div class="analysis-scope">
+               <label for="eligibilityScope">Eligibility target</label>
+               <select id="eligibilityScope">
+                 <option value="national" selected>National — 3 computer / 4 self-rated</option>
+                 <option value="sectional">Sectional — 2 computer / 3 self-rated</option>
+                 <option value="local">Local — no match requirement</option>
+               </select>
+               <small>National is selected by default. Self-rated includes appealed players.</small>
+             </div>
+             <p class="form-error" id="analysisError" role="alert"></p>
+             <button class="button-primary" id="runAnalysis" type="button">Generate analysis</button>
+           </div>
+           <div class="analysis-preview">
+             <p class="eyebrow">Included in the analysis</p>
+             <h2>Eligibility, singles, doubles, and lineups.</h2>
+             <ul>
+               <li><strong>Eligibility</strong><span>Match requirements, defaults, status, and remaining appearances.</span></li>
+               <li><strong>Singles</strong><span>S1/S2 usage, records, rating comparisons, upsets, and stacking.</span></li>
+               <li><strong>Doubles</strong><span>D1–D3 strength, repeat pairs, one-offs, pair ratings, and stacking.</span></li>
+               <li><strong>Lineups</strong><span>Three complete predictions weighted by frequency, recency, and postseason use.</span></li>
+             </ul>
+           </div>
          </div>
        </section>
 
        <section class="analysis-view" id="analysisView" hidden>
+         <button class="team-workspace-back" type="button" data-back-to-reports>
+           <span aria-hidden="true">←</span> Back to team reports
+         </button>
          <div class="results-topbar">
            <div>
-             <p class="eyebrow">Scouting analysis</p>
+             <p class="eyebrow">Team workspace</p>
              <h1 class="view-heading" id="reportTeamName" tabindex="-1">Team report</h1>
              <p id="reportTeamMeta"></p>
            </div>
@@ -362,6 +432,23 @@
              <button class="button-secondary" id="changeAnalysis" type="button">Change settings</button>
              <button class="button-primary compact" id="rerunAnalysis" type="button">Run again</button>
            </div>
+         </div>
+         <nav class="team-workspace-switch" aria-label="Team workspace views">
+           <button type="button" data-team-workspace-view="report">
+             <span>Team report</span>
+             <small>Roster, opponents, matches, and sources</small>
+           </button>
+           <button type="button" aria-current="page" data-team-workspace-view="analysis">
+             <span>Analysis <b class="team-workspace-status" hidden>Update available</b></span>
+             <small>Eligibility, court trends, and lineups</small>
+           </button>
+         </nav>
+         <div class="analysis-refresh-notice" id="analysisStaleNotice" hidden>
+           <div>
+             <strong>Analysis update available</strong>
+             <span>This analysis uses data from before the latest refresh.</span>
+           </div>
+           <button class="button-primary compact" type="button" data-rerun-refreshed-analysis>Re-run analysis</button>
          </div>
          <p class="form-error" id="analysisResultError" role="alert"></p>
          <div class="analysis-warning" id="analysisWarnings" hidden></div>

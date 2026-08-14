@@ -229,7 +229,7 @@ test("server serves the collection UI and reports invalid input", async t => {
   const page = await fetch(`http://127.0.0.1:${port}/`);
   assert.equal(page.status, 200);
   const pageHtml = await page.text();
-  assert.match(pageHtml, /Start gathering data/);
+  assert.match(pageHtml, /Gather team data/);
   assert.match(pageHtml, /Pull UTR ratings/);
   assert.match(pageHtml, /Pull WTN ratings/);
   assert.match(pageHtml, /Refresh data/);

@@ -136,6 +136,14 @@ function parsePlayerCell($, cell) {
     .get();
 }
 
+function matchPhase(matchType) {
+  if (/national/i.test(matchType)) return "nationals";
+  if (/sectional/i.test(matchType)) return "sectionals";
+  if (/district/i.test(matchType)) return "district";
+  if (/(postseason|playoff|championship)/i.test(matchType)) return "playoff";
+  return "local";
+}
+
 export function parseMatch(html, targetTeamName, source) {
   const $ = cheerio.load(html);
   const summaryTable = $("table")
@@ -176,7 +184,7 @@ export function parseMatch(html, targetTeamName, source) {
       .next()
       .text()
   );
-  const phase = /postseason/i.test(matchType) ? "playoff" : "local";
+  const phase = matchPhase(matchType);
   const courts = {};
 
   $(".wrapper496").each((_, wrapper) => {
