@@ -2428,7 +2428,7 @@ $("#tryAgain").addEventListener("click", () => {
   }
   reset();
 });
-$("#newScout").addEventListener("click", () => reset());
+$("#newCollection").addEventListener("click", () => reset());
 $("#gatherTeam").addEventListener("click", () => reset());
 $("#landingViewTeams").addEventListener("click", () => {
   renderReportsTeamList();
@@ -2588,7 +2588,7 @@ function openCollectionDialog(datasetId = null) {
 $("#createTeamCollection").addEventListener("click", () => {
   openCollectionDialog();
 });
-$("#createReportCollection").addEventListener("click", () => {
+$("#createReportCollection")?.addEventListener("click", () => {
   openCollectionDialog(selectedTeam()?.datasetId ?? null);
 });
 [$("#closeCollectionDialog"), $("#cancelCollectionDialog")].forEach(button => {
