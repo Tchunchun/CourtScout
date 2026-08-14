@@ -1,0 +1,411 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.2026-tennis-nationals/contracts/team-data.schema.json",
+  "title": "USTA Team Scouting Data",
+  "description": "Canonical, analysis-ready output from the team data gathering pipeline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "datasetId",
+    "generatedAt",
+    "collectionStage",
+    "team",
+    "eligibilityRule",
+    "sources",
+    "roster",
+    "opponents",
+    "matches",
+    "dataQuality",
+    "downstreamContract"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "datasetId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9.-]+$"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "collectionStage": {
+      "type": "string",
+      "enum": ["tennisrecord_complete", "utr_partial", "step_1_complete"]
+    },
+    "ratingSelections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["utr", "wtn"],
+      "properties": {
+        "utr": {
+          "type": "string",
+          "enum": ["none", "public", "authenticated"]
+        },
+        "wtn": {"type": "boolean"}
+      }
+    },
+    "team": {
+      "$ref": "#/$defs/team"
+    },
+    "eligibilityRule": {
+      "$ref": "#/$defs/eligibilityRule"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "roster": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/rosterPlayer"
+      }
+    },
+    "opponents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/opponent"
+      }
+    },
+    "matches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/match"
+      }
+    },
+    "dataQuality": {
+      "type": "object"
+    },
+    "downstreamContract": {
+      "$ref": "#/$defs/downstreamContract"
+    }
+  },
+  "$defs": {
+    "nullableNumber": {
+      "type": ["number", "null"]
+    },
+    "rating": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["value", "status", "display"],
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/nullableNumber"
+        },
+        "exactValue": {
+          "$ref": "#/$defs/nullableNumber"
+        },
+        "status": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "reliability": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "team": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name", "section", "league", "level", "gender", "season"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "section": {"type": "string", "minLength": 1},
+        "district": {"type": ["string", "null"]},
+        "league": {"type": "string", "minLength": 1},
+        "level": {"type": "string", "minLength": 1},
+        "gender": {"type": "string", "minLength": 1},
+        "season": {"type": "integer", "minimum": 2000},
+        "nationalsRepresentative": {"type": "boolean"},
+        "officialTotals": {"type": "object"}
+      }
+    },
+    "eligibilityRule": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["regulation", "nonSelfRated", "selfRatedOrAppealed", "evaluatedThrough"],
+      "properties": {
+        "regulation": {"type": "string"},
+        "nonSelfRated": {"type": "object"},
+        "selfRatedOrAppealed": {"type": "object"},
+        "evaluatedThrough": {"type": "string"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["type", "url", "retrievedAt", "fields"],
+      "properties": {
+        "type": {"type": "string"},
+        "url": {"type": "string", "format": "uri"},
+        "retrievedAt": {"type": "string", "format": "date"},
+        "authentication": {"type": "string"},
+        "fields": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "record": {
+      "type": ["object", "null"],
+      "required": ["wins", "losses"],
+      "properties": {
+        "wins": {"type": "integer", "minimum": 0},
+        "losses": {"type": "integer", "minimum": 0}
+      }
+    },
+    "rosterPlayer": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "name",
+        "ntrp",
+        "dr",
+        "utr",
+        "records",
+        "qualifyingAppearances",
+        "sectionalsAppearances",
+        "nationalsEligibility"
+      ],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "location": {"type": ["string", "null"]},
+        "ntrp": {
+          "type": "object",
+          "required": ["level", "type"],
+          "properties": {
+            "level": {"type": "string"},
+            "type": {"type": "string"}
+          }
+        },
+        "dr": {"$ref": "#/$defs/nullableNumber"},
+        "utr": {
+          "type": "object",
+          "required": ["singles", "doubles"],
+          "properties": {
+            "singles": {"$ref": "#/$defs/rating"},
+            "doubles": {"$ref": "#/$defs/rating"}
+          }
+        },
+        "wtn": {"$ref": "#/$defs/wtn"},
+        "records": {
+          "type": "object",
+          "required": ["singles", "doubles"],
+          "properties": {
+            "singles": {"$ref": "#/$defs/record"},
+            "doubles": {"$ref": "#/$defs/record"}
+          }
+        },
+        "qualifyingAppearances": {
+          "type": "object",
+          "required": ["actual", "defaultsReceived"],
+          "properties": {
+            "actual": {"type": "integer", "minimum": 0},
+            "defaultsReceived": {"type": "integer", "minimum": 0}
+          }
+        },
+        "sectionalsAppearances": {"type": "integer", "minimum": 0},
+        "nationalsEligibility": {
+          "type": "object",
+          "required": ["status", "display"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": ["confirmed_eligible", "not_confirmed", "unavailable_dq", "unknown"]
+            },
+            "display": {"type": "string"}
+          }
+        }
+      }
+    },
+    "opponent": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name", "utr", "appearances"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "utr": {
+          "type": "object",
+          "required": [
+            "lookupStatus",
+            "singles",
+            "doubles",
+            "exactDecimalsAvailable",
+            "retrievedAt"
+          ],
+          "properties": {
+            "lookupStatus": {"type": "string"},
+            "profileCandidate": {"type": ["object", "null"]},
+            "singles": {"$ref": "#/$defs/rating"},
+            "doubles": {"$ref": "#/$defs/rating"},
+            "exactDecimalsAvailable": {"type": "boolean"},
+            "exactDecimalsBlocker": {"type": ["string", "null"]},
+            "retrievedAt": {
+              "type": ["string", "null"],
+              "format": "date"
+            }
+          }
+        },
+        "wtn": {"$ref": "#/$defs/wtn"},
+        "appearances": {
+          "type": "array",
+          "items": {"type": "object"}
+        }
+      }
+    },
+    "wtn": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["lookupStatus", "singles", "doubles", "retrievedAt"],
+      "properties": {
+        "lookupStatus": {"type": "string"},
+        "profileCandidate": {"type": ["object", "null"]},
+        "singles": {"$ref": "#/$defs/rating"},
+        "doubles": {"$ref": "#/$defs/rating"},
+        "retrievedAt": {
+          "type": ["string", "null"],
+          "format": "date"
+        }
+      }
+    },
+    "playerRatingJoin": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "dr": {"$ref": "#/$defs/nullableNumber"},
+        "historicalDr": {"type": "object"},
+        "utr": {"type": "object"},
+        "wtn": {"type": "object"}
+      }
+    },
+    "court": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "targetPlayers",
+        "opponentPlayers",
+        "result",
+        "status",
+        "score",
+        "adjudication",
+        "targetRatings",
+        "opponentRatings"
+      ],
+      "properties": {
+        "targetPlayers": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "opponentPlayers": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "result": {
+          "type": "string",
+          "enum": ["W", "L", "T", "U"]
+        },
+        "status": {"type": "string"},
+        "score": {"type": ["string", "null"]},
+        "adjudication": {
+          "type": ["string", "null"],
+          "enum": [null, "default_received", "default_conceded", "dq_reversal", "retired", "walkover"]
+        },
+        "targetRatings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/playerRatingJoin"}
+        },
+        "opponentRatings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/playerRatingJoin"}
+        }
+      }
+    },
+    "match": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "date", "phase", "opponent", "teamResult", "courts"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "date": {"type": "string", "format": "date"},
+        "phase": {
+          "type": "string",
+          "enum": [
+            "local",
+            "playoff",
+            "district",
+            "sectionals_round_robin",
+            "sectionals_semifinal",
+            "sectionals_final",
+            "nationals",
+            "unknown"
+          ]
+        },
+        "opponent": {"type": "string"},
+        "teamResult": {
+          "type": "object",
+          "required": ["wins", "losses", "result", "source", "authoritative"],
+          "properties": {
+            "wins": {"type": "integer", "minimum": 0},
+            "losses": {"type": "integer", "minimum": 0},
+            "result": {"type": "string", "enum": ["W", "L", "T", "U"]},
+            "source": {"type": "string"},
+            "authoritative": {"type": "boolean"}
+          }
+        },
+        "officialTeamResult": {
+          "type": ["object", "null"],
+          "properties": {
+            "wins": {"type": "integer", "minimum": 0},
+            "losses": {"type": "integer", "minimum": 0},
+            "result": {"type": "string", "enum": ["W", "L", "T", "U"]}
+          }
+        },
+        "courts": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/$defs/court"
+          }
+        }
+      }
+    },
+    "downstreamContract": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "authoritativeInput",
+        "analysisMayDerive",
+        "analysisMustNotOverride",
+        "opponentRatingPolicy"
+      ],
+      "properties": {
+        "authoritativeInput": {"const": true},
+        "analysisMayDerive": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "analysisMustNotOverride": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "opponentRatingPolicy": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}

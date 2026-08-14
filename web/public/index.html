@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Collect TennisRecord, UTR, and WTN data for tennis team scouting.">
+    <title>Court Scout — Tennis data, ready for analysis</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Court Scout home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M7 25C17 23 23 17 25 7M7 7c2 10 8 16 18 18"/><circle cx="16" cy="16" r="12"/></svg>
+        </span>
+        <span>Court Scout</span>
+      </a>
+      <nav class="stage-navigation" aria-label="Court Scout stages">
+        <button type="button" id="scoutStage" aria-current="page"><span>Stage 1</span> Scout teams</button>
+        <button type="button" id="matchCardsStage"><span>Stage 2</span> Match cards</button>
+      </nav>
+      <div class="header-status"><span></span> <b id="headerStatusText">Data collection</b></div>
+    </header>
+
+    <div class="workspace">
+      <aside class="team-sidebar" aria-label="Gathered teams">
+        <div class="sidebar-heading">
+          <span class="step-label">Your data</span>
+          <h2>Event collections</h2>
+          <p>Group gathered teams by sectional, nationals, or another event.</p>
+          <div class="collection-switcher">
+            <label for="teamCollection">Current collection</label>
+            <select id="teamCollection">
+              <option value="">All gathered teams</option>
+            </select>
+            <button type="button" id="createTeamCollection">+ New collection</button>
+          </div>
+        </div>
+        <nav class="team-list" id="teamList" aria-label="Teams with gathered data">
+          <p class="team-list-status" id="teamListStatus">Loading teams…</p>
+        </nav>
+        <button class="sidebar-action" id="gatherTeam" type="button">+ Gather another team</button>
+      </aside>
+
+      <main>
+      <section class="hero" id="intakeView">
+        <div class="hero-copy">
+          <p class="eyebrow">The first set starts here</p>
+          <h1 class="view-heading" tabindex="-1">Turn match history into a <em>clear advantage.</em></h1>
+          <p class="hero-lede">Share a TennisRecord team page. We’ll gather the roster, match history, ratings, and source details into one analysis-ready view.</p>
+          <ol class="process-list" aria-label="Collection process">
+            <li><span>01</span><div><strong>TennisRecord</strong><small>Roster, dynamic ratings, and match results</small></div></li>
+            <li><span>02</span><div><strong>Your rating choices</strong><small>Choose UTR, WTN, both, or neither</small></div></li>
+            <li><span>03</span><div><strong>Ready to review</strong><small>Validated, readable, and fully sourced</small></div></li>
+          </ol>
+        </div>
+
+        <div class="intake-card">
+          <div class="card-heading">
+            <span class="step-label">Collection setup</span>
+            <h2>Scout a team</h2>
+            <p>Paste the team profile URL you want to collect.</p>
+          </div>
+          <form id="collectionForm" novalidate>
+            <label for="teamUrl">TennisRecord team URL</label>
+            <div class="url-field">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <input id="teamUrl" name="teamUrl" type="url" required autocomplete="url" placeholder="https://www.tennisrecord.com/adult/teamprofile.aspx?..." aria-describedby="urlHint formError">
+            </div>
+            <p class="field-hint" id="urlHint">Use the URL from a TennisRecord team profile page.</p>
+
+            <div class="collection-purpose">
+             <label for="gatherEventCollection">Assign to collection <span class="optional-label">Optional</span></label>
+             <select id="gatherEventCollection">
+              <option value="">No collection (standalone report)</option>
+             </select>
+             <small>Keep teams for the same event together, or leave this report standalone.</small>
+             <label for="collectionPurpose">Add this team to</label>
+             <select id="collectionPurpose">
+               <option value="our">Our team</option>
+               <option value="scheduled">Scheduled opponent</option>
+               <option value="scouting">Scouting pool</option>
+             </select>
+             <small id="collectionPurposeHint">Pin the team you are preparing.</small>
+            </div>
+
+            <fieldset class="rating-picker">
+              <legend>Choose ratings to pull</legend>
+              <p class="field-hint rating-hint">Ratings are optional. TennisRecord data is always collected.</p>
+              <label class="mode-option rating-toggle">
+                <input type="checkbox" id="includeUtr" checked>
+                <span class="mode-control" aria-hidden="true"></span>
+                <span class="mode-icon exact" aria-hidden="true">UTR</span>
+                <span class="mode-copy">
+                  <span><strong>Pull UTR ratings</strong></span>
+                  <small>Collect public bands or exact signed-in decimals for roster and opponents.</small>
+                </span>
+              </label>
+              <div class="rating-detail" id="utrOptions">
+                <span class="rating-detail-label">UTR detail</span>
+                <label class="detail-option">
+                  <input type="radio" name="utrMode" value="public" checked>
+                  <span><strong>Public UTR</strong><small>No sign-in · masked bands such as 1.xx</small></span>
+                </label>
+                <label class="detail-option">
+                  <input type="radio" name="utrMode" value="authenticated">
+                  <span><strong>Exact UTR</strong><small>Sign in directly with UTR for full decimals</small></span>
+                </label>
+                <div class="utr-connect" id="utrConnect" hidden>
+                  <div>
+                    <strong id="utrStatusTitle">UTR sign-in required</strong>
+                    <small id="utrStatusText">Your password stays with UTR. We never receive or store it.</small>
+                  </div>
+                  <button class="button-secondary" type="button" id="connectUtr">Open UTR sign in</button>
+                </div>
+              </div>
+              <label class="mode-option rating-toggle">
+                <input type="checkbox" id="includeWtn" checked>
+                <span class="mode-control" aria-hidden="true"></span>
+                <span class="mode-icon public" aria-hidden="true">WTN</span>
+                <span class="mode-copy">
+                  <span><strong>Pull WTN ratings</strong><b class="neutral">No sign-in</b></span>
+                  <small>Collect public singles and doubles WTN for roster players only.</small>
+                </span>
+              </label>
+            </fieldset>
+
+            <div class="privacy-note">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>Collection uses source pages responsibly and keeps provenance with every dataset.</span>
+            </div>
+            <p class="form-error" id="formError" role="alert"></p>
+            <button class="button-primary" type="submit">
+              Start gathering data
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="progress-view" id="progressView" hidden aria-live="polite">
+        <div class="progress-visual">
+          <div class="court-lines" aria-hidden="true"></div>
+          <div class="ball-loader" aria-hidden="true"></div>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-copy">
+          <p class="eyebrow">Collection in progress</p>
+          <h1 class="view-heading" tabindex="-1">Building your scouting dataset.</h1>
+          <p id="progressDetail">Preparing collection…</p>
+          <div class="progress-track"><span id="progressBar"></span></div>
+          <div class="phase-list">
+            <div data-phase="tennisrecord"><i></i><span><strong>TennisRecord</strong><small>Team, roster &amp; match history</small></span></div>
+            <div data-phase="utr"><i></i><span><strong>UTR</strong><small>Player identity &amp; ratings</small></span></div>
+            <div data-phase="wtn"><i></i><span><strong>WTN</strong><small>Public singles &amp; doubles ratings</small></span></div>
+            <div data-phase="validation"><i></i><span><strong>Validation</strong><small>Quality &amp; source checks</small></span></div>
+          </div>
+          <p class="time-note">You can leave this tab open. Larger match histories may take several minutes.</p>
+          <button class="button-secondary" id="tryAgain" type="button" hidden>Return to setup</button>
+        </div>
+      </section>
+
+      <section class="results-view" id="resultsView" hidden>
+        <div class="results-topbar">
+          <div>
+            <p class="eyebrow">Collection complete</p>
+            <h1 class="view-heading" id="teamName" tabindex="-1">Team data</h1>
+            <p id="teamMeta"></p>
+          </div>
+          <div class="result-actions">
+            <button class="button-secondary compact" id="teamNextAction" type="button" hidden></button>
+            <button class="button-primary compact" id="analyzeCollectedTeam" type="button">Analyze team</button>
+            <details class="result-more-menu">
+              <summary class="button-secondary compact">More</summary>
+              <div>
+                <button id="openRefreshData" type="button">Refresh data</button>
+                <a id="downloadData" download="team-data.json">Download data</a>
+                <button id="newCollection" type="button">New collection</button>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="team-role-bar">
+          <div>
+            <span class="step-label">Scouting workspace</span>
+            <strong id="teamRoleSummary">Scouting pool</strong>
+            <small id="teamRoleHint">Available for research and team reports.</small>
+          </div>
+          <label for="teamRoleSelect">Team role
+            <select id="teamRoleSelect">
+              <option value="our">Our team</option>
+              <option value="scheduled">Scheduled opponent</option>
+              <option value="scouting">Scouting pool</option>
+            </select>
+          </label>
+          <label for="teamEventCollection">Event collection
+            <select id="teamEventCollection">
+              <option value="">Unfiled</option>
+            </select>
+          </label>
+          <p class="form-error" id="teamRoleError" role="alert"></p>
+        </div>
+
+        <div class="quality-banner">
+          <span class="quality-check">✓</span>
+          <div><strong id="qualityTitle">Data gathered and validated</strong><small id="qualityText">Ready for review before analysis.</small></div>
+          <span class="quality-mode" id="qualityMode"></span>
+        </div>
+
+        <div class="metric-grid">
+          <article><span>Roster</span><strong id="rosterCount">—</strong><small>team players</small></article>
+          <article><span>Opponents</span><strong id="opponentCount">—</strong><small>unique players</small></article>
+          <article><span>Matches</span><strong id="matchCount">—</strong><small>completed ties</small></article>
+          <article><span>Rating coverage</span><strong id="ratingCoverage">—</strong><small>profiles resolved</small></article>
+        </div>
+
+        <div class="data-panel">
+          <div class="panel-toolbar">
+            <div class="tabs" role="tablist" aria-label="Dataset sections">
+              <button id="datasetTabRoster" role="tab" aria-selected="true" aria-controls="datasetPanel" tabindex="0" data-tab="roster">Roster</button>
+              <button id="datasetTabOpponents" role="tab" aria-selected="false" aria-controls="datasetPanel" tabindex="-1" data-tab="opponents">Opponents</button>
+              <button id="datasetTabMatches" role="tab" aria-selected="false" aria-controls="datasetPanel" tabindex="-1" data-tab="matches">Matches</button>
+              <button id="datasetTabSources" role="tab" aria-selected="false" aria-controls="datasetPanel" tabindex="-1" data-tab="sources">Sources</button>
+            </div>
+            <label class="search-field">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+              <input type="search" id="tableSearch" aria-label="Search roster" placeholder="Search players">
+            </label>
+          </div>
+          <p class="table-scroll-hint" id="tableScrollHint" hidden>Swipe horizontally to see lineups and scores →</p>
+          <div class="table-wrap" id="datasetPanel" role="tabpanel" aria-labelledby="datasetTabRoster" tabindex="0">
+            <table>
+              <thead id="dataHead"></thead>
+              <tbody id="dataBody"></tbody>
+            </table>
+            <p class="empty-state" id="emptyState" hidden>No matching records found.</p>
+          </div>
+          <p class="table-legend"><span><strong>NR</strong> Not rated</span><span><strong>—</strong> Not available</span></p>
+        </div>
+        <p class="analysis-note"><span>Next</span> Once you’ve reviewed this dataset, we can use it for lineup, eligibility, and opponent analysis.</p>
+      </section>
+
+      <dialog class="refresh-dialog" id="refreshDialog" aria-labelledby="refreshDialogTitle">
+        <form method="dialog" id="refreshForm">
+          <div class="refresh-dialog-heading">
+            <div>
+              <span class="step-label">Update gathered data</span>
+              <h2 id="refreshDialogTitle">Choose sources to refresh</h2>
+              <p>Only the selected sources will be repulled. Existing data stays available if refresh fails.</p>
+            </div>
+            <button class="dialog-close" id="closeRefreshDialog" type="button" aria-label="Close refresh dialog">×</button>
+          </div>
+          <fieldset class="refresh-source-list">
+            <legend>Data sources</legend>
+            <label class="mode-option rating-toggle">
+              <input type="checkbox" id="refreshTennisRecord">
+              <span class="mode-control" aria-hidden="true"></span>
+              <span class="mode-icon public" aria-hidden="true">TR</span>
+              <span class="mode-copy">
+                <span><strong>TennisRecord</strong></span>
+                <small>Refresh roster, dynamic ratings, match history, scores, and appearances.</small>
+              </span>
+            </label>
+            <label class="mode-option rating-toggle">
+              <input type="checkbox" id="refreshUtr">
+              <span class="mode-control" aria-hidden="true"></span>
+              <span class="mode-icon exact" aria-hidden="true">UTR</span>
+              <span class="mode-copy">
+                <span><strong>UTR</strong></span>
+                <small>Refresh roster and opponent UTR profiles.</small>
+              </span>
+            </label>
+            <div class="rating-detail refresh-utr-options" id="refreshUtrOptions" hidden>
+              <span class="rating-detail-label">UTR detail</span>
+              <label class="detail-option">
+                <input type="radio" name="refreshUtrMode" value="public" checked>
+                <span><strong>Public UTR</strong><small>Masked bands such as 1.xx</small></span>
+              </label>
+              <label class="detail-option">
+                <input type="radio" name="refreshUtrMode" value="authenticated">
+                <span><strong>Exact UTR</strong><small>Requires an active signed-in UTR session</small></span>
+              </label>
+              <button class="button-secondary refresh-connect-utr" id="refreshConnectUtr" type="button" hidden>Open UTR sign in</button>
+            </div>
+            <label class="mode-option rating-toggle">
+              <input type="checkbox" id="refreshWtn">
+              <span class="mode-control" aria-hidden="true"></span>
+              <span class="mode-icon public" aria-hidden="true">WTN</span>
+              <span class="mode-copy">
+                <span><strong>World Tennis Number</strong></span>
+                <small>Refresh public singles and doubles WTN for roster players.</small>
+              </span>
+            </label>
+          </fieldset>
+          <p class="form-error" id="refreshError" role="alert"></p>
+          <div class="refresh-dialog-actions">
+            <button class="button-secondary" id="cancelRefresh" type="button">Cancel</button>
+            <button class="button-primary compact" type="submit">Refresh selected sources</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="refresh-dialog collection-dialog" id="collectionDialog" aria-labelledby="collectionDialogTitle">
+        <form method="dialog" id="collectionCreateForm">
+          <div class="refresh-dialog-heading">
+            <div>
+              <span class="step-label">Organize teams</span>
+              <h2 id="collectionDialogTitle">Create an event collection</h2>
+              <p>Use a clear event name, such as 2026 Sectionals or 2026 3.0 Nationals Teams.</p>
+            </div>
+            <button class="dialog-close" id="closeCollectionDialog" type="button" aria-label="Close collection dialog">×</button>
+          </div>
+          <label for="collectionName">Collection name</label>
+          <input id="collectionName" name="name" maxlength="80" required autocomplete="off">
+          <p class="form-error" id="collectionError" role="alert"></p>
+          <div class="refresh-dialog-actions">
+            <button class="button-secondary" id="cancelCollectionDialog" type="button">Cancel</button>
+            <button class="button-primary compact" type="submit">Create collection</button>
+          </div>
+        </form>
+      </dialog>
+
+       <section class="analysis-setup-view" id="analysisSetupView" hidden>
+         <div class="analysis-setup-card">
+           <p class="eyebrow">Analysis setup</p>
+           <h1 class="view-heading" id="analysisTeamName" tabindex="-1">Choose a team</h1>
+           <p id="analysisTeamMeta"></p>
+           <div class="analysis-scope">
+             <label for="eligibilityScope">Eligibility target</label>
+             <select id="eligibilityScope">
+               <option value="national" selected>National — 3 computer / 4 self-rated</option>
+               <option value="sectional">Sectional — 2 computer / 3 self-rated</option>
+               <option value="local">Local — no match requirement</option>
+             </select>
+             <small>National is selected by default. Self-rated includes appealed players.</small>
+           </div>
+           <p class="form-error" id="analysisError" role="alert"></p>
+           <button class="button-primary" id="runAnalysis" type="button">Run team analysis</button>
+         </div>
+         <div class="analysis-preview">
+           <p class="eyebrow">Included in the report</p>
+           <h2>Eligibility, singles, doubles, and lineups.</h2>
+           <ul>
+             <li><strong>Eligibility</strong><span>Match requirements, defaults, status, and remaining appearances.</span></li>
+             <li><strong>Singles</strong><span>S1/S2 usage, records, rating comparisons, upsets, and stacking.</span></li>
+             <li><strong>Doubles</strong><span>D1–D3 strength, repeat pairs, one-offs, pair ratings, and stacking.</span></li>
+             <li><strong>Lineups</strong><span>Three complete predictions weighted by frequency, recency, and postseason use.</span></li>
+           </ul>
+         </div>
+       </section>
+
+       <section class="analysis-view" id="analysisView" hidden>
+         <div class="results-topbar">
+           <div>
+             <p class="eyebrow">Scouting analysis</p>
+             <h1 class="view-heading" id="reportTeamName" tabindex="-1">Team report</h1>
+             <p id="reportTeamMeta"></p>
+           </div>
+           <div class="result-actions">
+             <button class="button-secondary" id="analysisNextAction" type="button" hidden></button>
+             <button class="button-secondary" id="changeAnalysis" type="button">Change settings</button>
+             <button class="button-primary compact" id="rerunAnalysis" type="button">Run again</button>
+           </div>
+         </div>
+         <p class="form-error" id="analysisResultError" role="alert"></p>
+         <div class="analysis-warning" id="analysisWarnings" hidden></div>
+         <div class="metric-grid analysis-metrics">
+           <article><span>Eligibility</span><strong id="eligibleCount">—</strong><small id="eligibilityLabel">National eligible</small></article>
+           <article><span>Singles</span><strong id="singlesRecord">—</strong><small>S1 + S2 court record</small></article>
+           <article><span>Doubles</span><strong id="doublesRecord">—</strong><small>D1–D3 court record</small></article>
+           <article><span>Repeat pairs</span><strong id="repeatPairCount">—</strong><small>used at least twice</small></article>
+         </div>
+         <div class="data-panel analysis-panel">
+           <div class="panel-toolbar">
+             <div class="tabs" role="tablist" aria-label="Analysis sections">
+               <button id="analysisTabEligibility" role="tab" aria-selected="true" aria-controls="analysisContent" tabindex="0" data-analysis-tab="eligibility">Eligibility</button>
+               <button id="analysisTabSingles" role="tab" aria-selected="false" aria-controls="analysisContent" tabindex="-1" data-analysis-tab="singles">Singles</button>
+               <button id="analysisTabDoubles" role="tab" aria-selected="false" aria-controls="analysisContent" tabindex="-1" data-analysis-tab="doubles">Doubles</button>
+               <button id="analysisTabLineups" role="tab" aria-selected="false" aria-controls="analysisContent" tabindex="-1" data-analysis-tab="lineups">Lineups</button>
+             </div>
+           </div>
+           <div class="analysis-content" id="analysisContent" role="tabpanel" aria-labelledby="analysisTabEligibility" tabindex="0"></div>
+         </div>
+       </section>
+
+       <section class="match-cards-view" id="matchCardsView" hidden>
+         <div id="matchCardsWorkspace"></div>
+       </section>
+      </main>
+    </div>
+
+    <footer>
+      <span>Court Scout</span>
+      <small>Facts first. Analysis next.</small>
+    </footer>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

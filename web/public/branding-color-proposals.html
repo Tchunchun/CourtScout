@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive Court Scout branding color proposals">
+  <title>Court Scout — Branding Color Proposals</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #eef1f5;
+      --page-ink: #172033;
+      --page-muted: #647083;
+      --page-line: #d7dde6;
+      --brand: #1f4b99;
+      --brand-strong: #173c7d;
+      --accent: #dfff3f;
+      --ink: #172033;
+      --muted: #5f6b7a;
+      --background: #f6f7f2;
+      --surface: #ffffff;
+      --line: #dde2e8;
+      --success: #187a55;
+      --warning: #b95f35;
+      --on-brand: #ffffff;
+      --on-accent: #172033;
+      --shadow: 0 24px 70px rgba(27, 40, 64, .13);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--page-ink);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(255, 255, 255, .9), transparent 28rem),
+        var(--page);
+    }
+    button { font: inherit; }
+    button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .page-shell { width: min(1460px, calc(100% - 48px)); margin: 0 auto; }
+    .page-header {
+      padding: 56px 0 34px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #526075;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(38px, 5vw, 72px);
+      font-weight: 680;
+      letter-spacing: -.055em;
+      line-height: .98;
+    }
+    .intro {
+      max-width: 540px;
+      margin: 20px 0 0;
+      color: var(--page-muted);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+    .recommendation {
+      max-width: 330px;
+      padding: 18px 20px;
+      background: #fff;
+      border: 1px solid var(--page-line);
+      border-radius: 14px;
+      box-shadow: 0 12px 34px rgba(27, 40, 64, .08);
+    }
+    .recommendation span {
+      display: block;
+      margin-bottom: 6px;
+      color: #627087;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .recommendation strong { display: block; font-size: 18px; }
+    .recommendation p { margin: 7px 0 0; color: var(--page-muted); font-size: 13px; line-height: 1.5; }
+
+    .palette-picker {
+      margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .palette-option {
+      min-width: 0;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      color: var(--page-ink);
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid var(--page-line);
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .palette-option:hover { transform: translateY(-2px); background: #fff; }
+    .palette-option[aria-pressed="true"] {
+      background: #fff;
+      border-color: #8390a4;
+      box-shadow: 0 8px 28px rgba(27, 40, 64, .1);
+    }
+    .palette-orb {
+      width: 36px;
+      height: 36px;
+      border: 9px solid var(--option-primary);
+      border-radius: 50%;
+      background: var(--option-accent);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
+    }
+    .palette-option strong { display: block; overflow: hidden; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+    .palette-option small { display: block; margin-top: 3px; color: var(--page-muted); font-size: 12px; }
+    .recommended-tag {
+      padding: 4px 6px;
+      color: #fff;
+      background: #263349;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .comparison-grid {
+      padding-bottom: 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      align-items: start;
+      gap: 24px;
+    }
+    .preview-frame {
+      overflow: hidden;
+      background: var(--background);
+      border: 1px solid color-mix(in srgb, var(--line), #000 6%);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      transition: background 200ms ease, border-color 200ms ease;
+    }
+    .app-nav {
+      min-height: 68px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--ink);
+      background: color-mix(in srgb, var(--surface), var(--background) 26%);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand-lockup { display: flex; align-items: center; gap: 11px; font-size: 17px; font-weight: 750; }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      color: var(--on-brand);
+      background: var(--brand);
+      border-radius: 50%;
+      font-size: 18px;
+    }
+    .app-steps { display: flex; align-self: stretch; gap: 30px; }
+    .app-steps span {
+      display: flex;
+      align-items: center;
+      border-bottom: 3px solid transparent;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .app-steps .active { color: var(--ink); border-color: var(--brand); }
+    .app-status { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .app-status::before { content: ""; width: 8px; height: 8px; margin-right: 7px; display: inline-block; background: var(--success); border-radius: 50%; }
+
+    .app-layout { display: grid; grid-template-columns: 245px minmax(0, 1fr); }
+    .sidebar {
+      padding: 26px 20px;
+      background: color-mix(in srgb, var(--surface), var(--background) 45%);
+      border-right: 1px solid var(--line);
+    }
+    .sidebar-label, .content-label {
+      color: var(--brand);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .sidebar h2 { margin: 8px 0 4px; color: var(--ink); font-size: 20px; }
+    .sidebar > p { margin: 0 0 20px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .team-item {
+      margin-bottom: 8px;
+      padding: 12px;
+      color: var(--ink);
+      border-left: 3px solid transparent;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    .team-item.active {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--brand);
+    }
+    .team-item small { margin-top: 4px; display: block; color: var(--muted); font-size: 10px; font-weight: 500; }
+
+    .app-content { min-width: 0; padding: 40px; }
+    .content-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+    .content-top h2 {
+      max-width: 650px;
+      margin: 9px 0 0;
+      color: var(--ink);
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 680;
+      letter-spacing: -.045em;
+      line-height: 1.02;
+    }
+    .content-top p { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
+    .primary-button {
+      flex: 0 0 auto;
+      min-height: 44px;
+      padding: 0 18px;
+      color: var(--on-brand);
+      background: var(--brand);
+      border: 0;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 750;
+    }
+    .notice {
+      margin-top: 28px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      background: color-mix(in srgb, var(--success), var(--surface) 91%);
+      border: 1px solid color-mix(in srgb, var(--success), var(--surface) 72%);
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .notice-icon {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--success);
+      border-radius: 50%;
+      font-weight: 800;
+    }
+    .metrics { margin: 14px 0 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .metric { padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
+    .metric span { display: block; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+    .metric strong { margin-top: 5px; display: block; color: var(--ink); font-size: 24px; line-height: 1; }
+
+    .table-card { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+    .table-toolbar {
+      min-height: 54px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .tabs { display: flex; align-self: stretch; gap: 24px; }
+    .tabs span { display: flex; align-items: center; color: var(--muted); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 750; }
+    .tabs .active { color: var(--ink); border-color: var(--brand); }
+    .search { padding: 8px 12px; color: var(--muted); background: var(--background); border: 1px solid var(--line); border-radius: 5px; font-size: 11px; }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; min-width: 720px; border-collapse: collapse; color: var(--ink); font-size: 11px; }
+    th { padding: 11px 13px; color: var(--muted); background: var(--background); text-align: left; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+    td { padding: 12px 13px; border-top: 1px solid var(--line); vertical-align: top; }
+    td strong { display: block; font-size: 11px; }
+    td small { margin-top: 3px; display: block; color: var(--muted); font-size: 9px; }
+    .result-pill {
+      padding: 4px 7px;
+      display: inline-block;
+      color: var(--success);
+      background: color-mix(in srgb, var(--success), var(--surface) 88%);
+      border-radius: 20px;
+      font-weight: 800;
+    }
+    .court { color: var(--brand); font-weight: 850; }
+
+    .palette-details { display: grid; gap: 16px; }
+    .detail-card {
+      padding: 22px;
+      background: #fff;
+      border: 1px solid var(--page-line);
+      border-radius: 14px;
+    }
+    .detail-card h2 { margin: 0; font-size: 22px; letter-spacing: -.025em; }
+    .detail-card > p { margin: 8px 0 0; color: var(--page-muted); font-size: 13px; line-height: 1.55; }
+    .color-list { margin-top: 20px; display: grid; gap: 9px; }
+    .color-row {
+      display: grid;
+      grid-template-columns: 32px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .swatch { width: 32px; height: 32px; background: var(--swatch); border: 1px solid rgba(0, 0, 0, .1); border-radius: 7px; }
+    .color-row span { color: var(--page-muted); }
+    .color-row code { color: #344056; font: 600 11px "SFMono-Regular", Consolas, monospace; }
+    .usage-list { margin: 16px 0 0; padding: 0; list-style: none; }
+    .usage-list li { padding: 10px 0; color: var(--page-muted); border-top: 1px solid #edf0f4; font-size: 12px; line-height: 1.45; }
+    .usage-list strong { color: var(--page-ink); }
+
+    .all-palettes { padding: 54px 0 70px; border-top: 1px solid var(--page-line); }
+    .all-palettes h2 { margin: 0; font-size: 30px; letter-spacing: -.035em; }
+    .all-palettes > p { margin: 8px 0 24px; color: var(--page-muted); }
+    .palette-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .palette-card {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--page-line);
+      border-radius: 12px;
+    }
+    .palette-strip { height: 70px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; }
+    .palette-strip span { background: var(--strip); }
+    .palette-copy { padding: 18px; }
+    .palette-copy strong { display: block; font-size: 16px; }
+    .palette-copy p { min-height: 54px; margin: 7px 0 14px; color: var(--page-muted); font-size: 12px; line-height: 1.5; }
+    .palette-copy button {
+      padding: 8px 11px;
+      color: #344056;
+      background: #f7f8fa;
+      border: 1px solid #dce1e8;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 750;
+    }
+    footer { padding: 20px 0 36px; color: var(--page-muted); border-top: 1px solid var(--page-line); font-size: 12px; }
+
+    @media (max-width: 1060px) {
+      .page-header { align-items: flex-start; flex-direction: column; }
+      .recommendation { max-width: 540px; }
+      .palette-picker, .palette-cards { grid-template-columns: repeat(2, 1fr); }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .palette-details { grid-template-columns: repeat(2, 1fr); }
+      .app-layout { grid-template-columns: 200px minmax(0, 1fr); }
+      .app-content { padding: 30px 24px; }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell { width: min(100% - 28px, 1460px); }
+      .page-header { padding-top: 34px; }
+      h1 { font-size: 42px; }
+      .palette-picker, .palette-cards, .palette-details { grid-template-columns: 1fr; }
+      .palette-option { padding: 13px; }
+      .app-nav { padding: 0 16px; }
+      .brand-lockup span { display: none; }
+      .app-steps { gap: 18px; }
+      .app-steps span { font-size: 10px; }
+      .app-status { display: none; }
+      .app-layout { display: block; }
+      .sidebar { display: none; }
+      .app-content { padding: 26px 18px 34px; }
+      .content-top { align-items: flex-start; flex-direction: column; }
+      .content-top h2 { font-size: 31px; }
+      .primary-button { width: 100%; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .table-toolbar { padding: 0 12px; align-items: stretch; flex-direction: column; }
+      .tabs { min-height: 50px; gap: 20px; overflow-x: auto; }
+      .search { margin: 0 0 12px; }
+      .all-palettes { padding-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header page-shell">
+    <div>
+      <p class="eyebrow">Court Scout · Brand exploration</p>
+      <h1>Four ways to color the court.</h1>
+      <p class="intro">Select a direction to apply it to the same Court Scout interface. This keeps the decision focused on brand character, readability, and hierarchy rather than isolated swatches.</p>
+    </div>
+    <aside class="recommendation">
+      <span>Recommended direction</span>
+      <strong>Night Court</strong>
+      <p>Court blue creates a confident product identity while tennis-ball yellow remains a distinctive, disciplined accent.</p>
+    </aside>
+  </header>
+
+  <main>
+    <section class="page-shell" aria-labelledby="preview-title">
+      <div class="palette-picker" role="group" aria-label="Choose a branding palette">
+        <button class="palette-option" type="button" data-theme="night" aria-pressed="true" style="--option-primary:#1f4b99;--option-accent:#dfff3f">
+          <span class="palette-orb" aria-hidden="true"></span>
+          <span><strong>Night Court</strong><small>Premium · clear · focused</small></span>
+          <span class="recommended-tag">Recommended</span>
+        </button>
+        <button class="palette-option" type="button" data-theme="heritage" aria-pressed="false" style="--option-primary:#4b234c;--option-accent:#e4f43a">
+          <span class="palette-orb" aria-hidden="true"></span>
+          <span><strong>Wimbledon Heritage</strong><small>Classic · editorial · warm</small></span>
+        </button>
+        <button class="palette-option" type="button" data-theme="hardcourt" aria-pressed="false" style="--option-primary:#075daa;--option-accent:#12a594">
+          <span class="palette-orb" aria-hidden="true"></span>
+          <span><strong>Modern Hard Court</strong><small>Energetic · digital · fresh</small></span>
+        </button>
+        <button class="palette-option" type="button" data-theme="clay" aria-pressed="false" style="--option-primary:#a84f32;--option-accent:#55755c">
+          <span class="palette-orb" aria-hidden="true"></span>
+          <span><strong>Clay Court</strong><small>Warm · distinctive · grounded</small></span>
+        </button>
+      </div>
+
+      <div class="comparison-grid">
+        <article class="preview-frame" id="themePreview" aria-labelledby="preview-title">
+          <nav class="app-nav" aria-label="Court Scout preview navigation">
+            <div class="brand-lockup"><span class="brand-mark" aria-hidden="true">◯</span><span>Court Scout</span></div>
+            <div class="app-steps"><span class="active">Scout teams</span><span>Match cards</span></div>
+            <span class="app-status">Data collection</span>
+          </nav>
+
+          <div class="app-layout">
+            <aside class="sidebar">
+              <span class="sidebar-label">Your data</span>
+              <h2>Gathered teams</h2>
+              <p>Select a team to review its gathered data.</p>
+              <div class="team-item active">LA WD LLW WeHo Slicers<small>Adult 18+ · 9 matches</small></div>
+              <div class="team-item">NJ: Infinity<small>Adult 18+ · 14 matches</small></div>
+              <div class="team-item">NWW-AYTC-Tong<small>Adult 18+ · 15 matches</small></div>
+            </aside>
+
+            <section class="app-content">
+              <div class="content-top">
+                <div>
+                  <span class="content-label">Collection complete</span>
+                  <h2 id="preview-title">LA WD LLW WeHo Slicers 3.0</h2>
+                  <p>2026 · Adult 18+ · Women 3.0</p>
+                </div>
+                <button class="primary-button" type="button">Analyze team</button>
+              </div>
+
+              <div class="notice"><span class="notice-icon">✓</span><strong>Data ready</strong><span>Roster and match history are ready to review.</span></div>
+
+              <div class="metrics" aria-label="Team summary">
+                <div class="metric"><span>Roster</span><strong>15</strong></div>
+                <div class="metric"><span>Opponents</span><strong>47</strong></div>
+                <div class="metric"><span>Matches</span><strong>9</strong></div>
+                <div class="metric"><span>Rating coverage</span><strong>87%</strong></div>
+              </div>
+
+              <div class="table-card">
+                <div class="table-toolbar">
+                  <div class="tabs"><span>Roster</span><span>Opponents</span><span class="active">Matches</span><span>Sources</span></div>
+                  <span class="search">⌕&nbsp;&nbsp; Search matches</span>
+                </div>
+                <div class="table-scroll">
+                  <table>
+                    <thead><tr><th>Date</th><th>Opponent</th><th>Court</th><th>Our lineup</th><th>Result</th><th>Opponent lineup</th></tr></thead>
+                    <tbody>
+                      <tr><td><strong>2026-04-24</strong></td><td><strong>Backhanded Compliments</strong></td><td class="court">D1</td><td><strong>Lilit Khatchaturian</strong><small>Heather Flanders</small></td><td><span class="result-pill">W</span> &nbsp;<strong>6-1 6-1</strong></td><td><strong>Michelle Johnson</strong><small>Cindy Shih</small></td></tr>
+                      <tr><td><strong>2026-04-24</strong></td><td><strong>Backhanded Compliments</strong></td><td class="court">D2</td><td><strong>Sheba ZamanZadeh</strong><small>Rachael Alberti</small></td><td><span class="result-pill">W</span> &nbsp;<strong>6-4 6-2</strong></td><td><strong>Marissa Pearson</strong><small>Jodi Chall</small></td></tr>
+                      <tr><td><strong>2026-04-30</strong></td><td><strong>Net Surfers</strong></td><td class="court">D1</td><td><strong>Doree Shafrir</strong><small>Sheba ZamanZadeh</small></td><td><span class="result-pill">W</span> &nbsp;<strong>6-3 6-4</strong></td><td><strong>Michele Shafroth</strong><small>Maureen Janmohamed</small></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+        </article>
+
+        <aside class="palette-details">
+          <section class="detail-card">
+            <h2 id="themeName">Night Court</h2>
+            <p id="themeDescription">A polished court-blue system with a controlled tennis-ball highlight.</p>
+            <div class="color-list" id="colorList"></div>
+          </section>
+          <section class="detail-card">
+            <h2>Usage guidance</h2>
+            <ul class="usage-list">
+              <li><strong>Primary color:</strong> navigation state, buttons, links, and court identifiers.</li>
+              <li><strong>Accent color:</strong> focus rings, small highlights, and signature brand moments only.</li>
+              <li><strong>Surfaces:</strong> keep tables and cards neutral so match data remains easy to scan.</li>
+              <li><strong>Status colors:</strong> reserve green, orange, and red for actual meaning—not decoration.</li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="all-palettes">
+      <div class="page-shell">
+        <h2>Palette overview</h2>
+        <p>Each direction preserves high-contrast product surfaces and a restrained tennis accent.</p>
+        <div class="palette-cards">
+          <article class="palette-card">
+            <div class="palette-strip"><span style="--strip:#1f4b99"></span><span style="--strip:#dfff3f"></span><span style="--strip:#172033"></span><span style="--strip:#f6f7f2"></span></div>
+            <div class="palette-copy"><strong>Night Court</strong><p>Confident, premium, and easiest to scale across dense data products.</p><button type="button" data-choose="night">View in preview</button></div>
+          </article>
+          <article class="palette-card">
+            <div class="palette-strip"><span style="--strip:#4b234c"></span><span style="--strip:#e4f43a"></span><span style="--strip:#24342d"></span><span style="--strip:#faf7ef"></span></div>
+            <div class="palette-copy"><strong>Wimbledon Heritage</strong><p>Traditional tennis character with a more editorial personality.</p><button type="button" data-choose="heritage">View in preview</button></div>
+          </article>
+          <article class="palette-card">
+            <div class="palette-strip"><span style="--strip:#075daa"></span><span style="--strip:#12a594"></span><span style="--strip:#142b45"></span><span style="--strip:#f8fafc"></span></div>
+            <div class="palette-copy"><strong>Modern Hard Court</strong><p>Fresh, energetic, and familiar to contemporary sports platforms.</p><button type="button" data-choose="hardcourt">View in preview</button></div>
+          </article>
+          <article class="palette-card">
+            <div class="palette-strip"><span style="--strip:#a84f32"></span><span style="--strip:#55755c"></span><span style="--strip:#183047"></span><span style="--strip:#f5efe3"></span></div>
+            <div class="palette-copy"><strong>Clay Court</strong><p>Warm and ownable, with a grounded outdoors-oriented identity.</p><button type="button" data-choose="clay">View in preview</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="page-shell">Court Scout branding exploration · August 2026</div></footer>
+
+  <script>
+    const themes = {
+      night: {
+        name: "Night Court",
+        description: "A polished court-blue system with a controlled tennis-ball highlight.",
+        colors: {
+          brand: ["Primary", "#1F4B99"],
+          brandStrong: ["Primary hover", "#173C7D"],
+          accent: ["Tennis accent", "#DFFF3F"],
+          ink: ["Main text", "#172033"],
+          background: ["Background", "#F6F7F2"],
+          surface: ["Cards", "#FFFFFF"],
+          line: ["Borders", "#DDE2E8"],
+          success: ["Success", "#187A55"],
+          warning: ["Warning", "#B95F35"],
+          onBrand: ["On primary", "#FFFFFF"],
+          onAccent: ["On accent", "#172033"]
+        }
+      },
+      heritage: {
+        name: "Wimbledon Heritage",
+        description: "A classic plum-and-grass direction with warm editorial surfaces.",
+        colors: {
+          brand: ["Primary", "#4B234C"],
+          brandStrong: ["Primary hover", "#371839"],
+          accent: ["Tennis accent", "#E4F43A"],
+          ink: ["Main text", "#24342D"],
+          background: ["Background", "#FAF7EF"],
+          surface: ["Cards", "#FFFEFA"],
+          line: ["Borders", "#DED8CA"],
+          success: ["Success", "#356A4F"],
+          warning: ["Warning", "#AD5A3D"],
+          onBrand: ["On primary", "#FFFFFF"],
+          onAccent: ["On accent", "#24342D"]
+        }
+      },
+      hardcourt: {
+        name: "Modern Hard Court",
+        description: "A crisp digital-sports palette built from cobalt and fresh turquoise.",
+        colors: {
+          brand: ["Primary", "#075DAA"],
+          brandStrong: ["Primary hover", "#064984"],
+          accent: ["Fresh accent", "#12A594"],
+          ink: ["Main text", "#142B45"],
+          background: ["Background", "#F8FAFC"],
+          surface: ["Cards", "#FFFFFF"],
+          line: ["Borders", "#D8E2EC"],
+          success: ["Success", "#16815F"],
+          warning: ["Warning", "#D05F3B"],
+          onBrand: ["On primary", "#FFFFFF"],
+          onAccent: ["On accent", "#FFFFFF"]
+        }
+      },
+      clay: {
+        name: "Clay Court",
+        description: "A warm terracotta identity balanced by deep navy and muted court green.",
+        colors: {
+          brand: ["Primary", "#A84F32"],
+          brandStrong: ["Primary hover", "#853A25"],
+          accent: ["Court accent", "#55755C"],
+          ink: ["Main text", "#183047"],
+          background: ["Background", "#F5EFE3"],
+          surface: ["Cards", "#FFFCF6"],
+          line: ["Borders", "#DDD2C0"],
+          success: ["Success", "#55755C"],
+          warning: ["Warning", "#A84F32"],
+          onBrand: ["On primary", "#FFFFFF"],
+          onAccent: ["On accent", "#FFFFFF"]
+        }
+      }
+    };
+
+    const cssVariableNames = {
+      brand: "--brand",
+      brandStrong: "--brand-strong",
+      accent: "--accent",
+      ink: "--ink",
+      background: "--background",
+      surface: "--surface",
+      line: "--line",
+      success: "--success",
+      warning: "--warning",
+      onBrand: "--on-brand",
+      onAccent: "--on-accent"
+    };
+
+    function selectTheme(key, shouldScroll = false) {
+      const theme = themes[key];
+      if (!theme) return;
+
+      Object.entries(theme.colors).forEach(([token, [, value]]) => {
+        document.documentElement.style.setProperty(cssVariableNames[token], value);
+      });
+
+      document.querySelectorAll("[data-theme]").forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.theme === key));
+      });
+      document.querySelector("#themeName").textContent = theme.name;
+      document.querySelector("#themeDescription").textContent = theme.description;
+      document.querySelector("#colorList").innerHTML = Object.values(theme.colors)
+        .slice(0, 9)
+        .map(([label, value]) => `
+          <div class="color-row">
+            <span class="swatch" style="--swatch:${value}" aria-hidden="true"></span>
+            <span>${label}</span>
+            <code>${value}</code>
+          </div>
+        `).join("");
+
+      if (shouldScroll) {
+        document.querySelector(".palette-picker").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    document.querySelectorAll("[data-theme]").forEach(button => {
+      button.addEventListener("click", () => selectTheme(button.dataset.theme));
+    });
+    document.querySelectorAll("[data-choose]").forEach(button => {
+      button.addEventListener("click", () => selectTheme(button.dataset.choose, true));
+    });
+
+    selectTheme("night");
+  </script>
+</body>
+</html>

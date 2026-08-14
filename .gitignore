@@ -1,0 +1,15 @@
+.copilot-azure/
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Local collection data and browser artifacts may contain player/session data.
+data/*
+!data/.gitkeep
+--selector
+
+# Generated scouting reports.
+/*_ScoutingReport_*.html
+/Example/

@@ -1,0 +1,20 @@
+{
+  "name": "tennis-nationals-scouting",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "collect": "node scripts/collect-team.mjs",
+    "enrich:utr": "node scripts/enrich-utr.mjs",
+    "enrich:utr:public": "node scripts/enrich-utr-public.mjs",
+    "enrich:wtn": "node scripts/enrich-wtn-public.mjs",
+    "start": "node web/server.mjs",
+    "validate:data": "node scripts/validate-team-data.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "cheerio": "^1.0.0"
+  }
+}
