@@ -1950,19 +1950,20 @@ tbody tr:hover, tbody tr:focus-within { background: #f7f9fc; }
 .match-card-more-menu button:hover { background: var(--surface-selected); }
 .match-card-more-menu button.danger { color: var(--error); }
 .match-card-title {
-  padding: 20px 24px;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px;
 }
-.match-card-title > div { min-width: 0; }
+.match-card-heading { min-width: 0; }
 .match-card-title h1 {
-  margin: 4px 0 9px;
-  font: 500 clamp(30px, 4vw, 44px)/1.02 var(--font-display);
-  letter-spacing: -.035em;
+  margin: 3px 0 7px;
+  font: 500 clamp(24px, 3vw, 34px)/1.05 var(--font-display);
+  letter-spacing: -.025em;
   overflow-wrap: anywhere;
 }
+.match-card-title h1 span { color: var(--ink-soft); font-size: .62em; }
 .match-card-meta { display: flex; flex-wrap: wrap; gap: 8px; }
 .match-card-meta span {
   padding: 4px 7px;
@@ -1973,71 +1974,12 @@ tbody tr:hover, tbody tr:focus-within { background: #f7f9fc; }
   line-height: 1.35;
   text-transform: capitalize;
 }
-.match-card-context-details { width: max-content; margin-top: 8px; }
-.match-card-context-details > summary { color: var(--green); cursor: pointer; font-size: 10px; font-weight: 750; }
-.match-card-context-details > div { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 5px; }
-.match-card-context-details span { padding: 4px 6px; color: var(--ink-soft); border-radius: 999px; background: var(--surface-subtle); font-size: 9px; }
-.match-card-save-note {
-  margin: 14px 0 0;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 700;
-}
-.match-card-save-note::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  flex: 0 0 7px;
-  border-radius: 50%;
-  background: var(--success);
-  box-shadow: 0 0 0 4px rgba(24, 122, 85, .12);
-}
 .card-status { width: 168px; flex: 0 0 168px; }
 .print-status { display: none; }
 .preparation-section-nav { position: sticky; top: 0; z-index: 5; padding: 9px 16px; display: flex; gap: 6px; overflow-x: auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255, 255, 255, .96); backdrop-filter: blur(8px); }
 .preparation-section-nav a { padding: 6px 9px; color: var(--ink-soft); border-radius: 999px; background: var(--surface-subtle); font-size: 10px; font-weight: 800; text-decoration: none; white-space: nowrap; }
 .preparation-section-nav a:hover, .preparation-section-nav a:focus-visible { color: var(--green); background: var(--surface-selected); }
 .opponent-active-roster, .opponent-pairs, .opponent-stacking, .opponent-prediction-picker, .our-lineup-builder, .lineup-challenge, .matchup-analysis, .lineup-decision-workspace, .decision-evidence, .opponent-reference-details { scroll-margin-top: 62px; }
-.matchup-readiness-compact {
-  padding: 9px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--green);
-  border-top: 1px solid var(--line);
-  background: #f1f8f4;
-}
-.matchup-readiness-compact > span {
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
-  display: grid;
-  place-items: center;
-  color: white;
-  border-radius: 50%;
-  background: var(--success);
-  font-weight: 800;
-}
-.matchup-readiness-compact div { display: grid; gap: 3px; }
-.matchup-readiness-compact strong { font-size: 13px; }
-.matchup-readiness-compact small { color: var(--ink-soft); font-size: 11px; }
-.matchup-data-readiness { padding: 24px 28px; border-top: 1px solid var(--line); background: var(--surface-subtle); }
-.matchup-readiness-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.matchup-readiness-grid article { padding: 16px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); }
-.matchup-readiness-grid article.attention { border-color: #dec990; background: #fffaf0; }
-.matchup-readiness-grid article > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.matchup-readiness-grid article > header span { color: var(--ink-soft); font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-.matchup-readiness-grid article h3 { margin: 4px 0 0; font-size: 15px; }
-.matchup-readiness-grid article > header b { padding: 4px 7px; color: var(--success); border-radius: 999px; background: #e5f3ec; font-size: 10px; text-transform: uppercase; }
-.matchup-readiness-grid article.attention > header b { color: #765022; background: #f4e7bd; }
-.matchup-readiness-grid dl { margin: 15px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-.matchup-readiness-grid dl div { min-width: 0; display: grid; gap: 4px; }
-.matchup-readiness-grid dt { color: var(--ink-soft); font-size: 10px; line-height: 1.25; }
-.matchup-readiness-grid dd { margin: 0; font-size: 12px; font-weight: 750; }
-.matchup-readiness-grid dd.stale, .matchup-readiness-grid dd.unknown { color: #9a5b18; }
 .opponent-active-roster, .opponent-pairs, .opponent-stacking { padding: 28px; border-top: 1px solid var(--line); background: var(--paper); }
 .opponent-pairs { background: var(--surface-subtle); }
 .opponent-active-roster .opponent-report-meta { padding: 0 0 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
@@ -2515,7 +2457,6 @@ footer span { color: var(--ink); font: 600 14px var(--font-display); }
     font-weight: 800;
   }
   .decision-player-grid { grid-template-columns: 1fr 1fr; }
-  .matchup-readiness-grid { grid-template-columns: 1fr; }
   .opponent-report-columns { grid-template-columns: 1fr; }
   .top-opponent-predictions, .lineup-challenge-grid { grid-template-columns: 1fr; }
   .unused-roster-watch ul { grid-template-columns: 1fr 1fr; }
@@ -2694,7 +2635,6 @@ footer span { color: var(--ink); font: 600 14px var(--font-display); }
   .schedule-actions > * { width: 100%; justify-content: center; }
   .match-readiness { padding: 18px; }
   .match-readiness-items { grid-template-columns: 1fr; }
-  .matchup-readiness-grid dl { grid-template-columns: 1fr 1fr; }
   .match-card-create-form, .saved-card-grid, .prediction-choice-list, .lineup-builder-grid, .round-robin-match-grid { grid-template-columns: 1fr; }
   .schedule-event-fields, .schedule-column-mapping { grid-template-columns: 1fr; }
   .match-card-title-field { grid-column: 1; }

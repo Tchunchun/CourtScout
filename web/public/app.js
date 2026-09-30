@@ -18,7 +18,6 @@ import {
 } from "./render.mjs";
 import {
   buildRatingCeilingPrediction,
-  buildMatchupReadiness,
   buildOnsitePredictions,
   challengeLineupAgainstPredictions,
   cloneMatchCard,
@@ -2842,75 +2841,6 @@ function matchCardCourtHtml(comparison) {
     </article>`;
 }
 
-function freshnessLabel(team) {
-  if (team.ageDays == null) return "Update date unavailable";
-  if (team.ageDays === 0) return "Updated today";
-  return `Updated ${team.ageDays} day${team.ageDays === 1 ? "" : "s"} ago`;
-}
-
-function matchupReadinessHtml(context) {
-  const readiness = buildMatchupReadiness({
-    ourData: context.ourData,
-    opponentData: context.opponentData,
-    ourAnalysis: context.ourAnalysis,
-    opponentAnalysis: context.opponentAnalysis
-  });
-  const teamsNeedingAttention = readiness.teams.filter(team =>
-    team.needsAttention
-  );
-  if (!teamsNeedingAttention.length) {
-    return `
-      <section class="matchup-readiness-compact" aria-label="Matchup data readiness">
-        <span aria-hidden="true">✓</span>
-        <div>
-          <strong>Ready to test lineups</strong>
-          <small>Both analyses are current, identities are resolved, and lineup scenarios are available.</small>
-        </div>
-      </section>`;
-  }
-  return `
-    <section class="matchup-data-readiness" aria-label="Matchup data readiness">
-      <div class="match-card-section-heading">
-        <div>
-          <span class="step-label">Planning readiness</span>
-          <h2>Check the evidence before setting lineups</h2>
-        </div>
-        <p>Data older than ${readiness.freshnessLimitDays} days is flagged for review.</p>
-      </div>
-      <div class="matchup-readiness-grid">
-        ${teamsNeedingAttention.map(team => `
-          <article class="${team.needsAttention ? "attention" : "ready"}">
-            <header>
-              <div>
-                <span>${team.side === "our" ? "Our team" : "Opponent"}</span>
-                <h3>${escapeHtml(team.teamName)}</h3>
-              </div>
-              <b>${team.needsAttention ? "Review" : "Ready"}</b>
-            </header>
-            <dl>
-              <div>
-                <dt>Freshness</dt>
-                <dd class="${team.freshnessStatus}">${escapeHtml(freshnessLabel(team))}</dd>
-              </div>
-              <div>
-                <dt>Unresolved identities</dt>
-                <dd>${team.unresolvedIdentities}</dd>
-              </div>
-              <div>
-                <dt>Eligible roster</dt>
-                <dd>${team.eligiblePlayers}/${team.rosterSize}</dd>
-              </div>
-              <div>
-                <dt>Lineup scenarios</dt>
-                <dd>${team.lineupScenarios}</dd>
-              </div>
-            </dl>
-          </article>
-        `).join("")}
-      </div>
-    </section>`;
-}
-
 function predictedOpponentNames(predictions) {
   return new Set(predictions.slice(0, 3).flatMap(prediction =>
     prediction.lines.flatMap(line => line.players ?? [])
@@ -3420,8 +3350,6 @@ function renderMatchCardEditor() {
   const summary = summarizeMatchup(comparisons);
   const ourTeamName = context.ourData.team.name;
   const opponentName = context.opponentData.team.name;
-  const eligibilityLabel =
-    eligibilityScopeLabels[card.eligibilityScope] ?? "National";
   const collectionName = state.teamCollections.find(
     collection => collection.id === card.collectionId
   )?.name ?? "Tournament";
@@ -3452,29 +3380,17 @@ function renderMatchCardEditor() {
         </div>
       </div>
       <header class="match-card-title">
-        <div>
+        <div class="match-card-heading">
           <p class="eyebrow">Step 3 · Match Day Card</p>
-          <h1 class="view-heading" tabindex="-1">${escapeHtml(card.title)}</h1>
+          <h1 class="view-heading" tabindex="-1">
+            ${escapeHtml(ourTeamName)} <span>vs</span> ${escapeHtml(opponentName)}
+          </h1>
           <div class="match-card-meta" aria-label="Match details">
             <span>${escapeHtml(displayDate)}</span>
             <span>${escapeHtml(displayLocation)}</span>
-            <span>${escapeHtml(ourTeamName)} vs ${escapeHtml(opponentName)}</span>
+            <span>${escapeHtml(scheduledMatch?.round ?? collectionName)}</span>
             <span>${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligibility</span>
           </div>
-          <details class="match-card-context-details no-print">
-            <summary>More match details</summary>
-            <div>
-              <span>${escapeHtml(scheduledMatch?.round ?? "Round TBD")}</span>
-              <span>${escapeHtml(collectionName)}</span>
-              <span>${escapeHtml(eligibilityLabel)} event</span>
-              <span>Schedule updated ${escapeHtml(
-                state.eventSchedule?.lastSuccessfulSyncAt
-                  ? new Date(state.eventSchedule.lastSuccessfulSyncAt).toLocaleString()
-                  : "unknown"
-              )}</span>
-              <span>Saved automatically</span>
-            </div>
-          </details>
         </div>
         <label class="card-status no-print">Card status
           <select data-card-field="status">
@@ -3492,7 +3408,6 @@ function renderMatchCardEditor() {
       ${state.matchCardError
         ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardError)}</p>`
         : ""}
-      ${matchupReadinessHtml(context)}
       <section class="lineup-decision-workspace" id="prep-plan">
         <nav class="lineup-test-mobile-nav no-print" aria-label="Lineup test panels">
           <a href="#prep-our-lineup">Our lineup</a>
