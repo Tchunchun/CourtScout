@@ -68,6 +68,21 @@
         "$ref": "#/$defs/rosterPlayer"
       }
     },
+    "nationalRoster": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/nationalRosterPlayer"
+      }
+    },
+    "nationalRosterAsOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "nationalRosterSource": {
+      "type": "string",
+      "minLength": 1
+    },
     "opponents": {
       "type": "array",
       "items": {
@@ -227,6 +242,16 @@
             "display": {"type": "string"}
           }
         }
+      }
+    },
+    "nationalRosterPlayer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "ntrp", "gender"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "ntrp": {"type": "string", "minLength": 1},
+        "gender": {"type": "string", "enum": ["F", "M"]}
       }
     },
     "opponent": {

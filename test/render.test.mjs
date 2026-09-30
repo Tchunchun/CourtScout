@@ -1,12 +1,109 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  activeNationalRoster,
+  buildReportCollections,
   matchCourtRows,
   matchStackingDetails,
   rankIneligiblePlayers,
+  reportTeamLabels,
+  sectionalName,
   singlesPlayersTable,
+  sortTeamsByReportTitle,
+  TEMP_REPORTS_COLLECTION_ID,
   topDoublesPairsTable
 } from "../web/public/render.mjs";
+
+test("activeNationalRoster joins official players to scouting data", () => {
+  const roster = activeNationalRoster({
+    nationalRosterAsOf: "2026-09-21",
+    nationalRoster: [
+      { name: "Vanessa Méndez", ntrp: "3.0", gender: "F" },
+      { name: "Official Only", ntrp: "2.5", gender: "F" }
+    ],
+    roster: [{
+      name: "Vanessa Mendez",
+      location: "San Juan, PR",
+      ntrp: { level: "3.0", type: "C" },
+      dr: 3.12
+    }, {
+      name: "Local Only",
+      ntrp: { level: "3.0", type: "C" },
+      dr: 3.2
+    }]
+  });
+
+  assert.deepEqual(roster, [{
+    name: "Vanessa Méndez",
+    location: "San Juan, PR",
+    ntrp: { level: "3.0", type: "C" },
+    dr: 3.12,
+    gender: "F",
+    nationalRosterAsOf: "2026-09-21"
+  }, {
+    name: "Official Only",
+    gender: "F",
+    ntrp: { level: "2.5" },
+    nationalRosterAsOf: "2026-09-21"
+  }]);
+});
+
+test("sectionalName removes league qualifiers from the section label", () => {
+  assert.equal(sectionalName("Adult 18+ Eastern F 3.0"), "Eastern");
+  assert.equal(sectionalName("Adult 18+ Southern California F 3.0"), "Southern California");
+});
+
+test("reportTeamLabels avoids duplicating an existing sectional prefix", () => {
+  assert.deepEqual(
+    reportTeamLabels("Eastern", "Eastern - NJ:Infinity"),
+    {
+      sectional: "Eastern",
+      team: "NJ:Infinity",
+      title: "Eastern - NJ:Infinity"
+    }
+  );
+});
+
+test("sortTeamsByReportTitle orders reports alphabetically by displayed title", () => {
+  const teams = [{
+    id: "southern",
+    team: { section: "Adult 18+ Southern F 3.0", name: "Southern - Queens" }
+  }, {
+    id: "eastern-zebra",
+    team: { section: "Eastern", name: "Zebra" }
+  }, {
+    id: "eastern-alpha",
+    team: { section: "Adult 18+ Eastern F 3.0", name: "alpha" }
+  }];
+
+  assert.deepEqual(
+    sortTeamsByReportTitle(teams).map(team => team.id),
+    ["eastern-alpha", "eastern-zebra", "southern"]
+  );
+  assert.equal(teams[0].id, "southern");
+});
+
+test("buildReportCollections places unassigned teams in the temp collection", () => {
+  const collections = [{
+    id: "nationals",
+    name: "Nationals",
+    competitionLevel: "national",
+    teamDatasetIds: ["assigned"]
+  }];
+  const cards = buildReportCollections(collections, [
+    { datasetId: "assigned" },
+    { datasetId: "unassigned" }
+  ]);
+
+  assert.deepEqual(cards[0].teams.map(team => team.datasetId), ["assigned"]);
+  assert.deepEqual(cards[1], {
+    id: TEMP_REPORTS_COLLECTION_ID,
+    name: "Temp collection",
+    competitionLevel: null,
+    temporary: true,
+    teams: [{ datasetId: "unassigned" }]
+  });
+});
 
 test("matchCourtRows renders one flat row per court with players, scores, ratings, and source", () => {
   const rows = matchCourtRows({
@@ -171,7 +268,7 @@ test("topDoublesPairsTable renders only the first eight ranked pairs", () => {
 
   assert.match(html, /#1/);
   assert.match(html, /Pair 1/);
-  assert.match(html, /3\.2500/);
+  assert.match(html, />3\.25</);
   assert.match(html, /3\.50/);
   assert.match(html, /#8/);
   assert.match(html, /Pair 8/);
@@ -226,6 +323,7 @@ test("singlesPlayersTable renders likely roles and every known result", () => {
   }]);
 
   assert.match(html, /S1 regular/);
+  assert.match(html, />3\.12</);
   assert.match(html, /Higher Player/);
   assert.match(html, /08\/01 · postseason · S1/);
   assert.match(html, /DR 3\.10 \/ 3\.20/);

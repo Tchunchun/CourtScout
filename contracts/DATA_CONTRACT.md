@@ -44,13 +44,22 @@ One record per target-team player:
 - Sectionals usage
 - Nationals eligibility
 
+### `nationalRoster[]`
+
+Optional official event registration data layered onto a gathered report at read
+time. Each entry contains the registered `name`, `ntrp`, and `gender`.
+`nationalRosterAsOf` and `nationalRosterSource` identify the roster snapshot.
+The canonical `roster[]` remains the historical scouting dataset used for match
+analysis; current-event report and Match Day Card player selection uses
+`nationalRoster[]` when available.
+
 ### `opponents[]`
 
 One normalized record per unique opponent:
 
 - identity and candidate profile information
 - exact authenticated singles/doubles UTR when resolved
-- public singles/doubles WTN and confidence for roster players when resolved
+- public singles/doubles WTN and confidence when resolved
 - explicit unresolved status otherwise
 - every appearance against the target team
 - historical DR evidence attached to each appearance

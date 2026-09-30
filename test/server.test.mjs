@@ -89,7 +89,8 @@ test("refresh selections require at least one explicitly selected source", () =>
   }), {
     tennisrecord: true,
     utr: "none",
-    wtn: false
+    wtn: false,
+    scope: "all"
   });
   assert.deepEqual(parseRefreshSelections({
     refreshTennisRecord: false,
@@ -99,7 +100,20 @@ test("refresh selections require at least one explicitly selected source", () =>
   }), {
     tennisrecord: false,
     utr: "authenticated",
-    wtn: true
+    wtn: true,
+    scope: "all"
+  });
+  assert.deepEqual(parseRefreshSelections({
+    refreshTennisRecord: false,
+    refreshUtr: true,
+    utrMode: "public",
+    refreshWtn: false,
+    ratingScope: "opponents"
+  }), {
+    tennisrecord: false,
+    utr: "public",
+    wtn: false,
+    scope: "opponents"
   });
   assert.throws(() => parseRefreshSelections({
     refreshTennisRecord: false,
@@ -107,6 +121,13 @@ test("refresh selections require at least one explicitly selected source", () =>
     utrMode: "none",
     refreshWtn: false
   }), /at least one source/);
+  assert.throws(() => parseRefreshSelections({
+    refreshTennisRecord: false,
+    refreshUtr: true,
+    utrMode: "public",
+    refreshWtn: false,
+    ratingScope: "scheduled"
+  }), /team ratings, opponent ratings, or both/);
 });
 
 test("TennisRecord refresh preserves unselected ratings and curated analysis", () => {
@@ -154,7 +175,8 @@ test("TennisRecord refresh preserves unselected ratings and curated analysis", (
   const merged = mergePreservedRefreshData(fresh, current, {
     tennisrecord: true,
     utr: "none",
-    wtn: false
+    wtn: false,
+    scope: "all"
   });
 
   assert.equal(merged.roster[0].dr, 3.1);
@@ -180,6 +202,61 @@ test("TennisRecord refresh preserves unselected ratings and curated analysis", (
       "world_tennis_number_public_profiles"
     ]
   );
+});
+
+test("scoped TennisRecord refresh preserves ratings outside the selected group", () => {
+  const current = {
+    roster: [{
+      name: "Team Player",
+      dr: 3,
+      utr: { lookupStatus: "old-team-utr" },
+      wtn: { lookupStatus: "old-team-wtn" }
+    }],
+    opponents: [{
+      name: "Opponent Player",
+      dr: 3.2,
+      utr: { lookupStatus: "old-opponent-utr" },
+      wtn: { lookupStatus: "old-opponent-wtn" }
+    }],
+    sources: [
+      { type: "utr_sports_public_profiles" },
+      { type: "world_tennis_number_public_profiles" }
+    ],
+    dataQuality: {},
+    ratingSelections: { utr: "public", wtn: true }
+  };
+  const fresh = {
+    roster: [{
+      name: "Team Player",
+      dr: 3.1,
+      utr: { lookupStatus: "not_started" },
+      wtn: { lookupStatus: "not_started" }
+    }],
+    opponents: [{
+      name: "Opponent Player",
+      dr: 3.3,
+      utr: { lookupStatus: "not_started" },
+      wtn: { lookupStatus: "not_started" }
+    }],
+    sources: [],
+    dataQuality: {},
+    matches: []
+  };
+
+  const merged = mergePreservedRefreshData(fresh, current, {
+    tennisrecord: true,
+    utr: "public",
+    wtn: true,
+    scope: "opponents"
+  });
+
+  assert.equal(merged.roster[0].dr, 3);
+  assert.equal(merged.roster[0].utr.lookupStatus, "old-team-utr");
+  assert.equal(merged.roster[0].wtn.lookupStatus, "old-team-wtn");
+  assert.equal(merged.opponents[0].dr, 3.3);
+  assert.equal(merged.opponents[0].utr.lookupStatus, "not_started");
+  assert.equal(merged.opponents[0].wtn.lookupStatus, "not_started");
+  assert.deepEqual(merged.sources, current.sources);
 });
 
 test("UTR command queue prevents collection jobs from overlapping", async () => {
@@ -229,10 +306,16 @@ test("server serves the collection UI and reports invalid input", async t => {
   const page = await fetch(`http://127.0.0.1:${port}/`);
   assert.equal(page.status, 200);
   const pageHtml = await page.text();
+  assert.match(pageHtml, /<section class="hero" id="intakeView" hidden>/);
+  assert.match(pageHtml, /<section class="reports-view" id="reportsView">/);
+  assert.match(pageHtml, /id="scoutCollectionTeam"/);
+  assert.match(pageHtml, /id="scoutCollectionContext"/);
   assert.match(pageHtml, /Gather team data/);
   assert.match(pageHtml, /Pull UTR ratings/);
   assert.match(pageHtml, /Pull WTN ratings/);
   assert.match(pageHtml, /Refresh data/);
+  assert.match(pageHtml, /Team roster only/);
+  assert.match(pageHtml, /Opponents only/);
 
   const response = await fetch(`http://127.0.0.1:${port}/api/jobs`, {
     method: "POST",
@@ -346,7 +429,8 @@ test("server lists teams and returns national analysis by default", async t => {
         refreshTennisRecord: false,
         refreshUtr: false,
         utrMode: "none",
-        refreshWtn: false
+        refreshWtn: false,
+        ratingScope: "all"
       })
     }
   );
@@ -405,6 +489,25 @@ test("server creates event collections and assigns gathered teams", async t => {
   t.after(() => server.close());
   const { port } = server.address();
 
+  const missingCollectionResponse = await fetch(
+    `http://127.0.0.1:${port}/api/jobs`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Test",
+        utrMode: "none",
+        includeWtn: false,
+        eventCollectionId: "missing"
+      })
+    }
+  );
+  assert.equal(missingCollectionResponse.status, 404);
+  assert.match(
+    (await missingCollectionResponse.json()).error,
+    /Event collection not found/
+  );
+
   const createResponse = await fetch(
     `http://127.0.0.1:${port}/api/team-collections`,
     {
@@ -412,6 +515,7 @@ test("server creates event collections and assigns gathered teams", async t => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         name: "2026 3.0 Nationals Teams",
+        competitionLevel: "national",
         datasetId: "2026-test-team"
       })
     }
@@ -419,14 +523,35 @@ test("server creates event collections and assigns gathered teams", async t => {
   assert.equal(createResponse.status, 201);
   const { collection } = await createResponse.json();
   assert.equal(collection.name, "2026 3.0 Nationals Teams");
+  assert.equal(collection.competitionLevel, "national");
   assert.deepEqual(collection.teamDatasetIds, ["2026-test-team"]);
+
+  const invalidLevelResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-collections`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: "Invalid competition",
+        competitionLevel: "international"
+      })
+    }
+  );
+  assert.equal(invalidLevelResponse.status, 400);
+  assert.match(
+    (await invalidLevelResponse.json()).error,
+    /Local season, Sectional, or National/
+  );
 
   const duplicateResponse = await fetch(
     `http://127.0.0.1:${port}/api/team-collections`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name: "2026 3.0 Nationals Teams" })
+      body: JSON.stringify({
+        name: "2026 3.0 Nationals Teams",
+        competitionLevel: "national"
+      })
     }
   );
   assert.equal(duplicateResponse.status, 409);
@@ -452,6 +577,7 @@ test("server creates event collections and assigns gathered teams", async t => {
   assert.equal(listResponse.status, 200);
   const listed = await listResponse.json();
   assert.equal(listed.collections[0].name, "2026 3.0 Nationals Teams");
+  assert.equal(listed.collections[0].competitionLevel, "national");
 
   const moveResponse = await fetch(
     `http://127.0.0.1:${port}/api/team-collections`,
@@ -460,6 +586,7 @@ test("server creates event collections and assigns gathered teams", async t => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         name: "2026 Sectionals",
+        competitionLevel: "sectional",
         datasetId: "2026-test-team"
       })
     }

@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, requireArg } from "./lib/cli.mjs";
 import { readJson, writeJsonAtomic } from "./lib/io.mjs";
-import { emptyRating } from "./lib/ratings.mjs";
+import { emptyRating, ratingPeople } from "./lib/ratings.mjs";
 import {
   cacheKey,
   chooseCandidate,
@@ -14,7 +14,8 @@ import { RequestPacer } from "./lib/request-pacer.mjs";
 
 const usage = `Usage:
   node scripts/enrich-utr-public.mjs --input <team-data.json> [--delay-ms 3000]
-    [--cache data/.cache/utr-public-profiles.json] [--refresh]`;
+    [--cache data/.cache/utr-public-profiles.json] [--refresh]
+    [--scope all|team|opponents]`;
 const MAX_RATE_LIMIT_RETRIES = 4;
 
 export function publicRating(display, status, reliability) {
@@ -143,20 +144,7 @@ export async function enrichPublicUtr(inputPath, options = {}) {
   }
   const gender = dataset.team.gender === "Men" ? "Male" :
     dataset.team.gender === "Women" ? "Female" : null;
-  const people = [
-    ...dataset.roster.map(player => ({
-      kind: "roster",
-      name: player.name,
-      locations: [player.location].filter(Boolean),
-      player
-    })),
-    ...dataset.opponents.map(player => ({
-      kind: "opponent",
-      name: player.name,
-      locations: player.locations ?? [],
-      player
-    }))
-  ];
+  const people = ratingPeople(dataset, options.scope);
 
   dataset.collectionStage = "utr_partial";
   await writeJsonAtomic(inputPath, dataset);
@@ -224,7 +212,8 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     await enrichPublicUtr(inputPath, {
       delayMs,
       cachePath: args.cache,
-      refresh: Boolean(args.refresh)
+      refresh: Boolean(args.refresh),
+      scope: args.scope
     });
   } catch (error) {
     console.error(error.message);

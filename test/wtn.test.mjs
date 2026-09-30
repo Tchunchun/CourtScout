@@ -129,9 +129,9 @@ test("public WTN enrichment updates players, court joins, and provenance", async
       courts: {
         S1: {
           targetPlayers: ["Xiayi Li"],
-          opponentPlayers: [],
+          opponentPlayers: ["Opponent Player"],
           targetRatings: [{ name: "Xiayi Li" }],
-          opponentRatings: []
+          opponentRatings: [{ name: "Opponent Player" }]
         }
       }
     }],
@@ -142,19 +142,82 @@ test("public WTN enrichment updates players, court joins, and provenance", async
   let fetchCount = 0;
   const result = await enrichPublicWtn(inputPath, {
     delayMs: 0,
-    fetchImpl: async () => {
+    fetchImpl: async (_url, options) => {
       fetchCount += 1;
+      const { variables } = JSON.parse(options.body);
+      if (variables.filter.search.term === "Opponent Player") {
+        return Response.json({
+          data: {
+            publicPersons: {
+              items: [{
+                ...xiayiPayload.data.publicPersons.items[0],
+                id: "opponent-id",
+                nativeGivenName: "Opponent",
+                nativeFamilyName: "Player",
+                addresses: [{ city: "Atlanta", state: "GA" }]
+              }],
+              totalItems: 1
+            }
+          }
+        });
+      }
       return Response.json(xiayiPayload);
     }
   });
 
-  assert.equal(fetchCount, 1);
+  assert.equal(fetchCount, 2);
   assert.equal(result.roster[0].wtn.singles.value, 27.14);
   assert.equal(result.roster[0].wtn.doubles.reliability, 80);
-  assert.equal(result.opponents[0].wtn.lookupStatus, "not_started");
+  assert.equal(result.opponents[0].wtn.lookupStatus, "public_profile_resolved");
   assert.equal(result.matches[0].courts.S1.targetRatings[0].wtn.singles.display, "27.1");
+  assert.equal(
+    result.matches[0].courts.S1.opponentRatings[0].wtn.doubles.display,
+    "28.0"
+  );
   assert.equal(result.sources[0].type, "world_tennis_number_public_profiles");
   assert.deepEqual(result.dataQuality.unresolvedWtnIdentities, []);
+});
+
+test("public WTN enrichment can refresh only opponents", async t => {
+  const directory = await mkdtemp(join(tmpdir(), "wtn-opponents-"));
+  const inputPath = join(directory, "team-data.json");
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  await writeFile(inputPath, JSON.stringify({
+    team: { gender: "Women" },
+    roster: [{
+      name: "Team Player",
+      location: null,
+      wtn: { lookupStatus: "preserved" }
+    }],
+    opponents: [{
+      name: "Xiayi Li",
+      locations: [],
+      wtn: { lookupStatus: "not_started" }
+    }],
+    matches: [],
+    sources: [],
+    dataQuality: {
+      unresolvedWtnIdentities: [{
+        name: "Team Player",
+        kind: "roster",
+        status: "preserved"
+      }]
+    }
+  }));
+
+  const result = await enrichPublicWtn(inputPath, {
+    delayMs: 0,
+    scope: "opponents",
+    fetchImpl: async () => Response.json(xiayiPayload)
+  });
+
+  assert.equal(result.roster[0].wtn.lookupStatus, "preserved");
+  assert.equal(result.opponents[0].wtn.lookupStatus, "public_profile_resolved");
+  assert.deepEqual(result.dataQuality.unresolvedWtnIdentities, [{
+    name: "Team Player",
+    kind: "roster",
+    status: "preserved"
+  }]);
 });
 
 test("searchWtnProfiles surfaces GraphQL errors", async () => {

@@ -23,7 +23,12 @@ import {
   getTeamCollection,
   listTeamCollections
 } from "../scripts/lib/team-collections.mjs";
-import { emptyRating, normalizeName } from "../scripts/lib/ratings.mjs";
+import {
+  emptyRating,
+  normalizeName,
+  normalizeRatingScope,
+  ratingScopeIncludes
+} from "../scripts/lib/ratings.mjs";
 import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -145,26 +150,49 @@ function playersByName(players) {
 
 export function mergePreservedRefreshData(fresh, current, refreshSelections) {
   const refreshUtr = refreshSelections.utr !== "none";
+  const scope = refreshSelections.scope ?? "all";
   const currentRoster = playersByName(current.roster);
   const currentOpponents = playersByName(current.opponents);
   for (const player of fresh.roster ?? []) {
     const previous = currentRoster.get(normalizeName(player.name));
     if (!previous) continue;
-    if (!refreshUtr && previous.utr) player.utr = previous.utr;
-    if (!refreshSelections.wtn && previous.wtn) player.wtn = previous.wtn;
+    if (!ratingScopeIncludes(scope, "roster") &&
+        Object.hasOwn(previous, "dr")) {
+      player.dr = previous.dr;
+    }
+    if ((!refreshUtr || !ratingScopeIncludes(scope, "roster")) &&
+        Object.hasOwn(previous, "utr")) {
+      player.utr = previous.utr;
+    }
+    if ((!refreshSelections.wtn || !ratingScopeIncludes(scope, "roster")) &&
+        Object.hasOwn(previous, "wtn")) {
+      player.wtn = previous.wtn;
+    }
     if (previous.likelyRole != null) player.likelyRole = previous.likelyRole;
     if (previous.note != null) player.note = previous.note;
   }
   for (const player of fresh.opponents ?? []) {
     const previous = currentOpponents.get(normalizeName(player.name));
-    if (!refreshUtr && previous?.utr) player.utr = previous.utr;
+    if (!previous) continue;
+    if (!ratingScopeIncludes(scope, "opponent") &&
+        Object.hasOwn(previous, "dr")) {
+      player.dr = previous.dr;
+    }
+    if ((!refreshUtr || !ratingScopeIncludes(scope, "opponent")) &&
+        Object.hasOwn(previous, "utr")) {
+      player.utr = previous.utr;
+    }
+    if ((!refreshSelections.wtn || !ratingScopeIncludes(scope, "opponent")) &&
+        Object.hasOwn(previous, "wtn")) {
+      player.wtn = previous.wtn;
+    }
   }
 
   const selectedSource = source => {
     if (source.type === "tennisrecord") return false;
-    if (source.type?.includes("utr_")) return !refreshUtr;
+    if (source.type?.includes("utr_")) return !refreshUtr || scope !== "all";
     if (source.type === "world_tennis_number_public_profiles") {
-      return !refreshSelections.wtn;
+      return !refreshSelections.wtn || scope !== "all";
     }
     return true;
   };
@@ -178,27 +206,59 @@ export function mergePreservedRefreshData(fresh, current, refreshSelections) {
       : current.ratingSelections?.utr || "none",
     wtn: refreshSelections.wtn || Boolean(current.ratingSelections?.wtn)
   };
+  const preserveUnselectedIssues = (items, selected) => {
+    if (!items || (!selected && scope === "all")) return items;
+    if (!selected) return items;
+    return items.filter(item =>
+      !ratingScopeIncludes(scope, item.kind ?? "roster")
+    );
+  };
   fresh.dataQuality = {
     ...(fresh.dataQuality ?? {}),
-    ...(!refreshUtr && current.dataQuality?.unresolvedIdentities
-      ? { unresolvedIdentities: current.dataQuality.unresolvedIdentities }
+    ...(current.dataQuality?.unresolvedIdentities && (
+      !refreshUtr || scope !== "all"
+    )
+      ? {
+          unresolvedIdentities: preserveUnselectedIssues(
+            current.dataQuality.unresolvedIdentities,
+            refreshUtr
+          )
+        }
       : {}),
-    ...(!refreshSelections.wtn && current.dataQuality?.unresolvedWtnIdentities
-      ? { unresolvedWtnIdentities: current.dataQuality.unresolvedWtnIdentities }
+    ...(current.dataQuality?.unresolvedWtnIdentities && (
+      !refreshSelections.wtn || scope !== "all"
+    )
+      ? {
+          unresolvedWtnIdentities: preserveUnselectedIssues(
+            current.dataQuality.unresolvedWtnIdentities,
+            refreshSelections.wtn
+          )
+        }
       : {})
   };
   updateCourtJoins(fresh);
   return fresh;
 }
 
-function resetUtrData(dataset) {
-  for (const player of [...(dataset.roster ?? []), ...(dataset.opponents ?? [])]) {
+function resetUtrData(dataset, scope) {
+  const players = [
+    ...(ratingScopeIncludes(scope, "roster") ? dataset.roster ?? [] : []),
+    ...(ratingScopeIncludes(scope, "opponent") ? dataset.opponents ?? [] : [])
+  ];
+  for (const player of players) {
     player.utr = blankUtrProfile();
   }
-  dataset.sources = (dataset.sources ?? []).filter(source =>
-    !source.type?.includes("utr_")
-  );
-  delete dataset.dataQuality?.unresolvedIdentities;
+  if (scope === "all") {
+    dataset.sources = (dataset.sources ?? []).filter(source =>
+      !source.type?.includes("utr_")
+    );
+  }
+  if (dataset.dataQuality?.unresolvedIdentities) {
+    dataset.dataQuality.unresolvedIdentities =
+      dataset.dataQuality.unresolvedIdentities.filter(item =>
+        !ratingScopeIncludes(scope, item.kind ?? "roster")
+      );
+  }
 }
 
 function runCommand(job, script, args, onLine) {
@@ -352,7 +412,14 @@ async function runRefreshJob(job, runUtrCommand) {
       await runCommand(
         job,
         "scripts/collect-team.mjs",
-        ["--team-url", job.teamUrl, "--output", job.workingPath],
+        [
+          "--team-url",
+          job.teamUrl,
+          "--dataset-id",
+          current.datasetId,
+          "--output",
+          job.workingPath
+        ],
         line => {
           if (line.startsWith("Collected")) {
             job.progress = Math.min(45, job.progress + 10);
@@ -367,7 +434,7 @@ async function runRefreshJob(job, runUtrCommand) {
 
     if (job.refreshSelections.utr !== "none") {
       const dataset = await readJson(job.workingPath);
-      resetUtrData(dataset);
+      resetUtrData(dataset, job.refreshSelections.scope);
       dataset.ratingSelections = job.ratingSelections;
       await writeJsonAtomic(job.workingPath, dataset);
       job.phase = "utr";
@@ -378,7 +445,13 @@ async function runRefreshJob(job, runUtrCommand) {
       const script = job.refreshSelections.utr === "authenticated"
         ? "scripts/enrich-utr.mjs"
         : "scripts/enrich-utr-public.mjs";
-      const args = ["--input", job.workingPath, "--refresh"];
+      const args = [
+        "--input",
+        job.workingPath,
+        "--refresh",
+        "--scope",
+        job.refreshSelections.scope
+      ];
       if (job.refreshSelections.utr === "authenticated") {
         args.push("--session", UTR_SESSION);
       }
@@ -399,7 +472,7 @@ async function runRefreshJob(job, runUtrCommand) {
       await runCommand(
         job,
         "scripts/enrich-wtn-public.mjs",
-        ["--input", job.workingPath],
+        ["--input", job.workingPath, "--scope", job.refreshSelections.scope],
         line => {
           job.progress = Math.min(92, job.progress + 1);
           job.detail = line;
@@ -563,10 +636,12 @@ export function parseRefreshSelections(body) {
   if (!body.refreshTennisRecord && utr === "none" && !body.refreshWtn) {
     throw new Error("Choose at least one source to refresh.");
   }
+  const scope = normalizeRatingScope(body.ratingScope ?? "all");
   return {
     tennisrecord: body.refreshTennisRecord,
     utr,
-    wtn: body.refreshWtn
+    wtn: body.refreshWtn,
+    scope
   };
 }
 
@@ -812,7 +887,8 @@ export function createAppServer(options = {}) {
           dataDirectory,
           body.name,
           new Date(),
-          body.datasetId ?? null
+          body.datasetId ?? null,
+          body.competitionLevel
         );
         json(response, 201, {
           collection,

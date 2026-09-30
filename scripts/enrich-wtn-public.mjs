@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, requireArg } from "./lib/cli.mjs";
 import { readJson, sleep, writeJsonAtomic } from "./lib/io.mjs";
+import { ratingPeople, ratingScopeIncludes } from "./lib/ratings.mjs";
 import { updateCourtJoins } from "./lib/utr.mjs";
 import {
   chooseWtnCandidate,
@@ -13,7 +14,8 @@ import {
 
 const ENDPOINT = "https://prd-itf-kube.clubspark.pro/graphql";
 const usage = `Usage:
-  node scripts/enrich-wtn-public.mjs --input <team-data.json> [--delay-ms 300]`;
+  node scripts/enrich-wtn-public.mjs --input <team-data.json> [--delay-ms 300]
+    [--scope all|team|opponents]`;
 const query = `
   query getPlayers($filter: PublicPersonFilterOptions, $pageArgs: PaginationArgs) {
     publicPersons(filter: $filter, pageArgs: $pageArgs) {
@@ -75,12 +77,8 @@ export async function enrichPublicWtn(inputPath, options = {}) {
   const dataset = await readJson(inputPath);
   const gender = dataset.team.gender === "Men" ? "Male" :
     dataset.team.gender === "Women" ? "Female" : null;
-  const people = dataset.roster.map(player => ({
-    kind: "roster",
-    name: player.name,
-    locations: [player.location].filter(Boolean),
-    player
-  }));
+  const scope = options.scope ?? "all";
+  const people = ratingPeople(dataset, scope);
 
   for (const person of people) {
     const candidates = await searchWtnProfiles(person.name, fetchImpl);
@@ -115,18 +113,23 @@ export async function enrichPublicWtn(inputPath, options = {}) {
       "doubles WTN",
       "rating confidence"
     ],
-    limitation: "Roster only. Public search results are matched conservatively by exact name, gender, and location."
+    limitation: "Public search results are matched conservatively by exact name, gender, and location."
   });
-  dataset.dataQuality.unresolvedWtnIdentities = people
-    .filter(person => person.player.wtn.lookupStatus !== "public_profile_resolved")
-    .map(person => ({
-      name: person.name,
-      kind: person.kind,
-      status: person.player.wtn.lookupStatus
-    }));
+  dataset.dataQuality.unresolvedWtnIdentities = [
+    ...(dataset.dataQuality.unresolvedWtnIdentities ?? []).filter(item =>
+      !ratingScopeIncludes(scope, item.kind ?? "roster")
+    ),
+    ...people
+      .filter(person => person.player.wtn.lookupStatus !== "public_profile_resolved")
+      .map(person => ({
+        name: person.name,
+        kind: person.kind,
+        status: person.player.wtn.lookupStatus
+      }))
+  ];
   updateCourtJoins(dataset);
   await writeJsonAtomic(inputPath, dataset);
-  console.log(`Enriched ${people.length} roster records with public WTN data`);
+  console.log(`Enriched ${people.length} records with public WTN data`);
   return dataset;
 }
 
@@ -135,7 +138,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const args = parseArgs(process.argv.slice(2));
     const inputPath = resolve(requireArg(args, "input", usage));
     const delayMs = Number(args["delay-ms"] ?? 300);
-    await enrichPublicWtn(inputPath, { delayMs });
+    await enrichPublicWtn(inputPath, { delayMs, scope: args.scope });
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;

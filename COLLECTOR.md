@@ -25,6 +25,7 @@ command -v agent-browser
 ```bash
 npm run collect -- \
   --team-url "https://www.tennisrecord.com/adult/teamprofile.aspx?..." \
+  --dataset-id "<stable-team-id>" \
   --output "data/<team-id>/team-data.json" \
   --delay-ms 250
 ```

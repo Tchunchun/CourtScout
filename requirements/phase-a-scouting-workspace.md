@@ -20,6 +20,9 @@ schedule from other teams gathered for reconnaissance.
 - Removing a scheduled opponent returns it to the scouting pool.
 - Classification is local workspace metadata and must not alter canonical team
   datasets.
+- A collection may define shared Match Day defaults for a known schedule.
+  Defaults initialize an unconfigured browser without replacing later local
+  classifications.
 - Our team and scheduled-opponent assignments are scoped to the active event
   collection so different flights or tournament stages can have independent
   schedules.

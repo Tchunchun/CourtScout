@@ -7,6 +7,66 @@ export function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+export function sectionalName(section) {
+  return String(section ?? "")
+    .replace(/Adult\s+18\+/gi, "")
+    .replace(/(?:^|\s)F(?=\s|$)/gi, "")
+    .replace(/\b3\.0\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function reportTeamLabels(section, teamName) {
+  const sectional = sectionalName(section);
+  const name = String(teamName ?? "").trim();
+  const prefix = `${sectional} - `;
+  const team = sectional && name.toLocaleLowerCase().startsWith(prefix.toLocaleLowerCase())
+    ? name.slice(prefix.length)
+    : name;
+  return {
+    sectional,
+    team,
+    title: [sectional, team].filter(Boolean).join(" - ")
+  };
+}
+
+export function sortTeamsByReportTitle(teams) {
+  return [...(teams ?? [])].sort((a, b) => {
+    const aTitle = reportTeamLabels(a.team?.section, a.team?.name ?? a.datasetId).title;
+    const bTitle = reportTeamLabels(b.team?.section, b.team?.name ?? b.datasetId).title;
+    return aTitle.localeCompare(bTitle, undefined, {
+      sensitivity: "base",
+      numeric: true
+    });
+  });
+}
+
+export const TEMP_REPORTS_COLLECTION_ID = "__temp_reports__";
+
+export function buildReportCollections(collections, teams) {
+  const cards = (collections ?? []).map(collection => ({
+    id: collection.id,
+    name: collection.name,
+    competitionLevel: collection.competitionLevel,
+    teams: (teams ?? []).filter(team =>
+      collection.teamDatasetIds.includes(team.datasetId)
+    )
+  }));
+  const assignedDatasetIds = new Set(
+    (collections ?? []).flatMap(collection => collection.teamDatasetIds)
+  );
+  cards.push({
+    id: TEMP_REPORTS_COLLECTION_ID,
+    name: "Temp collection",
+    competitionLevel: null,
+    temporary: true,
+    teams: (teams ?? []).filter(team =>
+      !assignedDatasetIds.has(team.datasetId)
+    )
+  });
+  return cards;
+}
+
 export function ratingDisplay(rating) {
   if (!rating) return "NR";
   return rating.display ?? (rating.value != null ? Number(rating.value).toFixed(2) : "NR");
@@ -17,6 +77,36 @@ export function ratingCell(rating) {
   const masked = /x|\*/i.test(display);
   const missing = display === "NR";
   return `<span class="rating${masked ? " masked" : ""}${missing ? " missing" : ""}"${missing ? ' title="Not rated"' : ""}>${escapeHtml(display)}</span>`;
+}
+
+function normalizedRosterName(value) {
+  return String(value ?? "")
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^\p{Letter}\p{Number}]/gu, "")
+    .toLocaleLowerCase();
+}
+
+export function activeNationalRoster(dataset) {
+  if (!(dataset?.nationalRoster ?? []).length) {
+    return dataset?.roster ?? [];
+  }
+  const scoutingPlayers = new Map(
+    (dataset.roster ?? []).map(player => [normalizedRosterName(player.name), player])
+  );
+  return dataset.nationalRoster.map(player => {
+    const scoutingPlayer = scoutingPlayers.get(normalizedRosterName(player.name));
+    return {
+      ...(scoutingPlayer ?? {}),
+      name: player.name,
+      gender: player.gender,
+      ntrp: {
+        ...(scoutingPlayer?.ntrp ?? {}),
+        level: player.ntrp
+      },
+      nationalRosterAsOf: dataset.nationalRosterAsOf
+    };
+  });
 }
 
 export function rankIneligiblePlayers(players) {
@@ -49,7 +139,7 @@ export function topDoublesPairsTable(pairs, limit = 8) {
           <td>${pair.courts.map(item => `${escapeHtml(item.court)} ×${item.appearances}`).join(", ")}</td>
           <td>${recordDisplay(pair.record)}</td>
           <td>${recordDisplay(pair.postseasonRecord)}</td>
-          <td>${Number.isFinite(pair.currentRatings.drAverage) ? pair.currentRatings.drAverage.toFixed(4) : "—"}</td>
+          <td>${Number.isFinite(pair.currentRatings.drAverage) ? pair.currentRatings.drAverage.toFixed(2) : "—"}</td>
           <td>${Number.isFinite(pair.currentRatings.doublesUtrAverage) ? pair.currentRatings.doublesUtrAverage.toFixed(2) : "Incomplete"}</td>
           <td>${pair.comparisonMetrics.lowerDrWins}</td>
         </tr>`).join("")}
@@ -106,7 +196,7 @@ export function singlesPlayersTable(players) {
       <tbody>${players.map(player => `
         <tr>
           <td>${escapeHtml(player.name)}</td>
-          <td>${Number.isFinite(player.dr) ? Number(player.dr).toFixed(4) : "—"}</td>
+          <td>${Number.isFinite(player.dr) ? Number(player.dr).toFixed(2) : "—"}</td>
           <td>${escapeHtml(ratingDisplay(player.singlesUtr))}</td>
           <td class="singles-role">${escapeHtml(player.likelyRole)}</td>
           <td class="known-results">

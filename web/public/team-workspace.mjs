@@ -34,6 +34,38 @@ export function parseTeamWorkspace(raw) {
   return { ourTeamId, scheduledOpponentIds };
 }
 
+export function defaultTeamWorkspace(collection, teams) {
+  const defaults = collection?.matchDayDefaults;
+  if (!defaults) return emptyTeamWorkspace();
+  const collectionDatasetIds = new Set(collection.teamDatasetIds ?? []);
+  const teamIdByDatasetId = new Map(
+    teams
+      .filter(team => collectionDatasetIds.has(team.datasetId))
+      .map(team => [team.datasetId, team.id])
+  );
+  const ourTeamId = teamIdByDatasetId.get(defaults.ourTeamDatasetId) ?? null;
+  const scheduledOpponentIds = defaults.opponentTeamDatasetIds
+    .map(datasetId => teamIdByDatasetId.get(datasetId))
+    .filter(teamId => teamId && teamId !== ourTeamId);
+  return {
+    ourTeamId,
+    scheduledOpponentIds: [...new Set(scheduledOpponentIds)]
+      .slice(0, TEAM_WORKSPACE_SCHEDULE_LIMIT)
+  };
+}
+
+export function collectionMatchSchedule(collection, teams) {
+  const defaults = collection?.matchDayDefaults;
+  if (!defaults) return [];
+  const teamIdByDatasetId = new Map(
+    teams.map(team => [team.datasetId, team.id])
+  );
+  return defaults.roundRobinMatches.map(match => ({
+    ...match,
+    opponentTeamId: teamIdByDatasetId.get(match.opponentTeamDatasetId)
+  })).filter(match => match.opponentTeamId);
+}
+
 export function teamRole(workspace, teamId) {
   if (workspace.ourTeamId === teamId) return "our";
   if (workspace.scheduledOpponentIds.includes(teamId)) return "scheduled";
@@ -85,4 +117,3 @@ export function groupWorkspaceTeams(teams, workspace) {
     )
   };
 }
-

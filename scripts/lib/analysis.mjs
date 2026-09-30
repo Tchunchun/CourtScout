@@ -373,7 +373,7 @@ function derivedStandoutNote(player, context, eligibilityLabel) {
       `${player.matchesNeeded} more qualifying match${player.matchesNeeded === 1 ? "" : "es"} needed`
     ];
     if (sameFiniteValue(player.dr, context.maxRosterDr)) {
-      facts.push(`highest roster DR (${player.dr.toFixed(4)}) is only a historical ceiling until eligible`);
+      facts.push(`highest roster DR (${player.dr.toFixed(2)}) is only a historical ceiling until eligible`);
     }
     const usage = usageNote(player, context);
     facts.push(usage ?? "no collected local court usage");
@@ -385,7 +385,7 @@ function derivedStandoutNote(player, context, eligibilityLabel) {
 
   const facts = [];
   if (sameFiniteValue(player.dr, context.maxEligibleDr)) {
-    facts.push(`Highest eligible DR (${player.dr.toFixed(4)})`);
+    facts.push(`Highest eligible DR (${player.dr.toFixed(2)})`);
   } else if (sameFiniteValue(ratingValue(player.utr.singles), context.maxEligibleSinglesUtr)) {
     facts.push(`Highest eligible singles UTR (${player.utr.singles.display})`);
   } else if (sameFiniteValue(ratingValue(player.utr.doubles), context.maxEligibleDoublesUtr)) {

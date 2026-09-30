@@ -1,0 +1,92 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import {
+  listTeamCatalog,
+  readCatalogTeam
+} from "../scripts/lib/team-catalog.mjs";
+
+test("team catalog combines gathered reports with pending national teams", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "team-catalog-"));
+  const teamDirectory = join(dataDirectory, "gathered");
+  await mkdir(teamDirectory);
+  await writeFile(join(dataDirectory, "team-catalog.json"), JSON.stringify({
+    version: 1,
+    teams: [
+      {
+        datasetId: "2026-gathered",
+        name: "Eastern - Gathered Team",
+        section: "Eastern",
+        sourceUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Gathered"
+      },
+      {
+        datasetId: "2026-pending",
+        name: "Florida - Pending Team",
+        section: "Florida",
+        sourceUrl: null
+      }
+    ]
+  }));
+  await writeFile(join(dataDirectory, "2026-national-rosters.json"), JSON.stringify({
+    version: 1,
+    event: "Test Nationals",
+    activeAsOf: "2026-09-21",
+    source: "Official registration",
+    teams: [
+      {
+        datasetId: "2026-gathered",
+        name: "Eastern - Gathered Team",
+        section: "Eastern",
+        captain: "Gathered Captain",
+        roster: [{ name: "Active Player", ntrp: "3.0", gender: "F" }]
+      },
+      {
+        datasetId: "2026-pending",
+        name: "Florida - Pending Team",
+        section: "Florida",
+        captain: "Pending Captain",
+        roster: [{ name: "Pending Player", ntrp: "2.5", gender: "F" }]
+      }
+    ]
+  }));
+  await writeFile(join(teamDirectory, "team-data.json"), JSON.stringify({
+    datasetId: "2026-gathered",
+    generatedAt: "2026-09-01T00:00:00.000Z",
+    collectionStage: "step_1_complete",
+    team: {
+      name: "Gathered Team",
+      section: "Adult 18+ Eastern F 3.0",
+      season: 2026
+    },
+    roster: [{}],
+    matches: [{}, {}]
+  }));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+
+  const teams = await listTeamCatalog(dataDirectory);
+  assert.equal(teams.length, 2);
+  assert.deepEqual(
+    teams.map(team => team.team.name),
+    ["Eastern - Gathered Team", "Florida - Pending Team"]
+  );
+  assert.equal(teams[0].reportAvailable, true);
+  assert.equal(teams[0].team.sourceName, "Gathered Team");
+  assert.equal(teams[0].team.captain, "Gathered Captain");
+  assert.equal(teams[0].activeRosterSize, 1);
+  assert.equal(teams[0].nationalRosterAsOf, "2026-09-21");
+  assert.equal(teams[1].reportAvailable, false);
+  assert.equal(teams[1].collectionStage, "report_pending");
+  assert.equal(teams[1].activeRosterSize, 1);
+  assert.equal(teams[1].team.captain, "Pending Captain");
+  const dataset = await readCatalogTeam(dataDirectory, teams[0].id);
+  assert.deepEqual(dataset.nationalRoster, [
+    { name: "Active Player", ntrp: "3.0", gender: "F" }
+  ]);
+  assert.equal(dataset.team.nationalsRepresentative, true);
+  await assert.rejects(
+    () => readCatalogTeam(dataDirectory, teams[1].id),
+    /Team dataset not found/
+  );
+});

@@ -187,7 +187,7 @@ test("eligibility defaults to national and applies rating-type thresholds", () =
   assert.equal(computer.local.appearances, 1);
   assert.equal(computer.postseasonAppearances, 0);
   assert.equal(computer.role, "Singles Depth (S1)");
-  assert.match(computer.standoutNote, /Highest eligible DR \(3\.1000\)/);
+  assert.match(computer.standoutNote, /Highest eligible DR \(3\.10\)/);
   assert.match(computer.standoutNote, /Roster-high 1 local singles appearance at S1 \(1–0\)/);
   assert.match(computer.standoutNote, /2 singles upset signals/);
 

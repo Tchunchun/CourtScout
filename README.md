@@ -35,6 +35,11 @@ download for the next analysis phase.
 Event collections are optional. A team may remain unfiled as a standalone
 scouting report and can be assigned to a collection later.
 
+The 2026 Nationals collection also loads the official active rosters from
+`data/2026-national-rosters.json`. Team reports and Match Day Cards use those
+dated rosters for current player selection while retaining the broader
+TennisRecord roster for historical match analysis.
+
 Within each event collection, Court Scout keeps local workspace roles separate
 from the canonical datasets:
 
@@ -55,12 +60,17 @@ Team analysis is saved beside each raw dataset as
 matches the current dataset and regenerate it after source data changes.
 Unfiled teams and the aggregate **All gathered teams** view do not have team
 roles. Team roles and Match Day Cards are saved locally in the current browser.
+An event collection may provide shared Match Day defaults for its known schedule;
+those defaults initialize a fresh browser, while later local role changes take
+precedence. When dates, times, and sites are known, Match Day Planning displays
+the round-robin schedule and can prefill a new Match Day Card from any match.
 
 For an existing gathered team, use **Refresh data** to repull any combination of
-TennisRecord, UTR, and WTN. Unselected sources and curated player roles/notes are
-preserved. Refresh runs against a temporary copy, validates the result, and only
-then replaces the existing dataset; a failed refresh leaves the previous data
-available.
+TennisRecord, UTR, and WTN for the team roster, opponents, or both. Unselected
+ratings, sources, and curated player roles/notes are preserved. Initial UTR and
+WTN gathering includes both roster and opponent profiles. Refresh runs against a
+temporary copy, validates the result, and only then replaces the existing
+dataset; a failed refresh leaves the previous data available.
 
 ## Validation
 
