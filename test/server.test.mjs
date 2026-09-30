@@ -413,10 +413,13 @@ test("server serves the collection UI and reports invalid input", async t => {
   assert.match(pageHtml, /<section class="reports-view" id="reportsView">/);
   assert.match(pageHtml, /id="scoutCollectionTeam"/);
   assert.match(pageHtml, /id="scoutCollectionContext"/);
-  assert.match(pageHtml, /Gather team data/);
   assert.match(pageHtml, /Home team/);
   assert.match(pageHtml, /Opponent team/);
+  assert.match(pageHtml, /Build my scouting report/);
+  assert.match(pageHtml, /See the team <em>before<\/em> you face them/);
   assert.match(pageHtml, /Pull UTR ratings/);
+  assert.match(pageHtml, /<input type="checkbox" id="includeUtr">/);
+  assert.match(pageHtml, /<div class="rating-detail" id="utrOptions" hidden>/);
   assert.doesNotMatch(pageHtml, /WTN|World Tennis Number/);
   assert.match(pageHtml, /Refresh data/);
   const scheduleModule = await fetch(

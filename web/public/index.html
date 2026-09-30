@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Collect TennisRecord and UTR data for tennis team scouting.">
-    <title>Court Scout — Tennis data, ready for analysis</title>
+    <meta name="description" content="Turn TennisRecord data and optional UTR ratings into match-ready tennis scouting reports.">
+    <title>Court Scout — Know the team before match day</title>
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
@@ -47,119 +47,151 @@
       <main>
       <section class="hero" id="intakeView" hidden>
         <div class="landing-collection-bar">
-          <button type="button" id="landingViewTeams">View team reports <span id="landingTeamCount">0</span></button>
-        </div>
-        <div class="hero-copy">
-          <p class="eyebrow">The first set starts here</p>
-          <h1 class="view-heading" tabindex="-1">Turn match history into an <em>advantage.</em></h1>
-          <p class="hero-lede">Gather a roster, match history, and ratings from one TennisRecord team page.</p>
+          <p><span aria-hidden="true"></span> Your scouting workspace</p>
+          <button type="button" id="landingViewTeams">Open team reports <span id="landingTeamCount">0</span></button>
         </div>
 
-        <div class="intake-card">
-          <div class="card-heading">
-            <span class="step-label">Collection setup</span>
-            <h2>Scout a team</h2>
-            <p>Paste the team profile URL you want to collect.</p>
-            <p class="scout-collection-context" id="scoutCollectionContext" hidden></p>
-          </div>
-          <form id="collectionForm" novalidate>
-            <fieldset class="team-type-picker">
-              <legend>Which team is this?</legend>
-              <label class="mode-option">
-                <input type="radio" name="teamType" value="home" checked>
-                <span class="mode-control" aria-hidden="true"></span>
-                <span class="mode-copy">
-                  <span><strong>Home team</strong></span>
-                  <small>Gather this team and every league opponent from its TennisRecord schedule.</small>
-                </span>
-              </label>
-              <label class="mode-option">
-                <input type="radio" name="teamType" value="opponent">
-                <span class="mode-control" aria-hidden="true"></span>
-                <span class="mode-copy">
-                  <span><strong>Opponent team</strong></span>
-                  <small>Gather only this team for focused scouting.</small>
-                </span>
-              </label>
-            </fieldset>
-            <label for="teamUrl">TennisRecord team URL</label>
-            <div class="url-field">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-              <input id="teamUrl" name="teamUrl" type="url" required autocomplete="url" placeholder="https://www.tennisrecord.com/adult/teamprofile.aspx?..." aria-describedby="urlHint formError">
+        <div class="landing-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Tennis intelligence, minus the guesswork</p>
+            <h1 class="view-heading" tabindex="-1">See the team <em>before</em> you face them.</h1>
+            <p class="hero-lede">Turn a single team profile into a match-ready scouting report—roster, ratings, tendencies, and likely lineups included.</p>
+
+            <div class="source-list" aria-label="Supported data sources">
+              <span>TennisRecord</span>
+              <span>UTR</span>
             </div>
-            <p class="field-hint" id="urlHint">Use the URL from a TennisRecord team profile page.</p>
-            <section class="intake-confirmation" id="intakeConfirmation" aria-live="polite" hidden>
-              <div>
-                <span class="step-label" id="intakeConfirmationLabel">Team confirmed</span>
-                <h3 id="intakeConfirmationName"></h3>
-                <p id="intakeConfirmationMeta"></p>
+
+            <div class="scouting-preview" aria-hidden="true">
+              <div class="preview-copy">
+                <span class="preview-kicker">Scouting file</span>
+                <strong>From raw history to a court-by-court plan.</strong>
+                <div class="preview-signals">
+                  <span><b>01</b> Roster depth</span>
+                  <span><b>02</b> Match patterns</span>
+                  <span><b>03</b> Lineup reads</span>
+                </div>
               </div>
-              <div id="intakeConfirmationScope"></div>
-            </section>
-
-            <div class="collection-purpose" hidden aria-hidden="true">
-             <label for="gatherEventCollection">Assign to collection <span class="optional-label">Optional</span></label>
-             <select id="gatherEventCollection">
-              <option value="">Temp collection (unassigned)</option>
-             </select>
-             <small>Keep teams for the same event together, or leave this report standalone.</small>
-             <label for="collectionPurpose">Add this team to</label>
-             <select id="collectionPurpose">
-               <option value="our">Our team</option>
-               <option value="scheduled">Scheduled opponent</option>
-               <option value="scouting" selected>Scouting pool</option>
-             </select>
-             <small id="collectionPurposeHint">Pin the team you are preparing.</small>
+              <div class="mini-court">
+                <span class="court-net"></span>
+                <span class="court-center-line"></span>
+                <i class="court-ball"></i>
+              </div>
             </div>
+          </div>
 
-            <details class="rating-disclosure">
-              <summary>
-                <span><strong id="ratingSummary">Ratings: Public UTR</strong><small>Optional · TennisRecord is always collected</small></span>
-                <b>Customize</b>
-              </summary>
-              <fieldset class="rating-picker">
-                <legend>Rating sources</legend>
-                <label class="mode-option rating-toggle">
-                  <input type="checkbox" id="includeUtr" checked>
+          <div class="intake-card">
+            <div class="card-heading">
+              <span class="step-label">Start here</span>
+              <h2>Build a scouting report</h2>
+              <p>Paste a TennisRecord team profile. We’ll gather and organize the rest.</p>
+              <p class="scout-collection-context" id="scoutCollectionContext" hidden></p>
+            </div>
+            <form id="collectionForm" novalidate>
+              <fieldset class="team-type-picker">
+                <legend>Which team is this?</legend>
+                <label class="mode-option">
+                  <input type="radio" name="teamType" value="home" checked>
                   <span class="mode-control" aria-hidden="true"></span>
-                  <span class="mode-icon exact" aria-hidden="true">UTR</span>
                   <span class="mode-copy">
-                    <span><strong>Pull UTR ratings</strong></span>
-                    <small>Public bands or exact signed-in decimals.</small>
+                    <span><strong>Home team</strong></span>
+                    <small>Gather this team and every league opponent from its TennisRecord schedule.</small>
                   </span>
                 </label>
-                <div class="rating-detail" id="utrOptions">
-                  <span class="rating-detail-label">UTR detail</span>
-                  <label class="detail-option">
-                    <input type="radio" name="utrMode" value="public" checked>
-                    <span><strong>Public UTR</strong><small>No sign-in · masked bands such as 1.xx</small></span>
-                  </label>
-                  <label class="detail-option">
-                    <input type="radio" name="utrMode" value="authenticated">
-                    <span><strong>Exact UTR</strong><small>Sign in directly with UTR for full decimals</small></span>
-                  </label>
-                  <div class="utr-connect" id="utrConnect" hidden>
-                    <div>
-                      <strong id="utrStatusTitle">UTR sign-in required</strong>
-                      <small id="utrStatusText">Your password stays with UTR. We never receive or store it.</small>
-                    </div>
-                    <button class="button-secondary" type="button" id="connectUtr">Open UTR sign in</button>
-                  </div>
-                </div>
+                <label class="mode-option">
+                  <input type="radio" name="teamType" value="opponent">
+                  <span class="mode-control" aria-hidden="true"></span>
+                  <span class="mode-copy">
+                    <span><strong>Opponent team</strong></span>
+                    <small>Gather only this team for focused scouting.</small>
+                  </span>
+                </label>
               </fieldset>
-            </details>
+              <label for="teamUrl">Team profile URL</label>
+              <div class="url-field">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <input id="teamUrl" name="teamUrl" type="url" required autocomplete="url" placeholder="Paste a TennisRecord team link" aria-describedby="urlHint formError">
+              </div>
+              <p class="field-hint" id="urlHint">Use the URL from any TennisRecord team profile page.</p>
+              <section class="intake-confirmation" id="intakeConfirmation" aria-live="polite" hidden>
+                <div>
+                  <span class="step-label" id="intakeConfirmationLabel">Team confirmed</span>
+                  <h3 id="intakeConfirmationName"></h3>
+                  <p id="intakeConfirmationMeta"></p>
+                </div>
+                <div id="intakeConfirmationScope"></div>
+              </section>
 
-            <p class="form-error" id="formError" role="alert"></p>
-            <button class="button-primary" type="submit">
-              Gather team data
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-            <div class="privacy-note">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
-              <span>Source provenance stays with every dataset.</span>
-            </div>
-          </form>
+              <div class="collection-purpose" hidden aria-hidden="true">
+               <label for="gatherEventCollection">Assign to collection <span class="optional-label">Optional</span></label>
+               <select id="gatherEventCollection">
+                <option value="">Temp collection (unassigned)</option>
+               </select>
+               <small>Keep teams for the same event together, or leave this report standalone.</small>
+               <label for="collectionPurpose">Add this team to</label>
+               <select id="collectionPurpose">
+                 <option value="our">Our team</option>
+                 <option value="scheduled">Scheduled opponent</option>
+                 <option value="scouting" selected>Scouting pool</option>
+               </select>
+               <small id="collectionPurposeHint">Pin the team you are preparing.</small>
+              </div>
+
+              <details class="rating-disclosure">
+                <summary>
+                  <span><strong id="ratingSummary">Ratings: None</strong><small>Optional · TennisRecord is always collected</small></span>
+                  <b>Customize</b>
+                </summary>
+                <fieldset class="rating-picker">
+                  <legend>Rating sources</legend>
+                  <label class="mode-option rating-toggle">
+                    <input type="checkbox" id="includeUtr">
+                    <span class="mode-control" aria-hidden="true"></span>
+                    <span class="mode-icon exact" aria-hidden="true">UTR</span>
+                    <span class="mode-copy">
+                      <span><strong>Pull UTR ratings</strong></span>
+                      <small>Public bands or exact signed-in decimals.</small>
+                    </span>
+                  </label>
+                  <div class="rating-detail" id="utrOptions" hidden>
+                    <span class="rating-detail-label">UTR detail</span>
+                    <label class="detail-option">
+                      <input type="radio" name="utrMode" value="public" checked>
+                      <span><strong>Public UTR</strong><small>No sign-in · masked bands such as 1.xx</small></span>
+                    </label>
+                    <label class="detail-option">
+                      <input type="radio" name="utrMode" value="authenticated">
+                      <span><strong>Exact UTR</strong><small>Sign in directly with UTR for full decimals</small></span>
+                    </label>
+                    <div class="utr-connect" id="utrConnect" hidden>
+                      <div>
+                        <strong id="utrStatusTitle">UTR sign-in required</strong>
+                        <small id="utrStatusText">Your password stays with UTR. We never receive or store it.</small>
+                      </div>
+                      <button class="button-secondary" type="button" id="connectUtr">Open UTR sign in</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </details>
+
+              <p class="form-error" id="formError" role="alert"></p>
+              <button class="button-primary" type="submit">
+                Build my scouting report
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div class="privacy-note">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+                <span>Public sources need no sign-in. Provenance stays attached.</span>
+              </div>
+            </form>
+          </div>
         </div>
+
+        <ol class="landing-workflow" aria-label="Court Scout workflow">
+          <li><span>01</span><div><strong>Gather</strong><small>Roster, results, and ratings</small></div></li>
+          <li><span>02</span><div><strong>Read</strong><small>Patterns, pairs, and eligibility</small></div></li>
+          <li><span>03</span><div><strong>Prepare</strong><small>A match card built for your lineup</small></div></li>
+        </ol>
       </section>
 
       <section class="progress-view" id="progressView" hidden aria-live="polite">
