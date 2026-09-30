@@ -17,6 +17,7 @@ function normalizeStore(value) {
   return {
     version: 1,
     collections: value.collections.map(collection => ({
+      ...collection,
       id: String(collection.id),
       name: String(collection.name),
       teamDatasetIds: [...new Set(

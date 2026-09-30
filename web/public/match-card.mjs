@@ -6,6 +6,8 @@ export const MATCH_CARD_COURTS = Object.freeze([
   Object.freeze({ court: "D3", discipline: "doubles", players: 2 })
 ]);
 
+const ELIGIBILITY_SCOPES = new Set(["national", "sectional", "local"]);
+
 function ratingValue(rating) {
   if (Number.isFinite(rating?.exactValue)) return rating.exactValue;
   return Number.isFinite(rating?.value) ? rating.value : null;
@@ -73,6 +75,9 @@ export function createMatchCard(input) {
     collectionId: input.collectionId ?? null,
     ourTeamId: input.ourTeamId,
     opponentTeamId: input.opponentTeamId,
+    eligibilityScope: ELIGIBILITY_SCOPES.has(input.eligibilityScope)
+      ? input.eligibilityScope
+      : "national",
     opponentPredictionRank: 1,
     draft: emptyDraft(),
     draftInitialized: false,
@@ -394,6 +399,9 @@ export function parseStoredMatchCards(raw) {
       }
       return {
         ...card,
+        eligibilityScope: ELIGIBILITY_SCOPES.has(card.eligibilityScope)
+          ? card.eligibilityScope
+          : "national",
         draft: normalizedDraft,
         draftInitialized: card.draftInitialized === true ||
           validateDraft(normalizedDraft).selectedPlayers > 0
