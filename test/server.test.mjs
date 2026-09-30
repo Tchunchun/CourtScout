@@ -413,7 +413,7 @@ test("server serves the collection UI and reports invalid input", async t => {
   assert.match(pageHtml, /<section class="reports-view" id="reportsView">/);
   assert.match(pageHtml, /id="scoutCollectionTeam"/);
   assert.match(pageHtml, /id="scoutCollectionContext"/);
-  assert.match(pageHtml, /id="reportsSchedule"/);
+  assert.match(pageHtml, /id="refreshReportsSchedule"/);
   assert.match(pageHtml, /Build my scouting report/);
   assert.match(pageHtml, /See the team <em>before<\/em> you face them/);
   assert.match(pageHtml, /Pull UTR ratings/);
