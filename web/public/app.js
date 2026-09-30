@@ -17,6 +17,7 @@ import {
   topDoublesPairsTable
 } from "./render.mjs";
 import {
+  buildRatingCeilingPrediction,
   buildMatchupReadiness,
   buildOnsitePredictions,
   challengeLineupAgainstPredictions,
@@ -2468,7 +2469,7 @@ function evidenceForCard(card) {
 
 function matchCardPredictions(card, context) {
   const activeRoster = activeNationalRoster(context.opponentData);
-  return buildOnsitePredictions(
+  const evidencePredictions = buildOnsitePredictions(
     context.opponentAnalysis.lineupPredictions?.predictions ?? [],
     evidenceForCard(card)
   ).map(prediction => ({
@@ -2485,6 +2486,26 @@ function matchCardPredictions(card, context) {
       })
     }))
   }));
+  const ratingCeiling = buildRatingCeilingPrediction({
+    roster: activeRoster,
+    eligibilityPlayers:
+      context.opponentAnalysis.eligibility?.players ?? [],
+    pairs: context.opponentAnalysis.doubles?.pairs ?? [],
+    matches: context.opponentData.matches ?? [],
+    leagueFormat: card.leagueFormat
+  });
+  const mostLikely = evidencePredictions[0]
+    ? { ...evidencePredictions[0], scenarioType: "most_likely" }
+    : null;
+  const alternate = evidencePredictions[1]
+    ? { ...evidencePredictions[1], scenarioType: "alternate" }
+    : null;
+  return [mostLikely, ratingCeiling, alternate]
+    .filter(Boolean)
+    .map((prediction, index) => ({
+      ...prediction,
+      rank: index + 1
+    }));
 }
 
 function opponentPrediction(card, context, rank) {
@@ -3114,8 +3135,16 @@ function topOpponentPredictionsHtml(card, predictions, context) {
   ) ?? visiblePredictions[0];
   const selectedIndex = visiblePredictions.indexOf(selectedPrediction);
   const scenarioTitle = prediction => prediction.source === "tournament"
-    ? "Reviewed tournament lineup"
-    : `Historical projection #${prediction.historicalRank ?? prediction.rank}`;
+    ? "Most likely · reviewed tournament lineup"
+    : prediction.scenarioType === "rating_ceiling"
+      ? "Rating ceiling · strongest known ratings"
+      : prediction.scenarioType === "alternate"
+        ? "Alternate likely lineup"
+        : "Most likely · historical evidence";
+  const scenarioSupport = prediction =>
+    prediction.scenarioType === "rating_ceiling"
+      ? `${prediction.ratingCoverage?.ratedPlayers ?? 0}/${prediction.ratingCoverage?.totalPlayers ?? 0} rated · ${prediction.unplayedPlayers?.length ?? 0} unplayed`
+      : `${prediction.historicalSupport ?? 0}% support`;
   return `
     <p class="opponent-scenario-coverage">
       Testing scenario ${selectedIndex + 1} of ${visiblePredictions.length}.
@@ -3157,8 +3186,10 @@ function topOpponentPredictionsHtml(card, predictions, context) {
         }).join("")}
       </div>
       <footer>
-        <span>${selectedPrediction.historicalSupport ?? 0}% usage support</span>
-        <span>${selectedPrediction.observedTogether ?? 0} full-lineup observation${selectedPrediction.observedTogether === 1 ? "" : "s"}</span>
+        <span>${escapeHtml(scenarioSupport(selectedPrediction))}</span>
+        <span>${selectedPrediction.scenarioType === "rating_ceiling"
+          ? "Availability unconfirmed"
+          : `${selectedPrediction.observedTogether ?? 0} full-lineup observation${selectedPrediction.observedTogether === 1 ? "" : "s"}`}</span>
       </footer>
       ${predictionRationaleHtml(selectedPrediction)}
     </article>
@@ -3171,7 +3202,7 @@ function topOpponentPredictionsHtml(card, predictions, context) {
             ${prediction.rank === selectedPrediction.rank ? "disabled" : ""}>
             <span>Scenario ${index + 1}</span>
             <strong>${escapeHtml(scenarioTitle(prediction))}</strong>
-            <small>${escapeHtml(prediction.confidence ?? "emerging")} · ${prediction.historicalSupport ?? 0}% support</small>
+            <small>${escapeHtml(prediction.confidence ?? "emerging")} · ${escapeHtml(scenarioSupport(prediction))}</small>
           </button>
         `).join("")}
       </div>` : ""}

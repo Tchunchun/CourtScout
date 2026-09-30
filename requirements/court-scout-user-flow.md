@@ -138,7 +138,14 @@ Future Phase B enhancements should add:
 2. Show blocking data-readiness warnings; collapse the readiness section when
    both teams are ready.
 3. Expand one evidence-backed opponent scenario, keep alternate scenarios
-   compact, and allow the captain to switch the scenario being tested.
+   compact, and allow the captain to switch the scenario being tested. The
+   three decision scenarios are:
+   - Most likely, based on history and reviewed onsite evidence;
+   - Rating ceiling, using the strongest eligible rated roster even when some
+     players have not appeared in gathered matches; and
+   - Alternate likely, using another historical or stacking arrangement.
+   Rating-ceiling scenarios must be labeled as unconfirmed rather than likely,
+   and Mixed lineups require one known man and one known woman per doubles pair.
 4. Use a three-column desktop workspace: Our lineup on the left, live
    court-by-court comparison in the middle, and three opponent options on the
    right. Every lineup or scenario change immediately updates the middle.

@@ -573,6 +573,224 @@ export function buildOnsitePredictions(predictions = [], evidence = []) {
     .map((prediction, index) => ({ ...prediction, rank: index + 1 }));
 }
 
+function normalizedGender(value) {
+  if (/^(m|men|male)$/i.test(value ?? "")) return "Men";
+  if (/^(f|w|women|female)$/i.test(value ?? "")) return "Women";
+  return null;
+}
+
+function ratingStrength(player, discipline) {
+  const utr = ratingValue(player.utr?.[discipline]);
+  if (Number.isFinite(utr)) {
+    return { score: utr, source: `${discipline} UTR` };
+  }
+  if (Number.isFinite(player.dr)) {
+    return { score: player.dr, source: "DR" };
+  }
+  return { score: null, source: null };
+}
+
+function pairKey(players) {
+  return [...players].sort((a, b) => a.localeCompare(b)).join("|");
+}
+
+function knownPairMap(pairs = []) {
+  return new Map(pairs.map(pair => [
+    pairKey(pair.players ?? []),
+    pair
+  ]));
+}
+
+function playerPair(left, right, pairHistory) {
+  const history = pairHistory.get(pairKey([left.name, right.name]));
+  const scores = [
+    ratingStrength(left, "doubles").score,
+    ratingStrength(right, "doubles").score
+  ].filter(Number.isFinite);
+  return {
+    players: [left.name, right.name],
+    strength: scores.length
+      ? scores.reduce((sum, score) => sum + score, 0) / scores.length
+      : -Infinity,
+    history
+  };
+}
+
+function permutations(items) {
+  if (items.length < 2) return [items];
+  return items.flatMap((item, index) =>
+    permutations(items.filter((_, itemIndex) => itemIndex !== index))
+      .map(rest => [item, ...rest])
+  );
+}
+
+function mixedRatingPairs(candidates, pairHistory) {
+  const men = candidates.filter(player =>
+    normalizedGender(player.gender) === "Men"
+  ).slice(0, 3);
+  const women = candidates.filter(player =>
+    normalizedGender(player.gender) === "Women"
+  ).slice(0, 3);
+  if (men.length < 3 || women.length < 3) return null;
+  const bestWomenOrder = permutations(women)
+    .map(order => ({
+      order,
+      partnerAppearances: order.reduce((sum, woman, index) =>
+        sum + (
+          pairHistory.get(pairKey([men[index].name, woman.name]))
+            ?.appearances ?? 0
+        ), 0)
+    }))
+    .sort((a, b) => b.partnerAppearances - a.partnerAppearances)[0].order;
+  return men.map((man, index) =>
+    playerPair(man, bestWomenOrder[index], pairHistory)
+  );
+}
+
+function singleGenderRatingPairs(candidates, pairHistory) {
+  const remaining = [...candidates.slice(0, 6)];
+  if (remaining.length < 6) return null;
+  const pairs = [];
+  while (remaining.length) {
+    const first = remaining.shift();
+    const partnerIndex = remaining
+      .map((player, index) => ({
+        index,
+        appearances:
+          pairHistory.get(pairKey([first.name, player.name]))?.appearances ?? 0,
+        strength: ratingStrength(player, "doubles").score ?? -Infinity
+      }))
+      .sort((a, b) =>
+        b.appearances - a.appearances ||
+        b.strength - a.strength
+      )[0].index;
+    pairs.push(playerPair(
+      first,
+      remaining.splice(partnerIndex, 1)[0],
+      pairHistory
+    ));
+  }
+  return pairs;
+}
+
+export function buildRatingCeilingPrediction({
+  roster = [],
+  eligibilityPlayers = [],
+  pairs = [],
+  matches = [],
+  leagueFormat = "single_gender"
+}) {
+  const eligibilityByName = new Map(
+    eligibilityPlayers.map(player => [player.name, player.status])
+  );
+  const usageByName = new Map(
+    summarizeRosterUsage(roster, matches).map(player => [player.name, player])
+  );
+  const candidates = roster
+    .filter(player =>
+      !["ineligible", "unavailable"].includes(
+        eligibilityByName.get(player.name)
+      )
+    )
+    .map(player => ({
+      ...player,
+      ceilingStrength: ratingStrength(player, "doubles").score,
+      ratingSource: ratingStrength(player, "doubles").source,
+      eligibilityStatus: eligibilityByName.get(player.name) ?? "unknown"
+    }))
+    .filter(player => Number.isFinite(player.ceilingStrength))
+    .sort((a, b) =>
+      b.ceilingStrength - a.ceilingStrength ||
+      a.name.localeCompare(b.name)
+    );
+  const pairHistory = knownPairMap(pairs);
+  let lines;
+  let selectedPlayers;
+  if (leagueFormat === "mixed") {
+    const ratingPairs = mixedRatingPairs(candidates, pairHistory);
+    if (!ratingPairs) return null;
+    const orderedPairs = [...ratingPairs].sort((a, b) =>
+      b.strength - a.strength
+    );
+    lines = ["D1", "D2", "D3"].map((court, index) => ({
+      court,
+      players: orderedPairs[index].players,
+      appearances: orderedPairs[index].history?.appearances ?? 0,
+      postseasonAppearances: 0,
+      record: orderedPairs[index].history?.record ?? null,
+      lastUsedDate: null,
+      usageShare: 0
+    }));
+    selectedPlayers = orderedPairs.flatMap(pair => pair.players);
+  } else {
+    const singlesCandidates = [...candidates].sort((a, b) =>
+      (ratingStrength(b, "singles").score ?? -Infinity) -
+        (ratingStrength(a, "singles").score ?? -Infinity) ||
+      a.name.localeCompare(b.name)
+    );
+    const singlesPlayers = singlesCandidates.slice(0, 2);
+    const singlesNames = new Set(singlesPlayers.map(player => player.name));
+    const ratingPairs = singleGenderRatingPairs(
+      candidates.filter(player => !singlesNames.has(player.name)),
+      pairHistory
+    );
+    if (singlesPlayers.length < 2 || !ratingPairs) return null;
+    const orderedPairs = [...ratingPairs].sort((a, b) =>
+      b.strength - a.strength
+    );
+    lines = [
+      ...["S1", "S2"].map((court, index) => ({
+        court,
+        players: [singlesPlayers[index].name],
+        appearances: 0,
+        postseasonAppearances: 0,
+        record: null,
+        lastUsedDate: null,
+        usageShare: 0
+      })),
+      ...["D1", "D2", "D3"].map((court, index) => ({
+        court,
+        players: orderedPairs[index].players,
+        appearances: orderedPairs[index].history?.appearances ?? 0,
+        postseasonAppearances: 0,
+        record: orderedPairs[index].history?.record ?? null,
+        lastUsedDate: null,
+        usageShare: 0
+      }))
+    ];
+    selectedPlayers = [
+      ...singlesPlayers.map(player => player.name),
+      ...orderedPairs.flatMap(pair => pair.players)
+    ];
+  }
+  const selected = selectedPlayers.map(name =>
+    candidates.find(player => player.name === name)
+  );
+  const unplayedPlayers = selected.filter(player =>
+    !usageByName.get(player.name)?.playedBefore
+  ).map(player => player.name);
+  const unresolvedEligibility = selected.filter(player =>
+    player.eligibilityStatus === "unknown"
+  ).map(player => player.name);
+  return {
+    source: "rating_ceiling",
+    scenarioType: "rating_ceiling",
+    confidence: "ratings-based",
+    historicalSupport: 0,
+    observedTogether: 0,
+    onsiteConfirmed: 0,
+    onsiteTotal: selectedPlayers.length,
+    onsiteCoverage: 0,
+    ratingCoverage: {
+      ratedPlayers: selected.length,
+      totalPlayers: selectedPlayers.length
+    },
+    unplayedPlayers,
+    unresolvedEligibility,
+    lines
+  };
+}
+
 export function cloneMatchCard(card, input) {
   const now = input.now ?? new Date().toISOString();
   return {
@@ -880,6 +1098,26 @@ export function summarizeRosterUsage(roster = [], matches = []) {
 }
 
 export function explainLineupPrediction(prediction) {
+  if (prediction.source === "rating_ceiling") {
+    return {
+      summary: "This is the strongest eligible lineup supported by known ratings. It is a ceiling scenario, not a prediction of who will play.",
+      reasons: [
+        `${prediction.ratingCoverage?.ratedPlayers ?? 0} of ${prediction.ratingCoverage?.totalPlayers ?? 0} selected players have usable DR or discipline ratings.`,
+        prediction.unplayedPlayers?.length
+          ? `${prediction.unplayedPlayers.length} selected player${prediction.unplayedPlayers.length === 1 ? " has" : "s have"} no gathered match history.`
+          : "Every selected player appears in gathered match history.",
+        prediction.unresolvedEligibility?.length
+          ? `${prediction.unresolvedEligibility.length} selected player${prediction.unresolvedEligibility.length === 1 ? " has" : "s have"} unresolved eligibility.`
+          : "No selected player has unresolved eligibility."
+      ],
+      courts: (prediction.lines ?? []).map(line => ({
+        court: line.court,
+        reason: line.appearances
+          ? `Ratings-based placement; this pair has ${line.appearances} observed appearance${line.appearances === 1 ? "" : "s"}.`
+          : "Ratings-based placement with no observed court assignment required."
+      }))
+    };
+  }
   if (prediction.source === "tournament") {
     return {
       summary: "This lineup comes from reviewed tournament evidence and is ranked ahead of historical projections.",

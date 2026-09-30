@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   buildOnsitePredictions,
+  buildRatingCeilingPrediction,
   buildMatchupReadiness,
   challengeLineupAgainstPredictions,
   cloneMatchCard,
@@ -59,6 +60,7 @@ test("mixed match cards use three doubles courts and six players", () => {
     opponentTeamId: "theirs",
     leagueFormat: "mixed"
   });
+
   assert.deepEqual(Object.keys(card.draft), ["D1", "D2", "D3"]);
   assert.equal(
     validateDraft(card.draft, null, card.leagueFormat).requiredPlayers,
@@ -76,6 +78,70 @@ test("mixed match cards use three doubles courts and six players", () => {
       D3: ["", ""]
     }
   );
+});
+
+test("rating ceiling builds strongest eligible mixed lineup with valid pairs", () => {
+  const roster = [
+    { name: "Man Ineligible", gender: "Men", dr: 4.5 },
+    { name: "Man One", gender: "Men", dr: 4.2 },
+    { name: "Man Two", gender: "Men", dr: 4.0 },
+    { name: "Man Three", gender: "Men", dr: 3.8 },
+    { name: "Man Four", gender: "Men", dr: 3.0 },
+    { name: "Woman One", gender: "Women", dr: 4.1 },
+    { name: "Woman Two", gender: "Women", dr: 3.9 },
+    { name: "Woman Three", gender: "Women", dr: 3.7 },
+    { name: "Woman Four", gender: "Women", dr: 2.9 }
+  ];
+  const prediction = buildRatingCeilingPrediction({
+    roster,
+    eligibilityPlayers: roster.map(player => ({
+      name: player.name,
+      status: player.name === "Man Ineligible" ? "ineligible" : "eligible"
+    })),
+    pairs: [{
+      players: ["Man One", "Woman Two"],
+      appearances: 4,
+      record: { wins: 3, losses: 1 }
+    }],
+    matches: [{
+      id: "match-one",
+      courts: {
+        D1: { targetPlayers: ["Man One", "Woman Two"] }
+      }
+    }],
+    leagueFormat: "mixed"
+  });
+
+  assert.equal(prediction.source, "rating_ceiling");
+  assert.deepEqual(prediction.lines.map(line => line.court), ["D1", "D2", "D3"]);
+  assert.equal(prediction.lines.flatMap(line => line.players).length, 6);
+  assert.equal(
+    prediction.lines.every(line => {
+      const genders = line.players.map(name =>
+        roster.find(player => player.name === name).gender
+      );
+      return genders.includes("Men") && genders.includes("Women");
+    }),
+    true
+  );
+  assert.equal(
+    prediction.lines.flatMap(line => line.players).includes("Man Ineligible"),
+    false
+  );
+  assert.equal(prediction.unplayedPlayers.length, 4);
+  assert.equal(prediction.ratingCoverage.ratedPlayers, 6);
+});
+
+test("rating ceiling does not invent a mixed lineup without known genders", () => {
+  assert.equal(buildRatingCeilingPrediction({
+    roster: Array.from({ length: 6 }, (_, index) => ({
+      name: `Player ${index}`,
+      gender: "Unknown",
+      dr: 4 - index / 10
+    })),
+    eligibilityPlayers: [],
+    leagueFormat: "mixed"
+  }), null);
 });
 
 test("legacy cards migrate to mixed doubles courts without singles", () => {
