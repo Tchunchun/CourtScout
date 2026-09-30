@@ -1,0 +1,3395 @@
+{
+  "analysisVersion": "1.1.0",
+  "generatedAt": "2026-09-30T23:07:14.152Z",
+  "dataset": {
+    "datasetId": "2027-aytc-levelup-tong",
+    "schemaVersion": "2.0.0",
+    "generatedAt": "2026-09-30T18:14:51.000Z",
+    "collectionStage": "step_1_complete",
+    "finalReportReady": true
+  },
+  "team": {
+    "name": "AYTC-LevelUp-Tong",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 0,
+      "teamLosses": 1,
+      "courtWins": 1,
+      "courtLosses": 2
+    }
+  },
+  "summary": {
+    "rosterSize": 16,
+    "matches": 1,
+    "teamRecord": {
+      "wins": 0,
+      "losses": 1,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 1,
+      "winRate": 0
+    },
+    "courtRecord": {
+      "wins": 1,
+      "losses": 2,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 3,
+      "winRate": 0.3333
+    },
+    "phases": {
+      "local": {
+        "matches": 1,
+        "teamRecord": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "courtRecord": {
+          "wins": 1,
+          "losses": 2,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 3,
+          "winRate": 0.3333
+        }
+      }
+    }
+  },
+  "eligibility": {
+    "scope": "local",
+    "label": "Local",
+    "rules": {
+      "computerRatedMatches": 0,
+      "selfRatedOrAppealedMatches": 0,
+      "computerRatedDefaultReceivedMayCount": 1,
+      "selfRatedOrAppealedDefaultsCount": false,
+      "disqualifiedPlayersAvailable": false
+    },
+    "summary": {
+      "rosterSize": 16,
+      "eligible": 16,
+      "ineligible": 0,
+      "unavailable": 0,
+      "unknown": 0
+    },
+    "dataQualityIssues": [],
+    "players": [
+      {
+        "name": "Manav Desai",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 4.38,
+        "utr": {
+          "singles": {
+            "value": 5.63,
+            "exactValue": 5.63,
+            "display": "5.63",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.97,
+            "exactValue": 4.97,
+            "display": "4.97",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Iris Xin",
+        "ntrpLevel": "4.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.86,
+        "utr": {
+          "singles": {
+            "value": 4.36,
+            "exactValue": 4.36,
+            "display": "4.36",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.97,
+            "exactValue": 3.97,
+            "display": "3.97",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Anant Jaitha",
+        "ntrpLevel": "4.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.83,
+        "utr": {
+          "singles": {
+            "value": 4.81,
+            "exactValue": 4.81,
+            "display": "4.81",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.62,
+            "exactValue": 5.62,
+            "display": "5.62",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Chiqu Li",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (1–0)."
+      },
+      {
+        "name": "Alexander Martin",
+        "ntrpLevel": "4.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.48,
+        "utr": {
+          "singles": {
+            "value": 4.73,
+            "exactValue": 4.73,
+            "display": "4.73",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.92,
+            "exactValue": 5.92,
+            "display": "5.92",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Xiayi Li",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Highest eligible doubles UTR (5.92); Roster-high 1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "Nicole Evans",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.37,
+        "utr": {
+          "singles": {
+            "value": 3.76,
+            "exactValue": 3.76,
+            "display": "3.76",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.77,
+            "exactValue": 3.77,
+            "display": "3.77",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Jessica Bethune",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.34,
+        "utr": {
+          "singles": {
+            "value": 3.38,
+            "exactValue": 3.38,
+            "display": "3.38",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.39,
+            "exactValue": 4.39,
+            "display": "4.39",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "CAHILL CARUSOS",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.27,
+        "utr": {
+          "singles": {
+            "value": 1,
+            "exactValue": 1,
+            "display": "1.00",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 2.07,
+            "exactValue": 2.07,
+            "display": "2.07",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Chiqu Li",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.25,
+        "utr": {
+          "singles": {
+            "value": 4.14,
+            "exactValue": 4.14,
+            "display": "4.14",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.85,
+            "exactValue": 3.85,
+            "display": "3.85",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Anant Jaitha",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (1–0)."
+      },
+      {
+        "name": "Greg Brown",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.25,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.19,
+            "exactValue": 5.19,
+            "display": "5.19",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Kun Qian",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.1,
+        "utr": {
+          "singles": {
+            "value": 5.62,
+            "exactValue": 5.62,
+            "display": "5.62",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.24,
+            "exactValue": 5.24,
+            "display": "5.24",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Toru Mino",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.09,
+        "utr": {
+          "singles": {
+            "value": 4.18,
+            "exactValue": 4.18,
+            "display": "4.18",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.02,
+            "exactValue": 4.02,
+            "display": "4.02",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Chen Xie",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.05,
+        "utr": {
+          "singles": {
+            "value": 2.8,
+            "exactValue": 2.8,
+            "display": "2.80",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.49,
+            "exactValue": 3.49,
+            "display": "3.49",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "chunchun tong",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.04,
+        "utr": {
+          "singles": {
+            "value": 3.25,
+            "exactValue": 3.25,
+            "display": "3.25",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.27,
+            "exactValue": 3.27,
+            "display": "3.27",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "William Myers",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Jiaxing Zheng",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.02,
+        "utr": {
+          "singles": {
+            "value": 4.6,
+            "exactValue": 4.6,
+            "display": "4.60",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.7,
+            "exactValue": 4.7,
+            "display": "4.70",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Xiayi Li",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.93,
+        "utr": {
+          "singles": {
+            "value": 3.69,
+            "exactValue": 3.69,
+            "display": "3.69",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 2.73,
+            "exactValue": 2.73,
+            "display": "2.73",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Alexander Martin",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "William Myers",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.79,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.13,
+            "exactValue": 4.13,
+            "display": "4.13",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "chunchun tong",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      }
+    ]
+  },
+  "singles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "playersUsed": 0,
+      "matchesAnalyzed": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "players": [],
+    "matchStacking": []
+  },
+  "doubles": {
+    "summary": {
+      "record": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 3,
+        "winRate": 0.3333
+      },
+      "uniquePairs": 3,
+      "matchesAnalyzed": 1,
+      "repeatedPairs": 0,
+      "oneOffPairs": 3,
+      "pairsWithIncompleteCurrentUtr": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 1
+    },
+    "courts": [
+      {
+        "court": "D1",
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Alexander Martin + Xiayi Li",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D2",
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Anant Jaitha + Chiqu Li",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D3",
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "chunchun tong + William Myers",
+            "appearances": 1
+          }
+        ]
+      }
+    ],
+    "repeatedPairs": [],
+    "oneOffPairs": [
+      {
+        "pair": "Anant Jaitha + Chiqu Li",
+        "players": [
+          "Anant Jaitha",
+          "Chiqu Li"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.54,
+          "doublesUtrAverage": 4.735,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Anant Jaitha",
+              "dr": 3.83,
+              "doublesUtr": {
+                "value": 5.62,
+                "exactValue": 5.62,
+                "display": "5.62",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Chiqu Li",
+              "dr": 3.25,
+              "doublesUtr": {
+                "value": 3.85,
+                "exactValue": 3.85,
+                "display": "3.85",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D2",
+            "pair": "Anant Jaitha + Chiqu Li",
+            "players": [
+              "Anant Jaitha",
+              "Chiqu Li"
+            ],
+            "opponentPair": "Anthony Peterson + Sarah Smith",
+            "opponentPlayers": [
+              "Anthony Peterson",
+              "Sarah Smith"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.9,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.735,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 5.62,
+                      "sourceRating": {
+                        "value": 5.62,
+                        "exactValue": 5.62,
+                        "display": "5.62",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.85,
+                      "sourceRating": {
+                        "value": 3.85,
+                        "exactValue": 3.85,
+                        "display": "3.85",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.84,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "drComparison": {
+                "margin": 1.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Alexander Martin + Xiayi Li",
+        "players": [
+          "Alexander Martin",
+          "Xiayi Li"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.205,
+          "doublesUtrAverage": 4.325,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Alexander Martin",
+              "dr": 3.48,
+              "doublesUtr": {
+                "value": 5.92,
+                "exactValue": 5.92,
+                "display": "5.92",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Xiayi Li",
+              "dr": 2.93,
+              "doublesUtr": {
+                "value": 2.73,
+                "exactValue": 2.73,
+                "display": "2.73",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 1,
+          "largestFavoriteUtrLoss": {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D1",
+            "pair": "Alexander Martin + Xiayi Li",
+            "players": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "opponentPair": "Kurt Nikaitani + Meagan Milca",
+            "opponentPlayers": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D1",
+            "pair": "Alexander Martin + Xiayi Li",
+            "players": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "opponentPair": "Kurt Nikaitani + Meagan Milca",
+            "opponentPlayers": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "chunchun tong + William Myers",
+        "players": [
+          "chunchun tong",
+          "William Myers"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 2.915,
+          "doublesUtrAverage": 3.7,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "chunchun tong",
+              "dr": 3.04,
+              "doublesUtr": {
+                "value": 3.27,
+                "exactValue": 3.27,
+                "display": "3.27",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "William Myers",
+              "dr": 2.79,
+              "doublesUtr": {
+                "value": 4.13,
+                "exactValue": 4.13,
+                "display": "4.13",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D3",
+            "pair": "chunchun tong + William Myers",
+            "players": [
+              "chunchun tong",
+              "William Myers"
+            ],
+            "opponentPair": "Carly Holtgraves + Elia Bishara",
+            "opponentPlayers": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-3 6-4",
+            "score": "6-3 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.67,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.7,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 3.27,
+                      "sourceRating": {
+                        "value": 3.27,
+                        "exactValue": 3.27,
+                        "display": "3.27",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.68,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.435,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 4.15,
+                      "sourceRating": {
+                        "value": 4.15,
+                        "exactValue": 4.15,
+                        "display": "4.15",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 4.72,
+                      "sourceRating": {
+                        "value": 4.72,
+                        "exactValue": 4.72,
+                        "display": "4.72",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -1.01,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.735,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "pair": "Anant Jaitha + Chiqu Li",
+        "players": [
+          "Anant Jaitha",
+          "Chiqu Li"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.54,
+          "doublesUtrAverage": 4.735,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Anant Jaitha",
+              "dr": 3.83,
+              "doublesUtr": {
+                "value": 5.62,
+                "exactValue": 5.62,
+                "display": "5.62",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Chiqu Li",
+              "dr": 3.25,
+              "doublesUtr": {
+                "value": 3.85,
+                "exactValue": 3.85,
+                "display": "3.85",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D2",
+            "pair": "Anant Jaitha + Chiqu Li",
+            "players": [
+              "Anant Jaitha",
+              "Chiqu Li"
+            ],
+            "opponentPair": "Anthony Peterson + Sarah Smith",
+            "opponentPlayers": [
+              "Anthony Peterson",
+              "Sarah Smith"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.9,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.735,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 5.62,
+                      "sourceRating": {
+                        "value": 5.62,
+                        "exactValue": 5.62,
+                        "display": "5.62",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.85,
+                      "sourceRating": {
+                        "value": 3.85,
+                        "exactValue": 3.85,
+                        "display": "3.85",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.84,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "drComparison": {
+                "margin": 1.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Alexander Martin + Xiayi Li",
+        "players": [
+          "Alexander Martin",
+          "Xiayi Li"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.205,
+          "doublesUtrAverage": 4.325,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Alexander Martin",
+              "dr": 3.48,
+              "doublesUtr": {
+                "value": 5.92,
+                "exactValue": 5.92,
+                "display": "5.92",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Xiayi Li",
+              "dr": 2.93,
+              "doublesUtr": {
+                "value": 2.73,
+                "exactValue": 2.73,
+                "display": "2.73",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 1,
+          "largestFavoriteUtrLoss": {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D1",
+            "pair": "Alexander Martin + Xiayi Li",
+            "players": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "opponentPair": "Kurt Nikaitani + Meagan Milca",
+            "opponentPlayers": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D1",
+            "pair": "Alexander Martin + Xiayi Li",
+            "players": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "opponentPair": "Kurt Nikaitani + Meagan Milca",
+            "opponentPlayers": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "chunchun tong + William Myers",
+        "players": [
+          "chunchun tong",
+          "William Myers"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 2.915,
+          "doublesUtrAverage": 3.7,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "chunchun tong",
+              "dr": 3.04,
+              "doublesUtr": {
+                "value": 3.27,
+                "exactValue": 3.27,
+                "display": "3.27",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "William Myers",
+              "dr": 2.79,
+              "doublesUtr": {
+                "value": 4.13,
+                "exactValue": 4.13,
+                "display": "4.13",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "HBSQ-You Got Served-Harvey",
+            "court": "D3",
+            "pair": "chunchun tong + William Myers",
+            "players": [
+              "chunchun tong",
+              "William Myers"
+            ],
+            "opponentPair": "Carly Holtgraves + Elia Bishara",
+            "opponentPlayers": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-3 6-4",
+            "score": "6-3 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.67,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.7,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 3.27,
+                      "sourceRating": {
+                        "value": 3.27,
+                        "exactValue": 3.27,
+                        "display": "3.27",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.68,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.435,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 4.15,
+                      "sourceRating": {
+                        "value": 4.15,
+                        "exactValue": 4.15,
+                        "display": "4.15",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 4.72,
+                      "sourceRating": {
+                        "value": 4.72,
+                        "exactValue": 4.72,
+                        "display": "4.72",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -1.01,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.735,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "matchStacking": [
+      {
+        "matchId": "17175",
+        "date": "2026-09-20",
+        "phase": "local",
+        "targetTeamName": "AYTC-LevelUp-Tong",
+        "opponentTeam": "HBSQ-You Got Served-Harvey",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "L",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "targetPlayers": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "opponentPlayers": [
+              "Meagan Milca",
+              "Kurt Nikaitani"
+            ],
+            "averageDr": 2.79,
+            "averageUtr": 4.325,
+            "opponentAverageDr": 3.06,
+            "opponentAverageUtr": 4.225
+          },
+          {
+            "court": "D2",
+            "result": "W",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "targetPlayers": [
+              "Anant Jaitha",
+              "Chiqu Li"
+            ],
+            "opponentPlayers": [
+              "Sarah Smith",
+              "Anthony Peterson"
+            ],
+            "averageDr": 3.9,
+            "averageUtr": 4.735,
+            "opponentAverageDr": 2.84,
+            "opponentAverageUtr": null
+          },
+          {
+            "court": "D3",
+            "result": "L",
+            "score": "6-3 6-4",
+            "adjudication": null,
+            "targetPlayers": [
+              "William Myers",
+              "chunchun tong"
+            ],
+            "opponentPlayers": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "averageDr": 2.67,
+            "averageUtr": 3.7,
+            "opponentAverageDr": 3.68,
+            "opponentAverageUtr": 4.435
+          }
+        ],
+        "strongestCourtByDr": "D2",
+        "strongestCourtByUtr": "D2"
+      }
+    ]
+  },
+  "lineupPredictions": {
+    "summary": {
+      "predictionsGenerated": 1,
+      "matchesAnalyzed": 1,
+      "courts": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "eligiblePlayers": 16,
+      "excludedPlayers": 0
+    },
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "predictions": [
+      {
+        "rank": 1,
+        "confidence": "high",
+        "historicalSupport": 100,
+        "observedTogether": 1,
+        "evidence": {
+          "totalCourtAppearances": 3,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 1
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Anant Jaitha",
+              "Chiqu Li"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 1
+          },
+          {
+            "court": "D3",
+            "players": [
+              "chunchun tong",
+              "William Myers"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 1
+          }
+        ]
+      }
+    ]
+  },
+  "disclosures": {
+    "warnings": [
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    ],
+    "sources": [
+      {
+        "type": "tennisrecord",
+        "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-LevelUp-Tong&year=2027",
+        "retrievedAt": "2026-09-30",
+        "authentication": "none",
+        "fields": [
+          "team identity",
+          "roster",
+          "player location",
+          "NTRP",
+          "DR",
+          "match schedule",
+          "lineups",
+          "scores",
+          "historical match DR"
+        ]
+      },
+      {
+        "type": "utr_sports_authenticated_profiles",
+        "url": "https://app.utrsports.net/profiles",
+        "retrievedAt": "2026-09-30",
+        "authentication": "user-authenticated",
+        "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+        "fields": [
+          "profile identity",
+          "location",
+          "exact singles UTR",
+          "exact doubles UTR",
+          "rating status",
+          "reliability"
+        ]
+      }
+    ],
+    "dataQuality": {
+      "sourcePrecedence": [
+        "USTA TennisLink official result",
+        "TennisRecord match detail",
+        "TennisRecord team aggregate",
+        "derived totals"
+      ],
+      "issues": [],
+      "unresolvedIdentities": [],
+      "coverage": {
+        "tennisRecordMatchesCollected": 1,
+        "officialUstaReconciled": false,
+        "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+      }
+    }
+  }
+}

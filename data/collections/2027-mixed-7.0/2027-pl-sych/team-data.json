@@ -1,0 +1,4702 @@
+{
+  "schemaVersion": "2.0.0",
+  "datasetId": "2027-pl-sych",
+  "generatedAt": "2026-09-30T18:14:51.000Z",
+  "collectionStage": "step_1_complete",
+  "team": {
+    "name": "PL-Sych",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 0,
+      "teamLosses": 3,
+      "courtWins": 0,
+      "courtLosses": 9
+    }
+  },
+  "eligibilityRule": {
+    "regulation": "USTA League Regulation 2.03A(4)",
+    "nonSelfRated": {
+      "matchesRequired": 3,
+      "defaultReceivedMayCount": 1
+    },
+    "selfRatedOrAppealed": {
+      "actualMatchesRequired": 4,
+      "defaultsCount": false
+    },
+    "evaluatedThrough": "Sectional Championships"
+  },
+  "sources": [
+    {
+      "type": "tennisrecord",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=PL-Sych&year=2027",
+      "retrievedAt": "2026-09-30",
+      "authentication": "none",
+      "fields": [
+        "team identity",
+        "roster",
+        "player location",
+        "NTRP",
+        "DR",
+        "match schedule",
+        "lineups",
+        "scores",
+        "historical match DR"
+      ]
+    },
+    {
+      "type": "utr_sports_authenticated_profiles",
+      "url": "https://app.utrsports.net/profiles",
+      "retrievedAt": "2026-09-30",
+      "authentication": "user-authenticated",
+      "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+      "fields": [
+        "profile identity",
+        "location",
+        "exact singles UTR",
+        "exact doubles UTR",
+        "rating status",
+        "reliability"
+      ]
+    }
+  ],
+  "roster": [
+    {
+      "name": "Yura Kostiukevych",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Yura%20Kostiukevych",
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "dr": 3.79,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4785160,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 6.18,
+          "exactValue": 6.18,
+          "display": "6.18",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5.9,
+          "exactValue": 5.9,
+          "display": "5.90",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 2
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Kristin Blasko",
+      "location": "Sammamish, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Kristin%20Blasko",
+      "ntrp": {
+        "level": "4.0",
+        "type": "C"
+      },
+      "dr": 3.78,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 909619,
+          "location": "Sammamish, WA"
+        },
+        "singles": {
+          "value": 3.02,
+          "exactValue": 3.02,
+          "display": "3.02",
+          "status": "Projected",
+          "reliability": 32
+        },
+        "doubles": {
+          "value": 4.28,
+          "exactValue": 4.28,
+          "display": "4.28",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Jenny Blumenstein",
+      "location": "SAMMAMISH, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Jenny%20Blumenstein",
+      "ntrp": {
+        "level": "4.0",
+        "type": "C"
+      },
+      "dr": 3.59,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 527409,
+          "location": "Sammamish, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.23,
+          "exactValue": 3.23,
+          "display": "3.23",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 2
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Holly Hanson",
+      "location": "Sammamish, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Holly%20Hanson",
+      "ntrp": {
+        "level": "4.0",
+        "type": "C"
+      },
+      "dr": 3.54,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 527894,
+          "location": "Sammamish, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.07,
+          "exactValue": 4.07,
+          "display": "4.07",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Julia Pollock",
+      "location": "Issaquah, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Julia%20Pollock",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.44,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 528241,
+          "location": "Issaquah, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.02,
+          "exactValue": 4.02,
+          "display": "4.02",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Cameron Buck",
+      "location": "Issaquah, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Cameron%20Buck&s=2",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.43,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 529834,
+          "location": "Issaquah, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.28,
+          "exactValue": 3.28,
+          "display": "3.28",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Vikas Pabreja",
+      "location": "Sammamish, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Vikas%20Pabreja",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.43,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 3272239,
+          "location": "Sammamish, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.41,
+          "exactValue": 5.41,
+          "display": "5.41",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Tetyana Sych",
+      "location": "ISSAQUAH, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Tetyana%20Sych",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.42,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 481643,
+          "location": ""
+        },
+        "singles": {
+          "value": 3.45,
+          "exactValue": 3.45,
+          "display": "3.45",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 3.9,
+          "exactValue": 3.9,
+          "display": "3.90",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 2
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Renee Fletcher",
+      "location": "Sammamish, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Renee%20Fletcher",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.24,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 481653,
+          "location": "Sammamish, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.16,
+          "exactValue": 3.16,
+          "display": "3.16",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Barrett Park",
+      "location": "Issaquah, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Barrett%20Park",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.08,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 529895,
+          "location": "Issaquah, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.15,
+          "exactValue": 5.15,
+          "display": "5.15",
+          "status": "Projected",
+          "reliability": 60
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Olga Svyrydenko",
+      "location": "Issaquah, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Olga%20Svyrydenko",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 3.05,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 3978525,
+          "location": "Issaquah, WA"
+        },
+        "singles": {
+          "value": 3.26,
+          "exactValue": 3.26,
+          "display": "3.26",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 2.8,
+          "exactValue": 2.8,
+          "display": "2.80",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Manivel Chandrasekaran",
+      "location": "Sammamish, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Manivel%20Chandrasekaran",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.05,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 529339,
+          "location": "Sammamish, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.53,
+          "exactValue": 4.53,
+          "display": "4.53",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Tiffany Buck",
+      "location": "Issaquah, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Tiffany%20Buck",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 3.01,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 528846,
+          "location": "Issaquah, WA"
+        },
+        "singles": {
+          "value": 2.71,
+          "exactValue": 2.71,
+          "display": "2.71",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 3.51,
+          "exactValue": 3.51,
+          "display": "3.51",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 2
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Troy Johnson",
+      "location": "Sammamish, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Troy%20Johnson&s=5",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 2.96,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4787966,
+          "location": "Sammamish, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.91,
+          "exactValue": 4.91,
+          "display": "4.91",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Matt MacArthur",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Matt%20MacArthur",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 2.75,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 916582,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.37,
+          "exactValue": 5.37,
+          "display": "5.37",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Kevin Oh",
+      "location": "Bellevue, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Kevin%20Oh&s=3",
+      "ntrp": {
+        "level": "3.0",
+        "type": "S"
+      },
+      "dr": 1.89,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4785300,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.21,
+          "exactValue": 3.21,
+          "display": "3.21",
+          "status": "Projected",
+          "reliability": 36
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    }
+  ],
+  "opponents": [
+    {
+      "name": "Andrew Shin",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "AYTC-The Poaching Pandas-Ong/Hua"
+      ],
+      "dr": 3.1,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4814910,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 5.1,
+          "exactValue": 5.1,
+          "display": "5.10",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "doubles": {
+          "value": 5.59,
+          "exactValue": 5.59,
+          "display": "5.59",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17170",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.1,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Arav Singhal",
+      "locations": [
+        "SEATTLE, WA"
+      ],
+      "teams": [
+        "PSC-2026 18+ Mix-Zhou"
+      ],
+      "dr": 3.22,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 5065168,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 5.75,
+          "exactValue": 5.75,
+          "display": "5.75",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5.62,
+          "exactValue": 5.62,
+          "display": "5.62",
+          "status": "Projected",
+          "reliability": 80
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17173",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dan Truong",
+      "locations": [
+        "Redmond, WA"
+      ],
+      "teams": [
+        "BC-Happy Mixed Nuts18-Park"
+      ],
+      "dr": 3.17,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 1973018,
+          "location": "Redmond, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.96,
+          "exactValue": 4.96,
+          "display": "4.96",
+          "status": "Projected",
+          "reliability": 16
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17172",
+          "date": "2026-09-18",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": null,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "David Park",
+      "locations": [
+        "BELLEVUE, WA"
+      ],
+      "teams": [
+        "BC-Happy Mixed Nuts18-Park"
+      ],
+      "dr": 3.83,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 530717,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": 6.26,
+          "exactValue": 6.26,
+          "display": "6.26",
+          "status": "Projected",
+          "reliability": 60
+        },
+        "doubles": {
+          "value": 6.19,
+          "exactValue": 6.19,
+          "display": "6.19",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17172",
+          "date": "2026-09-18",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 2.65,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Davis Feng",
+      "locations": [
+        "Bellevue, WA"
+      ],
+      "teams": [
+        "PSC-2026 18+ Mix-Zhou"
+      ],
+      "dr": 2.88,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 885266,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": 3.38,
+          "exactValue": 3.38,
+          "display": "3.38",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "doubles": {
+          "value": 4.49,
+          "exactValue": 4.49,
+          "display": "4.49",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17173",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.91,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Edie Mei",
+      "locations": [
+        "Bellevue, WA"
+      ],
+      "teams": [
+        "AYTC-The Poaching Pandas-Ong/Hua"
+      ],
+      "dr": 2.9,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 5602029,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": 2.18,
+          "exactValue": 2.18,
+          "display": "2.18",
+          "status": "Projected",
+          "reliability": 36
+        },
+        "doubles": {
+          "value": 4.68,
+          "exactValue": 4.68,
+          "display": "4.68",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17170",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.6,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ellen Acuario",
+      "locations": [
+        "Issaquah, WA"
+      ],
+      "teams": [
+        "AYTC-The Poaching Pandas-Ong/Hua"
+      ],
+      "dr": 3.37,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 528251,
+          "location": "Issaquah, WA"
+        },
+        "singles": {
+          "value": 3.32,
+          "exactValue": 3.32,
+          "display": "3.32",
+          "status": "Projected",
+          "reliability": 36
+        },
+        "doubles": {
+          "value": 4.01,
+          "exactValue": 4.01,
+          "display": "4.01",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17170",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.31,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Erin Park",
+      "locations": [
+        "Bellevue, WA"
+      ],
+      "teams": [
+        "BC-Happy Mixed Nuts18-Park"
+      ],
+      "dr": 2.83,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 3959445,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 1.6,
+          "exactValue": 1.6,
+          "display": "1.60",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17172",
+          "date": "2026-09-18",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 2.65,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Esther Choy",
+      "locations": [
+        "Kirkland, WA"
+      ],
+      "teams": [
+        "BC-Happy Mixed Nuts18-Park"
+      ],
+      "dr": 3.17,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 6139626,
+          "location": "Kirkland, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.96,
+          "exactValue": 4.96,
+          "display": "4.96",
+          "status": "Projected",
+          "reliability": 16
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17172",
+          "date": "2026-09-18",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": null,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Henry Hua",
+      "locations": [
+        "Tacoma, WA"
+      ],
+      "teams": [
+        "AYTC-The Poaching Pandas-Ong/Hua"
+      ],
+      "dr": 3.42,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4190601,
+          "location": "Tacoma, WA"
+        },
+        "singles": {
+          "value": 5.39,
+          "exactValue": 5.39,
+          "display": "5.39",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5.29,
+          "exactValue": 5.29,
+          "display": "5.29",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17170",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.6,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jason Bak",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "AYTC-The Poaching Pandas-Ong/Hua"
+      ],
+      "dr": 3.14,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 3496988,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 4.17,
+          "exactValue": 4.17,
+          "display": "4.17",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 4.93,
+          "exactValue": 4.93,
+          "display": "4.93",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17170",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.31,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jiaofeng Xu",
+      "locations": [
+        "Bellevue, WA"
+      ],
+      "teams": [
+        "PSC-2026 18+ Mix-Zhou"
+      ],
+      "dr": 3.24,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 3964040,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": 4.87,
+          "exactValue": 4.87,
+          "display": "4.87",
+          "status": "Projected",
+          "reliability": 20
+        },
+        "doubles": {
+          "value": 5.11,
+          "exactValue": 5.11,
+          "display": "5.11",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17173",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.21,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jingjing Cai",
+      "locations": [
+        "Bellevue, WA"
+      ],
+      "teams": [
+        "BC-Happy Mixed Nuts18-Park"
+      ],
+      "dr": 3.27,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 865828,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": 2.85,
+          "exactValue": 2.85,
+          "display": "2.85",
+          "status": "Projected",
+          "reliability": 60
+        },
+        "doubles": {
+          "value": 3.38,
+          "exactValue": 3.38,
+          "display": "3.38",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17172",
+          "date": "2026-09-18",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.25,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Margaret Zheng",
+      "locations": [
+        "Lynnwood, WA"
+      ],
+      "teams": [
+        "PSC-2026 18+ Mix-Zhou"
+      ],
+      "dr": 3.95,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 239318,
+          "location": "Lynnwood, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.69,
+          "exactValue": 5.69,
+          "display": "5.69",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17173",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.91,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Miho Slavik",
+      "locations": [
+        "Kirkland, WA"
+      ],
+      "teams": [
+        "PSC-2026 18+ Mix-Zhou"
+      ],
+      "dr": 3.8,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 528976,
+          "location": "Kirkland, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.86,
+          "exactValue": 4.86,
+          "display": "4.86",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17173",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "SarahJoan Salvador",
+      "locations": [
+        "SEATTLE, WA"
+      ],
+      "teams": [
+        "AYTC-The Poaching Pandas-Ong/Hua"
+      ],
+      "dr": 3.51,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 86424,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.19,
+          "exactValue": 4.19,
+          "display": "4.19",
+          "status": "Projected",
+          "reliability": 84
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17170",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.1,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shawn Li",
+      "locations": [
+        "Duvall, WA"
+      ],
+      "teams": [
+        "BC-Happy Mixed Nuts18-Park"
+      ],
+      "dr": 3.01,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 5337742,
+          "location": "Duvall, WA"
+        },
+        "singles": {
+          "value": 4.9,
+          "exactValue": 4.9,
+          "display": "4.90",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5,
+          "exactValue": 5,
+          "display": "5.00",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17172",
+          "date": "2026-09-18",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.25,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Zhe Li",
+      "locations": [
+        "SAMMAMISH, WA"
+      ],
+      "teams": [
+        "PSC-2026 18+ Mix-Zhou"
+      ],
+      "dr": 3.51,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 6104293,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 2.24,
+          "exactValue": 2.24,
+          "display": "2.24",
+          "status": "Projected",
+          "reliability": 12
+        },
+        "doubles": {
+          "value": 4.06,
+          "exactValue": 4.06,
+          "display": "4.06",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17173",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.21,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    }
+  ],
+  "matches": [
+    {
+      "id": "17170",
+      "sourceUrl": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17170",
+      "date": "2026-09-12",
+      "phase": "local",
+      "opponent": "AYTC-The Poaching Pandas-Ong/Hua",
+      "sourceSummary": {
+        "metric": "Courts Won",
+        "targetValue": 0,
+        "opponentValue": 3
+      },
+      "teamResult": {
+        "wins": 0,
+        "losses": 3,
+        "result": "L",
+        "source": "tennisrecord",
+        "authoritative": false
+      },
+      "officialTeamResult": null,
+      "courts": {
+        "D1": {
+          "targetPlayers": [
+            "Tetyana Sych",
+            "Vikas Pabreja"
+          ],
+          "opponentPlayers": [
+            "Henry Hua",
+            "Edie Mei"
+          ],
+          "result": "L",
+          "status": "L · 6-4 6-3",
+          "score": "6-4 6-3",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Tetyana Sych",
+              "dr": 3.42,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 481643,
+                  "location": ""
+                },
+                "singles": {
+                  "value": 3.45,
+                  "exactValue": 3.45,
+                  "display": "3.45",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 3.9,
+                  "exactValue": 3.9,
+                  "display": "3.90",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.16,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Vikas Pabreja",
+              "dr": 3.43,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 3272239,
+                  "location": "Sammamish, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 5.41,
+                  "exactValue": 5.41,
+                  "display": "5.41",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.16,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Henry Hua",
+              "historicalDr": {
+                "value": 3.6,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4190601,
+                  "location": "Tacoma, WA"
+                },
+                "singles": {
+                  "value": 5.39,
+                  "exactValue": 5.39,
+                  "display": "5.39",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5.29,
+                  "exactValue": 5.29,
+                  "display": "5.29",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.42,
+              "locations": [
+                "Tacoma, WA"
+              ],
+              "teams": [
+                "AYTC-The Poaching Pandas-Ong/Hua"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Edie Mei",
+              "historicalDr": {
+                "value": 3.6,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 5602029,
+                  "location": "Bellevue, WA"
+                },
+                "singles": {
+                  "value": 2.18,
+                  "exactValue": 2.18,
+                  "display": "2.18",
+                  "status": "Projected",
+                  "reliability": 36
+                },
+                "doubles": {
+                  "value": 4.68,
+                  "exactValue": 4.68,
+                  "display": "4.68",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 2.9,
+              "locations": [
+                "Bellevue, WA"
+              ],
+              "teams": [
+                "AYTC-The Poaching Pandas-Ong/Hua"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D2": {
+          "targetPlayers": [
+            "Kristin Blasko",
+            "Troy Johnson"
+          ],
+          "opponentPlayers": [
+            "Andrew Shin",
+            "SarahJoan Salvador"
+          ],
+          "result": "L",
+          "status": "L · 4-6 6-3 1-0",
+          "score": "4-6 6-3 1-0",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Kristin Blasko",
+              "dr": 3.78,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 909619,
+                  "location": "Sammamish, WA"
+                },
+                "singles": {
+                  "value": 3.02,
+                  "exactValue": 3.02,
+                  "display": "3.02",
+                  "status": "Projected",
+                  "reliability": 32
+                },
+                "doubles": {
+                  "value": 4.28,
+                  "exactValue": 4.28,
+                  "display": "4.28",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.71,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Troy Johnson",
+              "dr": 2.96,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4787966,
+                  "location": "Sammamish, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.91,
+                  "exactValue": 4.91,
+                  "display": "4.91",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.71,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Andrew Shin",
+              "historicalDr": {
+                "value": 3.1,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4814910,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 5.1,
+                  "exactValue": 5.1,
+                  "display": "5.10",
+                  "status": "Projected",
+                  "reliability": 4
+                },
+                "doubles": {
+                  "value": 5.59,
+                  "exactValue": 5.59,
+                  "display": "5.59",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.1,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "AYTC-The Poaching Pandas-Ong/Hua"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "SarahJoan Salvador",
+              "historicalDr": {
+                "value": 3.1,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 86424,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.19,
+                  "exactValue": 4.19,
+                  "display": "4.19",
+                  "status": "Projected",
+                  "reliability": 84
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.51,
+              "locations": [
+                "SEATTLE, WA"
+              ],
+              "teams": [
+                "AYTC-The Poaching Pandas-Ong/Hua"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D3": {
+          "targetPlayers": [
+            "Renee Fletcher",
+            "Manivel Chandrasekaran"
+          ],
+          "opponentPlayers": [
+            "Jason Bak",
+            "Ellen Acuario"
+          ],
+          "result": "L",
+          "status": "L · 7-6 6-2",
+          "score": "7-6 6-2",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Renee Fletcher",
+              "dr": 3.24,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 481653,
+                  "location": "Sammamish, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.16,
+                  "exactValue": 3.16,
+                  "display": "3.16",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.39,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Manivel Chandrasekaran",
+              "dr": 3.05,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 529339,
+                  "location": "Sammamish, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.53,
+                  "exactValue": 4.53,
+                  "display": "4.53",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.39,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Jason Bak",
+              "historicalDr": {
+                "value": 3.31,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 3496988,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 4.17,
+                  "exactValue": 4.17,
+                  "display": "4.17",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 4.93,
+                  "exactValue": 4.93,
+                  "display": "4.93",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.14,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "AYTC-The Poaching Pandas-Ong/Hua"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Ellen Acuario",
+              "historicalDr": {
+                "value": 3.31,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 528251,
+                  "location": "Issaquah, WA"
+                },
+                "singles": {
+                  "value": 3.32,
+                  "exactValue": 3.32,
+                  "display": "3.32",
+                  "status": "Projected",
+                  "reliability": 36
+                },
+                "doubles": {
+                  "value": 4.01,
+                  "exactValue": 4.01,
+                  "display": "4.01",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.37,
+              "locations": [
+                "Issaquah, WA"
+              ],
+              "teams": [
+                "AYTC-The Poaching Pandas-Ong/Hua"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "17172",
+      "sourceUrl": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17172",
+      "date": "2026-09-18",
+      "phase": "local",
+      "opponent": "BC-Happy Mixed Nuts18-Park",
+      "sourceSummary": {
+        "metric": "Courts Won",
+        "targetValue": 0,
+        "opponentValue": 3
+      },
+      "teamResult": {
+        "wins": 0,
+        "losses": 3,
+        "result": "L",
+        "source": "tennisrecord",
+        "authoritative": false
+      },
+      "officialTeamResult": null,
+      "courts": {
+        "D1": {
+          "targetPlayers": [
+            "Yura Kostiukevych",
+            "Olga Svyrydenko"
+          ],
+          "opponentPlayers": [
+            "Esther Choy",
+            "Dan Truong"
+          ],
+          "result": "L",
+          "status": "L · 6-2 5-7 1-0",
+          "score": "6-2 5-7 1-0",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Yura Kostiukevych",
+              "dr": 3.79,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4785160,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 6.18,
+                  "exactValue": 6.18,
+                  "display": "6.18",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5.9,
+                  "exactValue": 5.9,
+                  "display": "5.90",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.82,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Olga Svyrydenko",
+              "dr": 3.05,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 3978525,
+                  "location": "Issaquah, WA"
+                },
+                "singles": {
+                  "value": 3.26,
+                  "exactValue": 3.26,
+                  "display": "3.26",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 2.8,
+                  "exactValue": 2.8,
+                  "display": "2.80",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.82,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Esther Choy",
+              "historicalDr": {
+                "value": null,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 6139626,
+                  "location": "Kirkland, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.96,
+                  "exactValue": 4.96,
+                  "display": "4.96",
+                  "status": "Projected",
+                  "reliability": 16
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.17,
+              "locations": [
+                "Kirkland, WA"
+              ],
+              "teams": [
+                "BC-Happy Mixed Nuts18-Park"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Dan Truong",
+              "historicalDr": {
+                "value": null,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 1973018,
+                  "location": "Redmond, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.96,
+                  "exactValue": 4.96,
+                  "display": "4.96",
+                  "status": "Projected",
+                  "reliability": 16
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.17,
+              "locations": [
+                "Redmond, WA"
+              ],
+              "teams": [
+                "BC-Happy Mixed Nuts18-Park"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D2": {
+          "targetPlayers": [
+            "Jenny Blumenstein",
+            "Kevin Oh"
+          ],
+          "opponentPlayers": [
+            "Jingjing Cai",
+            "Shawn Li"
+          ],
+          "result": "L",
+          "status": "L · 6-3 6-1",
+          "score": "6-3 6-1",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Jenny Blumenstein",
+              "dr": 3.59,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 527409,
+                  "location": "Sammamish, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.23,
+                  "exactValue": 3.23,
+                  "display": "3.23",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.62,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Kevin Oh",
+              "dr": 1.89,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4785300,
+                  "location": "Bellevue, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.21,
+                  "exactValue": 3.21,
+                  "display": "3.21",
+                  "status": "Projected",
+                  "reliability": 36
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.62,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Jingjing Cai",
+              "historicalDr": {
+                "value": 3.25,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 865828,
+                  "location": "Bellevue, WA"
+                },
+                "singles": {
+                  "value": 2.85,
+                  "exactValue": 2.85,
+                  "display": "2.85",
+                  "status": "Projected",
+                  "reliability": 60
+                },
+                "doubles": {
+                  "value": 3.38,
+                  "exactValue": 3.38,
+                  "display": "3.38",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.27,
+              "locations": [
+                "Bellevue, WA"
+              ],
+              "teams": [
+                "BC-Happy Mixed Nuts18-Park"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Shawn Li",
+              "historicalDr": {
+                "value": 3.25,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 5337742,
+                  "location": "Duvall, WA"
+                },
+                "singles": {
+                  "value": 4.9,
+                  "exactValue": 4.9,
+                  "display": "4.90",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5,
+                  "exactValue": 5,
+                  "display": "5.00",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.01,
+              "locations": [
+                "Duvall, WA"
+              ],
+              "teams": [
+                "BC-Happy Mixed Nuts18-Park"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D3": {
+          "targetPlayers": [
+            "Tiffany Buck",
+            "Cameron Buck"
+          ],
+          "opponentPlayers": [
+            "Erin Park",
+            "David Park"
+          ],
+          "result": "L",
+          "status": "L · 7-6 6-2",
+          "score": "7-6 6-2",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Tiffany Buck",
+              "dr": 3.01,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 528846,
+                  "location": "Issaquah, WA"
+                },
+                "singles": {
+                  "value": 2.71,
+                  "exactValue": 2.71,
+                  "display": "2.71",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 3.51,
+                  "exactValue": 3.51,
+                  "display": "3.51",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Cameron Buck",
+              "dr": 3.43,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 529834,
+                  "location": "Issaquah, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.28,
+                  "exactValue": 3.28,
+                  "display": "3.28",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Erin Park",
+              "historicalDr": {
+                "value": 2.65,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 3959445,
+                  "location": "Bellevue, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 1.6,
+                  "exactValue": 1.6,
+                  "display": "1.60",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 2.83,
+              "locations": [
+                "Bellevue, WA"
+              ],
+              "teams": [
+                "BC-Happy Mixed Nuts18-Park"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "David Park",
+              "historicalDr": {
+                "value": 2.65,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 530717,
+                  "location": "Bellevue, WA"
+                },
+                "singles": {
+                  "value": 6.26,
+                  "exactValue": 6.26,
+                  "display": "6.26",
+                  "status": "Projected",
+                  "reliability": 60
+                },
+                "doubles": {
+                  "value": 6.19,
+                  "exactValue": 6.19,
+                  "display": "6.19",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.83,
+              "locations": [
+                "BELLEVUE, WA"
+              ],
+              "teams": [
+                "BC-Happy Mixed Nuts18-Park"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "17173",
+      "sourceUrl": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17173",
+      "date": "2026-09-19",
+      "phase": "local",
+      "opponent": "PSC-2026 18+ Mix-Zhou",
+      "sourceSummary": {
+        "metric": "Courts Won",
+        "targetValue": 0,
+        "opponentValue": 3
+      },
+      "teamResult": {
+        "wins": 0,
+        "losses": 3,
+        "result": "L",
+        "source": "tennisrecord",
+        "authoritative": false
+      },
+      "officialTeamResult": null,
+      "courts": {
+        "D1": {
+          "targetPlayers": [
+            "Yura Kostiukevych",
+            "Tiffany Buck"
+          ],
+          "opponentPlayers": [
+            "Arav Singhal",
+            "Miho Slavik"
+          ],
+          "result": "L",
+          "status": "L · 6-3 6-3",
+          "score": "6-3 6-3",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Yura Kostiukevych",
+              "dr": 3.79,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4785160,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 6.18,
+                  "exactValue": 6.18,
+                  "display": "6.18",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5.9,
+                  "exactValue": 5.9,
+                  "display": "5.90",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.95,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Tiffany Buck",
+              "dr": 3.01,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 528846,
+                  "location": "Issaquah, WA"
+                },
+                "singles": {
+                  "value": 2.71,
+                  "exactValue": 2.71,
+                  "display": "2.71",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 3.51,
+                  "exactValue": 3.51,
+                  "display": "3.51",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.95,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Arav Singhal",
+              "historicalDr": {
+                "value": 3,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 5065168,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 5.75,
+                  "exactValue": 5.75,
+                  "display": "5.75",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5.62,
+                  "exactValue": 5.62,
+                  "display": "5.62",
+                  "status": "Projected",
+                  "reliability": 80
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.22,
+              "locations": [
+                "SEATTLE, WA"
+              ],
+              "teams": [
+                "PSC-2026 18+ Mix-Zhou"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Miho Slavik",
+              "historicalDr": {
+                "value": 3,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 528976,
+                  "location": "Kirkland, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.86,
+                  "exactValue": 4.86,
+                  "display": "4.86",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.8,
+              "locations": [
+                "Kirkland, WA"
+              ],
+              "teams": [
+                "PSC-2026 18+ Mix-Zhou"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D2": {
+          "targetPlayers": [
+            "Jenny Blumenstein",
+            "Matt MacArthur"
+          ],
+          "opponentPlayers": [
+            "Zhe Li",
+            "Jiaofeng Xu"
+          ],
+          "result": "L",
+          "status": "L · 6-1 2-6 1-0",
+          "score": "6-1 2-6 1-0",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Jenny Blumenstein",
+              "dr": 3.59,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 527409,
+                  "location": "Sammamish, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.23,
+                  "exactValue": 3.23,
+                  "display": "3.23",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.62,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Matt MacArthur",
+              "dr": 2.75,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 916582,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 5.37,
+                  "exactValue": 5.37,
+                  "display": "5.37",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.62,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Zhe Li",
+              "historicalDr": {
+                "value": 3.21,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 6104293,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 2.24,
+                  "exactValue": 2.24,
+                  "display": "2.24",
+                  "status": "Projected",
+                  "reliability": 12
+                },
+                "doubles": {
+                  "value": 4.06,
+                  "exactValue": 4.06,
+                  "display": "4.06",
+                  "status": "Projected",
+                  "reliability": 4
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.51,
+              "locations": [
+                "SAMMAMISH, WA"
+              ],
+              "teams": [
+                "PSC-2026 18+ Mix-Zhou"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Jiaofeng Xu",
+              "historicalDr": {
+                "value": 3.21,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 3964040,
+                  "location": "Bellevue, WA"
+                },
+                "singles": {
+                  "value": 4.87,
+                  "exactValue": 4.87,
+                  "display": "4.87",
+                  "status": "Projected",
+                  "reliability": 20
+                },
+                "doubles": {
+                  "value": 5.11,
+                  "exactValue": 5.11,
+                  "display": "5.11",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.24,
+              "locations": [
+                "Bellevue, WA"
+              ],
+              "teams": [
+                "PSC-2026 18+ Mix-Zhou"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D3": {
+          "targetPlayers": [
+            "Tetyana Sych",
+            "Barrett Park"
+          ],
+          "opponentPlayers": [
+            "Margaret Zheng",
+            "Davis Feng"
+          ],
+          "result": "L",
+          "status": "L · 3-6 7-6 1-0",
+          "score": "3-6 7-6 1-0",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Tetyana Sych",
+              "dr": 3.42,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 481643,
+                  "location": ""
+                },
+                "singles": {
+                  "value": 3.45,
+                  "exactValue": 3.45,
+                  "display": "3.45",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 3.9,
+                  "exactValue": 3.9,
+                  "display": "3.90",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.16,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Barrett Park",
+              "dr": 3.08,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 529895,
+                  "location": "Issaquah, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 5.15,
+                  "exactValue": 5.15,
+                  "display": "5.15",
+                  "status": "Projected",
+                  "reliability": 60
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.16,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Margaret Zheng",
+              "historicalDr": {
+                "value": 3.91,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 239318,
+                  "location": "Lynnwood, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 5.69,
+                  "exactValue": 5.69,
+                  "display": "5.69",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.95,
+              "locations": [
+                "Lynnwood, WA"
+              ],
+              "teams": [
+                "PSC-2026 18+ Mix-Zhou"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Davis Feng",
+              "historicalDr": {
+                "value": 3.91,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 885266,
+                  "location": "Bellevue, WA"
+                },
+                "singles": {
+                  "value": 3.38,
+                  "exactValue": 3.38,
+                  "display": "3.38",
+                  "status": "Projected",
+                  "reliability": 4
+                },
+                "doubles": {
+                  "value": 4.49,
+                  "exactValue": 4.49,
+                  "display": "4.49",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 2.88,
+              "locations": [
+                "Bellevue, WA"
+              ],
+              "teams": [
+                "PSC-2026 18+ Mix-Zhou"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "dataQuality": {
+    "sourcePrecedence": [
+      "USTA TennisLink official result",
+      "TennisRecord match detail",
+      "TennisRecord team aggregate",
+      "derived totals"
+    ],
+    "issues": [],
+    "unresolvedIdentities": [],
+    "coverage": {
+      "tennisRecordMatchesCollected": 3,
+      "officialUstaReconciled": false,
+      "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    }
+  },
+  "downstreamContract": {
+    "authoritativeInput": true,
+    "analysisMayDerive": [
+      "eligibility summary",
+      "singles analysis",
+      "doubles pair analysis",
+      "court stacking",
+      "postseason-weighted lineup projection",
+      "strategy",
+      "HTML report"
+    ],
+    "analysisMustNotOverride": [
+      "source identity matches",
+      "exact ratings",
+      "official match results",
+      "adjudications",
+      "source precedence",
+      "unresolved-profile status"
+    ],
+    "opponentRatingPolicy": [
+      "Use authenticated exact UTR values when available.",
+      "Treat NR/unresolved values as missing.",
+      "Never infer a decimal from a public rating band."
+    ]
+  },
+  "ratingSelections": {
+    "utr": "authenticated",
+    "wtn": false
+  }
+}

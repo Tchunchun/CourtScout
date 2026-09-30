@@ -1,0 +1,2486 @@
+{
+  "schemaVersion": "2.0.0",
+  "datasetId": "2027-tcsp-racket-scientists-casimo",
+  "generatedAt": "2026-09-30T18:14:51.000Z",
+  "collectionStage": "step_1_complete",
+  "team": {
+    "name": "TCSP-Racket scientists-Casimo",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 0,
+      "teamLosses": 1,
+      "courtWins": 1,
+      "courtLosses": 2
+    }
+  },
+  "eligibilityRule": {
+    "regulation": "USTA League Regulation 2.03A(4)",
+    "nonSelfRated": {
+      "matchesRequired": 3,
+      "defaultReceivedMayCount": 1
+    },
+    "selfRatedOrAppealed": {
+      "actualMatchesRequired": 4,
+      "defaultsCount": false
+    },
+    "evaluatedThrough": "Sectional Championships"
+  },
+  "sources": [
+    {
+      "type": "tennisrecord",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=TCSP-Racket%20scientists-Casimo&year=2027",
+      "retrievedAt": "2026-09-30",
+      "authentication": "none",
+      "fields": [
+        "team identity",
+        "roster",
+        "player location",
+        "NTRP",
+        "DR",
+        "match schedule",
+        "lineups",
+        "scores",
+        "historical match DR"
+      ]
+    },
+    {
+      "type": "utr_sports_authenticated_profiles",
+      "url": "https://app.utrsports.net/profiles",
+      "retrievedAt": "2026-09-30",
+      "authentication": "user-authenticated",
+      "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+      "fields": [
+        "profile identity",
+        "location",
+        "exact singles UTR",
+        "exact doubles UTR",
+        "rating status",
+        "reliability"
+      ]
+    }
+  ],
+  "roster": [
+    {
+      "name": "Tomas San Miguel",
+      "location": "Bothell, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Tomas%20San%20Miguel",
+      "ntrp": {
+        "level": "4.0",
+        "type": "C"
+      },
+      "dr": 3.87,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 2728426,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 7.13,
+          "exactValue": 7.13,
+          "display": "7.13",
+          "status": "Projected",
+          "reliability": 48
+        },
+        "doubles": {
+          "value": 7.09,
+          "exactValue": 7.09,
+          "display": "7.09",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Brian MacDuff",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Brian%20MacDuff",
+      "ntrp": {
+        "level": "4.0",
+        "type": "C"
+      },
+      "dr": 3.8,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 529588,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.85,
+          "exactValue": 5.85,
+          "display": "5.85",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Laura Walsh",
+      "location": "Bellevue, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Laura%20Walsh&s=4",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.65,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4459827,
+          "location": "Bellevue, WA"
+        },
+        "singles": {
+          "value": 4.18,
+          "exactValue": 4.18,
+          "display": "4.18",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 4.64,
+          "exactValue": 4.64,
+          "display": "4.64",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Zane Dundon",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Zane%20Dundon",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.57,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 68347,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 6.49,
+          "exactValue": 6.49,
+          "display": "6.49",
+          "status": "Projected",
+          "reliability": 64
+        },
+        "doubles": {
+          "value": 5.88,
+          "exactValue": 5.88,
+          "display": "5.88",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Natalie Berger",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Natalie%20Berger",
+      "ntrp": {
+        "level": "3.5",
+        "type": "S"
+      },
+      "dr": 3.54,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 865977,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.37,
+          "exactValue": 5.37,
+          "display": "5.37",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Jeffrey Lin",
+      "location": "Shoreline, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Jeffrey%20Lin&s=2",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.47,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4089922,
+          "location": "Shoreline, WA"
+        },
+        "singles": {
+          "value": 4.8,
+          "exactValue": 4.8,
+          "display": "4.80",
+          "status": "Projected",
+          "reliability": 36
+        },
+        "doubles": {
+          "value": 5.39,
+          "exactValue": 5.39,
+          "display": "5.39",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Chaz Pangelinan",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Chaz%20Pangelinan",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.44,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 390120,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 5.29,
+          "exactValue": 5.29,
+          "display": "5.29",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5.7,
+          "exactValue": 5.7,
+          "display": "5.70",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 1,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "J Coifman",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=J%20Coifman",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.41,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4345294,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.93,
+          "exactValue": 3.93,
+          "display": "3.93",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Christopher Weber",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Christopher%20Weber&s=2",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.35,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 2707826,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 6.03,
+          "exactValue": 6.03,
+          "display": "6.03",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5.85,
+          "exactValue": 5.85,
+          "display": "5.85",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Pam MacDuff",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Pam%20MacDuff",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.3,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 528235,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.14,
+          "exactValue": 3.14,
+          "display": "3.14",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Kaitlyn Casimo",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Kaitlyn%20Casimo",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.3,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 2908702,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 2.74,
+          "exactValue": 2.74,
+          "display": "2.74",
+          "status": "Projected",
+          "reliability": 44
+        },
+        "doubles": {
+          "value": 3.54,
+          "exactValue": 3.54,
+          "display": "3.54",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Suzanne Vogt",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Suzanne%20Vogt",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.28,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 530624,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.82,
+          "exactValue": 3.82,
+          "display": "3.82",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 1,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Pamela Lavitt",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Pamela%20Lavitt",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.24,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 828711,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 2.92,
+          "exactValue": 2.92,
+          "display": "2.92",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 3.12,
+          "exactValue": 3.12,
+          "display": "3.12",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "XANDER FISS",
+      "location": "Kirkland, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=XANDER%20FISS",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.2,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 2845230,
+          "location": "Kirkland, WA"
+        },
+        "singles": {
+          "value": 4.35,
+          "exactValue": 4.35,
+          "display": "4.35",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 4.52,
+          "exactValue": 4.52,
+          "display": "4.52",
+          "status": "Projected",
+          "reliability": 64
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "gabe licka",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=gabe%20licka",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.19,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 529188,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.25,
+          "exactValue": 5.25,
+          "display": "5.25",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Trisha Ramfar",
+      "location": "Shoreline, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Trisha%20Ramfar",
+      "ntrp": {
+        "level": "3.5",
+        "type": "S"
+      },
+      "dr": 3.15,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 6034441,
+          "location": "Shoreline, WA"
+        },
+        "singles": {
+          "value": 2.48,
+          "exactValue": 2.48,
+          "display": "2.48",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "doubles": {
+          "value": 3.18,
+          "exactValue": 3.18,
+          "display": "3.18",
+          "status": "Projected",
+          "reliability": 80
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Aki Carroll",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Aki%20Carroll",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 2.79,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 1298238,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.1,
+          "exactValue": 3.1,
+          "display": "3.10",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    }
+  ],
+  "opponents": [
+    {
+      "name": "Abby Harrison",
+      "locations": [
+        "WOODINVILLE, WA"
+      ],
+      "teams": [
+        "WSC-Yin Yang Masters v7.0"
+      ],
+      "dr": 3.85,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 652800,
+          "location": "Woodinville, WA"
+        },
+        "singles": {
+          "value": 5.05,
+          "exactValue": 5.05,
+          "display": "5.05",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5.11,
+          "exactValue": 5.11,
+          "display": "5.11",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17174",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.75,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cynthia Wang",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "WSC-Yin Yang Masters v7.0"
+      ],
+      "dr": 2.95,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4804316,
+          "location": "Unknown, WA"
+        },
+        "singles": {
+          "value": 2.93,
+          "exactValue": 2.93,
+          "display": "2.93",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 3.6,
+          "exactValue": 3.6,
+          "display": "3.60",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17174",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.95,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jonathan Poch",
+      "locations": [
+        "KIRKLAND, WA"
+      ],
+      "teams": [
+        "WSC-Yin Yang Masters v7.0"
+      ],
+      "dr": 3.48,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 4443557,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.3,
+          "exactValue": 4.3,
+          "display": "4.30",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17174",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.95,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maya Wong",
+      "locations": [
+        "Mercer Island, WA"
+      ],
+      "teams": [
+        "WSC-Yin Yang Masters v7.0"
+      ],
+      "dr": 3.38,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 287066,
+          "location": "Mercer Island, WA"
+        },
+        "singles": {
+          "value": 4.01,
+          "exactValue": 4.01,
+          "display": "4.01",
+          "status": "Projected",
+          "reliability": 28
+        },
+        "doubles": {
+          "value": 5.06,
+          "exactValue": 5.06,
+          "display": "5.06",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17174",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.08,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Owen Mears",
+      "locations": [
+        "Spencerport, NY"
+      ],
+      "teams": [
+        "WSC-Yin Yang Masters v7.0"
+      ],
+      "dr": 3.31,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 1439112,
+          "location": "Redmond, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.59,
+          "exactValue": 5.59,
+          "display": "5.59",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17174",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.08,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Zhe Yang",
+      "locations": [
+        "Kirkland, WA"
+      ],
+      "teams": [
+        "WSC-Yin Yang Masters v7.0"
+      ],
+      "dr": 3.03,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 842739,
+          "location": "Kirkland, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 2.07,
+          "exactValue": 2.07,
+          "display": "2.07",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17174",
+          "date": "2026-09-19",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.75,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    }
+  ],
+  "matches": [
+    {
+      "id": "17174",
+      "sourceUrl": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17174",
+      "date": "2026-09-19",
+      "phase": "local",
+      "opponent": "WSC-Yin Yang Masters v7.0",
+      "sourceSummary": {
+        "metric": "Courts Won",
+        "targetValue": 1,
+        "opponentValue": 2
+      },
+      "teamResult": {
+        "wins": 1,
+        "losses": 2,
+        "result": "L",
+        "source": "tennisrecord",
+        "authoritative": false
+      },
+      "officialTeamResult": null,
+      "courts": {
+        "D1": {
+          "targetPlayers": [
+            "Suzanne Vogt",
+            "Chaz Pangelinan"
+          ],
+          "opponentPlayers": [
+            "Cynthia Wang",
+            "Jonathan Poch"
+          ],
+          "result": "W",
+          "status": "W · 6-2 6-1",
+          "score": "6-2 6-1",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Suzanne Vogt",
+              "dr": 3.28,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 530624,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.82,
+                  "exactValue": 3.82,
+                  "display": "3.82",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.4,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Chaz Pangelinan",
+              "dr": 3.44,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 390120,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 5.29,
+                  "exactValue": 5.29,
+                  "display": "5.29",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5.7,
+                  "exactValue": 5.7,
+                  "display": "5.70",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.4,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Cynthia Wang",
+              "historicalDr": {
+                "value": 2.95,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4804316,
+                  "location": "Unknown, WA"
+                },
+                "singles": {
+                  "value": 2.93,
+                  "exactValue": 2.93,
+                  "display": "2.93",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 3.6,
+                  "exactValue": 3.6,
+                  "display": "3.60",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 2.95,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "WSC-Yin Yang Masters v7.0"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Jonathan Poch",
+              "historicalDr": {
+                "value": 2.95,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 4443557,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.3,
+                  "exactValue": 4.3,
+                  "display": "4.30",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.48,
+              "locations": [
+                "KIRKLAND, WA"
+              ],
+              "teams": [
+                "WSC-Yin Yang Masters v7.0"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D2": {
+          "targetPlayers": [
+            "Kaitlyn Casimo",
+            "Zane Dundon"
+          ],
+          "opponentPlayers": [
+            "Owen Mears",
+            "Maya Wong"
+          ],
+          "result": "L",
+          "status": "L · 6-1 6-1",
+          "score": "6-1 6-1",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Kaitlyn Casimo",
+              "dr": 3.3,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 2908702,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 2.74,
+                  "exactValue": 2.74,
+                  "display": "2.74",
+                  "status": "Projected",
+                  "reliability": 44
+                },
+                "doubles": {
+                  "value": 3.54,
+                  "exactValue": 3.54,
+                  "display": "3.54",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.31,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Zane Dundon",
+              "dr": 3.57,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 68347,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 6.49,
+                  "exactValue": 6.49,
+                  "display": "6.49",
+                  "status": "Projected",
+                  "reliability": 64
+                },
+                "doubles": {
+                  "value": 5.88,
+                  "exactValue": 5.88,
+                  "display": "5.88",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.31,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Owen Mears",
+              "historicalDr": {
+                "value": 3.08,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 1439112,
+                  "location": "Redmond, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 5.59,
+                  "exactValue": 5.59,
+                  "display": "5.59",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.31,
+              "locations": [
+                "Spencerport, NY"
+              ],
+              "teams": [
+                "WSC-Yin Yang Masters v7.0"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Maya Wong",
+              "historicalDr": {
+                "value": 3.08,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 287066,
+                  "location": "Mercer Island, WA"
+                },
+                "singles": {
+                  "value": 4.01,
+                  "exactValue": 4.01,
+                  "display": "4.01",
+                  "status": "Projected",
+                  "reliability": 28
+                },
+                "doubles": {
+                  "value": 5.06,
+                  "exactValue": 5.06,
+                  "display": "5.06",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.38,
+              "locations": [
+                "Mercer Island, WA"
+              ],
+              "teams": [
+                "WSC-Yin Yang Masters v7.0"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D3": {
+          "targetPlayers": [
+            "gabe licka",
+            "Trisha Ramfar"
+          ],
+          "opponentPlayers": [
+            "Abby Harrison",
+            "Zhe Yang"
+          ],
+          "result": "L",
+          "status": "L · 6-4 6-4",
+          "score": "6-4 6-4",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "gabe licka",
+              "dr": 3.19,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 529188,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 5.25,
+                  "exactValue": 5.25,
+                  "display": "5.25",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.41,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Trisha Ramfar",
+              "dr": 3.15,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 6034441,
+                  "location": "Shoreline, WA"
+                },
+                "singles": {
+                  "value": 2.48,
+                  "exactValue": 2.48,
+                  "display": "2.48",
+                  "status": "Projected",
+                  "reliability": 4
+                },
+                "doubles": {
+                  "value": 3.18,
+                  "exactValue": 3.18,
+                  "display": "3.18",
+                  "status": "Projected",
+                  "reliability": 80
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.41,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Abby Harrison",
+              "historicalDr": {
+                "value": 3.75,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 652800,
+                  "location": "Woodinville, WA"
+                },
+                "singles": {
+                  "value": 5.05,
+                  "exactValue": 5.05,
+                  "display": "5.05",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5.11,
+                  "exactValue": 5.11,
+                  "display": "5.11",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.85,
+              "locations": [
+                "WOODINVILLE, WA"
+              ],
+              "teams": [
+                "WSC-Yin Yang Masters v7.0"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Zhe Yang",
+              "historicalDr": {
+                "value": 3.75,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 842739,
+                  "location": "Kirkland, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 2.07,
+                  "exactValue": 2.07,
+                  "display": "2.07",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.03,
+              "locations": [
+                "Kirkland, WA"
+              ],
+              "teams": [
+                "WSC-Yin Yang Masters v7.0"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "dataQuality": {
+    "sourcePrecedence": [
+      "USTA TennisLink official result",
+      "TennisRecord match detail",
+      "TennisRecord team aggregate",
+      "derived totals"
+    ],
+    "issues": [],
+    "unresolvedIdentities": [],
+    "coverage": {
+      "tennisRecordMatchesCollected": 1,
+      "officialUstaReconciled": false,
+      "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    }
+  },
+  "downstreamContract": {
+    "authoritativeInput": true,
+    "analysisMayDerive": [
+      "eligibility summary",
+      "singles analysis",
+      "doubles pair analysis",
+      "court stacking",
+      "postseason-weighted lineup projection",
+      "strategy",
+      "HTML report"
+    ],
+    "analysisMustNotOverride": [
+      "source identity matches",
+      "exact ratings",
+      "official match results",
+      "adjudications",
+      "source precedence",
+      "unresolved-profile status"
+    ],
+    "opponentRatingPolicy": [
+      "Use authenticated exact UTR values when available.",
+      "Treat NR/unresolved values as missing.",
+      "Never infer a decimal from a public rating band."
+    ]
+  },
+  "ratingSelections": {
+    "utr": "authenticated",
+    "wtn": false
+  }
+}

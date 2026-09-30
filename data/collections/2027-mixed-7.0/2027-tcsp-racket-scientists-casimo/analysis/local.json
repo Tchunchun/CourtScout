@@ -1,0 +1,3759 @@
+{
+  "analysisVersion": "1.1.0",
+  "generatedAt": "2026-09-30T23:07:14.182Z",
+  "dataset": {
+    "datasetId": "2027-tcsp-racket-scientists-casimo",
+    "schemaVersion": "2.0.0",
+    "generatedAt": "2026-09-30T18:14:51.000Z",
+    "collectionStage": "step_1_complete",
+    "finalReportReady": true
+  },
+  "team": {
+    "name": "TCSP-Racket scientists-Casimo",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 0,
+      "teamLosses": 1,
+      "courtWins": 1,
+      "courtLosses": 2
+    }
+  },
+  "summary": {
+    "rosterSize": 17,
+    "matches": 1,
+    "teamRecord": {
+      "wins": 0,
+      "losses": 1,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 1,
+      "winRate": 0
+    },
+    "courtRecord": {
+      "wins": 1,
+      "losses": 2,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 3,
+      "winRate": 0.3333
+    },
+    "phases": {
+      "local": {
+        "matches": 1,
+        "teamRecord": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "courtRecord": {
+          "wins": 1,
+          "losses": 2,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 3,
+          "winRate": 0.3333
+        }
+      }
+    }
+  },
+  "eligibility": {
+    "scope": "local",
+    "label": "Local",
+    "rules": {
+      "computerRatedMatches": 0,
+      "selfRatedOrAppealedMatches": 0,
+      "computerRatedDefaultReceivedMayCount": 1,
+      "selfRatedOrAppealedDefaultsCount": false,
+      "disqualifiedPlayersAvailable": false
+    },
+    "summary": {
+      "rosterSize": 17,
+      "eligible": 17,
+      "ineligible": 0,
+      "unavailable": 0,
+      "unknown": 0
+    },
+    "dataQualityIssues": [],
+    "players": [
+      {
+        "name": "Tomas San Miguel",
+        "ntrpLevel": "4.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.87,
+        "utr": {
+          "singles": {
+            "value": 7.13,
+            "exactValue": 7.13,
+            "display": "7.13",
+            "status": "Projected",
+            "reliability": 48
+          },
+          "doubles": {
+            "value": 7.09,
+            "exactValue": 7.09,
+            "display": "7.09",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Brian MacDuff",
+        "ntrpLevel": "4.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.8,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 5.85,
+            "exactValue": 5.85,
+            "display": "5.85",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Laura Walsh",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.65,
+        "utr": {
+          "singles": {
+            "value": 4.18,
+            "exactValue": 4.18,
+            "display": "4.18",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 4.64,
+            "exactValue": 4.64,
+            "display": "4.64",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Zane Dundon",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.57,
+        "utr": {
+          "singles": {
+            "value": 6.49,
+            "exactValue": 6.49,
+            "display": "6.49",
+            "status": "Projected",
+            "reliability": 64
+          },
+          "doubles": {
+            "value": 5.88,
+            "exactValue": 5.88,
+            "display": "5.88",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Kaitlyn Casimo",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Natalie Berger",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.54,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 5.37,
+            "exactValue": 5.37,
+            "display": "5.37",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Jeffrey Lin",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.47,
+        "utr": {
+          "singles": {
+            "value": 4.8,
+            "exactValue": 4.8,
+            "display": "4.80",
+            "status": "Projected",
+            "reliability": 36
+          },
+          "doubles": {
+            "value": 5.39,
+            "exactValue": 5.39,
+            "display": "5.39",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Chaz Pangelinan",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.44,
+        "utr": {
+          "singles": {
+            "value": 5.29,
+            "exactValue": 5.29,
+            "display": "5.29",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 5.7,
+            "exactValue": 5.7,
+            "display": "5.70",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Suzanne Vogt",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (1–0)."
+      },
+      {
+        "name": "J Coifman",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.41,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 3.93,
+            "exactValue": 3.93,
+            "display": "3.93",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Christopher Weber",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.35,
+        "utr": {
+          "singles": {
+            "value": 6.03,
+            "exactValue": 6.03,
+            "display": "6.03",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 5.85,
+            "exactValue": 5.85,
+            "display": "5.85",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Pam MacDuff",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.3,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 3.14,
+            "exactValue": 3.14,
+            "display": "3.14",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Kaitlyn Casimo",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.3,
+        "utr": {
+          "singles": {
+            "value": 2.74,
+            "exactValue": 2.74,
+            "display": "2.74",
+            "status": "Projected",
+            "reliability": 44
+          },
+          "doubles": {
+            "value": 3.54,
+            "exactValue": 3.54,
+            "display": "3.54",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Zane Dundon",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Suzanne Vogt",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.28,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 3.82,
+            "exactValue": 3.82,
+            "display": "3.82",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Chaz Pangelinan",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (1–0)."
+      },
+      {
+        "name": "Pamela Lavitt",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.24,
+        "utr": {
+          "singles": {
+            "value": 2.92,
+            "exactValue": 2.92,
+            "display": "2.92",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 3.12,
+            "exactValue": 3.12,
+            "display": "3.12",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "XANDER FISS",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.2,
+        "utr": {
+          "singles": {
+            "value": 4.35,
+            "exactValue": 4.35,
+            "display": "4.35",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 4.52,
+            "exactValue": 4.52,
+            "display": "4.52",
+            "status": "Projected",
+            "reliability": 64
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "gabe licka",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.19,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 5.25,
+            "exactValue": 5.25,
+            "display": "5.25",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Trisha Ramfar",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Trisha Ramfar",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.15,
+        "utr": {
+          "singles": {
+            "value": 2.48,
+            "exactValue": 2.48,
+            "display": "2.48",
+            "status": "Projected",
+            "reliability": 4
+          },
+          "doubles": {
+            "value": 3.18,
+            "exactValue": 3.18,
+            "display": "3.18",
+            "status": "Projected",
+            "reliability": 80
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "gabe licka",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Aki Carroll",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.79,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 3.1,
+            "exactValue": 3.1,
+            "display": "3.10",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      }
+    ]
+  },
+  "singles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "playersUsed": 0,
+      "matchesAnalyzed": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "players": [],
+    "matchStacking": []
+  },
+  "doubles": {
+    "summary": {
+      "record": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 3,
+        "winRate": 0.3333
+      },
+      "uniquePairs": 3,
+      "matchesAnalyzed": 1,
+      "repeatedPairs": 0,
+      "oneOffPairs": 3,
+      "pairsWithIncompleteCurrentUtr": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 1,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 1
+    },
+    "courts": [
+      {
+        "court": "D1",
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Chaz Pangelinan + Suzanne Vogt",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D2",
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Kaitlyn Casimo + Zane Dundon",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D3",
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "gabe licka + Trisha Ramfar",
+            "appearances": 1
+          }
+        ]
+      }
+    ],
+    "repeatedPairs": [],
+    "oneOffPairs": [
+      {
+        "pair": "Chaz Pangelinan + Suzanne Vogt",
+        "players": [
+          "Chaz Pangelinan",
+          "Suzanne Vogt"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.36,
+          "doublesUtrAverage": 4.76,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Chaz Pangelinan",
+              "dr": 3.44,
+              "doublesUtr": {
+                "value": 5.7,
+                "exactValue": 5.7,
+                "display": "5.70",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Suzanne Vogt",
+              "dr": 3.28,
+              "doublesUtr": {
+                "value": 3.82,
+                "exactValue": 3.82,
+                "display": "3.82",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D1",
+            "pair": "Chaz Pangelinan + Suzanne Vogt",
+            "players": [
+              "Chaz Pangelinan",
+              "Suzanne Vogt"
+            ],
+            "opponentPair": "Cynthia Wang + Jonathan Poch",
+            "opponentPlayers": [
+              "Cynthia Wang",
+              "Jonathan Poch"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-2 6-1",
+            "score": "6-2 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.4,
+                  "values": [
+                    {
+                      "name": "Suzanne Vogt",
+                      "value": 3.4,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chaz Pangelinan",
+                      "value": 3.4,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.76,
+                  "values": [
+                    {
+                      "name": "Suzanne Vogt",
+                      "value": 3.82,
+                      "sourceRating": {
+                        "value": 3.82,
+                        "exactValue": 3.82,
+                        "display": "3.82",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Chaz Pangelinan",
+                      "value": 5.7,
+                      "sourceRating": {
+                        "value": 5.7,
+                        "exactValue": 5.7,
+                        "display": "5.70",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.95,
+                  "values": [
+                    {
+                      "name": "Cynthia Wang",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.95,
+                  "values": [
+                    {
+                      "name": "Cynthia Wang",
+                      "value": 3.6,
+                      "sourceRating": {
+                        "value": 3.6,
+                        "exactValue": 3.6,
+                        "display": "3.60",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 4.3,
+                      "sourceRating": {
+                        "value": 4.3,
+                        "exactValue": 4.3,
+                        "display": "4.30",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.45,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.81,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "gabe licka + Trisha Ramfar",
+        "players": [
+          "gabe licka",
+          "Trisha Ramfar"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.17,
+          "doublesUtrAverage": 4.215,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "gabe licka",
+              "dr": 3.19,
+              "doublesUtr": {
+                "value": 5.25,
+                "exactValue": 5.25,
+                "display": "5.25",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Trisha Ramfar",
+              "dr": 3.15,
+              "doublesUtr": {
+                "value": 3.18,
+                "exactValue": 3.18,
+                "display": "3.18",
+                "status": "Projected",
+                "reliability": 80
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 1,
+          "largestFavoriteUtrLoss": {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D3",
+            "pair": "gabe licka + Trisha Ramfar",
+            "players": [
+              "gabe licka",
+              "Trisha Ramfar"
+            ],
+            "opponentPair": "Abby Harrison + Zhe Yang",
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Zhe Yang"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.41,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.215,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 5.25,
+                      "sourceRating": {
+                        "value": 5.25,
+                        "exactValue": 5.25,
+                        "display": "5.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.18,
+                      "sourceRating": {
+                        "value": 3.18,
+                        "exactValue": 3.18,
+                        "display": "3.18",
+                        "status": "Projected",
+                        "reliability": 80
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.75,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.59,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 2.07,
+                      "sourceRating": {
+                        "value": 2.07,
+                        "exactValue": 2.07,
+                        "display": "2.07",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.34,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        },
+        "matchHistory": [
+          {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D3",
+            "pair": "gabe licka + Trisha Ramfar",
+            "players": [
+              "gabe licka",
+              "Trisha Ramfar"
+            ],
+            "opponentPair": "Abby Harrison + Zhe Yang",
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Zhe Yang"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.41,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.215,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 5.25,
+                      "sourceRating": {
+                        "value": 5.25,
+                        "exactValue": 5.25,
+                        "display": "5.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.18,
+                      "sourceRating": {
+                        "value": 3.18,
+                        "exactValue": 3.18,
+                        "display": "3.18",
+                        "status": "Projected",
+                        "reliability": 80
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.75,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.59,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 2.07,
+                      "sourceRating": {
+                        "value": 2.07,
+                        "exactValue": 2.07,
+                        "display": "2.07",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.34,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Kaitlyn Casimo + Zane Dundon",
+        "players": [
+          "Kaitlyn Casimo",
+          "Zane Dundon"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.435,
+          "doublesUtrAverage": 4.71,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Kaitlyn Casimo",
+              "dr": 3.3,
+              "doublesUtr": {
+                "value": 3.54,
+                "exactValue": 3.54,
+                "display": "3.54",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Zane Dundon",
+              "dr": 3.57,
+              "doublesUtr": {
+                "value": 5.88,
+                "exactValue": 5.88,
+                "display": "5.88",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Kaitlyn Casimo + Zane Dundon",
+            "players": [
+              "Kaitlyn Casimo",
+              "Zane Dundon"
+            ],
+            "opponentPair": "Maya Wong + Owen Mears",
+            "opponentPlayers": [
+              "Maya Wong",
+              "Owen Mears"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-1 6-1",
+            "score": "6-1 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.71,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.54,
+                      "sourceRating": {
+                        "value": 3.54,
+                        "exactValue": 3.54,
+                        "display": "3.54",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 5.88,
+                      "sourceRating": {
+                        "value": 5.88,
+                        "exactValue": 5.88,
+                        "display": "5.88",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.08,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.325,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 5.06,
+                      "sourceRating": {
+                        "value": 5.06,
+                        "exactValue": 5.06,
+                        "display": "5.06",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.23,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.615,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Kaitlyn Casimo + Zane Dundon",
+            "players": [
+              "Kaitlyn Casimo",
+              "Zane Dundon"
+            ],
+            "opponentPair": "Maya Wong + Owen Mears",
+            "opponentPlayers": [
+              "Maya Wong",
+              "Owen Mears"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-1 6-1",
+            "score": "6-1 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.71,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.54,
+                      "sourceRating": {
+                        "value": 3.54,
+                        "exactValue": 3.54,
+                        "display": "3.54",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 5.88,
+                      "sourceRating": {
+                        "value": 5.88,
+                        "exactValue": 5.88,
+                        "display": "5.88",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.08,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.325,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 5.06,
+                      "sourceRating": {
+                        "value": 5.06,
+                        "exactValue": 5.06,
+                        "display": "5.06",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.23,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.615,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "pair": "Chaz Pangelinan + Suzanne Vogt",
+        "players": [
+          "Chaz Pangelinan",
+          "Suzanne Vogt"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.36,
+          "doublesUtrAverage": 4.76,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Chaz Pangelinan",
+              "dr": 3.44,
+              "doublesUtr": {
+                "value": 5.7,
+                "exactValue": 5.7,
+                "display": "5.70",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Suzanne Vogt",
+              "dr": 3.28,
+              "doublesUtr": {
+                "value": 3.82,
+                "exactValue": 3.82,
+                "display": "3.82",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D1",
+            "pair": "Chaz Pangelinan + Suzanne Vogt",
+            "players": [
+              "Chaz Pangelinan",
+              "Suzanne Vogt"
+            ],
+            "opponentPair": "Cynthia Wang + Jonathan Poch",
+            "opponentPlayers": [
+              "Cynthia Wang",
+              "Jonathan Poch"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-2 6-1",
+            "score": "6-2 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.4,
+                  "values": [
+                    {
+                      "name": "Suzanne Vogt",
+                      "value": 3.4,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chaz Pangelinan",
+                      "value": 3.4,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.76,
+                  "values": [
+                    {
+                      "name": "Suzanne Vogt",
+                      "value": 3.82,
+                      "sourceRating": {
+                        "value": 3.82,
+                        "exactValue": 3.82,
+                        "display": "3.82",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Chaz Pangelinan",
+                      "value": 5.7,
+                      "sourceRating": {
+                        "value": 5.7,
+                        "exactValue": 5.7,
+                        "display": "5.70",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.95,
+                  "values": [
+                    {
+                      "name": "Cynthia Wang",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.95,
+                  "values": [
+                    {
+                      "name": "Cynthia Wang",
+                      "value": 3.6,
+                      "sourceRating": {
+                        "value": 3.6,
+                        "exactValue": 3.6,
+                        "display": "3.60",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 4.3,
+                      "sourceRating": {
+                        "value": 4.3,
+                        "exactValue": 4.3,
+                        "display": "4.30",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.45,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.81,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "gabe licka + Trisha Ramfar",
+        "players": [
+          "gabe licka",
+          "Trisha Ramfar"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.17,
+          "doublesUtrAverage": 4.215,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "gabe licka",
+              "dr": 3.19,
+              "doublesUtr": {
+                "value": 5.25,
+                "exactValue": 5.25,
+                "display": "5.25",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Trisha Ramfar",
+              "dr": 3.15,
+              "doublesUtr": {
+                "value": 3.18,
+                "exactValue": 3.18,
+                "display": "3.18",
+                "status": "Projected",
+                "reliability": 80
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 1,
+          "largestFavoriteUtrLoss": {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D3",
+            "pair": "gabe licka + Trisha Ramfar",
+            "players": [
+              "gabe licka",
+              "Trisha Ramfar"
+            ],
+            "opponentPair": "Abby Harrison + Zhe Yang",
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Zhe Yang"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.41,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.215,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 5.25,
+                      "sourceRating": {
+                        "value": 5.25,
+                        "exactValue": 5.25,
+                        "display": "5.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.18,
+                      "sourceRating": {
+                        "value": 3.18,
+                        "exactValue": 3.18,
+                        "display": "3.18",
+                        "status": "Projected",
+                        "reliability": 80
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.75,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.59,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 2.07,
+                      "sourceRating": {
+                        "value": 2.07,
+                        "exactValue": 2.07,
+                        "display": "2.07",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.34,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        },
+        "matchHistory": [
+          {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D3",
+            "pair": "gabe licka + Trisha Ramfar",
+            "players": [
+              "gabe licka",
+              "Trisha Ramfar"
+            ],
+            "opponentPair": "Abby Harrison + Zhe Yang",
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Zhe Yang"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.41,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.41,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.215,
+                  "values": [
+                    {
+                      "name": "gabe licka",
+                      "value": 5.25,
+                      "sourceRating": {
+                        "value": 5.25,
+                        "exactValue": 5.25,
+                        "display": "5.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Trisha Ramfar",
+                      "value": 3.18,
+                      "sourceRating": {
+                        "value": 3.18,
+                        "exactValue": 3.18,
+                        "display": "3.18",
+                        "status": "Projected",
+                        "reliability": 80
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.75,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.59,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zhe Yang",
+                      "value": 2.07,
+                      "sourceRating": {
+                        "value": 2.07,
+                        "exactValue": 2.07,
+                        "display": "2.07",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.34,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Kaitlyn Casimo + Zane Dundon",
+        "players": [
+          "Kaitlyn Casimo",
+          "Zane Dundon"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.435,
+          "doublesUtrAverage": 4.71,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Kaitlyn Casimo",
+              "dr": 3.3,
+              "doublesUtr": {
+                "value": 3.54,
+                "exactValue": 3.54,
+                "display": "3.54",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Zane Dundon",
+              "dr": 3.57,
+              "doublesUtr": {
+                "value": 5.88,
+                "exactValue": 5.88,
+                "display": "5.88",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Kaitlyn Casimo + Zane Dundon",
+            "players": [
+              "Kaitlyn Casimo",
+              "Zane Dundon"
+            ],
+            "opponentPair": "Maya Wong + Owen Mears",
+            "opponentPlayers": [
+              "Maya Wong",
+              "Owen Mears"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-1 6-1",
+            "score": "6-1 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.71,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.54,
+                      "sourceRating": {
+                        "value": 3.54,
+                        "exactValue": 3.54,
+                        "display": "3.54",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 5.88,
+                      "sourceRating": {
+                        "value": 5.88,
+                        "exactValue": 5.88,
+                        "display": "5.88",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.08,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.325,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 5.06,
+                      "sourceRating": {
+                        "value": 5.06,
+                        "exactValue": 5.06,
+                        "display": "5.06",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.23,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.615,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17174",
+            "date": "2026-09-19",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Kaitlyn Casimo + Zane Dundon",
+            "players": [
+              "Kaitlyn Casimo",
+              "Zane Dundon"
+            ],
+            "opponentPair": "Maya Wong + Owen Mears",
+            "opponentPlayers": [
+              "Maya Wong",
+              "Owen Mears"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-1 6-1",
+            "score": "6-1 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.71,
+                  "values": [
+                    {
+                      "name": "Kaitlyn Casimo",
+                      "value": 3.54,
+                      "sourceRating": {
+                        "value": 3.54,
+                        "exactValue": 3.54,
+                        "display": "3.54",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zane Dundon",
+                      "value": 5.88,
+                      "sourceRating": {
+                        "value": 5.88,
+                        "exactValue": 5.88,
+                        "display": "5.88",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.08,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 3.08,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.325,
+                  "values": [
+                    {
+                      "name": "Owen Mears",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Maya Wong",
+                      "value": 5.06,
+                      "sourceRating": {
+                        "value": 5.06,
+                        "exactValue": 5.06,
+                        "display": "5.06",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.23,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.615,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "matchStacking": [
+      {
+        "matchId": "17174",
+        "date": "2026-09-19",
+        "phase": "local",
+        "targetTeamName": "TCSP-Racket scientists-Casimo",
+        "opponentTeam": "WSC-Yin Yang Masters v7.0",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "W",
+            "score": "6-2 6-1",
+            "adjudication": null,
+            "targetPlayers": [
+              "Suzanne Vogt",
+              "Chaz Pangelinan"
+            ],
+            "opponentPlayers": [
+              "Cynthia Wang",
+              "Jonathan Poch"
+            ],
+            "averageDr": 3.4,
+            "averageUtr": 4.76,
+            "opponentAverageDr": 2.95,
+            "opponentAverageUtr": 3.95
+          },
+          {
+            "court": "D2",
+            "result": "L",
+            "score": "6-1 6-1",
+            "adjudication": null,
+            "targetPlayers": [
+              "Kaitlyn Casimo",
+              "Zane Dundon"
+            ],
+            "opponentPlayers": [
+              "Owen Mears",
+              "Maya Wong"
+            ],
+            "averageDr": 3.31,
+            "averageUtr": 4.71,
+            "opponentAverageDr": 3.08,
+            "opponentAverageUtr": 5.325
+          },
+          {
+            "court": "D3",
+            "result": "L",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "targetPlayers": [
+              "gabe licka",
+              "Trisha Ramfar"
+            ],
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Zhe Yang"
+            ],
+            "averageDr": 3.41,
+            "averageUtr": 4.215,
+            "opponentAverageDr": 3.75,
+            "opponentAverageUtr": 3.59
+          }
+        ],
+        "strongestCourtByDr": "D3",
+        "strongestCourtByUtr": "D1"
+      }
+    ]
+  },
+  "lineupPredictions": {
+    "summary": {
+      "predictionsGenerated": 1,
+      "matchesAnalyzed": 1,
+      "courts": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "eligiblePlayers": 17,
+      "excludedPlayers": 0
+    },
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "predictions": [
+      {
+        "rank": 1,
+        "confidence": "high",
+        "historicalSupport": 100,
+        "observedTogether": 1,
+        "evidence": {
+          "totalCourtAppearances": 3,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "Chaz Pangelinan",
+              "Suzanne Vogt"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-19",
+            "usageShare": 1
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Kaitlyn Casimo",
+              "Zane Dundon"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-19",
+            "usageShare": 1
+          },
+          {
+            "court": "D3",
+            "players": [
+              "gabe licka",
+              "Trisha Ramfar"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-19",
+            "usageShare": 1
+          }
+        ]
+      }
+    ]
+  },
+  "disclosures": {
+    "warnings": [
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    ],
+    "sources": [
+      {
+        "type": "tennisrecord",
+        "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=TCSP-Racket%20scientists-Casimo&year=2027",
+        "retrievedAt": "2026-09-30",
+        "authentication": "none",
+        "fields": [
+          "team identity",
+          "roster",
+          "player location",
+          "NTRP",
+          "DR",
+          "match schedule",
+          "lineups",
+          "scores",
+          "historical match DR"
+        ]
+      },
+      {
+        "type": "utr_sports_authenticated_profiles",
+        "url": "https://app.utrsports.net/profiles",
+        "retrievedAt": "2026-09-30",
+        "authentication": "user-authenticated",
+        "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+        "fields": [
+          "profile identity",
+          "location",
+          "exact singles UTR",
+          "exact doubles UTR",
+          "rating status",
+          "reliability"
+        ]
+      }
+    ],
+    "dataQuality": {
+      "sourcePrecedence": [
+        "USTA TennisLink official result",
+        "TennisRecord match detail",
+        "TennisRecord team aggregate",
+        "derived totals"
+      ],
+      "issues": [],
+      "unresolvedIdentities": [],
+      "coverage": {
+        "tennisRecordMatchesCollected": 1,
+        "officialUstaReconciled": false,
+        "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+      }
+    }
+  }
+}

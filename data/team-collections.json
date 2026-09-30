@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "collections": [
+    {
+      "id": "7c068535",
+      "name": "2027 Mixed 18+ Local Season",
+      "competitionLevel": "local",
+      "teamDatasetIds": [
+        "2027-aytc-levelup-tong",
+        "2027-hbsq-you-got-served-harvey",
+        "2027-psc-2026-18-mix-zhou",
+        "2027-bc-happy-mixed-nuts18-park",
+        "2027-tcsp-racket-scientists-casimo",
+        "2027-aytc-the-poaching-pandas-onghua",
+        "2027-pl-sych",
+        "2027-etc-double-trouble-wang",
+        "2027-stc-pirates-coomer",
+        "2027-aytc-jurassic-park",
+        "2027-wsc-yin-yang-masters-v7-0"
+      ],
+      "matchDayDefaults": {
+        "ourTeamDatasetId": "2027-aytc-levelup-tong",
+        "opponentTeamDatasetIds": [
+          "2027-hbsq-you-got-served-harvey",
+          "2027-psc-2026-18-mix-zhou",
+          "2027-bc-happy-mixed-nuts18-park",
+          "2027-tcsp-racket-scientists-casimo"
+        ],
+        "roundRobinMatches": []
+      },
+      "createdAt": "2026-09-01T16:57:48.467Z"
+    }
+  ]
+}

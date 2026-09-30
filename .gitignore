@@ -8,6 +8,12 @@ node_modules/
 # Local collection data and browser artifacts may contain player/session data.
 data/*
 !data/.gitkeep
+!data/collections/
+data/collections/*
+!data/collections/2027-mixed-7.0/
+!data/collections/2027-mixed-7.0/**
+!data/event-schedules.json
+!data/team-collections.json
 --selector
 
 # Generated scouting reports.

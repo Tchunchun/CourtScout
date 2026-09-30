@@ -1,0 +1,3876 @@
+{
+  "schemaVersion": "2.0.0",
+  "datasetId": "2027-hbsq-you-got-served-harvey",
+  "generatedAt": "2026-09-30T18:14:51.000Z",
+  "collectionStage": "step_1_complete",
+  "team": {
+    "name": "HBSQ-You Got Served-Harvey",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 2,
+      "teamLosses": 0,
+      "courtWins": 4,
+      "courtLosses": 2
+    }
+  },
+  "eligibilityRule": {
+    "regulation": "USTA League Regulation 2.03A(4)",
+    "nonSelfRated": {
+      "matchesRequired": 3,
+      "defaultReceivedMayCount": 1
+    },
+    "selfRatedOrAppealed": {
+      "actualMatchesRequired": 4,
+      "defaultsCount": false
+    },
+    "evaluatedThrough": "Sectional Championships"
+  },
+  "sources": [
+    {
+      "type": "tennisrecord",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=HBSQ-You%20Got%20Served-Harvey&year=2027",
+      "retrievedAt": "2026-09-30",
+      "authentication": "none",
+      "fields": [
+        "team identity",
+        "roster",
+        "player location",
+        "NTRP",
+        "DR",
+        "match schedule",
+        "lineups",
+        "scores",
+        "historical match DR"
+      ]
+    },
+    {
+      "type": "utr_sports_authenticated_profiles",
+      "url": "https://app.utrsports.net/profiles",
+      "retrievedAt": "2026-09-30",
+      "authentication": "user-authenticated",
+      "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+      "fields": [
+        "profile identity",
+        "location",
+        "exact singles UTR",
+        "exact doubles UTR",
+        "rating status",
+        "reliability"
+      ]
+    }
+  ],
+  "roster": [
+    {
+      "name": "Carly Holtgraves",
+      "location": "SHORELINE, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Carly%20Holtgraves",
+      "ntrp": {
+        "level": "4.0",
+        "type": "S"
+      },
+      "dr": 3.68,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.79,
+          "exactValue": 4.79,
+          "display": "4.79",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.15,
+          "exactValue": 4.15,
+          "display": "4.15",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 2,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Meagan Milca",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Meagan%20Milca",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.25,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 3.62,
+          "exactValue": 3.62,
+          "display": "3.62",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.32,
+          "exactValue": 4.32,
+          "display": "4.32",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 2,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Keith Green",
+      "location": "Edmonds, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Keith%20Green&s=2",
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "dr": 3.19,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 5.85,
+          "exactValue": 5.85,
+          "display": "5.85",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 5.57,
+          "exactValue": 5.57,
+          "display": "5.57",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Khin Oo",
+      "location": "SHORELINE, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Khin%20Oo",
+      "ntrp": {
+        "level": "3.5",
+        "type": "S"
+      },
+      "dr": 3.15,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 3.63,
+          "exactValue": 3.63,
+          "display": "3.63",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.13,
+          "exactValue": 4.13,
+          "display": "4.13",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Andy Wang",
+      "location": "Seattle, USA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Andy%20Wang&s=22",
+      "ntrp": {
+        "level": "3.0",
+        "type": "S"
+      },
+      "dr": 3.13,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.55,
+          "exactValue": 4.55,
+          "display": "4.55",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.97,
+          "exactValue": 4.97,
+          "display": "4.97",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 1,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Simon Swifter",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Simon%20Swifter",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 3.11,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.74,
+          "exactValue": 4.74,
+          "display": "4.74",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 5.03,
+          "exactValue": 5.03,
+          "display": "5.03",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Dinesh Parimi",
+      "location": "REDMOND, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Dinesh%20Parimi",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 3.07,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.27,
+          "exactValue": 4.27,
+          "display": "4.27",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 5.03,
+          "exactValue": 5.03,
+          "display": "5.03",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Anthony Peterson",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Anthony%20Peterson",
+      "ntrp": {
+        "level": "4.0",
+        "type": "S"
+      },
+      "dr": 3.06,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 5.07,
+          "exactValue": 5.07,
+          "display": "5.07",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 5.11,
+          "exactValue": 5.11,
+          "display": "5.11",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Alexis Gentry",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Alexis%20Gentry",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 3.03,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 3.11,
+          "exactValue": 3.11,
+          "display": "3.11",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 3.13,
+          "exactValue": 3.13,
+          "display": "3.13",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Sarah Smith",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Sarah%20Smith&s=33",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 3.02,
+      "utr": {
+        "lookupStatus": "unresolved_ambiguous_profiles",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "unresolved",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "unresolved",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": false,
+        "exactDecimalsBlocker": "unresolved_ambiguous_profiles",
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Elia Bishara",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Elia%20Bishara",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 3.01,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.7,
+          "exactValue": 4.7,
+          "display": "4.70",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.72,
+          "exactValue": 4.72,
+          "display": "4.72",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 2,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Alexia Cosatto",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Alexia%20Cosatto",
+      "ntrp": {
+        "level": "3.0",
+        "type": "S"
+      },
+      "dr": 2.95,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 3.45,
+          "exactValue": 3.45,
+          "display": "3.45",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "James Harvey",
+      "location": "Shoreline, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=James%20Harvey&s=10",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 2.86,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.03,
+          "exactValue": 4.03,
+          "display": "4.03",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.56,
+          "exactValue": 4.56,
+          "display": "4.56",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Stephanie Hughes",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Stephanie%20Hughes&s=4",
+      "ntrp": {
+        "level": "3.5",
+        "type": "S"
+      },
+      "dr": 2.85,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 3.32,
+          "exactValue": 3.32,
+          "display": "3.32",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 3.76,
+          "exactValue": 3.76,
+          "display": "3.76",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Kurt Nikaitani",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Kurt%20Nikaitani",
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "dr": 2.77,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.01,
+          "exactValue": 4.01,
+          "display": "4.01",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.13,
+          "exactValue": 4.13,
+          "display": "4.13",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 1,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    },
+    {
+      "name": "Divya Parimi",
+      "location": "Seattle, WA",
+      "profileUrl": "https://www.tennisrecord.com/adult/profile.aspx?playername=Divya%20Parimi",
+      "ntrp": {
+        "level": "3.5",
+        "type": "S"
+      },
+      "dr": null,
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 0,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      }
+    }
+  ],
+  "opponents": [
+    {
+      "name": "Aime Mitchell",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "STC-Pirates-Coomer"
+      ],
+      "dr": 3.32,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 1258002,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.44,
+          "exactValue": 3.44,
+          "display": "3.44",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17169",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.79,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alexander Martin",
+      "locations": [
+        "Kenmore, WA"
+      ],
+      "teams": [
+        "AYTC-LevelUp-Tong"
+      ],
+      "dr": 3.48,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.73,
+          "exactValue": 4.73,
+          "display": "4.73",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 5.92,
+          "exactValue": 5.92,
+          "display": "5.92",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17175",
+          "date": "2026-09-20",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.79,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anant Jaitha",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "AYTC-LevelUp-Tong"
+      ],
+      "dr": 3.83,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.81,
+          "exactValue": 4.81,
+          "display": "4.81",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 5.62,
+          "exactValue": 5.62,
+          "display": "5.62",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17175",
+          "date": "2026-09-20",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.9,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chiqu Li",
+      "locations": [
+        "Edmonds, WA"
+      ],
+      "teams": [
+        "AYTC-LevelUp-Tong"
+      ],
+      "dr": 3.25,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 4.14,
+          "exactValue": 4.14,
+          "display": "4.14",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 3.85,
+          "exactValue": 3.85,
+          "display": "3.85",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17175",
+          "date": "2026-09-20",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.9,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chris Jones",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "STC-Pirates-Coomer"
+      ],
+      "dr": 3.1,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "unresolved_ambiguous_profiles",
+        "profileCandidate": null,
+        "candidates": [
+          {
+            "id": 2005251,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Australia",
+            "singlesStatus": "Rated",
+            "doublesStatus": "Rated",
+            "singlesReliability": 100,
+            "doublesReliability": 100,
+            "identityScore": 4
+          },
+          {
+            "id": 3314295,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Kentfield, CA",
+            "singlesStatus": "Rated",
+            "doublesStatus": "Rated",
+            "singlesReliability": 100,
+            "doublesReliability": 100,
+            "identityScore": 4
+          },
+          {
+            "id": 5974200,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Exeter, United Kingdom",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Rated",
+            "singlesReliability": 0,
+            "doublesReliability": 100,
+            "identityScore": 2
+          },
+          {
+            "id": 6067417,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Crofton, MD",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Rated",
+            "singlesReliability": 0,
+            "doublesReliability": 100,
+            "identityScore": 2
+          },
+          {
+            "id": 1000659,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "United Kingdom",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 1518617,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "United Kingdom",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 958364,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Woodstock, GA",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 2692958,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": null,
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 536239,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Indianapolis, IN",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 1655018,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Cremorne, Australia",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 3482877,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "United States",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 631703,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Gettysburg, PA",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 5877195,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Lighthouse Point, FL",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 4861138,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Eagle, ID",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 261990,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": null,
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 2935178,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Sunderland, United Kingdom",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 1284987,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Belmont, NC",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 1520804,
+            "name": "Chris Jones",
+            "gender": "Female",
+            "location": "United Kingdom",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 728844,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Birmingham, AL",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          },
+          {
+            "id": 4671076,
+            "name": "Chris Jones",
+            "gender": "Male",
+            "location": "Dacula, GA",
+            "singlesStatus": "Unrated",
+            "doublesStatus": "Unrated",
+            "singlesReliability": 0,
+            "doublesReliability": 0,
+            "identityScore": 0
+          }
+        ],
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "unresolved",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "unresolved",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": false,
+        "exactDecimalsBlocker": "unresolved_ambiguous_profiles",
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17169",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 3.6,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ian Davis",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "STC-Pirates-Coomer"
+      ],
+      "dr": 2.89,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 3435415,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 2.75,
+          "exactValue": 2.75,
+          "display": "2.75",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "doubles": {
+          "value": 4.17,
+          "exactValue": 4.17,
+          "display": "4.17",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17169",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.79,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jamie Carr",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "STC-Pirates-Coomer"
+      ],
+      "dr": 3.63,
+      "ntrp": {
+        "level": "3.5",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 1398530,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.25,
+          "exactValue": 3.25,
+          "display": "3.25",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17169",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.5,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Kira Sorensen",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "STC-Pirates-Coomer"
+      ],
+      "dr": 3.64,
+      "ntrp": {
+        "level": "4.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 529015,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.25,
+          "exactValue": 4.25,
+          "display": "4.25",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17169",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D2",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 3.6,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PORTER STROBLE",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "STC-Pirates-Coomer"
+      ],
+      "dr": 3.06,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": {
+          "playerId": 1899259,
+          "location": "Seattle, WA"
+        },
+        "singles": {
+          "value": 2.7,
+          "exactValue": 2.7,
+          "display": "2.70",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "doubles": {
+          "value": 4.96,
+          "exactValue": 4.96,
+          "display": "4.96",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17169",
+          "date": "2026-09-12",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "W",
+          "historicalDr": {
+            "value": 3.5,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "William Myers",
+      "locations": [
+        "Seattle, WA"
+      ],
+      "teams": [
+        "AYTC-LevelUp-Tong"
+      ],
+      "dr": 2.79,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 4.13,
+          "exactValue": 4.13,
+          "display": "4.13",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17175",
+          "date": "2026-09-20",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.67,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Xiayi Li",
+      "locations": [
+        "Redmond, WA"
+      ],
+      "teams": [
+        "AYTC-LevelUp-Tong"
+      ],
+      "dr": 2.93,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 3.69,
+          "exactValue": 3.69,
+          "display": "3.69",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 2.73,
+          "exactValue": 2.73,
+          "display": "2.73",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17175",
+          "date": "2026-09-20",
+          "phase": "local",
+          "court": "D1",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.79,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    },
+    {
+      "name": "chunchun tong",
+      "locations": [
+        "NEWCASTLE, WA"
+      ],
+      "teams": [
+        "AYTC-LevelUp-Tong"
+      ],
+      "dr": 3.04,
+      "ntrp": {
+        "level": "3.0",
+        "type": "unknown"
+      },
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "profileCandidate": null,
+        "singles": {
+          "value": 3.25,
+          "exactValue": 3.25,
+          "display": "3.25",
+          "status": "Rated",
+          "reliability": null
+        },
+        "doubles": {
+          "value": 3.27,
+          "exactValue": 3.27,
+          "display": "3.27",
+          "status": "Rated",
+          "reliability": null
+        },
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30"
+      },
+      "wtn": {
+        "lookupStatus": "not_started",
+        "profileCandidate": null,
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "doubles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "not_started",
+          "reliability": null
+        },
+        "retrievedAt": null
+      },
+      "appearances": [
+        {
+          "matchId": "17175",
+          "date": "2026-09-20",
+          "phase": "local",
+          "court": "D3",
+          "resultAgainstTarget": "L",
+          "historicalDr": {
+            "value": 2.67,
+            "evidenceType": "individual_match_page_dr"
+          }
+        }
+      ]
+    }
+  ],
+  "matches": [
+    {
+      "id": "17169",
+      "sourceUrl": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17169",
+      "date": "2026-09-12",
+      "phase": "local",
+      "opponent": "STC-Pirates-Coomer",
+      "sourceSummary": {
+        "metric": "Courts Won",
+        "targetValue": 2,
+        "opponentValue": 1
+      },
+      "teamResult": {
+        "wins": 2,
+        "losses": 1,
+        "result": "W",
+        "source": "tennisrecord",
+        "authoritative": false
+      },
+      "officialTeamResult": null,
+      "courts": {
+        "D1": {
+          "targetPlayers": [
+            "James Harvey",
+            "Stephanie Hughes"
+          ],
+          "opponentPlayers": [
+            "Jamie Carr",
+            "PORTER STROBLE"
+          ],
+          "result": "L",
+          "status": "L · 6-0 6-2",
+          "score": "6-0 6-2",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "James Harvey",
+              "dr": 2.86,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.03,
+                  "exactValue": 4.03,
+                  "display": "4.03",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.56,
+                  "exactValue": 4.56,
+                  "display": "4.56",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.8,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Stephanie Hughes",
+              "dr": 2.85,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 3.32,
+                  "exactValue": 3.32,
+                  "display": "3.32",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 3.76,
+                  "exactValue": 3.76,
+                  "display": "3.76",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.8,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Jamie Carr",
+              "historicalDr": {
+                "value": 3.5,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 1398530,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.25,
+                  "exactValue": 3.25,
+                  "display": "3.25",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.63,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "STC-Pirates-Coomer"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "PORTER STROBLE",
+              "historicalDr": {
+                "value": 3.5,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 1899259,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 2.7,
+                  "exactValue": 2.7,
+                  "display": "2.70",
+                  "status": "Projected",
+                  "reliability": 4
+                },
+                "doubles": {
+                  "value": 4.96,
+                  "exactValue": 4.96,
+                  "display": "4.96",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.06,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "STC-Pirates-Coomer"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D2": {
+          "targetPlayers": [
+            "Andy Wang",
+            "Meagan Milca"
+          ],
+          "opponentPlayers": [
+            "Kira Sorensen",
+            "Chris Jones"
+          ],
+          "result": "W",
+          "status": "W · 6-3 6-3",
+          "score": "6-3 6-3",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Andy Wang",
+              "dr": 3.13,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.55,
+                  "exactValue": 4.55,
+                  "display": "4.55",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.97,
+                  "exactValue": 4.97,
+                  "display": "4.97",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.91,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Meagan Milca",
+              "dr": 3.25,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 3.62,
+                  "exactValue": 3.62,
+                  "display": "3.62",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.32,
+                  "exactValue": 4.32,
+                  "display": "4.32",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.91,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Kira Sorensen",
+              "historicalDr": {
+                "value": 3.6,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 529015,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.25,
+                  "exactValue": 4.25,
+                  "display": "4.25",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.64,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "STC-Pirates-Coomer"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Chris Jones",
+              "historicalDr": {
+                "value": 3.6,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "unresolved_ambiguous_profiles",
+                "profileCandidate": null,
+                "candidates": [
+                  {
+                    "id": 2005251,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Australia",
+                    "singlesStatus": "Rated",
+                    "doublesStatus": "Rated",
+                    "singlesReliability": 100,
+                    "doublesReliability": 100,
+                    "identityScore": 4
+                  },
+                  {
+                    "id": 3314295,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Kentfield, CA",
+                    "singlesStatus": "Rated",
+                    "doublesStatus": "Rated",
+                    "singlesReliability": 100,
+                    "doublesReliability": 100,
+                    "identityScore": 4
+                  },
+                  {
+                    "id": 5974200,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Exeter, United Kingdom",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Rated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 100,
+                    "identityScore": 2
+                  },
+                  {
+                    "id": 6067417,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Crofton, MD",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Rated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 100,
+                    "identityScore": 2
+                  },
+                  {
+                    "id": 1000659,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "United Kingdom",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 1518617,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "United Kingdom",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 958364,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Woodstock, GA",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 2692958,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": null,
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 536239,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Indianapolis, IN",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 1655018,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Cremorne, Australia",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 3482877,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "United States",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 631703,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Gettysburg, PA",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 5877195,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Lighthouse Point, FL",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 4861138,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Eagle, ID",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 261990,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": null,
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 2935178,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Sunderland, United Kingdom",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 1284987,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Belmont, NC",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 1520804,
+                    "name": "Chris Jones",
+                    "gender": "Female",
+                    "location": "United Kingdom",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 728844,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Birmingham, AL",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  },
+                  {
+                    "id": 4671076,
+                    "name": "Chris Jones",
+                    "gender": "Male",
+                    "location": "Dacula, GA",
+                    "singlesStatus": "Unrated",
+                    "doublesStatus": "Unrated",
+                    "singlesReliability": 0,
+                    "doublesReliability": 0,
+                    "identityScore": 0
+                  }
+                ],
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "unresolved",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "unresolved",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": false,
+                "exactDecimalsBlocker": "unresolved_ambiguous_profiles",
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.1,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "STC-Pirates-Coomer"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D3": {
+          "targetPlayers": [
+            "Elia Bishara",
+            "Carly Holtgraves"
+          ],
+          "opponentPlayers": [
+            "Ian Davis",
+            "Aime Mitchell"
+          ],
+          "result": "W",
+          "status": "W · 6-3 6-2",
+          "score": "6-3 6-2",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Elia Bishara",
+              "dr": 3.01,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.7,
+                  "exactValue": 4.7,
+                  "display": "4.70",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.72,
+                  "exactValue": 4.72,
+                  "display": "4.72",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.97,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Carly Holtgraves",
+              "dr": 3.68,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.79,
+                  "exactValue": 4.79,
+                  "display": "4.79",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.15,
+                  "exactValue": 4.15,
+                  "display": "4.15",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.97,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Ian Davis",
+              "historicalDr": {
+                "value": 2.79,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 3435415,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": 2.75,
+                  "exactValue": 2.75,
+                  "display": "2.75",
+                  "status": "Projected",
+                  "reliability": 4
+                },
+                "doubles": {
+                  "value": 4.17,
+                  "exactValue": 4.17,
+                  "display": "4.17",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 2.89,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "STC-Pirates-Coomer"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Aime Mitchell",
+              "historicalDr": {
+                "value": 2.79,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": {
+                  "playerId": 1258002,
+                  "location": "Seattle, WA"
+                },
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.44,
+                  "exactValue": 3.44,
+                  "display": "3.44",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.32,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "STC-Pirates-Coomer"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "17175",
+      "sourceUrl": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17175",
+      "date": "2026-09-20",
+      "phase": "local",
+      "opponent": "AYTC-LevelUp-Tong",
+      "sourceSummary": {
+        "metric": "Courts Won",
+        "targetValue": 2,
+        "opponentValue": 1
+      },
+      "teamResult": {
+        "wins": 2,
+        "losses": 1,
+        "result": "W",
+        "source": "tennisrecord",
+        "authoritative": false
+      },
+      "officialTeamResult": null,
+      "courts": {
+        "D1": {
+          "targetPlayers": [
+            "Meagan Milca",
+            "Kurt Nikaitani"
+          ],
+          "opponentPlayers": [
+            "Alexander Martin",
+            "Xiayi Li"
+          ],
+          "result": "W",
+          "status": "W · 6-3 6-3",
+          "score": "6-3 6-3",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Meagan Milca",
+              "dr": 3.25,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 3.62,
+                  "exactValue": 3.62,
+                  "display": "3.62",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.32,
+                  "exactValue": 4.32,
+                  "display": "4.32",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.06,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Kurt Nikaitani",
+              "dr": 2.77,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.01,
+                  "exactValue": 4.01,
+                  "display": "4.01",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.13,
+                  "exactValue": 4.13,
+                  "display": "4.13",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.06,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Alexander Martin",
+              "historicalDr": {
+                "value": 2.79,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.73,
+                  "exactValue": 4.73,
+                  "display": "4.73",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 5.92,
+                  "exactValue": 5.92,
+                  "display": "5.92",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.48,
+              "locations": [
+                "Kenmore, WA"
+              ],
+              "teams": [
+                "AYTC-LevelUp-Tong"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Xiayi Li",
+              "historicalDr": {
+                "value": 2.79,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 3.69,
+                  "exactValue": 3.69,
+                  "display": "3.69",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 2.73,
+                  "exactValue": 2.73,
+                  "display": "2.73",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 2.93,
+              "locations": [
+                "Redmond, WA"
+              ],
+              "teams": [
+                "AYTC-LevelUp-Tong"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D2": {
+          "targetPlayers": [
+            "Sarah Smith",
+            "Anthony Peterson"
+          ],
+          "opponentPlayers": [
+            "Anant Jaitha",
+            "Chiqu Li"
+          ],
+          "result": "L",
+          "status": "L · 6-4 6-4",
+          "score": "6-4 6-4",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Sarah Smith",
+              "dr": 3.02,
+              "utr": {
+                "lookupStatus": "unresolved_ambiguous_profiles",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "unresolved",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "unresolved",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": false,
+                "exactDecimalsBlocker": "unresolved_ambiguous_profiles",
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.84,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Anthony Peterson",
+              "dr": 3.06,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 5.07,
+                  "exactValue": 5.07,
+                  "display": "5.07",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 5.11,
+                  "exactValue": 5.11,
+                  "display": "5.11",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 2.84,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "Anant Jaitha",
+              "historicalDr": {
+                "value": 3.9,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.81,
+                  "exactValue": 4.81,
+                  "display": "4.81",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 5.62,
+                  "exactValue": 5.62,
+                  "display": "5.62",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.83,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "AYTC-LevelUp-Tong"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "Chiqu Li",
+              "historicalDr": {
+                "value": 3.9,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.14,
+                  "exactValue": 4.14,
+                  "display": "4.14",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 3.85,
+                  "exactValue": 3.85,
+                  "display": "3.85",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.25,
+              "locations": [
+                "Edmonds, WA"
+              ],
+              "teams": [
+                "AYTC-LevelUp-Tong"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        },
+        "D3": {
+          "targetPlayers": [
+            "Carly Holtgraves",
+            "Elia Bishara"
+          ],
+          "opponentPlayers": [
+            "William Myers",
+            "chunchun tong"
+          ],
+          "result": "W",
+          "status": "W · 6-3 6-4",
+          "score": "6-3 6-4",
+          "adjudication": null,
+          "targetRatings": [
+            {
+              "name": "Carly Holtgraves",
+              "dr": 3.68,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.79,
+                  "exactValue": 4.79,
+                  "display": "4.79",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.15,
+                  "exactValue": 4.15,
+                  "display": "4.15",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.68,
+                "evidenceType": "individual_match_page_dr"
+              }
+            },
+            {
+              "name": "Elia Bishara",
+              "dr": 3.01,
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 4.7,
+                  "exactValue": 4.7,
+                  "display": "4.70",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.72,
+                  "exactValue": 4.72,
+                  "display": "4.72",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              },
+              "historicalDr": {
+                "value": 3.68,
+                "evidenceType": "individual_match_page_dr"
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "name": "William Myers",
+              "historicalDr": {
+                "value": 2.67,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 4.13,
+                  "exactValue": 4.13,
+                  "display": "4.13",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 2.79,
+              "locations": [
+                "Seattle, WA"
+              ],
+              "teams": [
+                "AYTC-LevelUp-Tong"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            },
+            {
+              "name": "chunchun tong",
+              "historicalDr": {
+                "value": 2.67,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "profileCandidate": null,
+                "singles": {
+                  "value": 3.25,
+                  "exactValue": 3.25,
+                  "display": "3.25",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": 3.27,
+                  "exactValue": 3.27,
+                  "display": "3.27",
+                  "status": "Rated",
+                  "reliability": null
+                },
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30"
+              },
+              "currentDr": 3.04,
+              "locations": [
+                "NEWCASTLE, WA"
+              ],
+              "teams": [
+                "AYTC-LevelUp-Tong"
+              ],
+              "wtn": {
+                "lookupStatus": "not_started",
+                "profileCandidate": null,
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "doubles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "not_started",
+                  "reliability": null
+                },
+                "retrievedAt": null
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "dataQuality": {
+    "sourcePrecedence": [
+      "USTA TennisLink official result",
+      "TennisRecord match detail",
+      "TennisRecord team aggregate",
+      "derived totals"
+    ],
+    "issues": [],
+    "unresolvedIdentities": [],
+    "coverage": {
+      "tennisRecordMatchesCollected": 2,
+      "officialUstaReconciled": false,
+      "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    }
+  },
+  "downstreamContract": {
+    "authoritativeInput": true,
+    "analysisMayDerive": [
+      "eligibility summary",
+      "singles analysis",
+      "doubles pair analysis",
+      "court stacking",
+      "postseason-weighted lineup projection",
+      "strategy",
+      "HTML report"
+    ],
+    "analysisMustNotOverride": [
+      "source identity matches",
+      "exact ratings",
+      "official match results",
+      "adjudications",
+      "source precedence",
+      "unresolved-profile status"
+    ],
+    "opponentRatingPolicy": [
+      "Use authenticated exact UTR values when available.",
+      "Treat NR/unresolved values as missing.",
+      "Never infer a decimal from a public rating band."
+    ]
+  },
+  "ratingSelections": {
+    "utr": "authenticated",
+    "wtn": false
+  }
+}
