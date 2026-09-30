@@ -429,6 +429,48 @@
         </form>
       </dialog>
 
+      <dialog class="refresh-dialog schedule-dialog" id="scheduleDialog" aria-labelledby="scheduleDialogTitle">
+        <form method="dialog" id="scheduleConfirmForm">
+          <div class="refresh-dialog-heading">
+            <div>
+              <span class="step-label">Schedule review</span>
+              <h2 id="scheduleDialogTitle">Confirm event schedule</h2>
+              <p>Correct or exclude rows before replacing the confirmed schedule.</p>
+            </div>
+            <button class="dialog-close" id="closeScheduleDialog" type="button" aria-label="Close schedule review">×</button>
+          </div>
+          <div class="schedule-event-fields">
+            <label>Event type
+              <select id="scheduleEventType">
+                <option value="local">Local</option>
+                <option value="sectionals">Sectionals</option>
+                <option value="nationals">Nationals</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label>Eligibility target
+              <select id="scheduleEligibilityScope">
+                <option value="local">Local</option>
+                <option value="sectional">Sectional</option>
+                <option value="national">National</option>
+              </select>
+            </label>
+            <label>Timezone
+              <input id="scheduleTimezone" placeholder="e.g. America/Los_Angeles">
+            </label>
+          </div>
+          <div class="schedule-column-mapping" id="scheduleColumnMapping" hidden></div>
+          <div class="schedule-preview-summary" id="schedulePreviewSummary"></div>
+          <div class="schedule-preview-table" id="schedulePreviewTable"></div>
+          <p class="form-error" id="scheduleError" role="alert"></p>
+          <div class="refresh-dialog-actions">
+            <button class="button-secondary" id="addManualScheduleRow" type="button">+ Add match</button>
+            <button class="button-secondary" id="cancelSchedule" type="button">Cancel</button>
+            <button class="button-primary compact" type="submit">Confirm schedule</button>
+          </div>
+        </form>
+      </dialog>
+
        <section class="analysis-setup-view" id="analysisSetupView" hidden>
          <button class="team-workspace-back" type="button" data-back-to-reports>
            <span aria-hidden="true">←</span> Back to team reports
