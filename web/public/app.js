@@ -905,24 +905,19 @@ async function checkUtrStatus() {
 
 function syncRatingOptions() {
   const includeUtr = $("#includeUtr").checked;
-  const includeWtn = $("#includeWtn").checked;
   const exact = includeUtr &&
     $('input[name="utrMode"]:checked').value === "authenticated";
   $("#utrOptions").hidden = !includeUtr;
   $("#utrConnect").hidden = !exact;
-  const ratings = [
-    ...(includeUtr ? [exact ? "Exact UTR" : "Public UTR"] : []),
-    ...(includeWtn ? ["WTN"] : [])
-  ];
-  $("#ratingSummary").textContent = ratings.length
-    ? `Ratings: ${ratings.join(" + ")}`
+  const rating = includeUtr ? (exact ? "Exact UTR" : "Public UTR") : null;
+  $("#ratingSummary").textContent = rating
+    ? `Ratings: ${rating}`
     : "Ratings: None";
   $("#formError").textContent = "";
   if (exact) void checkUtrStatus();
 }
 
 $("#includeUtr").addEventListener("change", syncRatingOptions);
-$("#includeWtn").addEventListener("change", syncRatingOptions);
 $$('input[name="utrMode"]').forEach(input => {
   input.addEventListener("change", syncRatingOptions);
 });
@@ -1026,7 +1021,6 @@ $("#collectionForm").addEventListener("submit", async event => {
   const utrMode = $("#includeUtr").checked
     ? $('input[name="utrMode"]:checked').value
     : "none";
-  const includeWtn = $("#includeWtn").checked;
   $("#formError").textContent = "";
   submit.disabled = true;
 
@@ -1062,10 +1056,7 @@ $("#collectionForm").addEventListener("submit", async event => {
       method: "POST",
       body: JSON.stringify({
         teamUrl,
-        teamType,
-        utrMode,
-        includeWtn,
-        eventCollectionId: state.intakeEventCollectionId
+        utrMode
       })
     });
     state.jobId = job.id;
@@ -1106,8 +1097,6 @@ $("#openRefreshData").addEventListener("click", () => {
   const current = getRatingSelections(state.dataset);
   $("#refreshTennisRecord").checked = false;
   $("#refreshUtr").checked = false;
-  $("#refreshWtn").checked = false;
-  $('input[name="refreshRatingScope"][value="all"]').checked = true;
   const utrMode = current.utr === "authenticated" ? "authenticated" : "public";
   $(`input[name="refreshUtrMode"][value="${utrMode}"]`).checked = true;
   $("#refreshError").textContent = "";
@@ -1158,8 +1147,6 @@ $("#refreshForm").addEventListener("submit", async event => {
   const submit = event.currentTarget.querySelector('[type="submit"]');
   const refreshTennisRecord = $("#refreshTennisRecord").checked;
   const refreshUtr = $("#refreshUtr").checked;
-  const refreshWtn = $("#refreshWtn").checked;
-  const ratingScope = $('input[name="refreshRatingScope"]:checked').value;
   const utrMode = refreshUtr
     ? $('input[name="refreshUtrMode"]:checked').value
     : "none";
@@ -1173,9 +1160,7 @@ $("#refreshForm").addEventListener("submit", async event => {
         teamId: state.selectedTeamId,
         refreshTennisRecord,
         refreshUtr,
-        utrMode,
-        refreshWtn,
-        ratingScope
+        utrMode
       })
     });
     state.jobId = job.id;
@@ -1200,13 +1185,11 @@ function updateProgress(job) {
   $("#progressBar").style.width = `${job.progress}%`;
   $("#progressDetail").textContent = job.error ?? job.detail;
   const selections = job.refreshSelections ?? job.ratingSelections ?? {
-    utr: job.mode ?? "public",
-    wtn: true
+    utr: job.mode ?? "public"
   };
   const order = [
     job.kind !== "refresh" || selections.tennisrecord ? "tennisrecord" : null,
     selections.utr !== "none" ? "utr" : null,
-    selections.wtn ? "wtn" : null,
     "validation"
   ].filter(Boolean);
   $(".progress-copy .eyebrow").textContent = job.kind === "refresh"
@@ -1279,10 +1262,6 @@ function getRows() {
         ...(selections.utr !== "none" ? [
           ratingCell(player.utr?.singles),
           ratingCell(player.utr?.doubles)
-        ] : []),
-        ...(selections.wtn ? [
-          ratingCell(player.wtn?.singles),
-          ratingCell(player.wtn?.doubles)
         ] : [])
       ]
     }));
@@ -1335,11 +1314,9 @@ function getRatingSelections(data) {
   const publicUtr = data.sources.some(source =>
     source.type.includes("utr") && source.authentication === "not_authenticated"
   );
-  return data.ratingSelections ?? {
-    utr: exact ? "authenticated" : publicUtr ? "public" : "none",
-    wtn: data.sources.some(source =>
-      source.type === "world_tennis_number_public_profiles"
-    )
+  return {
+    utr: data.ratingSelections?.utr ??
+      (exact ? "authenticated" : publicUtr ? "public" : "none")
   };
 }
 
@@ -1353,8 +1330,7 @@ function getHeadings() {
       "Location",
       "NTRP",
       "Dynamic rating",
-      ...(selections.utr !== "none" ? ["Singles UTR", "Doubles UTR"] : []),
-      ...(selections.wtn ? ["Singles WTN", "Doubles WTN"] : [])
+      ...(selections.utr !== "none" ? ["Singles UTR", "Doubles UTR"] : [])
     ];
   }
   if (state.tab === "opponents") {
@@ -1374,7 +1350,7 @@ function getHeadings() {
 function renderTable() {
   const tableHeadings = getHeadings();
   const isNumericColumn = heading =>
-    /NTRP|rating|UTR|WTN|Courts/i.test(heading);
+    /NTRP|rating|UTR|Courts/i.test(heading);
   $("#dataHead").innerHTML = `<tr>${tableHeadings.map(item =>
     `<th class="${isNumericColumn(item) ? "numeric" : ""}">${item}</th>`
   ).join("")}</tr>`;
@@ -1479,9 +1455,6 @@ function renderDataset(data) {
   if (selections.utr !== "none") {
     requestedProfiles.push(...allPeople.map(player => player.utr));
   }
-  if (selections.wtn) {
-    requestedProfiles.push(...allPeople.map(player => player.wtn));
-  }
   const resolved = requestedProfiles.filter(profile =>
     ["singles", "doubles"].some(type => {
       const rating = profile?.[type];
@@ -1518,7 +1491,6 @@ function renderDataset(data) {
   const ratingLabels = [];
   if (selections.utr === "authenticated") ratingLabels.push("Exact UTR");
   if (selections.utr === "public") ratingLabels.push("Public UTR");
-  if (selections.wtn) ratingLabels.push("Public WTN");
   $("#qualityMode").textContent = ratingLabels.length
     ? ratingLabels.join(" + ")
     : "Ratings not requested";

@@ -151,90 +151,13 @@ test("collectionFolderName uses readable team details and a timestamp", () => {
   );
 });
 
-test("home-team scouting gathers every league opponent into one collection", async t => {
-  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-home-scout-"));
-  const outputPath = join(dataDirectory, "collections", "home", "team-data.json");
-  await mkdir(join(dataDirectory, "collections", "home"), { recursive: true });
-  await writeFile(outputPath, JSON.stringify({
-    team: { name: "Home", leagueFormat: "single_gender" },
-    roster: [],
-    matches: [],
-    leagueSchedule: [],
-    leagueTeams: [
-      {
-        name: "Opponent One",
-        url: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP1"
-      },
-      {
-        name: "Opponent Two",
-        url: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP2"
-      }
-    ]
-  }));
-  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
-  const job = {
-    id: "home1234",
-    collectionName: "home",
-    eventCollectionId: "temp1234",
-    catalogTeamId: "collections/home",
-    dataDirectory,
-    teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=HOME",
-    teamType: "home",
-    ratingSelections: { utr: "none", wtn: false },
-    outputPath,
-    log: []
-  };
-  const calls = [];
-  const runSingleJob = async candidate => {
-    calls.push(candidate);
-    candidate.status = "complete";
-  };
-
-  await runScoutingJob(job, async () => {}, runSingleJob);
-
-  assert.deepEqual(
-    calls.map(candidate => candidate.teamUrl),
-    [
-      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=HOME",
-      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP1",
-      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP2"
-    ]
-  );
-  assert.ok(calls.every(candidate =>
-    candidate.eventCollectionId === "temp1234"
-  ));
-  assert.equal(job.discoveredOpponentCount, 2);
-  assert.equal(job.collectedTeamCount, 3);
-  assert.equal(job.status, "complete");
-  assert.equal(
-    (await getEventSchedule(dataDirectory, "temp1234")).ourTeamId,
-    "collections/home"
-  );
-});
-
-test("opponent-team scouting gathers only the pasted team", async () => {
-  const job = {
-    teamType: "opponent",
-    collectedTeamCount: 0
-  };
-  const calls = [];
-  await runScoutingJob(job, async () => {}, async candidate => {
-    calls.push(candidate);
-    candidate.status = "complete";
-  });
-
-  assert.equal(calls.length, 1);
-  assert.equal(job.collectedTeamCount, 1);
-  assert.equal(job.status, "complete");
-});
-
-test("rating selections allow UTR and WTN to be chosen independently", () => {
+test("rating selections only allow optional UTR", () => {
   assert.deepEqual(parseRatingSelections({
     utrMode: "none",
     includeWtn: true
   }), {
     utr: "none",
-    wtn: true
+    wtn: false
   });
   assert.deepEqual(parseRatingSelections({
     utrMode: "authenticated",
@@ -250,10 +173,7 @@ test("rating selections allow UTR and WTN to be chosen independently", () => {
     utr: "none",
     wtn: false
   });
-  assert.equal(
-    ratingSelectionSlug({ utr: "public", wtn: true }),
-    "public-utr-wtn"
-  );
+  assert.equal(ratingSelectionSlug({ utr: "public", wtn: true }), "public-utr");
   assert.equal(
     ratingSelectionSlug({ utr: "none", wtn: false }),
     "no-ratings"
@@ -262,52 +182,29 @@ test("rating selections allow UTR and WTN to be chosen independently", () => {
     () => parseRatingSelections({ utrMode: "estimated", includeWtn: false }),
     /no UTR, public UTR, or signed-in UTR/
   );
-  assert.throws(
-    () => parseRatingSelections({ utrMode: "none", includeWtn: "yes" }),
-    /true or false/
-  );
 });
 
 test("refresh selections require at least one explicitly selected source", () => {
   assert.deepEqual(parseRefreshSelections({
     refreshTennisRecord: true,
     refreshUtr: false,
-    utrMode: "none",
-    refreshWtn: false
+    utrMode: "none"
   }), {
     tennisrecord: true,
-    utr: "none",
-    wtn: false,
-    scope: "all"
+    utr: "none"
   });
   assert.deepEqual(parseRefreshSelections({
     refreshTennisRecord: false,
     refreshUtr: true,
-    utrMode: "authenticated",
-    refreshWtn: true
+    utrMode: "authenticated"
   }), {
     tennisrecord: false,
-    utr: "authenticated",
-    wtn: true,
-    scope: "all"
-  });
-  assert.deepEqual(parseRefreshSelections({
-    refreshTennisRecord: false,
-    refreshUtr: true,
-    utrMode: "public",
-    refreshWtn: false,
-    ratingScope: "opponents"
-  }), {
-    tennisrecord: false,
-    utr: "public",
-    wtn: false,
-    scope: "opponents"
+    utr: "authenticated"
   });
   assert.throws(() => parseRefreshSelections({
     refreshTennisRecord: false,
     refreshUtr: false,
-    utrMode: "none",
-    refreshWtn: false
+    utrMode: "none"
   }), /at least one source/);
   assert.throws(() => parseRefreshSelections({
     refreshTennisRecord: false,
@@ -318,7 +215,7 @@ test("refresh selections require at least one explicitly selected source", () =>
   }), /team ratings, opponent ratings, or both/);
 });
 
-test("TennisRecord refresh preserves unselected ratings and curated analysis", () => {
+test("TennisRecord refresh preserves UTR and curated analysis but discards WTN", () => {
   const current = {
     ratingSelections: { utr: "public", wtn: true },
     sources: [
@@ -362,14 +259,12 @@ test("TennisRecord refresh preserves unselected ratings and curated analysis", (
 
   const merged = mergePreservedRefreshData(fresh, current, {
     tennisrecord: true,
-    utr: "none",
-    wtn: false,
-    scope: "all"
+    utr: "none"
   });
 
   assert.equal(merged.roster[0].dr, 3.1);
   assert.equal(merged.roster[0].utr.lookupStatus, "public_profile_resolved");
-  assert.equal(merged.roster[0].wtn.lookupStatus, "public_profile_resolved");
+  assert.equal(merged.roster[0].wtn, undefined);
   assert.equal(merged.roster[0].likelyRole, "Singles Anchor");
   assert.equal(merged.roster[0].note, "Curated note");
   assert.equal(merged.opponents[0].utr.lookupStatus, "public_profile_resolved");
@@ -381,13 +276,12 @@ test("TennisRecord refresh preserves unselected ratings and curated analysis", (
     merged.matches[0].courts.S1.opponentRatings[0].utr.lookupStatus,
     "public_profile_resolved"
   );
-  assert.deepEqual(merged.ratingSelections, { utr: "public", wtn: true });
+  assert.deepEqual(merged.ratingSelections, { utr: "public", wtn: false });
   assert.deepEqual(
     merged.sources.map(source => source.type),
     [
       "tennisrecord",
-      "utr_sports_public_profiles",
-      "world_tennis_number_public_profiles"
+      "utr_sports_public_profiles"
     ]
   );
 });
@@ -520,7 +414,7 @@ test("server serves the collection UI and reports invalid input", async t => {
   assert.match(pageHtml, /Home team/);
   assert.match(pageHtml, /Opponent team/);
   assert.match(pageHtml, /Pull UTR ratings/);
-  assert.match(pageHtml, /Pull WTN ratings/);
+  assert.doesNotMatch(pageHtml, /WTN|World Tennis Number/);
   assert.match(pageHtml, /Refresh data/);
   const scheduleModule = await fetch(
     `http://127.0.0.1:${port}/schedule.mjs`
@@ -740,9 +634,7 @@ test("server lists teams and returns national analysis by default", async t => {
         teamId: "test-team",
         refreshTennisRecord: false,
         refreshUtr: false,
-        utrMode: "none",
-        refreshWtn: false,
-        ratingScope: "all"
+        utrMode: "none"
       })
     }
   );

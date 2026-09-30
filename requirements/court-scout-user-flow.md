@@ -24,18 +24,11 @@ and opponent roles only exist inside a specific collection; the aggregate
 
 ## Current flow
 
-1. Choose whether the TennisRecord URL represents the home team or an opponent.
-2. Paste the TennisRecord team profile URL.
-3. Review the resolved team identity and roster size. For a home team, also
-   review whether the competition is a single-gender or mixed league and every
-   dated league opponent discovered from its schedule.
-4. Explicitly confirm the resolved team intake.
-5. Choose optional public or authenticated UTR and public WTN ratings.
-6. For a home team, gather all confirmed teams
-   into one temporary collection. For an opponent, gather only that team.
-7. Wait while Tennis Court Scout gathers and validates the dataset.
-8. Review roster, opponent, match, and source data.
-9. Choose a National, Sectional, or Local eligibility target and run a team
+1. Paste a TennisRecord team profile URL.
+2. Choose optional public or authenticated UTR ratings.
+3. Wait while Court Scout gathers and validates the dataset.
+4. Review roster, opponent, match, and source data.
+5. Choose a National, Sectional, or Local eligibility target and run a team
    report covering eligibility, singles, doubles, and likely lineups.
 10. Repeat collection for other teams.
 11. Select two gathered teams to create a Match Day Card.

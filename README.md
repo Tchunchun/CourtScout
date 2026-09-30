@@ -1,8 +1,8 @@
 # Tennis Court Scout data collection
 
-Tennis Court Scout collects a TennisRecord team profile, enriches its players with UTR
-and public World Tennis Number (WTN) ratings, validates the result, and presents
-the canonical dataset in a readable local web interface.
+Court Scout collects a TennisRecord team profile, optionally enriches its
+players with UTR ratings, validates the result, and presents the canonical
+dataset in a readable local web interface.
 
 ## Start the app
 
@@ -21,10 +21,8 @@ resolved profile. After confirmation, choose which optional ratings to collect:
   stores the user's UTR password.
 - **Public UTR:** requires no sign-in and preserves UTR's masked displays, such
   as `1.xx`. It never estimates or invents hidden decimals.
-- **WTN:** requires no sign-in and collects public singles and doubles values for
-  the team roster, with the confidence percentage reported by the WTN source.
 
-UTR and WTN can be selected independently, together, or both left off.
+UTR enrichment can be enabled or left off.
 
 TennisRecord currently chains to the GoDaddy TLS Root CA R1, which is newer
 than the CA bundle in some Node installations. The collector pins that public
@@ -79,12 +77,11 @@ Unfiled teams and the aggregate **All gathered teams** view do not have team
 roles. Team roles are cached in the current browser. Match Day Cards synchronize
 through `data/match-cards.json` and retain browser storage as an offline cache.
 
-For an existing gathered team, use **Refresh data** to repull any combination of
-TennisRecord, UTR, and WTN for the team roster, opponents, or both. Unselected
-ratings, sources, and curated player roles/notes are preserved. Initial UTR and
-WTN gathering includes both roster and opponent profiles. Refresh runs against a
-temporary copy, validates the result, and only then replaces the existing
-dataset; a failed refresh leaves the previous data available.
+For an existing gathered team, use **Refresh data** to repull TennisRecord, UTR,
+or both. Unselected sources and curated player roles/notes are preserved.
+Refresh runs against a temporary copy, validates the result, and only then
+replaces the existing dataset; a failed refresh leaves the previous data
+available.
 
 ## Validation
 
