@@ -110,6 +110,18 @@
                <small id="collectionPurposeHint">Pin the team you are preparing.</small>
               </div>
 
+              <div class="intake-event-level">
+                <label for="scoutCompetitionLevel">Event level</label>
+                <select id="scoutCompetitionLevel" required>
+                  <option value="local">Local</option>
+                  <option value="sectional">Sectional</option>
+                  <option value="national">National</option>
+                </select>
+                <small id="scoutCompetitionLevelHint">
+                  Analysis and Match Day planning will inherit this eligibility level.
+                </small>
+              </div>
+
               <details class="rating-disclosure">
                 <summary>
                   <span><strong id="ratingSummary">Ratings: None</strong><small>Optional · TennisRecord is always collected</small></span>
@@ -449,11 +461,8 @@
               </select>
             </label>
             <label>Eligibility target
-              <select id="scheduleEligibilityScope">
-                <option value="local">Local</option>
-                <option value="sectional">Sectional</option>
-                <option value="national">National</option>
-              </select>
+              <strong id="scheduleEligibilityScopeLabel">Local</strong>
+              <input id="scheduleEligibilityScope" type="hidden" value="local">
             </label>
             <label>Timezone
               <input id="scheduleTimezone" placeholder="e.g. America/Los_Angeles">
@@ -494,20 +503,11 @@
          </nav>
          <div class="analysis-setup-content">
            <div class="analysis-setup-card">
-             <p class="eyebrow">Analysis settings</p>
-             <h2>Choose an eligibility target</h2>
-             <p>Set the competition level before generating this team’s analysis.</p>
-             <div class="analysis-scope">
-               <label for="eligibilityScope">Eligibility target</label>
-               <select id="eligibilityScope">
-                 <option value="national" selected>National — 3 computer / 4 self-rated</option>
-                 <option value="sectional">Sectional — 2 computer / 3 self-rated</option>
-                 <option value="local">Local — no match requirement</option>
-               </select>
-               <small>National is selected by default. Self-rated includes appealed players.</small>
-             </div>
+             <p class="eyebrow">Ready for analysis</p>
+             <h2 id="analysisInheritedScope">Local eligibility analysis</h2>
+             <p id="analysisInheritedScopeHint">The event level was set during scouting and is used automatically.</p>
              <p class="form-error" id="analysisError" role="alert"></p>
-             <button class="button-primary" id="runAnalysis" type="button">Generate analysis</button>
+             <button class="button-primary" id="runAnalysis" type="button">Run analysis</button>
            </div>
            <div class="analysis-preview">
              <p class="eyebrow">Included in the analysis</p>
@@ -534,7 +534,6 @@
            </div>
            <div class="result-actions">
              <button class="button-secondary" id="analysisNextAction" type="button" hidden></button>
-             <button class="button-secondary" id="changeAnalysis" type="button">Change settings</button>
              <button class="button-primary compact" id="rerunAnalysis" type="button">Run again</button>
            </div>
          </div>

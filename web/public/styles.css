@@ -569,6 +569,48 @@ form > label, legend { display: block; margin-bottom: 9px; font-size: 14px; font
 }
 .url-field input:focus { border-color: var(--green-bright); box-shadow: 0 0 0 3px rgba(31, 75, 153, .12); }
 .field-hint { margin: 7px 0 24px; color: var(--ink-soft); font-size: 12px; line-height: 1.45; }
+.intake-event-level {
+  margin-bottom: 22px;
+  display: grid;
+  gap: 7px;
+}
+.intake-event-level label {
+  font-size: 14px;
+  font-weight: 750;
+}
+.intake-event-level select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 10px;
+  color: var(--ink);
+  border: 1px solid #cbd3de;
+  border-radius: var(--radius-sm);
+  background: white;
+  font-size: 13px;
+  font-weight: 650;
+}
+.intake-event-level small {
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.intake-event-level select:disabled {
+  color: var(--green);
+  background: var(--surface-selected);
+}
+.schedule-event-fields strong {
+  min-height: 42px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  color: var(--green);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-selected);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+}
 .collection-purpose {
   margin: 0 0 22px;
   padding: 0;
@@ -1095,6 +1137,10 @@ fieldset { margin: 0; padding: 0; border: 0; }
 .report-team-schedule {
   color: var(--green) !important;
   font-weight: 700;
+}
+.report-team-analysis-status {
+  color: var(--green-bright) !important;
+  font-weight: 750;
 }
 .report-team-actions {
   display: flex;

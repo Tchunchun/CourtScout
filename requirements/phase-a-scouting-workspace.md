@@ -50,6 +50,8 @@ schedule from other teams gathered for reconnaissance.
 ### Collection
 
 - Scouting starts in a temporary event collection.
+- Scouting intake captures the event level once: Local, Sectional, or National.
+- Teams scouted into an existing collection inherit its event level.
 - The user reviews and confirms the resolved TennisRecord team identity before
   collection begins.
 - Confirmation identifies whether the source is a single-gender or mixed
@@ -86,6 +88,10 @@ schedule from other teams gathered for reconnaissance.
 - A scouting-pool team can be added to the schedule without recollection.
 - A scheduled opponent offers a direct **Build matchup** action.
 - Detailed team analysis remains available for all three roles.
+- Analysis and Match Day planning inherit the collection event level without
+  asking the user to choose an eligibility scope again.
+- Changing an event level invalidates analysis generated for the previous
+  level.
 
 ### Match preparation readiness
 

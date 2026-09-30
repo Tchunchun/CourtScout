@@ -23,7 +23,8 @@ import {
   deleteTeamCollection,
   getTeamCollection,
   listTeamCollections,
-  renameTeamCollection
+  renameTeamCollection,
+  validateTeamCollectionCompetitionLevel
 } from "../scripts/lib/team-collections.mjs";
 import {
   confirmEventSchedule,
@@ -52,6 +53,20 @@ const DATA_DIR = resolveDataDirectory(ROOT, process.env.COURT_SCOUT_DATA_DIR);
 const PORT = Number(process.env.PORT ?? 4173);
 const UTR_SESSION = "tennis-scout-ui";
 const jobs = new Map();
+
+function eventTypeForCompetitionLevel(level) {
+  if (level === "sectional") return "sectionals";
+  if (level === "national") return "nationals";
+  return "local";
+}
+
+async function eligibilityScopeForTeam(dataDirectory, teamId) {
+  const team = await readCatalogTeam(dataDirectory, teamId);
+  const collection = (await listTeamCollections(dataDirectory)).find(item =>
+    item.teamDatasetIds.includes(team.datasetId)
+  );
+  return collection?.competitionLevel ?? "national";
+}
 
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
@@ -486,8 +501,8 @@ export async function runScoutingJob(
         await confirmEventSchedule(job.dataDirectory, {
           collectionId: job.eventCollectionId,
           ourTeamId: job.catalogTeamId,
-          eventType: "local",
-          eligibilityScope: "local",
+          eventType: eventTypeForCompetitionLevel(job.competitionLevel),
+          eligibilityScope: job.competitionLevel,
           timezone: null,
           source: {
             type: "tennisrecord",
@@ -531,6 +546,7 @@ export async function runScoutingJob(
         id: `${job.id}-${index + 1}`,
         collectionName,
         eventCollectionId: job.eventCollectionId,
+        competitionLevel: job.competitionLevel,
         dataDirectory: job.dataDirectory,
         teamUrl: team.url,
         teamType: "opponent",
@@ -922,8 +938,15 @@ export function createAppServer(options = {}) {
         }
         const id = randomUUID().slice(0, 8);
         let eventCollectionId = body.eventCollectionId ?? null;
+        let competitionLevel = validateTeamCollectionCompetitionLevel(
+          body.competitionLevel ?? "local"
+        );
         if (eventCollectionId != null) {
-          await getTeamCollection(dataDirectory, eventCollectionId);
+          const collection = await getTeamCollection(
+            dataDirectory,
+            eventCollectionId
+          );
+          competitionLevel = collection.competitionLevel;
         }
         if (ratingSelections.utr === "authenticated") {
           const status = await getUtrStatus();
@@ -943,6 +966,9 @@ export function createAppServer(options = {}) {
             teamUrl
           );
           eventCollectionId = existingCollection?.id ?? null;
+          if (existingCollection) {
+            competitionLevel = existingCollection.competitionLevel;
+          }
         }
         if (eventCollectionId == null) {
           const collection = await createTeamCollection(
@@ -950,7 +976,7 @@ export function createAppServer(options = {}) {
             temporaryCollectionName(teamUrl, id),
             new Date(),
             null,
-            "local"
+            competitionLevel
           );
           eventCollectionId = collection.id;
         }
@@ -966,6 +992,7 @@ export function createAppServer(options = {}) {
           collectionName,
           catalogTeamId: `collections/${collectionName}`,
           eventCollectionId,
+          competitionLevel,
           dataDirectory,
           teamUrl,
           teamType,
@@ -1104,7 +1131,10 @@ export function createAppServer(options = {}) {
         return;
       }
       if (request.method === "PUT" && eventScheduleMatch) {
-        await getTeamCollection(dataDirectory, eventScheduleMatch[1]);
+        const collection = await getTeamCollection(
+          dataDirectory,
+          eventScheduleMatch[1]
+        );
         const body = await readBody(request, 256 * 1024);
         const teams = await listTeamCatalog(dataDirectory);
         if (!teams.some(team => team.id === body.ourTeamId)) {
@@ -1114,6 +1144,7 @@ export function createAppServer(options = {}) {
         }
         json(response, 200, await confirmEventSchedule(dataDirectory, {
           ...body,
+          eligibilityScope: collection.competitionLevel,
           collectionId: eventScheduleMatch[1]
         }));
         return;
@@ -1145,6 +1176,7 @@ export function createAppServer(options = {}) {
       );
       if (request.method === "POST" && localSchedulePreviewMatch) {
         const collectionId = localSchedulePreviewMatch[1];
+        const collection = await getTeamCollection(dataDirectory, collectionId);
         const body = await readBody(request);
         const dataset = await readCatalogTeam(dataDirectory, body.ourTeamId);
         const source = dataset.sources?.find(item =>
@@ -1162,7 +1194,7 @@ export function createAppServer(options = {}) {
         );
         json(response, 200, {
           eventType: current?.eventType ?? "local",
-          eligibilityScope: current?.eligibilityScope ?? "local",
+          eligibilityScope: collection.competitionLevel,
           timezone: current?.timezone ?? null,
           source: {
             type: "tennisrecord",
@@ -1279,7 +1311,8 @@ export function createAppServer(options = {}) {
         const teamId = requestUrl.searchParams.get("team");
         if (!teamId) throw new Error("Choose a team dataset.");
         const eligibilityScope =
-          requestUrl.searchParams.get("eligibility") ?? "national";
+          requestUrl.searchParams.get("eligibility") ??
+          await eligibilityScopeForTeam(dataDirectory, teamId);
         json(
           response,
           200,

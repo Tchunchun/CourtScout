@@ -419,6 +419,9 @@ test("server serves the collection UI and reports invalid input", async t => {
   assert.match(pageHtml, /Pull UTR ratings/);
   assert.match(pageHtml, /<input type="checkbox" id="includeUtr">/);
   assert.match(pageHtml, /<div class="rating-detail" id="utrOptions" hidden>/);
+  assert.match(pageHtml, /id="scoutCompetitionLevel"/);
+  assert.doesNotMatch(pageHtml, /id="eligibilityScope"/);
+  assert.doesNotMatch(pageHtml, /Change settings/);
   assert.doesNotMatch(pageHtml, /WTN|World Tennis Number/);
   assert.match(pageHtml, /Refresh data/);
   const scheduleModule = await fetch(
@@ -717,6 +720,21 @@ test("server creates event collections and assigns gathered teams", async t => {
     /Event collection not found/
   );
 
+  const invalidLevelResponse = await fetch(
+    `http://127.0.0.1:${port}/api/jobs`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Test",
+        utrMode: "none",
+        competitionLevel: "regional"
+      })
+    }
+  );
+  assert.equal(invalidLevelResponse.status, 400);
+  assert.match((await invalidLevelResponse.json()).error, /Local season/);
+
   const createResponse = await fetch(
     `http://127.0.0.1:${port}/api/team-collections`,
     {
@@ -772,7 +790,7 @@ test("server creates event collections and assigns gathered teams", async t => {
   );
   assert.equal(scheduleResponse.status, 200);
   const confirmedSchedule = await scheduleResponse.json();
-  assert.equal(confirmedSchedule.schedule.eligibilityScope, "sectional");
+  assert.equal(confirmedSchedule.schedule.eligibilityScope, "national");
 
   const schedulePreviewResponse = await fetch(
     `http://127.0.0.1:${port}/api/event-schedules/${collection.id}/preview`,
