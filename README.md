@@ -23,9 +23,11 @@ which optional ratings to collect:
 
 UTR and WTN can be selected independently, together, or both left off.
 
-By default, Court Scout reads and writes reports in `./data`. To share reports
-across Git worktrees, set `COURT_SCOUT_DATA_DIR` in a local `.env` file to the
-shared data folder; see `.env.example`.
+By default, Court Scout reads and writes reports in `./data`. Linked Git
+worktrees automatically reuse the primary checkout’s data folder when it
+contains `team-collections.json`, so prior collections remain available in
+Reports & Analysis. Set `COURT_SCOUT_DATA_DIR` in a local `.env` file to
+explicitly use another data folder; see `.env.example`.
 
 Completed datasets are saved in readable, timestamped folders such as
 `data/collections/2026-sunnyvale-mtc-18aw3.0d-public-20260814T161807Z/team-data.json`.
@@ -64,6 +66,9 @@ An event collection may provide shared Match Day defaults for its known schedule
 those defaults initialize a fresh browser, while later local role changes take
 precedence. When dates, times, and sites are known, Match Day Planning displays
 the round-robin schedule and can prefill a new Match Day Card from any match.
+Each Match Day Card preserves its National, Sectional, or Local eligibility
+target. Team report tabs, analysis tabs, and saved cards also have URL routes so
+browser back/forward navigation and bookmarks reopen the same workspace.
 
 For an existing gathered team, use **Refresh data** to repull any combination of
 TennisRecord, UTR, and WTN for the team roster, opponents, or both. Unselected

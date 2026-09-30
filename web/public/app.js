@@ -31,12 +31,18 @@ import {
   validateDraft
 } from "./match-card.mjs";
 import {
+  courtScoutRouteHash,
+  parseCourtScoutRoute
+} from "./navigation.mjs";
+import {
   TEAM_WORKSPACE_SCHEDULE_LIMIT,
   assignTeamRole,
   collectionMatchSchedule,
   defaultTeamWorkspace,
   emptyTeamWorkspace,
+  groupWorkspaceTeams,
   parseTeamWorkspace,
+  rankTeamsBySchedule,
   teamRole
 } from "./team-workspace.mjs";
 
@@ -85,6 +91,100 @@ const state = {
   matchCardPrefillOpponentId: null
 };
 const analysisScopes = new Set(["national", "sectional", "local"]);
+const analysisTabs = new Set(["eligibility", "singles", "doubles", "lineups"]);
+const eligibilityScopeLabels = {
+  national: "National",
+  sectional: "Sectional",
+  local: "Local"
+};
+let routeReady = false;
+
+function updateBrowserRoute(route, { replace = false } = {}) {
+  if (!routeReady) return;
+  const hash = courtScoutRouteHash(route);
+  if (window.location.hash === hash) return;
+  window.history[replace ? "replaceState" : "pushState"](null, "", hash);
+}
+
+function updateRouteForView(name) {
+  if (name === "intake") {
+    updateBrowserRoute({ view: "scout" });
+  } else if (name === "reports") {
+    updateBrowserRoute({ view: "reports" });
+  } else if (name === "results" && state.selectedTeamId) {
+    updateBrowserRoute({
+      view: "team",
+      teamId: state.selectedTeamId,
+      tab: state.tab
+    });
+  } else if (name === "analysisSetup" && state.selectedTeamId) {
+    updateBrowserRoute({
+      view: "analysis-setup",
+      teamId: state.selectedTeamId
+    });
+  } else if (name === "analysis" && state.selectedTeamId) {
+    updateBrowserRoute({
+      view: "analysis",
+      teamId: state.selectedTeamId,
+      tab: state.analysisTab
+    });
+  } else if (name === "matchCards") {
+    updateBrowserRoute(state.activeMatchCardId
+      ? { view: "card", cardId: state.activeMatchCardId }
+      : { view: "cards" });
+  }
+}
+
+async function applyBrowserRoute() {
+  const route = parseCourtScoutRoute(window.location.hash);
+  if (route.view === "reports") {
+    renderReportsTeamList();
+    showView("reports");
+    return;
+  }
+  if (route.view === "team") {
+    if (!state.teams.some(team => team.id === route.teamId)) {
+      renderReportsTeamList();
+      showView("reports");
+      return;
+    }
+    state.tab = route.tab;
+    await openTeamData(route.teamId);
+    return;
+  }
+  if (route.view === "analysis-setup") {
+    if (state.teams.some(team => team.id === route.teamId)) {
+      openAnalysisSetup(route.teamId);
+      return;
+    }
+    renderReportsTeamList();
+    showView("reports");
+    return;
+  }
+  if (route.view === "analysis") {
+    if (!state.teams.some(team => team.id === route.teamId)) {
+      renderReportsTeamList();
+      showView("reports");
+      return;
+    }
+    state.analysisTab = route.tab;
+    await openCompletedAnalysis(route.teamId);
+    return;
+  }
+  if (route.view === "cards") {
+    openMatchCardsWorkspace();
+    return;
+  }
+  if (route.view === "card") {
+    if (state.matchCards.some(card => card.id === route.cardId)) {
+      await openMatchCard(route.cardId);
+    } else {
+      openMatchCardsWorkspace();
+    }
+    return;
+  }
+  showView("intake");
+}
 
 function analysisStorageKey(teamId) {
   return `courtScoutAnalysis:${teamId}`;
@@ -297,6 +397,7 @@ function updateWorkspaceRole(teamId, role) {
   }
   $("#teamRoleError").textContent = "";
   renderTeamList();
+  renderReportsTeamList();
   updateTeamWorkspaceActions();
   if (!views.matchCards.hidden && !state.activeMatchCardId) {
     renderMatchCardsHome();
@@ -425,6 +526,7 @@ function showView(name) {
   requestAnimationFrame(() => {
     views[name].querySelector(".view-heading")?.focus({ preventScroll: true });
   });
+  updateRouteForView(name);
 }
 
 function syncTabState(selector, dataKey, value, panelSelector) {
@@ -575,12 +677,36 @@ function renderTeamList() {
         ? teams.map(teamButton).join("")
         : `<p class="team-list-group-empty">${escapeHtml(emptyMessage)}</p>`}
     </section>`;
-  list.innerHTML = group(
-    state.activeCollectionId ? "Teams in this collection" : "All gathered teams",
-    String(visibleTeams.length),
-    visibleTeams,
-    "No gathered teams yet."
-  );
+  if (!state.activeCollectionId) {
+    list.innerHTML = group(
+      "All gathered teams",
+      String(visibleTeams.length),
+      visibleTeams,
+      "No gathered teams yet."
+    );
+  } else {
+    const groups = groupWorkspaceTeams(visibleTeams, state.teamWorkspace);
+    list.innerHTML = [
+      group(
+        "Our team",
+        groups.ourTeam ? "1" : "0",
+        groups.ourTeam ? [groups.ourTeam] : [],
+        "No team assigned yet."
+      ),
+      group(
+        "Scheduled opponents",
+        `${groups.scheduledOpponents.length}/${TEAM_WORKSPACE_SCHEDULE_LIMIT}`,
+        groups.scheduledOpponents,
+        "No scheduled opponents yet."
+      ),
+      group(
+        "Scouting pool",
+        String(groups.scoutingPool.length),
+        groups.scoutingPool,
+        "No additional scouting reports yet."
+      )
+    ].join("");
+  }
   if (window.matchMedia("(max-width: 900px)").matches) {
     requestAnimationFrame(() => {
       list.querySelector("[aria-pressed='true']")?.scrollIntoView({
@@ -605,6 +731,8 @@ function renderReportsTeamList() {
   );
   const collectionName = collection?.name ?? "Temp collection";
   const readyCount = teams.filter(team => team.reportAvailable !== false).length;
+  const rankedTeams = rankTeamsBySchedule(teams, state.teamWorkspace);
+  const hasSchedule = rankedTeams.some(({ scheduleRank }) => scheduleRank != null);
   $("#reportsCollectionName").textContent = collectionName;
   $("#reportsCollectionLevel").textContent = collection
     ? collectionCompetitionLevelLabel(collection.competitionLevel)
@@ -614,29 +742,57 @@ function renderReportsTeamList() {
   $("#reportsTeamSummary").textContent =
     `${readyCount} ${readyCount === 1 ? "report" : "reports"} ready in this collection.`;
   $("#reportsTeamList").innerHTML = teams.length
-    ? teams.map(team => {
+    ? rankedTeams.map(({ team, scheduleRank }) => {
       const labels = reportTeamLabels(
         team.team?.section,
         team.team?.name ?? team.datasetId
       );
+      const reportAvailable = team.reportAvailable !== false;
+      const role = workspaceRole(team.id);
+      const status = scheduleRank != null
+        ? "Scheduled opponent"
+        : role === "our"
+          ? "Our team"
+          : reportAvailable ? "Scouted team" : "National team";
       return `
-      <button class="report-team-card" type="button"
-        ${team.reportAvailable === false
-          ? "disabled"
-          : `data-report-team-id="${escapeHtml(team.id)}"`}>
-        <span>${team.reportAvailable === false ? "National team" : "Scouted team"}</span>
-        <span>
-          <strong class="report-team-name" title="${escapeHtml(labels.title)}">
+      <article class="report-team-row${hasSchedule ? " has-schedule" : ""}${scheduleRank != null ? " scheduled" : ""}">
+        ${hasSchedule ? `
+          <div class="report-team-rank">
+            ${scheduleRank != null
+              ? `<strong>#${scheduleRank}</strong><small>Schedule</small>`
+              : '<span aria-hidden="true">—</span><small>Not scheduled</small>'}
+          </div>
+        ` : ""}
+        <div class="report-team-summary">
+          <span>${status}</span>
+          <strong title="${escapeHtml(labels.title)}">
             <span class="team-section-name">${escapeHtml(labels.sectional || "Section unavailable")}</span>
             <span> - </span>
             <span>${escapeHtml(labels.team)}</span>
           </strong>
-          <small class="report-team-facts">${team.reportAvailable === false
-            ? `${team.activeRosterSize ?? 0} active players · report pending`
-            : `${team.matchCount ?? 0} matches · ${team.activeRosterSize ?? team.rosterSize ?? 0} active players`}</small>
-        </span>
-        <span>${team.reportAvailable === false ? "Report not gathered yet" : "View report & analysis →"}</span>
-      </button>
+          <small>${reportAvailable
+            ? `${team.matchCount ?? 0} matches · ${team.activeRosterSize ?? team.rosterSize ?? 0} active players`
+            : `${team.activeRosterSize ?? 0} active players · report pending`}</small>
+        </div>
+        <div class="report-team-actions">
+          <button class="button-secondary" type="button"
+            ${reportAvailable
+              ? `data-report-team-id="${escapeHtml(team.id)}"`
+              : "disabled"}
+            aria-label="${reportAvailable
+              ? `View report and analysis for ${escapeHtml(labels.title)}`
+              : `Report not gathered for ${escapeHtml(labels.title)}`}">
+            ${reportAvailable ? "View report &amp; analysis" : "Report not gathered"}
+          </button>
+          ${scheduleRank != null ? `
+            <button class="button-primary compact" type="button"
+              data-prepare-match-id="${escapeHtml(team.id)}"
+              aria-label="Prepare match against ${escapeHtml(labels.title)}">
+              Prepare match
+            </button>
+          ` : ""}
+        </div>
+      </article>
     `;
     }).join("")
     : `
@@ -1047,6 +1203,7 @@ async function pollJob() {
   } catch {
     localStorage.removeItem("courtScoutJob");
     state.jobId = null;
+    routeReady = true;
     showView("intake");
   }
 }
@@ -1201,6 +1358,11 @@ bindTablist("[data-tab]", "tab", button => {
     $("#tableSearch").value = "";
     syncTabState("[data-tab]", "tab", state.tab, "#datasetPanel");
     renderTable();
+    updateBrowserRoute({
+      view: "team",
+      teamId: state.selectedTeamId,
+      tab: state.tab
+    });
 });
 
 $("#tableSearch").addEventListener("input", event => {
@@ -1231,6 +1393,7 @@ async function loadResults(job) {
   if (job.kind === "refresh" && teamId) {
     markAnalysisStale(teamId);
   }
+  routeReady = true;
   renderDataset(data);
   if (teamId) await loadTeams(teamId);
   if (collectionSyncError || job.warning) {
@@ -1294,6 +1457,7 @@ function renderDataset(data) {
     : "Only TennisRecord team, roster, and match data were requested.";
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   $("#downloadData").href = URL.createObjectURL(blob);
+  syncTabState("[data-tab]", "tab", state.tab, "#datasetPanel");
   renderTable();
   updateAnalysisAction();
   updateTeamWorkspaceActions();
@@ -1538,7 +1702,7 @@ function renderAnalysis() {
       `<li>${escapeHtml(warning)}</li>`
     ).join("")}</ul>`
     : "";
-  state.analysisTab = "eligibility";
+  if (!analysisTabs.has(state.analysisTab)) state.analysisTab = "eligibility";
   renderAnalysisContent();
   updateAnalysisAction();
   showView("analysis");
@@ -1862,6 +2026,7 @@ function matchCardListHtml() {
             <span class="saved-card-meta">
               <span>${escapeHtml(card.date ?? "Date not set")}</span>
               <span>${escapeHtml(card.location ?? "home")}</span>
+              <span>${escapeHtml(eligibilityScopeLabels[card.eligibilityScope] ?? "National")}</span>
             </span>
             <span class="saved-card-open" aria-hidden="true">Open →</span>
           </button>
@@ -1899,6 +2064,8 @@ function renderMatchCardsHome() {
     ? state.matchCardPrefillOpponentId
     : scheduledTeams[0]?.id ?? "";
   const canCreateCard = Boolean(defaultOurTeam && defaultOpponent);
+  const defaultEligibilityScope =
+    completedAnalysisScope(defaultOurTeam) ?? "national";
   const today = new Date().toISOString().slice(0, 10);
   $("#matchCardsWorkspace").innerHTML = `
     <div class="match-cards-topbar">
@@ -1970,6 +2137,13 @@ function renderMatchCardsHome() {
             <option value="home">Home</option>
             <option value="away">Away</option>
             <option value="neutral">Neutral</option>
+          </select>
+        </label>
+        <label>Eligibility target
+          <select name="eligibilityScope">
+            ${Object.entries(eligibilityScopeLabels).map(([scope, label]) => `
+              <option value="${scope}" ${scope === defaultEligibilityScope ? "selected" : ""}>${label}</option>
+            `).join("")}
           </select>
         </label>
         <label class="match-card-title-field">Card name
@@ -2287,6 +2461,8 @@ function renderMatchCardEditor() {
   const summary = summarizeMatchup(comparisons);
   const ourTeamName = context.ourData.team.name;
   const opponentName = context.opponentData.team.name;
+  const eligibilityLabel =
+    eligibilityScopeLabels[card.eligibilityScope] ?? "National";
   const collectionName = state.teamCollections.find(
     collection => collection.id === card.collectionId
   )?.name ?? "Tournament";
@@ -2313,6 +2489,7 @@ function renderMatchCardEditor() {
             <span>${escapeHtml(card.date)}</span>
             <span>${escapeHtml(card.location)}</span>
             <span>${escapeHtml(collectionName)}</span>
+            <span>${escapeHtml(eligibilityLabel)} eligibility</span>
             <span>${escapeHtml(ourTeamName)} vs ${escapeHtml(opponentName)}</span>
           </div>
           <p class="match-card-save-note no-print">Saved automatically on this device</p>
@@ -2321,6 +2498,13 @@ function renderMatchCardEditor() {
           <select data-card-field="status">
             <option value="draft" ${card.status === "draft" ? "selected" : ""}>Draft</option>
             <option value="final" ${card.status === "final" ? "selected" : ""}>Final</option>
+          </select>
+        </label>
+        <label class="card-status no-print">Eligibility target
+          <select data-card-field="eligibility">
+            ${Object.entries(eligibilityScopeLabels).map(([scope, label]) => `
+              <option value="${scope}" ${card.eligibilityScope === scope ? "selected" : ""}>${label}</option>
+            `).join("")}
           </select>
         </label>
         <span class="print-status">${escapeHtml(card.status)}</span>
@@ -2356,7 +2540,7 @@ function renderMatchCardEditor() {
           <div><span class="step-label">Team</span><h2>Set the lineup</h2></div>
           <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
             ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
-            : "Nationally eligible roster"}</p>
+            : `${escapeHtml(eligibilityLabel)} eligible roster`}</p>
         </div>
         <div class="lineup-builder-grid">
           ${MATCH_CARD_COURTS.map(({ court, players }) => `
@@ -2369,7 +2553,7 @@ function renderMatchCardEditor() {
           `).join("")}
         </div>
         ${validation.unavailableNames.length
-          ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected National target.</p>`
+          ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${escapeHtml(eligibilityLabel)} target.</p>`
           : ""}
       </section>
       <section class="matchup-analysis">
@@ -2403,11 +2587,14 @@ function renderMatchCardEditor() {
 }
 
 async function loadMatchCardContext(card) {
+  const eligibilityScope = analysisScopes.has(card.eligibilityScope)
+    ? card.eligibilityScope
+    : "national";
   const [ourData, opponentData, ourAnalysis, opponentAnalysis] = await Promise.all([
     api(`/api/team-data?team=${encodeURIComponent(card.ourTeamId)}`),
     api(`/api/team-data?team=${encodeURIComponent(card.opponentTeamId)}`),
-    api(`/api/analysis?team=${encodeURIComponent(card.ourTeamId)}&eligibility=national`),
-    api(`/api/analysis?team=${encodeURIComponent(card.opponentTeamId)}&eligibility=national`)
+    api(`/api/analysis?team=${encodeURIComponent(card.ourTeamId)}&eligibility=${eligibilityScope}`),
+    api(`/api/analysis?team=${encodeURIComponent(card.opponentTeamId)}&eligibility=${eligibilityScope}`)
   ]);
   return {
     cardId: card.id,
@@ -2504,7 +2691,8 @@ async function createMatchCardFromForm(form) {
     location: values.get("location"),
     collectionId,
     ourTeamId,
-    opponentTeamId
+    opponentTeamId,
+    eligibilityScope: values.get("eligibilityScope")
   });
   state.matchCards.push(card);
   if (!persistMatchCards()) {
@@ -2761,8 +2949,13 @@ $("#reportsTeamList").addEventListener("click", event => {
     scoutTeamForActiveCollection();
     return;
   }
-  const button = event.target.closest("[data-report-team-id]");
-  if (button) void openTeamData(button.dataset.reportTeamId);
+  const prepareButton = event.target.closest("[data-prepare-match-id]");
+  if (prepareButton) {
+    openMatchCardsWorkspace(prepareButton.dataset.prepareMatchId);
+    return;
+  }
+  const reportButton = event.target.closest("[data-report-team-id]");
+  if (reportButton) void openTeamData(reportButton.dataset.reportTeamId);
 });
 $("#scoutCollectionTeam").addEventListener(
   "click",
@@ -2960,6 +3153,11 @@ $("#rerunAnalysis").addEventListener("click", rerunAnalysis);
 bindTablist("[data-analysis-tab]", "analysisTab", button => {
   state.analysisTab = button.dataset.analysisTab;
   renderAnalysisContent();
+  updateBrowserRoute({
+    view: "analysis",
+    teamId: state.selectedTeamId,
+    tab: state.analysisTab
+  });
 });
 $("#scoutStage").addEventListener("click", () => {
   showView("intake");
@@ -2996,6 +3194,19 @@ $("#matchCardsWorkspace").addEventListener("change", event => {
     });
     return;
   }
+  if (target.matches("[data-card-field=eligibility]")) {
+    const card = state.matchCards.find(item => item.id === state.activeMatchCardId);
+    if (!card || !analysisScopes.has(target.value)) return;
+    card.eligibilityScope = target.value;
+    card.updatedAt = new Date().toISOString();
+    if (!persistMatchCards()) {
+      renderMatchCardEditor();
+      return;
+    }
+    state.matchCardContext = null;
+    void openMatchCard(card.id);
+    return;
+  }
   if (target.matches("[data-card-field=status]")) {
     updateActiveMatchCard(card => {
       card.status = target.value;
@@ -3030,7 +3241,7 @@ $("#matchCardsWorkspace").addEventListener("click", event => {
     return;
   }
   if (action === "back") {
-    renderMatchCardsHome();
+    openMatchCardsWorkspace();
     requestAnimationFrame(() => {
       $(".match-cards-topbar .view-heading")?.focus({ preventScroll: true });
     });
@@ -3136,6 +3347,11 @@ void loadTeamCollections()
       renderMatchCardsHome();
     }
   })
+  .then(() => {
+    if (state.jobId) return;
+    routeReady = true;
+    return applyBrowserRoute();
+  })
   .catch(error => {
     const message = escapeHtml(error.message);
     $("#teamList").innerHTML =
@@ -3143,6 +3359,10 @@ void loadTeamCollections()
     $("#reportsCollectionList").innerHTML =
       `<p class="empty-state">Report collections could not be loaded: ${message}</p>`;
   });
+
+window.addEventListener("popstate", () => {
+  if (routeReady && !state.jobId) void applyBrowserRoute();
+});
 
 if (state.jobId) {
   showView("progress");

@@ -8,6 +8,7 @@ import {
   emptyTeamWorkspace,
   groupWorkspaceTeams,
   parseTeamWorkspace,
+  rankTeamsBySchedule,
   teamRole
 } from "../web/public/team-workspace.mjs";
 
@@ -121,4 +122,42 @@ test("stored workspaces remove duplicates and our team conflicts", () => {
     ourTeamId: "ours",
     scheduledOpponentIds: ["opponent"]
   });
+});
+
+test("report teams follow match schedule order and retain unscheduled teams", () => {
+  const teams = [
+    { id: "research-a" },
+    { id: "opponent-two" },
+    { id: "ours" },
+    { id: "opponent-one" },
+    { id: "research-b" }
+  ];
+
+  const ranked = rankTeamsBySchedule(teams, {
+    ourTeamId: "ours",
+    scheduledOpponentIds: ["opponent-one", "opponent-two"]
+  });
+
+  assert.deepEqual(
+    ranked.map(({ team, scheduleRank }) => [team.id, scheduleRank]),
+    [
+      ["opponent-one", 1],
+      ["opponent-two", 2],
+      ["research-a", null],
+      ["ours", null],
+      ["research-b", null]
+    ]
+  );
+});
+
+test("report teams keep their gathered order when no schedule is available", () => {
+  const teams = [{ id: "team-b" }, { id: "team-a" }];
+
+  assert.deepEqual(
+    rankTeamsBySchedule(teams, emptyTeamWorkspace()),
+    [
+      { team: teams[0], scheduleRank: null },
+      { team: teams[1], scheduleRank: null }
+    ]
+  );
 });

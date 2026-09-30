@@ -12,8 +12,42 @@ import {
   parseRefreshSelections,
   parseRatingSelections,
   ratingSelectionSlug,
+  resolveDataDirectory,
   validateTeamUrl
 } from "../web/server.mjs";
+
+test("linked worktrees reuse the primary checkout data directory", async t => {
+  const parent = await mkdtemp(join(tmpdir(), "court-scout-worktrees-"));
+  t.after(() => rm(parent, { recursive: true, force: true }));
+  const primaryRoot = join(parent, "primary");
+  const worktreeRoot = join(parent, "worktree");
+  const worktreeGitDirectory = join(
+    primaryRoot,
+    ".git",
+    "worktrees",
+    "court-scout"
+  );
+  await mkdir(join(primaryRoot, "data"), { recursive: true });
+  await mkdir(worktreeGitDirectory, { recursive: true });
+  await mkdir(worktreeRoot, { recursive: true });
+  await writeFile(
+    join(primaryRoot, "data", "team-collections.json"),
+    JSON.stringify({ version: 1, collections: [] })
+  );
+  await writeFile(
+    join(worktreeRoot, ".git"),
+    `gitdir: ${worktreeGitDirectory}\n`
+  );
+
+  assert.equal(
+    resolveDataDirectory(worktreeRoot),
+    join(primaryRoot, "data")
+  );
+  assert.equal(
+    resolveDataDirectory(worktreeRoot, join(parent, "configured-data")),
+    join(parent, "configured-data")
+  );
+});
 
 test("validateTeamUrl accepts a TennisRecord team profile", () => {
   const input = "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Example";

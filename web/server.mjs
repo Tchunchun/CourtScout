@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { dirname, extname, join, resolve } from "node:path";
@@ -33,7 +34,7 @@ import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const PUBLIC_DIR = join(ROOT, "web", "public");
-const DATA_DIR = resolve(process.env.COURT_SCOUT_DATA_DIR ?? join(ROOT, "data"));
+const DATA_DIR = resolveDataDirectory(ROOT, process.env.COURT_SCOUT_DATA_DIR);
 const PORT = Number(process.env.PORT ?? 4173);
 const UTR_SESSION = "tennis-scout-ui";
 const jobs = new Map();
@@ -45,6 +46,25 @@ const contentTypes = {
   ".mjs": "text/javascript; charset=utf-8",
   ".svg": "image/svg+xml"
 };
+
+export function resolveDataDirectory(root, configuredDirectory) {
+  if (configuredDirectory) return resolve(configuredDirectory);
+
+  const localDataDirectory = join(root, "data");
+  const gitPath = join(root, ".git");
+  if (!existsSync(gitPath) || statSync(gitPath).isDirectory()) {
+    return localDataDirectory;
+  }
+
+  const match = readFileSync(gitPath, "utf8").trim().match(/^gitdir:\s*(.+)$/);
+  if (!match) return localDataDirectory;
+  const worktreeGitDirectory = resolve(root, match[1]);
+  const primaryRoot = dirname(resolve(worktreeGitDirectory, "../.."));
+  const sharedDataDirectory = join(primaryRoot, "data");
+  return existsSync(join(sharedDataDirectory, "team-collections.json"))
+    ? sharedDataDirectory
+    : localDataDirectory;
+}
 
 export function validateTeamUrl(value) {
   let url;
@@ -560,6 +580,7 @@ async function serveStatic(request, response, pathname) {
     "index.html",
     "app.js",
     "match-card.mjs",
+    "navigation.mjs",
     "render.mjs",
     "styles.css",
     "team-workspace.mjs"

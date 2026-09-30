@@ -117,3 +117,21 @@ export function groupWorkspaceTeams(teams, workspace) {
     )
   };
 }
+
+export function rankTeamsBySchedule(teams, workspace) {
+  const scheduleRanks = new Map(
+    workspace.scheduledOpponentIds.map((teamId, index) => [teamId, index + 1])
+  );
+  return teams
+    .map((team, originalIndex) => ({
+      team,
+      scheduleRank: scheduleRanks.get(team.id) ?? null,
+      originalIndex
+    }))
+    .sort((left, right) =>
+      (left.scheduleRank ?? Number.POSITIVE_INFINITY) -
+        (right.scheduleRank ?? Number.POSITIVE_INFINITY) ||
+      left.originalIndex - right.originalIndex
+    )
+    .map(({ team, scheduleRank }) => ({ team, scheduleRank }));
+}
