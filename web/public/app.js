@@ -647,9 +647,7 @@ function teamDescription(team) {
 }
 
 function teamHeadingHtml(name) {
-  const match = String(name).match(/^(.*\S)\s+(\S*\d\S*)$/);
-  if (!match) return escapeHtml(name);
-  return `${escapeHtml(match[1])}<span>${escapeHtml(match[2])}</span>`;
+  return escapeHtml(name);
 }
 
 function teamSectionHtml(section) {
@@ -1907,7 +1905,8 @@ function renderAnalysisContent() {
 
 function renderAnalysis() {
   const report = state.analysis;
-  $("#reportTeamName").textContent = report.team.name;
+  $("#reportTeamName").textContent =
+    selectedTeam()?.team?.name ?? report.team.name;
   $("#reportTeamMeta").innerHTML = [
     report.team.season && escapeHtml(report.team.season),
     teamSectionHtml(report.team.section),
