@@ -23,7 +23,7 @@ is not itself a collection.
 ## Current flow
 
 1. Paste a TennisRecord team profile URL.
-2. Choose optional public or authenticated UTR and public WTN ratings.
+2. Choose optional public or authenticated UTR ratings.
 3. Wait while Court Scout gathers and validates the dataset.
 4. Review roster, opponent, match, and source data.
 5. Choose a National, Sectional, or Local eligibility target and run a team

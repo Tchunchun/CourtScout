@@ -171,7 +171,6 @@ export function mergePreservedRefreshData(fresh, current, refreshSelections) {
     const previous = currentRoster.get(normalizeName(player.name));
     if (!previous) continue;
     if (!refreshUtr && previous.utr) player.utr = previous.utr;
-    if (!refreshSelections.wtn && previous.wtn) player.wtn = previous.wtn;
     if (previous.likelyRole != null) player.likelyRole = previous.likelyRole;
     if (previous.note != null) player.note = previous.note;
   }
@@ -183,9 +182,7 @@ export function mergePreservedRefreshData(fresh, current, refreshSelections) {
   const selectedSource = source => {
     if (source.type === "tennisrecord") return false;
     if (source.type?.includes("utr_")) return !refreshUtr;
-    if (source.type === "world_tennis_number_public_profiles") {
-      return !refreshSelections.wtn;
-    }
+    if (source.type === "world_tennis_number_public_profiles") return false;
     return true;
   };
   fresh.sources = [
@@ -196,16 +193,13 @@ export function mergePreservedRefreshData(fresh, current, refreshSelections) {
     utr: refreshUtr
       ? refreshSelections.utr
       : current.ratingSelections?.utr || "none",
-    wtn: refreshSelections.wtn || Boolean(current.ratingSelections?.wtn)
+    wtn: false
   };
   fresh.dataQuality = {
     ...(fresh.dataQuality ?? {}),
     ...(!refreshUtr && current.dataQuality?.unresolvedIdentities
       ? { unresolvedIdentities: current.dataQuality.unresolvedIdentities }
       : {}),
-    ...(!refreshSelections.wtn && current.dataQuality?.unresolvedWtnIdentities
-      ? { unresolvedWtnIdentities: current.dataQuality.unresolvedWtnIdentities }
-      : {})
   };
   updateCourtJoins(fresh);
   return fresh;
@@ -295,24 +289,9 @@ async function runJob(job, runUtrCommand) {
       }
       await runUtrCommand(job, () =>
         runCommand(job, utrScript, utrArgs, line => {
-          job.progress = Math.min(job.ratingSelections.wtn ? 78 : 92, job.progress + 1);
-          job.detail = line;
-        })
-      );
-    }
-
-    if (job.ratingSelections.wtn) {
-      job.phase = "wtn";
-      job.progress = job.ratingSelections.utr === "none" ? 55 : 80;
-      job.detail = "Matching roster players to public World Tennis Number profiles";
-      await runCommand(
-        job,
-        "scripts/enrich-wtn-public.mjs",
-        ["--input", job.outputPath],
-        line => {
           job.progress = Math.min(92, job.progress + 1);
           job.detail = line;
-        }
+        })
       );
     }
 
@@ -404,26 +383,9 @@ async function runRefreshJob(job, runUtrCommand) {
       }
       await runUtrCommand(job, () =>
         runCommand(job, script, args, line => {
-          job.progress = Math.min(job.refreshSelections.wtn ? 78 : 92, job.progress + 1);
-          job.detail = line;
-        })
-      );
-    }
-
-    if (job.refreshSelections.wtn) {
-      job.phase = "wtn";
-      job.progress = job.refreshSelections.utr !== "none"
-        ? 80
-        : job.refreshSelections.tennisrecord ? 55 : 15;
-      job.detail = "Refreshing public World Tennis Number profiles";
-      await runCommand(
-        job,
-        "scripts/enrich-wtn-public.mjs",
-        ["--input", job.workingPath],
-        line => {
           job.progress = Math.min(92, job.progress + 1);
           job.detail = line;
-        }
+        })
       );
     }
 
@@ -555,17 +517,12 @@ export function parseRatingSelections(body) {
   if (!["none", "public", "authenticated"].includes(utr)) {
     throw new Error("Choose no UTR, public UTR, or signed-in UTR.");
   }
-  const wtn = body.includeWtn ?? (body.mode ? true : false);
-  if (typeof wtn !== "boolean") {
-    throw new Error("WTN selection must be true or false.");
-  }
-  return { utr, wtn };
+  return { utr, wtn: false };
 }
 
 export function ratingSelectionSlug(ratingSelections) {
   const selected = [];
   if (ratingSelections.utr !== "none") selected.push(`${ratingSelections.utr}-utr`);
-  if (ratingSelections.wtn) selected.push("wtn");
   return selected.length ? selected.join("-") : "no-ratings";
 }
 
@@ -573,26 +530,24 @@ export function parseRefreshSelections(body) {
   if (typeof body.refreshTennisRecord !== "boolean") {
     throw new Error("TennisRecord refresh selection must be true or false.");
   }
-  if (typeof body.refreshWtn !== "boolean") {
-    throw new Error("WTN refresh selection must be true or false.");
-  }
   const utr = body.refreshUtr ? body.utrMode : "none";
   if (typeof body.refreshUtr !== "boolean" ||
       !["none", "public", "authenticated"].includes(utr)) {
     throw new Error("Choose whether to refresh public or signed-in UTR.");
   }
-  if (!body.refreshTennisRecord && utr === "none" && !body.refreshWtn) {
+  if (!body.refreshTennisRecord && utr === "none") {
     throw new Error("Choose at least one source to refresh.");
   }
   return {
     tennisrecord: body.refreshTennisRecord,
-    utr,
-    wtn: body.refreshWtn
+    utr
   };
 }
 
 function datasetRatingSelections(dataset) {
-  if (dataset.ratingSelections) return dataset.ratingSelections;
+  if (dataset.ratingSelections?.utr) {
+    return { utr: dataset.ratingSelections.utr, wtn: false };
+  }
   const exact = dataset.sources?.some(source =>
     source.type?.includes("utr") && source.authentication === "user-authenticated"
   );
@@ -601,9 +556,7 @@ function datasetRatingSelections(dataset) {
   );
   return {
     utr: exact ? "authenticated" : publicUtr ? "public" : "none",
-    wtn: Boolean(dataset.sources?.some(source =>
-      source.type === "world_tennis_number_public_profiles"
-    ))
+    wtn: false
   };
 }
 
@@ -769,7 +722,7 @@ export function createAppServer(options = {}) {
           utr: refreshSelections.utr !== "none"
             ? refreshSelections.utr
             : currentSelections.utr,
-          wtn: refreshSelections.wtn || currentSelections.wtn
+          wtn: false
         };
         const id = randomUUID().slice(0, 8);
         const outputPath = join(dataDirectory, body.teamId, "team-data.json");

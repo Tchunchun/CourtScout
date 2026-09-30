@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Collect TennisRecord, UTR, and WTN data for tennis team scouting.">
+    <meta name="description" content="Collect TennisRecord and UTR data for tennis team scouting.">
     <title>Court Scout — Tennis data, ready for analysis</title>
     <link rel="stylesheet" href="/styles.css">
   </head>
@@ -86,7 +86,7 @@
 
             <details class="rating-disclosure">
               <summary>
-                <span><strong id="ratingSummary">Ratings: Public UTR + WTN</strong><small>Optional · TennisRecord is always collected</small></span>
+                <span><strong id="ratingSummary">Ratings: Public UTR</strong><small>Optional · TennisRecord is always collected</small></span>
                 <b>Customize</b>
               </summary>
               <fieldset class="rating-picker">
@@ -118,15 +118,6 @@
                     <button class="button-secondary" type="button" id="connectUtr">Open UTR sign in</button>
                   </div>
                 </div>
-                <label class="mode-option rating-toggle">
-                  <input type="checkbox" id="includeWtn" checked>
-                  <span class="mode-control" aria-hidden="true"></span>
-                  <span class="mode-icon public" aria-hidden="true">WTN</span>
-                  <span class="mode-copy">
-                    <span><strong>Pull WTN ratings</strong><b class="neutral">No sign-in</b></span>
-                    <small>Public singles and doubles WTN for roster players.</small>
-                  </span>
-                </label>
               </fieldset>
             </details>
 
@@ -157,7 +148,6 @@
           <div class="phase-list">
             <div data-phase="tennisrecord"><i></i><span><strong>TennisRecord</strong><small>Team, roster &amp; match history</small></span></div>
             <div data-phase="utr"><i></i><span><strong>UTR</strong><small>Player identity &amp; ratings</small></span></div>
-            <div data-phase="wtn"><i></i><span><strong>WTN</strong><small>Public singles &amp; doubles ratings</small></span></div>
             <div data-phase="validation"><i></i><span><strong>Validation</strong><small>Quality &amp; source checks</small></span></div>
           </div>
           <p class="time-note">You can leave this tab open. Larger match histories may take several minutes.</p>
@@ -328,15 +318,6 @@
               </label>
               <button class="button-secondary refresh-connect-utr" id="refreshConnectUtr" type="button" hidden>Open UTR sign in</button>
             </div>
-            <label class="mode-option rating-toggle">
-              <input type="checkbox" id="refreshWtn">
-              <span class="mode-control" aria-hidden="true"></span>
-              <span class="mode-icon public" aria-hidden="true">WTN</span>
-              <span class="mode-copy">
-                <span><strong>World Tennis Number</strong></span>
-                <small>Refresh public singles and doubles WTN for roster players.</small>
-              </span>
-            </label>
           </fieldset>
           <p class="form-error" id="refreshError" role="alert"></p>
           <div class="refresh-dialog-actions">

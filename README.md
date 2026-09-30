@@ -1,8 +1,8 @@
 # Court Scout data collection
 
-Court Scout collects a TennisRecord team profile, enriches its players with UTR
-and public World Tennis Number (WTN) ratings, validates the result, and presents
-the canonical dataset in a readable local web interface.
+Court Scout collects a TennisRecord team profile, optionally enriches its
+players with UTR ratings, validates the result, and presents the canonical
+dataset in a readable local web interface.
 
 ## Start the app
 
@@ -18,10 +18,8 @@ which optional ratings to collect:
   stores the user's UTR password.
 - **Public UTR:** requires no sign-in and preserves UTR's masked displays, such
   as `1.xx`. It never estimates or invents hidden decimals.
-- **WTN:** requires no sign-in and collects public singles and doubles values for
-  the team roster, with the confidence percentage reported by the WTN source.
 
-UTR and WTN can be selected independently, together, or both left off.
+UTR enrichment can be enabled or left off.
 
 By default, Court Scout reads and writes reports in `./data`. Linked Git
 worktrees automatically reuse the primary checkout’s data folder when it
@@ -61,10 +59,10 @@ Each Match Day Card preserves its National, Sectional, or Local eligibility
 target. Team report tabs, analysis tabs, and saved cards also have URL routes so
 browser back/forward navigation and bookmarks reopen the same workspace.
 
-For an existing gathered team, use **Refresh data** to repull any combination of
-TennisRecord, UTR, and WTN. Unselected sources and curated player roles/notes are
-preserved. Refresh runs against a temporary copy, validates the result, and only
-then replaces the existing dataset; a failed refresh leaves the previous data
+For an existing gathered team, use **Refresh data** to repull TennisRecord, UTR,
+or both. Unselected sources and curated player roles/notes are preserved.
+Refresh runs against a temporary copy, validates the result, and only then
+replaces the existing dataset; a failed refresh leaves the previous data
 available.
 
 ## Validation

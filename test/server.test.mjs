@@ -74,13 +74,13 @@ test("collectionFolderName uses readable team details and a timestamp", () => {
   );
 });
 
-test("rating selections allow UTR and WTN to be chosen independently", () => {
+test("rating selections only allow optional UTR", () => {
   assert.deepEqual(parseRatingSelections({
     utrMode: "none",
     includeWtn: true
   }), {
     utr: "none",
-    wtn: true
+    wtn: false
   });
   assert.deepEqual(parseRatingSelections({
     utrMode: "authenticated",
@@ -96,10 +96,7 @@ test("rating selections allow UTR and WTN to be chosen independently", () => {
     utr: "none",
     wtn: false
   });
-  assert.equal(
-    ratingSelectionSlug({ utr: "public", wtn: true }),
-    "public-utr-wtn"
-  );
+  assert.equal(ratingSelectionSlug({ utr: "public", wtn: true }), "public-utr");
   assert.equal(
     ratingSelectionSlug({ utr: "none", wtn: false }),
     "no-ratings"
@@ -108,42 +105,33 @@ test("rating selections allow UTR and WTN to be chosen independently", () => {
     () => parseRatingSelections({ utrMode: "estimated", includeWtn: false }),
     /no UTR, public UTR, or signed-in UTR/
   );
-  assert.throws(
-    () => parseRatingSelections({ utrMode: "none", includeWtn: "yes" }),
-    /true or false/
-  );
 });
 
 test("refresh selections require at least one explicitly selected source", () => {
   assert.deepEqual(parseRefreshSelections({
     refreshTennisRecord: true,
     refreshUtr: false,
-    utrMode: "none",
-    refreshWtn: false
+    utrMode: "none"
   }), {
     tennisrecord: true,
-    utr: "none",
-    wtn: false
+    utr: "none"
   });
   assert.deepEqual(parseRefreshSelections({
     refreshTennisRecord: false,
     refreshUtr: true,
-    utrMode: "authenticated",
-    refreshWtn: true
+    utrMode: "authenticated"
   }), {
     tennisrecord: false,
-    utr: "authenticated",
-    wtn: true
+    utr: "authenticated"
   });
   assert.throws(() => parseRefreshSelections({
     refreshTennisRecord: false,
     refreshUtr: false,
-    utrMode: "none",
-    refreshWtn: false
+    utrMode: "none"
   }), /at least one source/);
 });
 
-test("TennisRecord refresh preserves unselected ratings and curated analysis", () => {
+test("TennisRecord refresh preserves UTR and curated analysis but discards WTN", () => {
   const current = {
     ratingSelections: { utr: "public", wtn: true },
     sources: [
@@ -187,13 +175,12 @@ test("TennisRecord refresh preserves unselected ratings and curated analysis", (
 
   const merged = mergePreservedRefreshData(fresh, current, {
     tennisrecord: true,
-    utr: "none",
-    wtn: false
+    utr: "none"
   });
 
   assert.equal(merged.roster[0].dr, 3.1);
   assert.equal(merged.roster[0].utr.lookupStatus, "public_profile_resolved");
-  assert.equal(merged.roster[0].wtn.lookupStatus, "public_profile_resolved");
+  assert.equal(merged.roster[0].wtn, undefined);
   assert.equal(merged.roster[0].likelyRole, "Singles Anchor");
   assert.equal(merged.roster[0].note, "Curated note");
   assert.equal(merged.opponents[0].utr.lookupStatus, "public_profile_resolved");
@@ -205,13 +192,12 @@ test("TennisRecord refresh preserves unselected ratings and curated analysis", (
     merged.matches[0].courts.S1.opponentRatings[0].utr.lookupStatus,
     "public_profile_resolved"
   );
-  assert.deepEqual(merged.ratingSelections, { utr: "public", wtn: true });
+  assert.deepEqual(merged.ratingSelections, { utr: "public", wtn: false });
   assert.deepEqual(
     merged.sources.map(source => source.type),
     [
       "tennisrecord",
-      "utr_sports_public_profiles",
-      "world_tennis_number_public_profiles"
+      "utr_sports_public_profiles"
     ]
   );
 });
@@ -265,7 +251,7 @@ test("server serves the collection UI and reports invalid input", async t => {
   const pageHtml = await page.text();
   assert.match(pageHtml, /Gather team data/);
   assert.match(pageHtml, /Pull UTR ratings/);
-  assert.match(pageHtml, /Pull WTN ratings/);
+  assert.doesNotMatch(pageHtml, /WTN|World Tennis Number/);
   assert.match(pageHtml, /Refresh data/);
 
   const response = await fetch(`http://127.0.0.1:${port}/api/jobs`, {
@@ -379,8 +365,7 @@ test("server lists teams and returns national analysis by default", async t => {
         teamId: "test-team",
         refreshTennisRecord: false,
         refreshUtr: false,
-        utrMode: "none",
-        refreshWtn: false
+        utrMode: "none"
       })
     }
   );
