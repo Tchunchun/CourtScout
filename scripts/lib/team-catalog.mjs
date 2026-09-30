@@ -27,6 +27,9 @@ export async function listTeamCatalog(dataDirectory) {
   const files = await findTeamDataFiles(dataDirectory);
   const teams = await Promise.all(files.map(async file => {
     const dataset = JSON.parse(await readFile(file, "utf8"));
+    const tennisRecordSource = dataset.sources?.find(source =>
+      source.type === "tennisrecord" && source.url
+    );
     return {
       id: catalogId(dataDirectory, file),
       datasetId: dataset.datasetId,
@@ -35,6 +38,7 @@ export async function listTeamCatalog(dataDirectory) {
       collectionStage: dataset.collectionStage,
       rosterSize: dataset.roster?.length ?? 0,
       matchCount: dataset.matches?.length ?? 0,
+      sourceUrl: tennisRecordSource?.url ?? null,
       finalReportReady: dataset.collectionStage === "step_1_complete"
     };
   }));

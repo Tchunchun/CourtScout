@@ -128,6 +128,35 @@ export async function deleteTeamCollection(dataDirectory, collectionId) {
   });
 }
 
+export async function renameTeamCollection(dataDirectory, collectionId, name) {
+  const normalizedName = validateTeamCollectionName(name);
+  if (typeof collectionId !== "string" || !collectionId) {
+    throw new Error("Choose an event collection.");
+  }
+  return queuedWrite(dataDirectory, async () => {
+    const store = await readStore(dataDirectory);
+    const collection = store.collections.find(item => item.id === collectionId);
+    if (!collection) {
+      const error = new Error("Event collection not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+    if (store.collections.some(item =>
+      item.id !== collectionId &&
+      item.name.localeCompare(normalizedName, undefined, {
+        sensitivity: "accent"
+      }) === 0
+    )) {
+      const error = new Error("A collection with this name already exists.");
+      error.statusCode = 409;
+      throw error;
+    }
+    collection.name = normalizedName;
+    await writeJsonAtomic(collectionFile(dataDirectory), store);
+    return { collection, collections: store.collections };
+  });
+}
+
 export async function getTeamCollection(dataDirectory, collectionId) {
   if (typeof collectionId !== "string" || !collectionId) {
     throw new Error("Choose an event collection.");

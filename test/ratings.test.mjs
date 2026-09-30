@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   emptyRating,
   exactRating,
+  identityGender,
   locationScore,
   normalizeName
 } from "../scripts/lib/ratings.mjs";
@@ -30,6 +31,13 @@ test("identity helpers normalize names and prioritize exact locations", () => {
   assert.equal(locationScore("Sunnyvale, California", "Sunnyvale, CA"), 70);
   assert.equal(locationScore("San Jose, CA", "Sunnyvale, CA"), 10);
   assert.equal(locationScore("Seattle, WA", "Sunnyvale, CA"), 0);
+});
+
+test("player gender overrides team gender for mixed-league identity matching", () => {
+  assert.equal(identityGender("Men", "Mixed"), "Male");
+  assert.equal(identityGender("Women", "Mixed"), "Female");
+  assert.equal(identityGender(undefined, "Women"), "Female");
+  assert.equal(identityGender("Unknown", "Mixed"), null);
 });
 
 test("location scoring compares state codes instead of arbitrary substrings", () => {

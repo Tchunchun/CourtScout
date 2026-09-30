@@ -25,6 +25,12 @@ export function normalizeName(value) {
     .toLowerCase();
 }
 
+export function identityGender(playerGender, teamGender) {
+  const gender = playerGender ?? teamGender;
+  return gender === "Men" ? "Male" :
+    gender === "Women" ? "Female" : null;
+}
+
 export function locationScore(candidateLocation, expectedLocation) {
   if (!candidateLocation || !expectedLocation) return 0;
   const candidate = candidateLocation.toLowerCase();

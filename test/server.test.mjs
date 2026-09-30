@@ -8,12 +8,19 @@ import {
   collectionFolderName,
   createAppServer,
   createUtrCommandQueue,
+  findActiveScoutingJob,
+  findExistingHomeCollection,
   mergePreservedRefreshData,
+  parseTeamType,
   parseRefreshSelections,
   parseRatingSelections,
   ratingSelectionSlug,
+  runScoutingJob,
+  teamSourceKey,
+  temporaryCollectionName,
   validateTeamUrl
 } from "../web/server.mjs";
+import { getEventSchedule } from "../scripts/lib/event-schedules.mjs";
 
 test("validateTeamUrl accepts a TennisRecord team profile", () => {
   const input = "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Example";
@@ -24,6 +31,77 @@ test("validateTeamUrl rejects non-TennisRecord URLs", () => {
   assert.throws(
     () => validateTeamUrl("https://example.com/adult/teamprofile.aspx?teamname=Example"),
     /tennisrecord\.com/
+  );
+});
+
+test("team type and temporary collection names support scouting intent", () => {
+  assert.equal(parseTeamType("home"), "home");
+  assert.equal(parseTeamType("opponent"), "opponent");
+  assert.equal(parseTeamType(), "opponent");
+  assert.throws(() => parseTeamType("visitor"), /home team or an opponent team/);
+  assert.equal(
+    temporaryCollectionName(
+      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Example%20Team",
+      "abcd1234"
+    ),
+    "Temporary — 2026 Example Team — abcd1234"
+  );
+});
+
+test("active scouting jobs are reused for the same confirmed intake", () => {
+  const active = {
+    id: "active-job",
+    teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2027&teamname=HOME",
+    teamType: "home",
+    status: "running"
+  };
+  assert.equal(
+    findActiveScoutingJob(
+      [active],
+      active.teamUrl,
+      active.teamType
+    ),
+    active
+  );
+  assert.equal(
+    findActiveScoutingJob(
+      [{ ...active, status: "complete" }],
+      active.teamUrl,
+      active.teamType
+    ),
+    null
+  );
+});
+
+test("completed home-team intake reuses its exact source collection", () => {
+  const teamUrl =
+    "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2027&teamname=HOME";
+  const collection = {
+    id: "event",
+    teamDatasetIds: ["2027-home", "2027-opponent"]
+  };
+  assert.equal(findExistingHomeCollection(
+    [collection],
+    [{
+      datasetId: "2027-home",
+      sourceUrl:
+        "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=HOME&year=2027"
+    }],
+    teamUrl
+  ), collection);
+  assert.equal(findExistingHomeCollection(
+    [collection],
+    [{
+      datasetId: "2027-home",
+      sourceUrl: teamUrl
+    }],
+    `${teamUrl}-different`
+  ), null);
+  assert.equal(
+    teamSourceKey(teamUrl),
+    teamSourceKey(
+      "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=HOME&year=2027"
+    )
   );
 });
 
@@ -38,6 +116,83 @@ test("collectionFolderName uses readable team details and a timestamp", () => {
     name,
     "2026-sunnyvale-mtc-18aw3.0d-public-20260814T161807Z"
   );
+});
+
+test("home-team scouting gathers every league opponent into one collection", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-home-scout-"));
+  const outputPath = join(dataDirectory, "collections", "home", "team-data.json");
+  await mkdir(join(dataDirectory, "collections", "home"), { recursive: true });
+  await writeFile(outputPath, JSON.stringify({
+    team: { name: "Home", leagueFormat: "single_gender" },
+    roster: [],
+    matches: [],
+    leagueSchedule: [],
+    leagueTeams: [
+      {
+        name: "Opponent One",
+        url: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP1"
+      },
+      {
+        name: "Opponent Two",
+        url: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP2"
+      }
+    ]
+  }));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+  const job = {
+    id: "home1234",
+    collectionName: "home",
+    eventCollectionId: "temp1234",
+    catalogTeamId: "collections/home",
+    dataDirectory,
+    teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=HOME",
+    teamType: "home",
+    ratingSelections: { utr: "none", wtn: false },
+    outputPath,
+    log: []
+  };
+  const calls = [];
+  const runSingleJob = async candidate => {
+    calls.push(candidate);
+    candidate.status = "complete";
+  };
+
+  await runScoutingJob(job, async () => {}, runSingleJob);
+
+  assert.deepEqual(
+    calls.map(candidate => candidate.teamUrl),
+    [
+      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=HOME",
+      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP1",
+      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=OPP2"
+    ]
+  );
+  assert.ok(calls.every(candidate =>
+    candidate.eventCollectionId === "temp1234"
+  ));
+  assert.equal(job.discoveredOpponentCount, 2);
+  assert.equal(job.collectedTeamCount, 3);
+  assert.equal(job.status, "complete");
+  assert.equal(
+    (await getEventSchedule(dataDirectory, "temp1234")).ourTeamId,
+    "collections/home"
+  );
+});
+
+test("opponent-team scouting gathers only the pasted team", async () => {
+  const job = {
+    teamType: "opponent",
+    collectedTeamCount: 0
+  };
+  const calls = [];
+  await runScoutingJob(job, async () => {}, async candidate => {
+    calls.push(candidate);
+    candidate.status = "complete";
+  });
+
+  assert.equal(calls.length, 1);
+  assert.equal(job.collectedTeamCount, 1);
+  assert.equal(job.status, "complete");
 });
 
 test("rating selections allow UTR and WTN to be chosen independently", () => {
@@ -220,7 +375,25 @@ test("UTR command queue prevents collection jobs from overlapping", async () => 
 });
 
 test("server serves the collection UI and reports invalid input", async t => {
-  const server = createAppServer();
+  const previewRequests = [];
+  const server = createAppServer({
+    previewTeam: async teamUrl => {
+      previewRequests.push(teamUrl);
+      return {
+        team: {
+          name: "Example Home",
+          league: "2026 Adult 3.0",
+          section: "Test Section",
+          season: 2026
+        },
+        rosterSize: 12,
+        leagueTeams: [{
+          name: "Example Opponent",
+          url: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Opponent"
+        }]
+      };
+    }
+  });
   server.listen(0, "127.0.0.1");
   await once(server, "listening");
   t.after(() => server.close());
@@ -230,9 +403,16 @@ test("server serves the collection UI and reports invalid input", async t => {
   assert.equal(page.status, 200);
   const pageHtml = await page.text();
   assert.match(pageHtml, /Gather team data/);
+  assert.match(pageHtml, /Home team/);
+  assert.match(pageHtml, /Opponent team/);
   assert.match(pageHtml, /Pull UTR ratings/);
   assert.match(pageHtml, /Pull WTN ratings/);
   assert.match(pageHtml, /Refresh data/);
+  const scheduleModule = await fetch(
+    `http://127.0.0.1:${port}/schedule.mjs`
+  );
+  assert.equal(scheduleModule.status, 200);
+  assert.match(await scheduleModule.text(), /parseCsv/);
 
   const response = await fetch(`http://127.0.0.1:${port}/api/jobs`, {
     method: "POST",
@@ -244,6 +424,107 @@ test("server serves the collection UI and reports invalid input", async t => {
   });
   assert.equal(response.status, 400);
   assert.match((await response.json()).error, /tennisrecord\.com/);
+
+  const previewResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-preview`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Example",
+        teamType: "home"
+      })
+    }
+  );
+  assert.equal(previewResponse.status, 200);
+  const preview = await previewResponse.json();
+  assert.equal(preview.team.name, "Example Home");
+  assert.equal(preview.rosterSize, 12);
+  assert.equal(preview.leagueTeams[0].name, "Example Opponent");
+  assert.equal(previewRequests.length, 1);
+
+  const opponentPreviewResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-preview`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Example",
+        teamType: "opponent"
+      })
+    }
+  );
+  assert.equal(opponentPreviewResponse.status, 200);
+  assert.deepEqual((await opponentPreviewResponse.json()).leagueTeams, []);
+
+  const card = {
+    id: "server-card",
+    ourTeamId: "ours",
+    opponentTeamId: "theirs",
+    updatedAt: "2026-09-30T12:00:00.000Z"
+  };
+  const saveCardsResponse = await fetch(
+    `http://127.0.0.1:${port}/api/match-cards`,
+    {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ cards: [card] })
+    }
+  );
+  assert.equal(saveCardsResponse.status, 200);
+  const cardsResponse = await fetch(
+    `http://127.0.0.1:${port}/api/match-cards`
+  );
+  assert.equal(cardsResponse.status, 200);
+  assert.deepEqual((await cardsResponse.json()).cards, [card]);
+});
+
+test("server reuses an active home scouting job and its collection", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-active-home-"));
+  let releaseJob;
+  const jobGate = new Promise(resolve => {
+    releaseJob = resolve;
+  });
+  const server = createAppServer({
+    dataDirectory,
+    runCollectionJob: async job => {
+      job.status = "running";
+      await jobGate;
+      job.status = "failed";
+      job.error = "Test job stopped";
+    }
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(async () => {
+    releaseJob();
+    server.close();
+    await rm(dataDirectory, { recursive: true, force: true });
+  });
+  const { port } = server.address();
+  const body = JSON.stringify({
+    teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2027&teamname=IDEMPOTENT-HOME",
+    teamType: "home",
+    utrMode: "none",
+    includeWtn: false
+  });
+  const request = () => fetch(`http://127.0.0.1:${port}/api/jobs`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body
+  });
+
+  const first = await request();
+  const second = await request();
+  assert.equal(first.status, 202);
+  assert.equal(second.status, 202);
+  assert.equal((await first.json()).id, (await second.json()).id);
+
+  const collectionsResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-collections`
+  );
+  assert.equal(collectionsResponse.status, 200);
+  assert.equal((await collectionsResponse.json()).collections.length, 1);
 });
 
 test("server extracts text from a locally processed result screenshot", async t => {
@@ -358,7 +639,7 @@ test("server lists teams and returns national analysis by default", async t => {
   );
   assert.equal(analysisResponse.status, 200);
   const analysis = await analysisResponse.json();
-  assert.equal(analysis.analysisVersion, "1.1.0");
+  assert.equal(analysis.analysisVersion, "1.2.0");
   assert.equal(analysis.eligibility.scope, "national");
   assert.equal(analysis.eligibility.summary.eligible, 1);
   assert.deepEqual(analysis.lineupPredictions.predictions, []);
@@ -421,12 +702,91 @@ test("server creates event collections and assigns gathered teams", async t => {
   assert.equal(collection.name, "2026 3.0 Nationals Teams");
   assert.deepEqual(collection.teamDatasetIds, ["2026-test-team"]);
 
+  const renameResponse = await fetch(
+    `http://127.0.0.1:${port}/api/team-collections/${collection.id}`,
+    {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "2026 Nationals Schedule" })
+    }
+  );
+  assert.equal(renameResponse.status, 200);
+  assert.equal(
+    (await renameResponse.json()).collection.name,
+    "2026 Nationals Schedule"
+  );
+
+  const scheduleResponse = await fetch(
+    `http://127.0.0.1:${port}/api/event-schedules/${collection.id}`,
+    {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        ourTeamId: "test-team",
+        eventType: "sectionals",
+        timezone: "America/Los_Angeles",
+        source: { type: "csv", fileName: "schedule.csv" },
+        matches: [{
+          id: "match-one",
+          sourceOpponentName: "Opponent One",
+          date: "2026-10-01",
+          status: "scheduled",
+          designation: "neutral",
+          sourceType: "csv"
+        }]
+      })
+    }
+  );
+  assert.equal(scheduleResponse.status, 200);
+  const confirmedSchedule = await scheduleResponse.json();
+  assert.equal(confirmedSchedule.schedule.eligibilityScope, "sectional");
+
+  const schedulePreviewResponse = await fetch(
+    `http://127.0.0.1:${port}/api/event-schedules/${collection.id}/preview`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        matches: [{
+          id: "match-one",
+          sourceOpponentName: "Opponent One",
+          date: "2026-10-02",
+          status: "postponed",
+          designation: "neutral",
+          sourceType: "csv"
+        }]
+      })
+    }
+  );
+  assert.equal(schedulePreviewResponse.status, 200);
+  assert.equal(
+    (await schedulePreviewResponse.json()).reconciliation[0].change,
+    "changed"
+  );
+
+  const linkResponse = await fetch(
+    `http://127.0.0.1:${port}/api/event-schedules/${collection.id}/link`,
+    {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        matchId: "match-one",
+        teamId: "test-team"
+      })
+    }
+  );
+  assert.equal(linkResponse.status, 200);
+  assert.equal(
+    (await linkResponse.json()).schedule.matches[0].linkedOpponentTeamId,
+    "test-team"
+  );
+
   const duplicateResponse = await fetch(
     `http://127.0.0.1:${port}/api/team-collections`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name: "2026 3.0 Nationals Teams" })
+      body: JSON.stringify({ name: "2026 Nationals Schedule" })
     }
   );
   assert.equal(duplicateResponse.status, 409);
@@ -451,7 +811,7 @@ test("server creates event collections and assigns gathered teams", async t => {
   );
   assert.equal(listResponse.status, 200);
   const listed = await listResponse.json();
-  assert.equal(listed.collections[0].name, "2026 3.0 Nationals Teams");
+  assert.equal(listed.collections[0].name, "2026 Nationals Schedule");
 
   const moveResponse = await fetch(
     `http://127.0.0.1:${port}/api/team-collections`,

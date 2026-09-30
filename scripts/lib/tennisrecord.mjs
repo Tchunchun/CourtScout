@@ -8,9 +8,49 @@ const BASE_URL = "https://www.tennisrecord.com";
 const clean = value => value.replace(/\s+/g, " ").trim();
 const absoluteUrl = href => new URL(href, BASE_URL).href;
 
+function teamLeagueFormat(leagueDescriptor, leagueName) {
+  return /\bmixed\b|\bX\s*\d(?:\.\d)?\b/i.test(
+    `${leagueDescriptor} ${leagueName}`
+  )
+    ? "mixed"
+    : "single_gender";
+}
+
 function parseRecord(value) {
   const match = clean(value).match(/^(\d+)-(\d+)$/);
   return match ? { wins: Number(match[1]), losses: Number(match[2]) } : null;
+}
+
+function scheduleDate(value) {
+  const match = value.match(/\b(\d{2})\/(\d{2})\/(\d{4})\b/);
+  return match ? `${match[3]}-${match[1]}-${match[2]}` : null;
+}
+
+function scheduleTime(value) {
+  return value.match(/\b\d{1,2}:\d{2}\s*(?:AM|PM)\b/i)?.[0]
+    ?.replace(/\s+/g, " ")
+    .toUpperCase() ?? null;
+}
+
+function scheduleMatchId({
+  sourceMatchId,
+  season,
+  date,
+  time,
+  opponentUrl,
+  opponentName
+}) {
+  if (sourceMatchId) return `tennisrecord:${sourceMatchId}`;
+  const opponent = opponentUrl
+    ? new URL(opponentUrl).searchParams.get("teamname")
+    : opponentName;
+  return [
+    "tennisrecord",
+    season ?? "unknown-season",
+    date ?? "unknown-date",
+    time ?? "unknown-time",
+    clean(opponent ?? "unknown-opponent").toLowerCase()
+  ].join(":");
 }
 
 export function parseTeamProfile(html, sourceUrl) {
@@ -27,6 +67,7 @@ export function parseTeamProfile(html, sourceUrl) {
   const teamName = details.at(-1);
   const leagueDescriptor = details[0] ?? "";
   const leagueName = details[1] ?? "";
+  const leagueFormat = teamLeagueFormat(leagueDescriptor, leagueName);
   const year = Number(new URL(sourceUrl).searchParams.get("year")) ||
     Number(leagueName.match(/\b20\d{2}\b/)?.[0]);
 
@@ -72,17 +113,60 @@ export function parseTeamProfile(html, sourceUrl) {
     });
   });
 
+  const leagueSchedule = [];
   const matchLinks = [];
   $("tr").each((_, row) => {
-    const resultLink = $(row).find('a[href*="matchresults.aspx"]').first();
-    if (!resultLink.length) return;
     const cells = $(row).find("td");
-    const date = clean(cells.eq(0).text()).match(/\b\d{2}\/\d{2}\/\d{4}\b/)?.[0];
-    const result = clean(resultLink.text());
-    if (!date || result === "0-0") return;
+    const scheduleCellText = clean(cells.eq(0).text());
+    const sourceDate = scheduleCellText.match(/\b\d{2}\/\d{2}\/\d{4}\b/)?.[0];
     const opponentLink = $(row).find('a[href*="teamprofile.aspx"]').first();
+    const resultLink = $(row).find('a[href*="matchresults.aspx"]').first();
+    const result = clean(resultLink.text());
+    if (sourceDate && opponentLink.length) {
+      const opponentUrl = absoluteUrl(opponentLink.attr("href"));
+      const sourceMatchId = resultLink.length
+        ? new URL(absoluteUrl(resultLink.attr("href"))).searchParams.get("mid")
+        : null;
+      const cellParts = cells.eq(0).find("span")
+        .map((__, element) => clean($(element).text()))
+        .get()
+        .filter(Boolean);
+      const date = scheduleDate(sourceDate);
+      const time = scheduleTime(cellParts[0] ?? scheduleCellText);
+      const opponentName = clean(opponentLink.text());
+      leagueSchedule.push({
+        id: scheduleMatchId({
+          sourceMatchId,
+          season: year,
+          date,
+          time,
+          opponentUrl,
+          opponentName
+        }),
+        sourceOpponentName: opponentName,
+        sourceOpponentUrl: opponentUrl,
+        linkedOpponentTeamId: null,
+        date,
+        time,
+        timezone: null,
+        round: null,
+        site: cellParts[1] && !/^TBA$/i.test(cellParts[1])
+          ? cellParts[1]
+          : null,
+        designation: "unknown",
+        status: result && result !== "0-0" ? "completed" : "scheduled",
+        sourceType: "tennisrecord",
+        sourceReference: resultLink.length
+          ? absoluteUrl(resultLink.attr("href"))
+          : sourceUrl,
+        sourceMatchId,
+        sourceResult: result || null
+      });
+    }
+    if (!resultLink.length) return;
+    if (!sourceDate || result === "0-0") return;
     matchLinks.push({
-      date,
+      date: sourceDate,
       opponent: clean(opponentLink.text()),
       opponentTeamUrl: opponentLink.length
         ? absoluteUrl(opponentLink.attr("href"))
@@ -99,7 +183,10 @@ export function parseTeamProfile(html, sourceUrl) {
       district: null,
       league: leagueName,
       level: leagueDescriptor.match(/\b\d\.\d\b/)?.[0] ?? "unknown",
-      gender: /\bF\b|Women|Female/i.test(`${leagueDescriptor} ${leagueName}`)
+      leagueFormat,
+      gender: leagueFormat === "mixed"
+        ? "Mixed"
+        : /\bF\b|Women|Female/i.test(`${leagueDescriptor} ${leagueName}`)
         ? "Women"
         : /\bM\b|Men|Male/i.test(`${leagueDescriptor} ${leagueName}`)
           ? "Men"
@@ -108,6 +195,15 @@ export function parseTeamProfile(html, sourceUrl) {
       nationalsRepresentative: false
     },
     roster,
+    leagueSchedule: [...new Map(
+      leagueSchedule.map(match => [match.id, match])
+    ).values()],
+    leagueTeams: [...new Map(
+      leagueSchedule.map(match => [match.sourceOpponentUrl, {
+        name: match.sourceOpponentName,
+        url: match.sourceOpponentUrl
+      }])
+    ).values()],
     matchLinks: [...new Map(matchLinks.map(match => [match.url, match])).values()]
   };
 }
@@ -276,16 +372,29 @@ export function parseMatch(html, targetTeamName, source) {
   };
 }
 
+export function parsePlayerProfileMetadata(html) {
+  const $ = cheerio.load(html);
+  const spans = $("span")
+    .map((_, element) => clean($(element).text()))
+    .get();
+  const ratingLabel = spans.find(value => /^\d\.\d\s+[CSAD]$/.test(value));
+  const genderLabel = spans.find(value => /^(Male|Female)$/i.test(value));
+  return {
+    ntrpType: ratingLabel?.match(/\s([CSAD])$/)?.[1] ?? "unknown",
+    gender: /^male$/i.test(genderLabel ?? "")
+      ? "Men"
+      : /^female$/i.test(genderLabel ?? "")
+        ? "Women"
+        : "Unknown"
+  };
+}
+
 async function collectRatingTypes(roster, delayMs) {
   for (const player of roster) {
     const html = await fetchText(player.profileUrl);
-    const $ = cheerio.load(html);
-    const ratingLabel = $("span")
-      .map((_, element) => clean($(element).text()))
-      .get()
-      .find(value => /^\d\.\d\s+[CSAD]$/.test(value));
-    const type = ratingLabel?.match(/\s([CSAD])$/)?.[1];
-    player.ntrp.type = type ?? "unknown";
+    const metadata = parsePlayerProfileMetadata(html);
+    player.ntrp.type = metadata.ntrpType;
+    player.gender = metadata.gender;
     if (delayMs) await sleep(delayMs);
   }
 }
@@ -335,5 +444,18 @@ export async function collectTennisRecordTeam(teamUrl, options = {}) {
     ...parsed,
     matches,
     opponentDirectory: [...opponentDirectory.values()]
+  };
+}
+
+export async function previewTennisRecordTeam(teamUrl) {
+  const parsed = parseTeamProfile(await fetchText(teamUrl), teamUrl);
+  if (!parsed.team.name || !parsed.roster.length) {
+    throw new Error("Unable to parse team identity or roster from TennisRecord");
+  }
+  return {
+    team: parsed.team,
+    rosterSize: parsed.roster.length,
+    leagueTeams: parsed.leagueTeams,
+    leagueSchedule: parsed.leagueSchedule
   };
 }

@@ -399,6 +399,7 @@ test("lineup predictions return three ranked non-overlapping options", () => {
       )
     }
   });
+
   const localEligibility = analyzeEligibility(input, "local");
 
   const result = analyzeLineupPredictions(input, localEligibility);
@@ -413,4 +414,35 @@ test("lineup predictions return three ranked non-overlapping options", () => {
     assert.ok(prediction.historicalSupport > 0);
     assert.ok(!players.includes("DQ"));
   }
+});
+
+test("mixed-league lineup analysis excludes known same-gender doubles pairs", () => {
+  const input = dataset();
+  input.team.leagueFormat = "mixed";
+  input.team.gender = "Mixed";
+  input.roster.find(item => item.name === "Computer").gender = "Men";
+  input.roster.find(item => item.name === "Self").gender = "Men";
+  input.roster.find(item => item.name === "Appeal").gender = "Women";
+  const localEligibility = analyzeEligibility(input, "local");
+
+  const result = analyzeLineupPredictions(input, localEligibility);
+
+  assert.equal(result.summary.leagueFormat, "mixed");
+  assert.match(result.methodology, /one men’s and one women’s player/);
+  assert.ok(result.predictions.every(prediction =>
+    prediction.lines.every(line =>
+      line.court !== "D1" ||
+      line.players.includes("Appeal")
+    )
+  ));
+});
+
+test("team analysis discloses unresolved mixed-league player genders", () => {
+  const input = dataset();
+  input.team.leagueFormat = "mixed";
+  input.team.gender = "Mixed";
+  const result = analyzeTeam(input, { eligibilityScope: "local" });
+
+  assert.equal(result.team.leagueFormat, "mixed");
+  assert.match(result.disclosures.warnings.join(" "), /player genders are unresolved/);
 });

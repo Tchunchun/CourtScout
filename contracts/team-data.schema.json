@@ -68,6 +68,18 @@
         "$ref": "#/$defs/rosterPlayer"
       }
     },
+    "leagueTeams": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/leagueTeam"
+      }
+    },
+    "leagueSchedule": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scheduledMatch"
+      }
+    },
     "opponents": {
       "type": "array",
       "items": {
@@ -118,17 +130,68 @@
     "team": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["name", "section", "league", "level", "gender", "season"],
+      "required": ["name", "section", "league", "leagueFormat", "level", "gender", "season"],
       "properties": {
         "name": {"type": "string", "minLength": 1},
         "section": {"type": "string", "minLength": 1},
         "district": {"type": ["string", "null"]},
         "league": {"type": "string", "minLength": 1},
+        "leagueFormat": {
+          "type": "string",
+          "enum": ["single_gender", "mixed"]
+        },
         "level": {"type": "string", "minLength": 1},
         "gender": {"type": "string", "minLength": 1},
         "season": {"type": "integer", "minimum": 2000},
         "nationalsRepresentative": {"type": "boolean"},
         "officialTotals": {"type": "object"}
+      }
+    },
+    "leagueTeam": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "url"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"}
+      }
+    },
+    "scheduledMatch": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "sourceOpponentName",
+        "date",
+        "designation",
+        "status",
+        "sourceType",
+        "sourceReference"
+      ],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "sourceOpponentName": {"type": "string", "minLength": 1},
+        "sourceOpponentUrl": {"type": ["string", "null"], "format": "uri"},
+        "linkedOpponentTeamId": {"type": ["string", "null"]},
+        "date": {"type": ["string", "null"], "format": "date"},
+        "time": {"type": ["string", "null"]},
+        "timezone": {"type": ["string", "null"]},
+        "round": {"type": ["string", "null"]},
+        "site": {"type": ["string", "null"]},
+        "designation": {
+          "type": "string",
+          "enum": ["home", "away", "neutral", "unknown"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["scheduled", "postponed", "completed", "cancelled"]
+        },
+        "sourceType": {"type": "string"},
+        "sourceReference": {"type": "string", "format": "uri"},
+        "sourceMatchId": {"type": ["string", "null"]},
+        "sourceResult": {"type": ["string", "null"]},
+        "sourceRetrievedAt": {"type": "string", "format": "date-time"},
+        "updatedAt": {"type": "string", "format": "date-time"}
       }
     },
     "eligibilityRule": {
@@ -181,6 +244,10 @@
       "properties": {
         "name": {"type": "string", "minLength": 1},
         "location": {"type": ["string", "null"]},
+        "gender": {
+          "type": "string",
+          "enum": ["Men", "Women", "Unknown"]
+        },
         "ntrp": {
           "type": "object",
           "required": ["level", "type"],

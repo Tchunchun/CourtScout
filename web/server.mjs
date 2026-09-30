@@ -21,9 +21,23 @@ import {
   createTeamCollection,
   deleteTeamCollection,
   getTeamCollection,
-  listTeamCollections
+  listTeamCollections,
+  renameTeamCollection
 } from "../scripts/lib/team-collections.mjs";
+import {
+  confirmEventSchedule,
+  deleteEventSchedule,
+  getEventSchedule,
+  linkScheduledOpponent,
+  normalizeScheduledMatch,
+  reconcileEventSchedule
+} from "../scripts/lib/event-schedules.mjs";
+import {
+  readMatchCards,
+  writeMatchCards
+} from "../scripts/lib/match-cards-store.mjs";
 import { emptyRating, normalizeName } from "../scripts/lib/ratings.mjs";
+import { previewTennisRecordTeam } from "../scripts/lib/tennisrecord.mjs";
 import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -63,6 +77,47 @@ export function validateTeamUrl(value) {
   return url.href;
 }
 
+export function parseTeamType(value = "opponent") {
+  if (!["home", "opponent"].includes(value)) {
+    throw new Error("Choose whether the TennisRecord URL is for a home team or an opponent team.");
+  }
+  return value;
+}
+
+export function findActiveScoutingJob(jobList, teamUrl, teamType) {
+  return [...jobList].find(job =>
+    job.teamUrl === teamUrl &&
+    job.teamType === teamType &&
+    ["queued", "running"].includes(job.status)
+  ) ?? null;
+}
+
+export function teamSourceKey(value) {
+  const url = new URL(value);
+  const parameters = [...url.searchParams.entries()]
+    .sort(([nameA, valueA], [nameB, valueB]) =>
+      nameA.localeCompare(nameB) || valueA.localeCompare(valueB)
+    );
+  url.search = "";
+  for (const [name, parameterValue] of parameters) {
+    url.searchParams.append(name, parameterValue);
+  }
+  return url.href;
+}
+
+export function findExistingHomeCollection(collections, teams, teamUrl) {
+  const sourceKey = teamSourceKey(teamUrl);
+  const datasetIds = new Set(teams
+    .filter(team =>
+      team.sourceUrl && teamSourceKey(team.sourceUrl) === sourceKey
+    )
+    .map(team => team.datasetId));
+  if (!datasetIds.size) return null;
+  return collections.find(collection =>
+    collection.teamDatasetIds.some(datasetId => datasetIds.has(datasetId))
+  ) ?? null;
+}
+
 function slugFolderSegment(value) {
   return value
     .normalize("NFKD")
@@ -80,6 +135,14 @@ export function collectionFolderName(teamUrl, mode, createdAt = new Date()) {
     .replace(/[-:]/g, "")
     .replace(/\.\d{3}Z$/, "Z");
   return `${season}-${teamName}-${mode}-${timestamp}`;
+}
+
+export function temporaryCollectionName(teamUrl, id) {
+  const url = new URL(teamUrl);
+  const season = url.searchParams.get("year");
+  const teamName = url.searchParams.get("teamname") ?? "Tennis team";
+  return `Temporary — ${[season, teamName].filter(Boolean).join(" ")} — ${id}`
+    .slice(0, 80);
 }
 
 function json(response, status, body) {
@@ -123,6 +186,9 @@ function publicJob(job) {
     warning: job.warning ?? null,
     collectionName: job.collectionName,
     eventCollectionId: job.eventCollectionId ?? null,
+    teamType: job.teamType ?? null,
+    discoveredOpponentCount: job.discoveredOpponentCount ?? 0,
+    collectedTeamCount: job.collectedTeamCount ?? 0,
     log: job.log.slice(-10)
   };
 }
@@ -339,6 +405,119 @@ async function runJob(job, runUtrCommand) {
   }
 }
 
+export async function runScoutingJob(
+  job,
+  runUtrCommand,
+  runSingleJob = runJob
+) {
+  await runSingleJob(job, runUtrCommand);
+  if (job.status !== "complete") return;
+
+  job.collectedTeamCount = 1;
+  if (job.teamType !== "home") return;
+
+  try {
+    job.status = "running";
+    job.phase = "tennisrecord";
+    job.progress = 95;
+    job.detail = "Discovering league opponents from the confirmed home team";
+    const dataset = await readJson(job.outputPath);
+    if (job.eventCollectionId && Array.isArray(dataset.leagueSchedule)) {
+      try {
+        await confirmEventSchedule(job.dataDirectory, {
+          collectionId: job.eventCollectionId,
+          ourTeamId: job.catalogTeamId,
+          eventType: "local",
+          eligibilityScope: "local",
+          timezone: null,
+          source: {
+            type: "tennisrecord",
+            reference: job.teamUrl,
+            importedAt: new Date().toISOString()
+          },
+          matches: dataset.leagueSchedule
+        });
+      } catch (error) {
+        job.warning = [
+          job.warning,
+          `The teams were gathered, but the local schedule could not be confirmed: ${error.message}`
+        ].filter(Boolean).join(" ");
+      }
+    }
+    const homeUrl = new URL(job.teamUrl).href;
+    const leagueTeams = [...new Map(
+      (dataset.leagueTeams ?? [])
+        .filter(team => team?.url && new URL(team.url).href !== homeUrl)
+        .map(team => [new URL(team.url).href, {
+          name: team.name,
+          url: new URL(team.url).href
+        }])
+    ).values()];
+    job.discoveredOpponentCount = leagueTeams.length;
+
+    const issues = job.warning ? [job.warning] : [];
+    for (const [index, team] of leagueTeams.entries()) {
+      job.status = "running";
+      job.phase = "tennisrecord";
+      job.progress = 95 + Math.floor((index / Math.max(leagueTeams.length, 1)) * 4);
+      job.detail =
+        `Gathering league opponent ${index + 1} of ${leagueTeams.length}: ${team.name}`;
+      const createdAt = new Date();
+      const collectionName = collectionFolderName(
+        team.url,
+        ratingSelectionSlug(job.ratingSelections),
+        createdAt
+      );
+      const opponentJob = {
+        id: `${job.id}-${index + 1}`,
+        collectionName,
+        eventCollectionId: job.eventCollectionId,
+        dataDirectory: job.dataDirectory,
+        teamUrl: team.url,
+        teamType: "opponent",
+        ratingSelections: job.ratingSelections,
+        status: "queued",
+        phase: "queued",
+        progress: 2,
+        detail: "Preparing opponent collection",
+        createdAt: createdAt.toISOString(),
+        outputPath: join(
+          job.dataDirectory,
+          "collections",
+          collectionName,
+          "team-data.json"
+        ),
+        log: []
+      };
+      await runSingleJob(opponentJob, runUtrCommand);
+      if (opponentJob.status === "complete") {
+        job.collectedTeamCount += 1;
+        if (opponentJob.warning) {
+          issues.push(`${team.name}: ${opponentJob.warning}`);
+        }
+      } else {
+        issues.push(`${team.name}: ${opponentJob.error ?? "collection failed"}`);
+      }
+    }
+
+    job.status = "complete";
+    job.phase = "complete";
+    job.progress = 100;
+    job.detail = issues.length
+      ? `Gathered ${job.collectedTeamCount} of ${leagueTeams.length + 1} league teams`
+      : `Gathered the home team and ${leagueTeams.length} league opponents`;
+    job.completedAt = new Date().toISOString();
+    job.warning = issues.length
+      ? `Some teams need attention: ${issues.join("; ")}`
+      : null;
+  } catch (error) {
+    job.status = "failed";
+    job.phase = "failed";
+    job.detail = "League opponent collection stopped";
+    job.error = error.message;
+  }
+}
+
 async function runRefreshJob(job, runUtrCommand) {
   try {
     job.status = "running";
@@ -488,6 +667,7 @@ async function serveStatic(request, response, pathname) {
     "app.js",
     "match-card.mjs",
     "render.mjs",
+    "schedule.mjs",
     "styles.css",
     "team-workspace.mjs"
   ].includes(relativePath)) {
@@ -626,12 +806,14 @@ async function getTeamAnalysis(
 
 export function createAppServer(options = {}) {
   const dataDirectory = options.dataDirectory ?? DATA_DIR;
+  const previewTeam = options.previewTeam ?? previewTennisRecordTeam;
   const recognizeImage = options.recognizeImage ?? (async image => {
     const cachePath = join(dataDirectory, ".ocr-cache");
     await mkdir(cachePath, { recursive: true });
     return Tesseract.recognize(image, "eng", { cachePath });
   });
   const runUtrCommand = createUtrCommandQueue();
+  const runCollectionJob = options.runCollectionJob ?? runJob;
   return createServer(async (request, response) => {
     const requestUrl = new URL(request.url, `http://${request.headers.host ?? "localhost"}`);
     const pathname = requestUrl.pathname;
@@ -657,11 +839,40 @@ export function createAppServer(options = {}) {
         return;
       }
 
+      if (request.method === "POST" && pathname === "/api/team-preview") {
+        const body = await readBody(request);
+        const teamUrl = validateTeamUrl(body.teamUrl);
+        const teamType = parseTeamType(body.teamType);
+        const preview = await previewTeam(teamUrl);
+        json(response, 200, {
+          teamUrl,
+          teamType,
+          team: preview.team,
+          rosterSize: preview.rosterSize,
+          leagueTeams: teamType === "home" ? preview.leagueTeams ?? [] : [],
+          leagueSchedule: teamType === "home"
+            ? preview.leagueSchedule ?? []
+            : []
+        });
+        return;
+      }
+
       if (request.method === "POST" && pathname === "/api/jobs") {
         const body = await readBody(request);
         const teamUrl = validateTeamUrl(body.teamUrl);
+        const teamType = parseTeamType(body.teamType);
         const ratingSelections = parseRatingSelections(body);
-        const eventCollectionId = body.eventCollectionId ?? null;
+        const activeJob = findActiveScoutingJob(
+          jobs.values(),
+          teamUrl,
+          teamType
+        );
+        if (activeJob) {
+          json(response, 202, publicJob(activeJob));
+          return;
+        }
+        const id = randomUUID().slice(0, 8);
+        let eventCollectionId = body.eventCollectionId ?? null;
         if (eventCollectionId != null) {
           await getTeamCollection(dataDirectory, eventCollectionId);
         }
@@ -676,7 +887,21 @@ export function createAppServer(options = {}) {
             return;
           }
         }
-        const id = randomUUID().slice(0, 8);
+        if (eventCollectionId == null && teamType === "home") {
+          const existingCollection = findExistingHomeCollection(
+            await listTeamCollections(dataDirectory),
+            await listTeamCatalog(dataDirectory),
+            teamUrl
+          );
+          eventCollectionId = existingCollection?.id ?? null;
+        }
+        if (eventCollectionId == null) {
+          const collection = await createTeamCollection(
+            dataDirectory,
+            temporaryCollectionName(teamUrl, id)
+          );
+          eventCollectionId = collection.id;
+        }
         const createdAt = new Date();
         const collectionName = collectionFolderName(
           teamUrl,
@@ -685,10 +910,13 @@ export function createAppServer(options = {}) {
         );
         const job = {
           id,
+          kind: teamType === "home" ? "league-collection" : "collection",
           collectionName,
+          catalogTeamId: `collections/${collectionName}`,
           eventCollectionId,
           dataDirectory,
           teamUrl,
+          teamType,
           ratingSelections,
           status: "queued",
           phase: "queued",
@@ -704,7 +932,7 @@ export function createAppServer(options = {}) {
           log: []
         };
         jobs.set(id, job);
-        void runJob(job, runUtrCommand);
+        void runScoutingJob(job, runUtrCommand, runCollectionJob);
         json(response, 202, publicJob(job));
         return;
       }
@@ -798,6 +1026,132 @@ export function createAppServer(options = {}) {
         return;
       }
 
+      if (request.method === "GET" && pathname === "/api/match-cards") {
+        json(response, 200, {
+          cards: await readMatchCards(dataDirectory)
+        });
+        return;
+      }
+      if (request.method === "PUT" && pathname === "/api/match-cards") {
+        const body = await readBody(request, 1024 * 1024);
+        json(response, 200, {
+          cards: await writeMatchCards(dataDirectory, body.cards)
+        });
+        return;
+      }
+
+      const eventScheduleMatch = pathname.match(
+        /^\/api\/event-schedules\/([a-zA-Z0-9-]+)$/
+      );
+      if (request.method === "GET" && eventScheduleMatch) {
+        const schedule = await getEventSchedule(
+          dataDirectory,
+          eventScheduleMatch[1]
+        );
+        json(response, 200, { schedule });
+        return;
+      }
+      if (request.method === "PUT" && eventScheduleMatch) {
+        await getTeamCollection(dataDirectory, eventScheduleMatch[1]);
+        const body = await readBody(request, 256 * 1024);
+        const teams = await listTeamCatalog(dataDirectory);
+        if (!teams.some(team => team.id === body.ourTeamId)) {
+          const error = new Error("Assigned Our team dataset not found.");
+          error.statusCode = 404;
+          throw error;
+        }
+        json(response, 200, await confirmEventSchedule(dataDirectory, {
+          ...body,
+          collectionId: eventScheduleMatch[1]
+        }));
+        return;
+      }
+
+      const eventSchedulePreviewMatch = pathname.match(
+        /^\/api\/event-schedules\/([a-zA-Z0-9-]+)\/preview$/
+      );
+      if (request.method === "POST" && eventSchedulePreviewMatch) {
+        const collectionId = eventSchedulePreviewMatch[1];
+        await getTeamCollection(dataDirectory, collectionId);
+        const body = await readBody(request, 256 * 1024);
+        const current = await getEventSchedule(dataDirectory, collectionId);
+        const matches = (body.matches ?? []).map(match =>
+          normalizeScheduledMatch(match, collectionId)
+        );
+        json(response, 200, {
+          matches,
+          reconciliation: reconcileEventSchedule(
+            current?.matches ?? [],
+            matches
+          )
+        });
+        return;
+      }
+
+      const localSchedulePreviewMatch = pathname.match(
+        /^\/api\/event-schedules\/([a-zA-Z0-9-]+)\/local-preview$/
+      );
+      if (request.method === "POST" && localSchedulePreviewMatch) {
+        const collectionId = localSchedulePreviewMatch[1];
+        const body = await readBody(request);
+        const dataset = await readCatalogTeam(dataDirectory, body.ourTeamId);
+        const source = dataset.sources?.find(item =>
+          item.type === "tennisrecord" && item.url
+        );
+        if (!source) {
+          throw new Error(
+            "Our team dataset does not include a TennisRecord source URL."
+          );
+        }
+        const preview = await previewTeam(source.url);
+        const current = await getEventSchedule(dataDirectory, collectionId);
+        const matches = preview.leagueSchedule.map(match =>
+          normalizeScheduledMatch(match, collectionId)
+        );
+        json(response, 200, {
+          eventType: current?.eventType ?? "local",
+          eligibilityScope: current?.eligibilityScope ?? "local",
+          timezone: current?.timezone ?? null,
+          source: {
+            type: "tennisrecord",
+            reference: source.url,
+            importedAt: new Date().toISOString()
+          },
+          matches,
+          reconciliation: reconcileEventSchedule(
+            current?.matches ?? dataset.leagueSchedule ?? [],
+            matches
+          )
+        });
+        return;
+      }
+
+      const eventScheduleLinkMatch = pathname.match(
+        /^\/api\/event-schedules\/([a-zA-Z0-9-]+)\/link$/
+      );
+      if (request.method === "PUT" && eventScheduleLinkMatch) {
+        const body = await readBody(request);
+        if (
+          body.teamId != null &&
+          !(await listTeamCatalog(dataDirectory)).some(
+            team => team.id === body.teamId
+          )
+        ) {
+          const error = new Error("Gathered opponent team not found.");
+          error.statusCode = 404;
+          throw error;
+        }
+        json(response, 200, {
+          schedule: await linkScheduledOpponent(
+            dataDirectory,
+            eventScheduleLinkMatch[1],
+            body.matchId,
+            body.teamId ?? null
+          )
+        });
+        return;
+      }
+
       if (request.method === "POST" && pathname === "/api/team-collections") {
         const body = await readBody(request);
         if (body.datasetId != null) {
@@ -825,10 +1179,24 @@ export function createAppServer(options = {}) {
         /^\/api\/team-collections\/([a-zA-Z0-9-]+)$/
       );
       if (request.method === "DELETE" && collectionMatch) {
+        const result = await deleteTeamCollection(
+          dataDirectory,
+          collectionMatch[1]
+        );
+        await deleteEventSchedule(dataDirectory, collectionMatch[1]);
+        json(response, 200, result);
+        return;
+      }
+      if (request.method === "PATCH" && collectionMatch) {
+        const body = await readBody(request);
         json(
           response,
           200,
-          await deleteTeamCollection(dataDirectory, collectionMatch[1])
+          await renameTeamCollection(
+            dataDirectory,
+            collectionMatch[1],
+            body.name
+          )
         );
         return;
       }
@@ -920,6 +1288,6 @@ export function createAppServer(options = {}) {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   createAppServer().listen(PORT, () => {
-    console.log(`Tennis Scout is running at http://localhost:${PORT}`);
+    console.log(`Tennis Court Scout is running at http://localhost:${PORT}`);
   });
 }

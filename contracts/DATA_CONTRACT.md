@@ -29,12 +29,14 @@ rating systems were intentionally skipped.
 ### `team`
 
 Team identity, league attributes, season, and official aggregate totals.
+`leagueFormat` is `single_gender` or `mixed`; mixed teams use `gender: "Mixed"`.
 
 ### `roster[]`
 
 One record per target-team player:
 
 - `name` and optional `location`
+- player `gender` (`Men`, `Women`, or `Unknown`) from the TennisRecord profile
 - `ntrp.level` and `ntrp.type`
 - current TennisRecord `dr`
 - `utr.singles` and `utr.doubles`
@@ -43,6 +45,29 @@ One record per target-team player:
 - actual/default qualifying appearances
 - Sectionals usage
 - Nationals eligibility
+
+### `leagueTeams[]`
+
+One record per unique team profile linked from a dated row in the TennisRecord
+league schedule:
+
+- opponent team name
+- canonical TennisRecord team profile URL
+
+This includes future 0–0 rows so home-team scouting can gather the full league.
+
+### `leagueSchedule[]`
+
+One normalized entity per scheduled match. It preserves a stable match ID,
+source opponent name and URL, date/time/timezone, round, site, designation,
+schedule status, source reference, retrieval time, and update time. Future
+scoreless rows remain `scheduled`; they are not discarded from the schedule or
+added to completed match history.
+
+Lineup analysis uses `leagueFormat`. For mixed leagues, a doubles candidate with
+known player genders must contain one men's and one women's player. Candidates
+with unresolved gender remain visible with a data-quality warning rather than
+being silently discarded.
 
 ### `opponents[]`
 

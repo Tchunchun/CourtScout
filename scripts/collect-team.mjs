@@ -158,6 +158,7 @@ try {
         "team identity",
         "roster",
         "player location",
+        "player gender",
         "NTRP",
         "DR",
         "match schedule",
@@ -167,6 +168,12 @@ try {
       ]
     }],
     roster: collected.roster,
+    leagueSchedule: collected.leagueSchedule.map(match => ({
+      ...match,
+      sourceRetrievedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    })),
+    leagueTeams: collected.leagueTeams,
     opponents: opponentNames.map(name => opponentsByName.get(name)),
     matches: collected.matches,
     dataQuality: {

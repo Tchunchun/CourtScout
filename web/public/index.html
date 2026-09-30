@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Collect TennisRecord, UTR, and WTN data for tennis team scouting.">
-    <title>Court Scout — Tennis data, ready for analysis</title>
+    <title>Tennis Court Scout — Tennis data, ready for analysis</title>
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Court Scout home">
+      <a class="brand" href="/" aria-label="Tennis Court Scout home">
         <span class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 32 32"><path d="M7 25C17 23 23 17 25 7M7 7c2 10 8 16 18 18"/><circle cx="16" cy="16" r="12"/></svg>
         </span>
-        <span>Court Scout</span>
+        <span>Tennis Court Scout</span>
       </a>
-      <nav class="stage-navigation" aria-label="Court Scout stages">
+      <nav class="stage-navigation" aria-label="Tennis Court Scout stages">
         <button type="button" id="scoutStage" aria-current="page"><span>Step 1</span> Scout teams</button>
         <button type="button" id="reportsStage"><span>Step 2</span> Reports &amp; analysis</button>
         <button type="button" id="matchCardsStage"><span>Step 3</span> Match day planning</button>
@@ -62,12 +62,39 @@
             <p>Paste the team profile URL you want to collect.</p>
           </div>
           <form id="collectionForm" novalidate>
+            <fieldset class="team-type-picker">
+              <legend>Which team is this?</legend>
+              <label class="mode-option">
+                <input type="radio" name="teamType" value="home" checked>
+                <span class="mode-control" aria-hidden="true"></span>
+                <span class="mode-copy">
+                  <span><strong>Home team</strong></span>
+                  <small>Gather this team and every league opponent from its TennisRecord schedule.</small>
+                </span>
+              </label>
+              <label class="mode-option">
+                <input type="radio" name="teamType" value="opponent">
+                <span class="mode-control" aria-hidden="true"></span>
+                <span class="mode-copy">
+                  <span><strong>Opponent team</strong></span>
+                  <small>Gather only this team for focused scouting.</small>
+                </span>
+              </label>
+            </fieldset>
             <label for="teamUrl">TennisRecord team URL</label>
             <div class="url-field">
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               <input id="teamUrl" name="teamUrl" type="url" required autocomplete="url" placeholder="https://www.tennisrecord.com/adult/teamprofile.aspx?..." aria-describedby="urlHint formError">
             </div>
             <p class="field-hint" id="urlHint">Use the URL from a TennisRecord team profile page.</p>
+            <section class="intake-confirmation" id="intakeConfirmation" aria-live="polite" hidden>
+              <div>
+                <span class="step-label" id="intakeConfirmationLabel">Team confirmed</span>
+                <h3 id="intakeConfirmationName"></h3>
+                <p id="intakeConfirmationMeta"></p>
+              </div>
+              <div id="intakeConfirmationScope"></div>
+            </section>
 
             <div class="collection-purpose" hidden aria-hidden="true">
              <label for="gatherEventCollection">Assign to collection <span class="optional-label">Optional</span></label>
@@ -177,7 +204,13 @@
               <option value="">All gathered teams</option>
             </select>
           </label>
+          <button class="button-secondary compact" id="renameActiveCollection" type="button" hidden>
+            Rename collection
+          </button>
         </div>
+        <section class="reports-schedule" id="reportsSchedule" aria-label="Collection match schedule">
+          <p class="empty-state">Loading collection schedule…</p>
+        </section>
         <div class="reports-team-grid" id="reportsTeamList">
           <p class="empty-state">Loading team reports…</p>
         </div>
@@ -251,6 +284,12 @@
           <span class="quality-check">✓</span>
           <div><strong id="qualityTitle">Data gathered and validated</strong><small id="qualityText">Ready for review before analysis.</small></div>
           <span class="quality-mode" id="qualityMode"></span>
+        </div>
+        <div class="source-retry-actions" id="sourceRetryActions" aria-label="Refresh one data source">
+          <span>Refresh one source</span>
+          <button class="button-secondary compact" type="button" data-retry-source="tennisrecord">TennisRecord</button>
+          <button class="button-secondary compact" type="button" data-retry-source="utr">UTR</button>
+          <button class="button-secondary compact" type="button" data-retry-source="wtn">WTN</button>
         </div>
 
         <div class="metric-grid">
@@ -362,6 +401,48 @@
           <div class="refresh-dialog-actions">
             <button class="button-secondary" id="cancelCollectionDialog" type="button">Cancel</button>
             <button class="button-primary compact" type="submit">Create collection</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="refresh-dialog schedule-dialog" id="scheduleDialog" aria-labelledby="scheduleDialogTitle">
+        <form method="dialog" id="scheduleConfirmForm">
+          <div class="refresh-dialog-heading">
+            <div>
+              <span class="step-label">Schedule review</span>
+              <h2 id="scheduleDialogTitle">Confirm event schedule</h2>
+              <p>Correct or exclude rows before replacing the confirmed schedule.</p>
+            </div>
+            <button class="dialog-close" id="closeScheduleDialog" type="button" aria-label="Close schedule review">×</button>
+          </div>
+          <div class="schedule-event-fields">
+            <label>Event type
+              <select id="scheduleEventType">
+                <option value="local">Local</option>
+                <option value="sectionals">Sectionals</option>
+                <option value="nationals">Nationals</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label>Eligibility target
+              <select id="scheduleEligibilityScope">
+                <option value="local">Local</option>
+                <option value="sectional">Sectional</option>
+                <option value="national">National</option>
+              </select>
+            </label>
+            <label>Timezone
+              <input id="scheduleTimezone" placeholder="e.g. America/Los_Angeles">
+            </label>
+          </div>
+          <div class="schedule-column-mapping" id="scheduleColumnMapping" hidden></div>
+          <div class="schedule-preview-summary" id="schedulePreviewSummary"></div>
+          <div class="schedule-preview-table" id="schedulePreviewTable"></div>
+          <p class="form-error" id="scheduleError" role="alert"></p>
+          <div class="refresh-dialog-actions">
+            <button class="button-secondary" id="addManualScheduleRow" type="button">+ Add match</button>
+            <button class="button-secondary" id="cancelSchedule" type="button">Cancel</button>
+            <button class="button-primary compact" type="submit">Confirm schedule</button>
           </div>
         </form>
       </dialog>
@@ -478,7 +559,7 @@
     </div>
 
     <footer>
-      <span>Court Scout</span>
+      <span>Tennis Court Scout</span>
       <small>Facts first. Analysis next.</small>
     </footer>
     <script type="module" src="/app.js"></script>

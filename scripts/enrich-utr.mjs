@@ -6,6 +6,7 @@ import { readJson, writeJsonAtomic } from "./lib/io.mjs";
 import {
   emptyRating,
   exactRating,
+  identityGender,
   normalizeName
 } from "./lib/ratings.mjs";
 import {
@@ -223,8 +224,7 @@ try {
           person.locations,
           await searchProfiles(session, person.name, pacer),
           Boolean(args["accept-ambiguous"]),
-          dataset.team.gender === "Men" ? "Male" :
-            dataset.team.gender === "Women" ? "Female" : null
+          identityGender(person.player.gender, dataset.team.gender)
         );
       rating = selection.candidate
         ? await readExactProfile(session, selection.candidate, delayMs, pacer)

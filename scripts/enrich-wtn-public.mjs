@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, requireArg } from "./lib/cli.mjs";
 import { readJson, sleep, writeJsonAtomic } from "./lib/io.mjs";
+import { identityGender } from "./lib/ratings.mjs";
 import { updateCourtJoins } from "./lib/utr.mjs";
 import {
   chooseWtnCandidate,
@@ -73,8 +74,6 @@ export async function enrichPublicWtn(inputPath, options = {}) {
   const delayMs = options.delayMs ?? 300;
   const fetchImpl = options.fetchImpl ?? fetch;
   const dataset = await readJson(inputPath);
-  const gender = dataset.team.gender === "Men" ? "Male" :
-    dataset.team.gender === "Women" ? "Female" : null;
   const people = dataset.roster.map(player => ({
     kind: "roster",
     name: player.name,
@@ -88,7 +87,7 @@ export async function enrichPublicWtn(inputPath, options = {}) {
       person.name,
       person.locations,
       candidates,
-      gender
+      identityGender(person.player.gender, dataset.team.gender)
     );
     person.player.wtn = selection.candidate
       ? resolvedWtn(selection.candidate)

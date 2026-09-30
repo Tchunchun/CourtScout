@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   buildOnsitePredictions,
+  buildMatchupReadiness,
+  challengeLineupAgainstPredictions,
   cloneMatchCard,
   compareCourtLine,
   confirmedOnsitePlayers,
@@ -10,10 +12,20 @@ import {
   draftFromPrediction,
   emptyDraft,
   extractLineupFromText,
+  explainLineupPrediction,
+  initializeBlankDraft,
   matchRosterNames,
+  migrateLegacyMatchCards,
+  mergeMatchCards,
+  normalizeMatchCardEligibilityScope,
+  orderScheduledMatches,
   parseStoredMatchCards,
   parseStoredTournamentEvidence,
+  resolveScheduledOpponent,
   summarizeMatchup,
+  summarizeRosterUsage,
+  summarizeStackingStrategy,
+  validateCardFinalization,
   validateDraft
 } from "../web/public/match-card.mjs";
 
@@ -39,6 +51,32 @@ test("match card drafts cover every court and prevent duplicate players", () => 
   assert.equal(validation.valid, false);
 });
 
+test("mixed match cards use three doubles courts and six players", () => {
+  const card = createMatchCard({
+    id: "mixed-card",
+    ourTeamId: "ours",
+    opponentTeamId: "theirs",
+    leagueFormat: "mixed"
+  });
+  assert.deepEqual(Object.keys(card.draft), ["D1", "D2", "D3"]);
+  assert.equal(
+    validateDraft(card.draft, null, card.leagueFormat).requiredPlayers,
+    6
+  );
+  assert.deepEqual(
+    extractLineupFromText(
+      "S1 Ignore Singles D1 Man One / Woman One D2 Man Two / Woman Two",
+      ["Ignore Singles", "Man One", "Woman One", "Man Two", "Woman Two"],
+      "mixed"
+    ),
+    {
+      D1: ["Man One", "Woman One"],
+      D2: ["Man Two", "Woman Two"],
+      D3: ["", ""]
+    }
+  );
+});
+
 test("match cards create and clone independent local drafts", () => {
   const card = createMatchCard({
     id: "card-1",
@@ -46,6 +84,7 @@ test("match cards create and clone independent local drafts", () => {
     date: "2026-10-01",
     ourTeamId: "ours",
     opponentTeamId: "theirs",
+    eligibilityScope: "sectional",
     now: "2026-08-14T00:00:00.000Z"
   });
   card.draft.S1[0] = "Player One";
@@ -56,10 +95,202 @@ test("match cards create and clone independent local drafts", () => {
   copy.draft.S1[0] = "Player Two";
 
   assert.equal(card.title, "Match Day Card");
+  assert.equal(card.status, "not_started");
+  assert.equal(card.eligibilityScope, "sectional");
   assert.equal(card.draftInitialized, false);
   assert.equal(card.draft.S1[0], "Player One");
   assert.equal(copy.title, "Match Day Card copy");
+  assert.equal(copy.eligibilityScope, "sectional");
   assert.equal(copy.draft.S1[0], "Player Two");
+});
+
+test("new and untouched auto-filled cards initialize to Choose player", () => {
+  const fresh = createMatchCard({
+    id: "fresh",
+    ourTeamId: "ours",
+    opponentTeamId: "theirs",
+    leagueFormat: "mixed"
+  });
+  const initializedFresh = initializeBlankDraft(fresh);
+  assert.equal(initializedFresh.changed, true);
+  assert.deepEqual(initializedFresh.card.draft, {
+    D1: ["", ""],
+    D2: ["", ""],
+    D3: ["", ""]
+  });
+
+  const legacyAutoFilled = {
+    ...initializedFresh.card,
+    status: "not_started",
+    draft: {
+      D1: ["One", "Two"],
+      D2: ["Three", "Four"],
+      D3: ["Five", "Six"]
+    }
+  };
+  assert.equal(initializeBlankDraft(legacyAutoFilled).card.draft.D1[0], "");
+
+  const savedDraft = { ...legacyAutoFilled, status: "draft" };
+  assert.equal(initializeBlankDraft(savedDraft).changed, false);
+  assert.equal(initializeBlankDraft(savedDraft).card.draft.D1[0], "One");
+});
+
+test("finalization requires a complete non-duplicate lineup", () => {
+  const card = createMatchCard({
+    id: "finalize",
+    ourTeamId: "ours",
+    opponentTeamId: "theirs",
+    leagueFormat: "mixed"
+  });
+  assert.equal(validateCardFinalization(card).allowed, false);
+  card.draft = {
+    D1: ["One", "Two"],
+    D2: ["Three", "Four"],
+    D3: ["Five", "Six"]
+  };
+  assert.equal(validateCardFinalization(card).allowed, true);
+  card.draft.D3[1] = "One";
+  assert.match(validateCardFinalization(card).message, /duplicate/);
+});
+
+test("match card eligibility defaults safely and rejects unsupported targets", () => {
+  assert.equal(normalizeMatchCardEligibilityScope(), "national");
+  assert.equal(normalizeMatchCardEligibilityScope("local"), "local");
+  assert.throws(
+    () => normalizeMatchCardEligibilityScope("regional"),
+    /National, Sectional, or Local/
+  );
+});
+
+test("matchup readiness reports freshness, identity, eligibility, and scenarios", () => {
+  const readiness = buildMatchupReadiness({
+    ourData: {
+      generatedAt: "2026-09-29T12:00:00.000Z",
+      team: { name: "Our Team" },
+      roster: [{ name: "One" }, { name: "Two" }],
+      dataQuality: {
+        unresolvedIdentities: [{ name: "Player One" }],
+        unresolvedWtnIdentities: [{ name: "Player One" }]
+      }
+    },
+    opponentData: {
+      generatedAt: "2026-09-01T12:00:00.000Z",
+      team: { name: "Opponent" },
+      roster: [{ name: "Three" }],
+      dataQuality: {}
+    },
+    ourAnalysis: {
+      eligibility: { summary: { eligible: 2, rosterSize: 2 } },
+      lineupPredictions: { predictions: [{ rank: 1 }] }
+    },
+    opponentAnalysis: {
+      eligibility: { summary: { eligible: 0, rosterSize: 1 } },
+      lineupPredictions: { predictions: [] }
+    },
+    now: new Date("2026-09-30T12:00:00.000Z")
+  });
+
+  assert.equal(readiness.teams[0].freshnessStatus, "current");
+  assert.equal(readiness.teams[0].unresolvedIdentities, 1);
+  assert.equal(readiness.teams[0].eligiblePlayers, 2);
+  assert.equal(readiness.teams[0].lineupScenarios, 1);
+  assert.equal(readiness.teams[1].freshnessStatus, "stale");
+  assert.equal(readiness.teams[1].needsAttention, true);
+});
+
+test("scheduled opponents resolve only by stable URL or one exact name", () => {
+  const teams = [
+    {
+      id: "opponent-a",
+      sourceUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=A&year=2027",
+      team: { name: "Opponent A" }
+    },
+    {
+      id: "opponent-b",
+      sourceUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=B&year=2027",
+      team: { name: "Opponent B" }
+    }
+  ];
+  assert.equal(resolveScheduledOpponent({
+    sourceOpponentName: "Different text",
+    sourceOpponentUrl:
+      "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2027&teamname=A"
+  }, teams).id, "opponent-a");
+  assert.equal(resolveScheduledOpponent({
+    sourceOpponentName: "Opponent B"
+  }, teams).id, "opponent-b");
+  assert.equal(resolveScheduledOpponent({
+    sourceOpponentName: "Unknown"
+  }, teams), null);
+});
+
+test("scheduled matches order upcoming before completed and cancelled", () => {
+  assert.deepEqual(orderScheduledMatches([
+    { id: "cancelled", date: "2026-10-01", status: "cancelled" },
+    { id: "future-2", date: "2026-10-10", status: "scheduled" },
+    { id: "completed", date: "2026-09-01", status: "completed" },
+    { id: "future-1", date: "2026-10-02", status: "scheduled" }
+  ]).map(match => match.id), [
+    "future-1",
+    "future-2",
+    "completed",
+    "cancelled"
+  ]);
+});
+
+test("legacy cards migrate only when one schedule match is exact", () => {
+  const team = {
+    id: "opponent",
+    sourceUrl: "https://example.test/opponent",
+    team: { name: "Opponent" }
+  };
+  const card = {
+    id: "legacy",
+    collectionId: "event",
+    ourTeamId: "ours",
+    opponentTeamId: "opponent",
+    date: "2026-10-01"
+  };
+  const match = {
+    id: "scheduled",
+    sourceOpponentName: "Opponent",
+    sourceOpponentUrl: team.sourceUrl,
+    date: "2026-10-01"
+  };
+  const migrated = migrateLegacyMatchCards({
+    cards: [card],
+    matches: [match],
+    teams: [team],
+    ourTeamId: "ours",
+    collectionId: "event"
+  });
+  assert.equal(migrated.cards[0].scheduledMatchId, "scheduled");
+  assert.equal(migrated.migrated, 1);
+
+  const ambiguous = migrateLegacyMatchCards({
+    cards: [card],
+    matches: [match, { ...match, id: "scheduled-2" }],
+    teams: [team],
+    ourTeamId: "ours",
+    collectionId: "event"
+  });
+  assert.equal(ambiguous.cards[0].scheduledMatchId, undefined);
+  assert.equal(ambiguous.unresolved, 1);
+});
+
+test("server and local cards merge by latest update without data loss", () => {
+  const merged = mergeMatchCards(
+    [
+      { id: "shared", updatedAt: "2026-09-30T12:00:00Z", notes: "local" },
+      { id: "local-only", updatedAt: "2026-09-30T11:00:00Z" }
+    ],
+    [
+      { id: "shared", updatedAt: "2026-09-30T10:00:00Z", notes: "server" },
+      { id: "server-only", updatedAt: "2026-09-30T11:00:00Z" }
+    ]
+  );
+  assert.equal(merged.length, 3);
+  assert.equal(merged.find(card => card.id === "shared").notes, "local");
 });
 
 test("court comparisons report rating edges without inventing missing UTR", () => {
@@ -78,6 +309,8 @@ test("court comparisons report rating edges without inventing missing UTR", () =
   });
 
   assert.equal(comparison.ours.dr, 3.15);
+  assert.deepEqual(comparison.ours.players.map(player => player.name), ["A", "B"]);
+  assert.equal(comparison.ours.players[0].dr, 3.2);
   assert.equal(comparison.opponent.dr, 3);
   assert.equal(comparison.margins.utr, null);
   assert.equal(comparison.edge, "favorable");
@@ -101,6 +334,115 @@ test("matchup summary distinguishes favorable and balanced cards", () => {
   ]).read, /balanced/);
 });
 
+test("lineup challenge scores top scenarios and explains pros and risks", () => {
+  const challenge = challengeLineupAgainstPredictions({
+    leagueFormat: "mixed",
+    draft: {
+      D1: ["Our A", "Our B"],
+      D2: ["Our C", "Our D"],
+      D3: ["Our E", "Our F"]
+    },
+    predictions: [{
+      rank: 1,
+      confidence: "high",
+      historicalSupport: 42,
+      lines: [
+        { court: "D1", players: ["Opp A", "Opp B"] },
+        { court: "D2", players: ["Opp C", "Opp D"] },
+        { court: "D3", players: ["Opp E", "Opp F"] }
+      ]
+    }],
+    ourRoster: [
+      ["Our A", 4], ["Our B", 4], ["Our C", 3], ["Our D", 3],
+      ["Our E", 2], ["Our F", 2]
+    ].map(([name, dr]) => ({ name, dr, utr: { doubles: { value: dr } } })),
+    opponentRoster: [
+      ["Opp A", 3], ["Opp B", 3], ["Opp C", 3], ["Opp D", 3],
+      ["Opp E", 3], ["Opp F", 3]
+    ].map(([name, dr]) => ({ name, dr, utr: { doubles: { value: dr } } }))
+  });
+
+  assert.equal(challenge.length, 1);
+  assert.equal(challenge[0].summary.favorable, 1);
+  assert.equal(challenge[0].summary.swing, 1);
+  assert.equal(challenge[0].summary.challenging, 1);
+  assert.equal(challenge[0].score, 4.5);
+  assert.deepEqual(challenge[0].ratingCoverage, {
+    drCourts: 3,
+    utrCourts: 3,
+    totalCourts: 3
+  });
+  assert.match(challenge[0].pros[0], /D1/);
+  assert.match(challenge[0].risks.join(" "), /D3/);
+});
+
+test("stacking summary identifies stronger lower courts without overclaiming", () => {
+  const summary = summarizeStackingStrategy([{
+    date: "2026-09-19",
+    opponentTeam: "Opponent",
+    lines: [
+      { court: "D1", averageDr: 3.0, targetPlayers: ["A", "B"] },
+      { court: "D2", averageDr: 3.3, targetPlayers: ["C", "D"] },
+      { court: "D3", averageDr: 2.8, targetPlayers: ["E", "F"] }
+    ]
+  }]);
+
+  assert.equal(summary.label, "Possible lower-court stacking pattern");
+  assert.equal(summary.confidence, "single-match evidence");
+  assert.equal(summary.inversions[0].lowerCourt, "D2");
+  assert.equal(summary.strongestCourtByDr, "D2");
+  assert.equal(summarizeStackingStrategy([]), null);
+});
+
+test("roster usage distinguishes played players from unused roster players", () => {
+  const usage = summarizeRosterUsage(
+    [{ name: "Played" }, { name: "Unused" }],
+    [{
+      id: "match-1",
+      courts: {
+        D1: { targetPlayers: ["Played"] },
+        D2: { targetPlayers: ["Played"] }
+      }
+    }]
+  );
+
+  assert.deepEqual(usage, [
+    {
+      name: "Played",
+      appearances: 1,
+      courts: ["D1", "D2"],
+      playedBefore: true
+    },
+    {
+      name: "Unused",
+      appearances: 0,
+      courts: [],
+      playedBefore: false
+    }
+  ]);
+});
+
+test("lineup rationale explains evidence ranking without calling it strongest", () => {
+  const rationale = explainLineupPrediction({
+    historicalSupport: 42,
+    observedTogether: 1,
+    evidence: {
+      totalCourtAppearances: 6,
+      postseasonCourtAppearances: 0
+    },
+    lines: [{
+      court: "D1",
+      appearances: 2,
+      usageShare: 0.5,
+      lastUsedDate: "2026-09-19"
+    }]
+  });
+
+  assert.match(rationale.summary, /not a strongest-ratings lineup/);
+  assert.match(rationale.reasons.join(" "), /observed together/);
+  assert.match(rationale.courts[0].reason, /50%/);
+});
+
 test("stored match cards reject invalid JSON shapes", () => {
   assert.deepEqual(parseStoredMatchCards(null), []);
   assert.throws(() => parseStoredMatchCards("{}"), /must be an array/);
@@ -118,6 +460,7 @@ test("stored match cards reject invalid JSON shapes", () => {
   assert.deepEqual(cards[0].draft.S2, [""]);
   assert.deepEqual(cards[0].draft.D1, ["Player Two", ""]);
   assert.equal(cards[0].draftInitialized, true);
+  assert.equal(cards[0].eligibilityScope, "national");
 });
 
 test("tournament evidence normalizes reviewed onsite players and lineups", () => {

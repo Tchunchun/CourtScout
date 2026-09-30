@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, requireArg } from "./lib/cli.mjs";
 import { readJson, writeJsonAtomic } from "./lib/io.mjs";
-import { emptyRating } from "./lib/ratings.mjs";
+import { emptyRating, identityGender } from "./lib/ratings.mjs";
 import {
   cacheKey,
   chooseCandidate,
@@ -141,8 +141,6 @@ export async function enrichPublicUtr(inputPath, options = {}) {
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
   }
-  const gender = dataset.team.gender === "Men" ? "Male" :
-    dataset.team.gender === "Women" ? "Female" : null;
   const people = [
     ...dataset.roster.map(player => ({
       kind: "roster",
@@ -175,7 +173,7 @@ export async function enrichPublicUtr(inputPath, options = {}) {
         person.locations,
         candidates,
         false,
-        gender
+        identityGender(person.player.gender, dataset.team.gender)
       );
       profile = selection.candidate
         ? publicProfile(selection.candidate)

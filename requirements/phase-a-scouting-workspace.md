@@ -1,11 +1,29 @@
-# Phase A — Scouting workspace requirements
+# Tennis Court Scout Phase A — Scouting workspace requirements
 
 Date: 2026-08-14
+
+Status: Partially superseded by schedule-driven Match Day planning on
+2026-09-30. The separate Scheduled opponent role and four-opponent cap below
+are retained as historical context; current Match Day opponents are derived
+from confirmed scheduled matches.
 
 ## Goal
 
 Make a large flight manageable by distinguishing the four teams on the
 schedule from other teams gathered for reconnaissance.
+
+## Implementation status
+
+### Confirmed team intake — Complete
+
+- [x] Choose Home team or Opponent team before gathering.
+- [x] Resolve and explicitly confirm the TennisRecord team identity.
+- [x] Identify single-gender versus mixed league format.
+- [x] Preview every dated league opponent for a home team.
+- [x] Gather the home team and all discovered opponents into one collection.
+- [x] Gather only the confirmed team for an opponent-team intake.
+- [x] Reuse an active job when the same confirmed intake is submitted again.
+- [x] Preserve league format and player gender for rating and lineup analysis.
 
 ## Requirements
 
@@ -28,11 +46,20 @@ schedule from other teams gathered for reconnaissance.
 
 ### Collection
 
-- Scouting always starts independently and produces an unfiled team report.
-- From the completed report, the user may optionally create or choose an event
-  collection.
-- After filing the report, the user may classify it as Our team, a scheduled
-  opponent, or a scouting-pool team.
+- Scouting starts in a temporary event collection.
+- The user reviews and confirms the resolved TennisRecord team identity before
+  collection begins.
+- Confirmation identifies whether the source is a single-gender or mixed
+  league.
+- Home-team confirmation previews every dated league opponent that will be
+  gathered.
+- Home-team scouting gathers the pasted team and every dated league opponent
+  linked from its TennisRecord schedule into the same collection.
+- Opponent-team scouting gathers only the pasted team.
+- After gathering, the user may move a team to another collection or leave it
+  unfiled.
+- A filed team may be classified as Our team, a scheduled opponent, or a
+  scouting-pool team.
 - The team-role control is unavailable while the report remains unfiled.
 
 ### Team navigation
@@ -62,6 +89,12 @@ schedule from other teams gathered for reconnaissance.
 
 ## Acceptance criteria
 
+- Changing the team type or TennisRecord URL invalidates the prior
+  confirmation.
+- Collection cannot begin until the current team type and URL have been
+  resolved and confirmed.
+- League format is preserved in the canonical dataset and used by lineup
+  analysis. Mixed doubles combinations respect known player genders.
 - Existing gathered datasets load safely as scouting-pool teams until the user
   classifies them.
 - Classifications survive reloads in the same browser.

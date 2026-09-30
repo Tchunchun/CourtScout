@@ -1,4 +1,4 @@
-export const ANALYSIS_VERSION = "1.1.0";
+export const ANALYSIS_VERSION = "1.2.0";
 const POSTSEASON_PHASES = new Set([
   "playoff",
   "district",
@@ -1050,6 +1050,33 @@ function lineupCandidateKey(players) {
   return JSON.stringify(players);
 }
 
+function datasetLeagueFormat(dataset) {
+  if (dataset.team?.leagueFormat === "mixed") return "mixed";
+  if (dataset.team?.leagueFormat === "single_gender") return "single_gender";
+  return /\bmixed\b|\bX\s*\d(?:\.\d)?\b/i.test(
+    `${dataset.team?.section ?? ""} ${dataset.team?.league ?? ""}`
+  )
+    ? "mixed"
+    : "single_gender";
+}
+
+function mixedPairIsValid(dataset, courtName, players) {
+  if (
+    datasetLeagueFormat(dataset) !== "mixed" ||
+    !courtName.startsWith("D") ||
+    players.length !== 2
+  ) {
+    return true;
+  }
+  const genders = players.map(name =>
+    dataset.roster.find(player => player.name === name)?.gender ?? "Unknown"
+  );
+  if (genders.includes("Unknown")) return true;
+  return new Set(genders).size === 2 &&
+    genders.includes("Men") &&
+    genders.includes("Women");
+}
+
 function lineupCourtCandidates(dataset, eligibleNames) {
   const matches = [...dataset.matches].sort((a, b) =>
     (a.date ?? "").localeCompare(b.date ?? "") ||
@@ -1063,7 +1090,13 @@ function lineupCourtCandidates(dataset, eligibleNames) {
     const phaseWeight = isPostseason(match.phase) ? 1.5 : 1;
     for (const [courtName, court] of Object.entries(match.courts ?? {})) {
       const players = lineupPlayers(courtName, court);
-      if (!players.length || players.some(name => !eligibleNames.has(name))) continue;
+      if (
+        !players.length ||
+        players.some(name => !eligibleNames.has(name)) ||
+        !mixedPairIsValid(dataset, courtName, players)
+      ) {
+        continue;
+      }
       const courtCandidates = byCourt.get(courtName) ?? new Map();
       const key = lineupCandidateKey(players);
       const candidate = courtCandidates.get(key) ?? {
@@ -1126,6 +1159,10 @@ function observedLineupCount(dataset, lines) {
 
 export function analyzeLineupPredictions(dataset, eligibility) {
   requireDataset(dataset);
+  const leagueFormat = datasetLeagueFormat(dataset);
+  const methodology = leagueFormat === "mixed"
+    ? "Court choices are weighted by frequency, recency, and postseason use. Mixed doubles pairs require one men’s and one women’s player when both player genders are known. Predicted lineups cannot assign one player to multiple courts."
+    : "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.";
   const eligibilityAnalysis = eligibility ?? analyzeEligibility(dataset);
   const eligibleNames = new Set(
     eligibilityAnalysis.players
@@ -1140,10 +1177,11 @@ export function analyzeLineupPredictions(dataset, eligibility) {
         predictionsGenerated: 0,
         matchesAnalyzed: dataset.matches.length,
         courts,
+        leagueFormat,
         eligiblePlayers: eligibleNames.size,
         excludedPlayers: eligibilityAnalysis.players.length - eligibleNames.size
       },
-      methodology: "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+      methodology,
       predictions: []
     };
   }
@@ -1238,10 +1276,11 @@ export function analyzeLineupPredictions(dataset, eligibility) {
       predictionsGenerated: predictions.length,
       matchesAnalyzed: dataset.matches.length,
       courts,
+      leagueFormat,
       eligiblePlayers: eligibleNames.size,
       excludedPlayers: eligibilityAnalysis.players.length - eligibleNames.size
     },
-    methodology: "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    methodology,
     predictions
   };
 }
@@ -1295,6 +1334,17 @@ export function analyzeTeam(dataset, options = {}) {
   if (dataset.dataQuality?.coverage?.warning) {
     warnings.push(dataset.dataQuality.coverage.warning);
   }
+  const leagueFormat = datasetLeagueFormat(dataset);
+  if (leagueFormat === "mixed") {
+    const unknownGenderCount = dataset.roster.filter(
+      player => !["Men", "Women"].includes(player.gender)
+    ).length;
+    if (unknownGenderCount) {
+      warnings.push(
+        `${unknownGenderCount} mixed-league player gender${unknownGenderCount === 1 ? " is" : "s are"} unresolved; observed pairs remain available, but gender validation is limited.`
+      );
+    }
+  }
   for (const limitation of dataset.dataQuality?.limitations ?? []) {
     warnings.push(limitation);
   }
@@ -1315,7 +1365,11 @@ export function analyzeTeam(dataset, options = {}) {
       collectionStage: dataset.collectionStage,
       finalReportReady
     },
-    team: dataset.team,
+    team: {
+      ...dataset.team,
+      leagueFormat,
+      gender: leagueFormat === "mixed" ? "Mixed" : dataset.team.gender
+    },
     summary: teamSummary(dataset),
     eligibility,
     singles: analyzeSingles(dataset),
