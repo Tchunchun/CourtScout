@@ -46,6 +46,7 @@ test("match cards create and clone independent local drafts", () => {
     date: "2026-10-01",
     ourTeamId: "ours",
     opponentTeamId: "theirs",
+    eligibilityScope: "sectional",
     now: "2026-08-14T00:00:00.000Z"
   });
   card.draft.S1[0] = "Player One";
@@ -56,6 +57,8 @@ test("match cards create and clone independent local drafts", () => {
   copy.draft.S1[0] = "Player Two";
 
   assert.equal(card.title, "Match Day Card");
+  assert.equal(card.eligibilityScope, "sectional");
+  assert.equal(copy.eligibilityScope, "sectional");
   assert.equal(card.draftInitialized, false);
   assert.equal(card.draft.S1[0], "Player One");
   assert.equal(copy.title, "Match Day Card copy");
@@ -118,6 +121,7 @@ test("stored match cards reject invalid JSON shapes", () => {
   assert.deepEqual(cards[0].draft.S2, [""]);
   assert.deepEqual(cards[0].draft.D1, ["Player Two", ""]);
   assert.equal(cards[0].draftInitialized, true);
+  assert.equal(cards[0].eligibilityScope, "national");
 });
 
 test("tournament evidence normalizes reviewed onsite players and lineups", () => {
