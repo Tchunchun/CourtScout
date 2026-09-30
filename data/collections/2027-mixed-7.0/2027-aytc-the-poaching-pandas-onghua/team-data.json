@@ -9,7 +9,7 @@
     "district": null,
     "league": "2027 Mixed 18 & Over (A)",
     "level": "7.0",
-    "gender": "Unknown",
+    "gender": "Mixed",
     "season": 2027,
     "nationalsRepresentative": false,
     "reportedTotals": {
@@ -17,7 +17,8 @@
       "teamLosses": 0,
       "courtWins": 3,
       "courtLosses": 0
-    }
+    },
+    "leagueFormat": "mixed"
   },
   "eligibilityRule": {
     "regulation": "USTA League Regulation 2.03A(4)",

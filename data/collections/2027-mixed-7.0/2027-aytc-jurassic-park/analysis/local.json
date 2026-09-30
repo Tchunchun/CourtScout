@@ -1,6 +1,6 @@
 {
-  "analysisVersion": "1.1.0",
-  "generatedAt": "2026-09-30T23:07:14.125Z",
+  "analysisVersion": "1.3.0",
+  "generatedAt": "2026-09-30T23:08:37.302Z",
   "dataset": {
     "datasetId": "2027-aytc-jurassic-park",
     "schemaVersion": "2.0.0",
@@ -14,7 +14,7 @@
     "district": null,
     "league": "2027 Mixed 18 & Over (A)",
     "level": "7.0",
-    "gender": "Unknown",
+    "gender": "Mixed",
     "season": 2027,
     "nationalsRepresentative": false,
     "reportedTotals": {
@@ -22,7 +22,8 @@
       "teamLosses": 2,
       "courtWins": 1,
       "courtLosses": 5
-    }
+    },
+    "leagueFormat": "mixed"
   },
   "summary": {
     "rosterSize": 17,
@@ -181,7 +182,7 @@
         "sourceNote": null,
         "status": "eligible",
         "role": "Doubles Depth (D2)",
-        "standoutNote": "Highest eligible DR (3.8700); Roster-high 1 local doubles appearance, mainly D2 (0–1)."
+        "standoutNote": "Highest eligible DR (3.87); Roster-high 1 local doubles appearance, mainly D2 (0–1)."
       },
       {
         "name": "Edward Park",
@@ -5163,10 +5164,11 @@
         "D2",
         "D3"
       ],
+      "leagueFormat": "mixed",
       "eligiblePlayers": 17,
       "excludedPlayers": 0
     },
-    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Mixed doubles pairs require one men’s and one women’s player when both player genders are known. Predicted lineups cannot assign one player to multiple courts.",
     "predictions": [
       {
         "rank": 1,
@@ -5379,7 +5381,8 @@
   },
   "disclosures": {
     "warnings": [
-      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage.",
+      "17 mixed-league player genders are unresolved; observed pairs remain available, but gender validation is limited."
     ],
     "sources": [
       {

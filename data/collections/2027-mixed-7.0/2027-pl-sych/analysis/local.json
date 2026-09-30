@@ -1,6 +1,6 @@
 {
-  "analysisVersion": "1.1.0",
-  "generatedAt": "2026-09-30T23:07:14.169Z",
+  "analysisVersion": "1.3.0",
+  "generatedAt": "2026-09-30T23:08:37.415Z",
   "dataset": {
     "datasetId": "2027-pl-sych",
     "schemaVersion": "2.0.0",
@@ -14,7 +14,7 @@
     "district": null,
     "league": "2027 Mixed 18 & Over (A)",
     "level": "7.0",
-    "gender": "Unknown",
+    "gender": "Mixed",
     "season": 2027,
     "nationalsRepresentative": false,
     "reportedTotals": {
@@ -22,7 +22,8 @@
       "teamLosses": 3,
       "courtWins": 0,
       "courtLosses": 9
-    }
+    },
+    "leagueFormat": "mixed"
   },
   "summary": {
     "rosterSize": 16,
@@ -181,7 +182,7 @@
         "sourceNote": null,
         "status": "eligible",
         "role": "Doubles Depth (D1)",
-        "standoutNote": "Highest eligible DR (3.7900); Roster-high 2 local doubles appearances, mainly D1 (0–2)."
+        "standoutNote": "Highest eligible DR (3.79); Roster-high 2 local doubles appearances, mainly D1 (0–2)."
       },
       {
         "name": "Kristin Blasko",
@@ -7698,10 +7699,11 @@
         "D2",
         "D3"
       ],
+      "leagueFormat": "mixed",
       "eligiblePlayers": 16,
       "excludedPlayers": 0
     },
-    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Mixed doubles pairs require one men’s and one women’s player when both player genders are known. Predicted lineups cannot assign one player to multiple courts.",
     "predictions": [
       {
         "rank": 1,
@@ -7914,7 +7916,8 @@
   },
   "disclosures": {
     "warnings": [
-      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage.",
+      "16 mixed-league player genders are unresolved; observed pairs remain available, but gender validation is limited."
     ],
     "sources": [
       {
