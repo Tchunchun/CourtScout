@@ -3329,18 +3329,23 @@ function renderMatchCardEditor() {
           <div class="match-card-meta" aria-label="Match details">
             <span>${escapeHtml(displayDate)}</span>
             <span>${escapeHtml(displayLocation)}</span>
-            <span>${escapeHtml(scheduledMatch?.round ?? "Round TBD")}</span>
-            <span>${escapeHtml(collectionName)}</span>
-            <span>${escapeHtml(eligibilityLabel)} event</span>
             <span>${escapeHtml(ourTeamName)} vs ${escapeHtml(opponentName)}</span>
             <span>${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligibility</span>
-            <span>Schedule updated ${escapeHtml(
-              state.eventSchedule?.lastSuccessfulSyncAt
-                ? new Date(state.eventSchedule.lastSuccessfulSyncAt).toLocaleString()
-                : "unknown"
-            )}</span>
           </div>
-          <p class="match-card-save-note no-print">Saved automatically on this device</p>
+          <details class="match-card-context-details no-print">
+            <summary>More match details</summary>
+            <div>
+              <span>${escapeHtml(scheduledMatch?.round ?? "Round TBD")}</span>
+              <span>${escapeHtml(collectionName)}</span>
+              <span>${escapeHtml(eligibilityLabel)} event</span>
+              <span>Schedule updated ${escapeHtml(
+                state.eventSchedule?.lastSuccessfulSyncAt
+                  ? new Date(state.eventSchedule.lastSuccessfulSyncAt).toLocaleString()
+                  : "unknown"
+              )}</span>
+              <span>Saved automatically</span>
+            </div>
+          </details>
         </div>
         <label class="card-status no-print">Card status
           <select data-card-field="status">
@@ -3358,23 +3363,8 @@ function renderMatchCardEditor() {
       ${state.matchCardError
         ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardError)}</p>`
         : ""}
-      <nav class="preparation-section-nav no-print" aria-label="Match preparation sections">
-        <a href="#prep-plan">Test lineup</a>
-        <a href="#prep-challenge">Challenge</a>
-        <a href="#prep-evidence">Evidence</a>
-        <a href="#prep-reference">Full reference</a>
-        <a href="#prep-notes">Notes</a>
-      </nav>
       ${matchupReadinessHtml(context)}
       <section class="lineup-decision-workspace" id="prep-plan">
-        <div class="decision-workspace-heading">
-          <div>
-            <span class="step-label">Primary decision</span>
-            <h2>Test our lineup against their predicted lineup</h2>
-          </div>
-          <p>Choose an opponent scenario, set every court, and review the matchup response immediately.</p>
-        </div>
-        ${tournamentEvidenceDisclosureHtml(card, context)}
         <nav class="lineup-test-mobile-nav no-print" aria-label="Lineup test panels">
           <a href="#prep-our-lineup">Our lineup</a>
           <a href="#prep-courts">Compare</a>
@@ -3382,11 +3372,11 @@ function renderMatchCardEditor() {
         </nav>
         <div class="lineup-test-grid">
           <section class="our-lineup-builder lineup-test-column" id="prep-our-lineup">
-            <div class="match-card-section-heading">
-              <div><span class="step-label">1 · Our lineup</span><h2>Set every court</h2></div>
-              <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
+            <div class="lineup-column-heading">
+              <h2>Our lineup</h2>
+              <small>${validation.selectedPlayers}/${validation.requiredPlayers} selected · ${validation.unavailableNames.length
                 ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
-                : `${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligible roster`}</p>
+                : `${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligible`}</small>
             </div>
             <div class="lineup-builder-grid">
               ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => `
@@ -3403,8 +3393,9 @@ function renderMatchCardEditor() {
               : ""}
           </section>
           <section class="matchup-analysis lineup-test-column" id="prep-courts">
-            <div class="match-card-section-heading">
-              <div><span class="step-label">2 · Live comparison</span><h2>How this lineup matches up</h2></div>
+            <div class="lineup-column-heading">
+              <h2>Compare</h2>
+              <small>Live against the selected opponent option</small>
             </div>
             <div class="matchup-overview">
               <strong>${escapeHtml(summary.read)}</strong>
@@ -3418,14 +3409,12 @@ function renderMatchCardEditor() {
             <div class="matchup-courts decision-matchup-courts">${comparisons.map(matchCardCourtHtml).join("")}</div>
           </section>
           <section class="opponent-prediction-picker no-print" id="prep-opponent-lineups">
-            <div>
-              <span class="step-label">3 · Opponent options</span>
-              <h2>Test a predicted lineup</h2>
-              <p>${evidenceForCard(card).length
-                ? "Reviewed tournament evidence is weighted ahead of older scouting history."
-                : "Scenarios use gathered match history and observed pair usage."}</p>
+            <div class="lineup-column-heading">
+              <h2>Opponent options</h2>
+              <small>${evidenceForCard(card).length
+                ? "Includes reviewed tournament evidence"
+                : "Based on gathered match history"}</small>
             </div>
-            <p class="scenario-primary-note">Scenario 1 is the most evidence-supported option, not necessarily the highest-rated possible lineup.</p>
             ${topOpponentPredictionsHtml(card, predictions, context)}
           </section>
         </div>
@@ -3438,6 +3427,7 @@ function renderMatchCardEditor() {
         </div>
         ${playerPerformanceEvidenceHtml(context, predictions)}
         ${pairAndStackingEvidenceHtml(context)}
+        ${tournamentEvidenceDisclosureHtml(card, context)}
       </section>
       ${opponentReferenceHtml(context)}
       <footer class="match-card-footnote">
