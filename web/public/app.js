@@ -31,6 +31,7 @@ import {
   matchCardCourtDefinitions,
   matchRosterNames,
   mergeMatchCards,
+  migrateMatchCardLeagueFormat,
   migrateLegacyMatchCards,
   orderScheduledMatches,
   parseStoredMatchCards,
@@ -2891,6 +2892,9 @@ function pairAndStackingEvidenceHtml(context) {
         <h3>${escapeHtml(strategy?.label ?? "No stacking pattern")}</h3>
         ${strategy ? `
           <p>${escapeHtml(strategy.confidence)} confidence across ${strategy.matchesAnalyzed} match${strategy.matchesAnalyzed === 1 ? "" : "es"}.</p>
+          <p>${strategy.lowerCourtStrengthMatches} of ${strategy.matchesWithRatingEvidence} rated match${strategy.matchesWithRatingEvidence === 1 ? "" : "es"} showed lower-court strength. ${strategy.strongestCourtCounts[0]
+            ? `${escapeHtml(strategy.strongestCourtCounts[0].court)} was strongest in ${strategy.strongestCourtCounts[0].matches} match${strategy.strongestCourtCounts[0].matches === 1 ? "" : "es"}.`
+            : ""}</p>
           <p>${strategy.strongestCourtByDr
             ? `${escapeHtml(strategy.strongestCourtByDr)} was strongest by average DR.`
             : "Court strength is not distinguishable from available ratings."}</p>
@@ -3046,6 +3050,7 @@ function opponentStackingHtml(context) {
         <p>${escapeHtml(strategy.confidence)} · ${strategy.matchesAnalyzed} match${strategy.matchesAnalyzed === 1 ? "" : "es"} analyzed</p>
       </div>
       <p class="stacking-evidence-note">
+        ${strategy.lowerCourtStrengthMatches} of ${strategy.matchesWithRatingEvidence} rated match${strategy.matchesWithRatingEvidence === 1 ? "" : "es"} showed a lower doubles court stronger than a court above it.
         Latest evidence: ${escapeHtml(strategy.latestDate ?? "Date unavailable")}
         ${strategy.opponentTeam ? ` vs ${escapeHtml(strategy.opponentTeam)}` : ""}.
         ${strategy.strongestCourtByDr
@@ -3492,6 +3497,14 @@ async function openMatchCard(cardId) {
   try {
     state.matchCardContext = await loadMatchCardContext(card);
     let cardChanged = false;
+    const leagueFormat = state.matchCardContext.ourData.team?.leagueFormat ??
+      state.matchCardContext.opponentData.team?.leagueFormat ??
+      "single_gender";
+    const migratedFormat = migrateMatchCardLeagueFormat(card, leagueFormat);
+    if (migratedFormat.changed) {
+      Object.assign(card, migratedFormat.card);
+      cardChanged = true;
+    }
     const predictions = matchCardPredictions(card, state.matchCardContext);
     if (
       predictions.length &&

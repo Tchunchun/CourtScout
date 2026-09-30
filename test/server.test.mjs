@@ -654,7 +654,7 @@ test("server lists teams and returns national analysis by default", async t => {
   );
   assert.equal(analysisResponse.status, 200);
   const analysis = await analysisResponse.json();
-  assert.equal(analysis.analysisVersion, "1.2.0");
+  assert.equal(analysis.analysisVersion, "1.3.0");
   assert.equal(analysis.eligibility.scope, "national");
   assert.equal(analysis.eligibility.summary.eligible, 1);
   assert.deepEqual(analysis.lineupPredictions.predictions, []);

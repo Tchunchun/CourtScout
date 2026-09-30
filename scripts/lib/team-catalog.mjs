@@ -4,6 +4,29 @@ import { join, relative, sep } from "node:path";
 const CATALOG_FILE = "team-catalog.json";
 const NATIONAL_ROSTERS_FILE = "2026-national-rosters.json";
 
+export function inferTeamLeagueFormat(team = {}) {
+  if (team.leagueFormat === "mixed" || team.leagueFormat === "single_gender") {
+    return team.leagueFormat;
+  }
+  return /\bmixed\b|\bX\s*\d(?:\.\d)?\b/i.test([
+    team.name,
+    team.section,
+    team.league,
+    team.gender
+  ].filter(Boolean).join(" "))
+    ? "mixed"
+    : "single_gender";
+}
+
+function normalizeTeamMetadata(team) {
+  const leagueFormat = inferTeamLeagueFormat(team);
+  return {
+    ...team,
+    leagueFormat,
+    gender: leagueFormat === "mixed" ? "Mixed" : team.gender
+  };
+}
+
 async function findTeamDataFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const files = [];
@@ -121,21 +144,22 @@ export async function listTeamCatalog(dataDirectory) {
     const tennisRecordSource = dataset.sources?.find(source =>
       source.type === "tennisrecord" && source.url
     );
+    const teamMetadata = normalizeTeamMetadata({
+      ...dataset.team,
+      ...(configured || nationalTeam
+        ? {
+            name: nationalTeam?.name ?? configured.name,
+            section: nationalTeam?.section ?? configured.section,
+            captain: nationalTeam?.captain,
+            nationalsRepresentative: Boolean(nationalTeam),
+            sourceName: dataset.team?.name
+          }
+        : {})
+    });
     return {
       id: catalogId(dataDirectory, file),
       datasetId: dataset.datasetId,
-      team: {
-        ...dataset.team,
-        ...(configured || nationalTeam
-          ? {
-              name: nationalTeam?.name ?? configured.name,
-              section: nationalTeam?.section ?? configured.section,
-              captain: nationalTeam?.captain,
-              nationalsRepresentative: Boolean(nationalTeam),
-              sourceName: dataset.team?.name
-            }
-          : {})
-      },
+      team: teamMetadata,
       generatedAt: dataset.generatedAt,
       collectionStage: dataset.collectionStage,
       rosterSize: dataset.roster?.length ?? 0,
@@ -157,7 +181,7 @@ export async function listTeamCatalog(dataDirectory) {
       return {
         id: `pending/${team.datasetId}`,
         datasetId: team.datasetId,
-        team: {
+        team: normalizeTeamMetadata({
           name: nationalTeam?.name ?? team.name,
           section: nationalTeam?.section ?? team.section,
           captain: nationalTeam?.captain,
@@ -165,7 +189,7 @@ export async function listTeamCatalog(dataDirectory) {
           gender: "Women",
           season: 2026,
           nationalsRepresentative: Boolean(nationalTeam)
-        },
+        }),
         generatedAt: null,
         collectionStage: "report_pending",
         rosterSize: 0,

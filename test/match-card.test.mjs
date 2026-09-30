@@ -15,6 +15,7 @@ import {
   explainLineupPrediction,
   initializeBlankDraft,
   matchRosterNames,
+  migrateMatchCardLeagueFormat,
   migrateLegacyMatchCards,
   mergeMatchCards,
   normalizeMatchCardEligibilityScope,
@@ -75,6 +76,24 @@ test("mixed match cards use three doubles courts and six players", () => {
       D3: ["", ""]
     }
   );
+});
+
+test("legacy cards migrate to mixed doubles courts without singles", () => {
+  const card = createMatchCard({
+    id: "legacy-mixed",
+    ourTeamId: "ours",
+    opponentTeamId: "theirs"
+  });
+  card.draft.S1[0] = "Singles Player";
+  card.draft.D1 = ["Partner One", "Partner Two"];
+  card.status = "final";
+
+  const migrated = migrateMatchCardLeagueFormat(card, "mixed");
+  assert.equal(migrated.changed, true);
+  assert.equal(migrated.card.leagueFormat, "mixed");
+  assert.deepEqual(Object.keys(migrated.card.draft), ["D1", "D2", "D3"]);
+  assert.deepEqual(migrated.card.draft.D1, ["Partner One", "Partner Two"]);
+  assert.equal(migrated.card.status, "draft");
 });
 
 test("match cards create and clone independent local drafts", () => {
@@ -391,7 +410,44 @@ test("stacking summary identifies stronger lower courts without overclaiming", (
   assert.equal(summary.confidence, "single-match evidence");
   assert.equal(summary.inversions[0].lowerCourt, "D2");
   assert.equal(summary.strongestCourtByDr, "D2");
+  assert.equal(summary.lowerCourtStrengthMatches, 1);
+  assert.equal(summary.matchesWithRatingEvidence, 1);
   assert.equal(summarizeStackingStrategy([]), null);
+});
+
+test("stacking summary identifies repeated opponent strategy across matches", () => {
+  const summary = summarizeStackingStrategy([
+    {
+      date: "2026-09-19",
+      lines: [
+        { court: "D1", averageDr: 3.0 },
+        { court: "D2", averageDr: 3.3 },
+        { court: "D3", averageDr: 2.8 }
+      ]
+    },
+    {
+      date: "2026-09-12",
+      lines: [
+        { court: "D1", averageDr: 3.1 },
+        { court: "D2", averageDr: 3.0 },
+        { court: "D3", averageDr: 3.4 }
+      ]
+    },
+    {
+      date: "2026-09-05",
+      lines: [
+        { court: "D1", averageDr: 3.3 },
+        { court: "D2", averageDr: 3.1 },
+        { court: "D3", averageDr: 2.9 }
+      ]
+    }
+  ]);
+
+  assert.equal(summary.label, "Repeated lower-court strength pattern");
+  assert.equal(summary.lowerCourtStrengthMatches, 2);
+  assert.equal(summary.traditionalOrderMatches, 1);
+  assert.equal(summary.matchesWithRatingEvidence, 3);
+  assert.equal(summary.confidence, "established");
 });
 
 test("roster usage distinguishes played players from unused roster players", () => {

@@ -90,3 +90,31 @@ test("team catalog combines gathered reports with pending national teams", async
     /Team dataset not found/
   );
 });
+
+test("team catalog infers mixed league format for legacy datasets", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "mixed-team-catalog-"));
+  const teamDirectory = join(dataDirectory, "mixed");
+  await mkdir(teamDirectory);
+  await writeFile(join(teamDirectory, "team-data.json"), JSON.stringify({
+    datasetId: "2027-mixed",
+    generatedAt: "2026-09-01T00:00:00.000Z",
+    collectionStage: "step_1_complete",
+    team: {
+      name: "Happy Mixed Nuts18-Park",
+      section: "Mixed 18+ Pacific NW X 7.0",
+      league: "2027 Mixed 18 & Over",
+      gender: "Unknown",
+      season: 2027
+    },
+    sources: [],
+    roster: [],
+    matches: []
+  }));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+
+  const [team] = await listTeamCatalog(dataDirectory);
+  assert.equal(team.team.leagueFormat, "mixed");
+  assert.equal(team.team.gender, "Mixed");
+  const dataset = await readCatalogTeam(dataDirectory, team.id);
+  assert.equal(dataset.team.leagueFormat, "mixed");
+});

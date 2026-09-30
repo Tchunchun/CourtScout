@@ -154,6 +154,33 @@ export function initializeBlankDraft(card) {
   };
 }
 
+export function migrateMatchCardLeagueFormat(card, leagueFormat) {
+  const normalizedFormat = leagueFormat === "mixed"
+    ? "mixed"
+    : "single_gender";
+  if (card.leagueFormat === normalizedFormat) {
+    return { card, changed: false };
+  }
+  const draft = emptyDraft(normalizedFormat);
+  for (const { court, players } of matchCardCourtDefinitions(normalizedFormat)) {
+    draft[court] = (card.draft?.[court] ?? [])
+      .slice(0, players)
+      .concat(Array.from({ length: players }, () => ""))
+      .slice(0, players);
+  }
+  return {
+    changed: true,
+    card: {
+      ...card,
+      leagueFormat: normalizedFormat,
+      draft,
+      draftInitialized: true,
+      opponentPredictionRank: 1,
+      status: card.status === "final" ? "draft" : card.status
+    }
+  };
+}
+
 export function validateDraft(
   draft,
   eligibleNames = null,
@@ -724,9 +751,10 @@ export function challengeLineupAgainstPredictions({
 
 export function summarizeStackingStrategy(matchStacking = []) {
   if (!matchStacking.length) return null;
-  const latest = [...matchStacking].sort((a, b) =>
+  const orderedMatches = [...matchStacking].sort((a, b) =>
     (b.date ?? "").localeCompare(a.date ?? "")
-  )[0];
+  );
+  const latest = orderedMatches[0];
   const lines = [...(latest.lines ?? [])]
     .filter(line => line.court?.startsWith("D"))
     .sort((a, b) =>
@@ -750,8 +778,55 @@ export function summarizeStackingStrategy(matchStacking = []) {
       });
     }
   }
+  const matchPatterns = orderedMatches.map(match => {
+    const matchLines = [...(match.lines ?? [])]
+      .filter(line =>
+        line.court?.startsWith("D") && Number.isFinite(line.averageDr)
+      )
+      .sort((a, b) =>
+        Number(a.court.slice(1)) - Number(b.court.slice(1))
+      );
+    const hasLowerCourtStrength = matchLines.some((upper, upperIndex) =>
+      matchLines.slice(upperIndex + 1).some(lower =>
+        lower.averageDr > upper.averageDr
+      )
+    );
+    const strongestCourt = [...matchLines]
+      .sort((a, b) => b.averageDr - a.averageDr)[0]?.court ?? null;
+    return {
+      hasRatingEvidence: matchLines.length >= 2,
+      hasLowerCourtStrength,
+      strongestCourt
+    };
+  });
+  const matchesWithRatingEvidence = matchPatterns.filter(
+    match => match.hasRatingEvidence
+  );
+  const lowerCourtStrengthMatches = matchesWithRatingEvidence.filter(
+    match => match.hasLowerCourtStrength
+  ).length;
+  const traditionalOrderMatches =
+    matchesWithRatingEvidence.length - lowerCourtStrengthMatches;
+  const strongestCourtCounts = [...matchPatterns.reduce((counts, match) => {
+    if (match.strongestCourt) {
+      counts.set(
+        match.strongestCourt,
+        (counts.get(match.strongestCourt) ?? 0) + 1
+      );
+    }
+    return counts;
+  }, new Map()).entries()]
+    .map(([court, matches]) => ({ court, matches }))
+    .sort((a, b) => b.matches - a.matches || a.court.localeCompare(b.court));
   return {
     matchesAnalyzed: matchStacking.length,
+    matchesWithRatingEvidence: matchesWithRatingEvidence.length,
+    lowerCourtStrengthMatches,
+    traditionalOrderMatches,
+    lowerCourtStrengthRate: matchesWithRatingEvidence.length
+      ? lowerCourtStrengthMatches / matchesWithRatingEvidence.length
+      : null,
+    strongestCourtCounts,
     latestDate: latest.date ?? null,
     opponentTeam: latest.opponentTeam ?? null,
     lines,
@@ -760,16 +835,19 @@ export function summarizeStackingStrategy(matchStacking = []) {
       [...lines]
         .filter(line => Number.isFinite(line.averageDr))
         .sort((a, b) => b.averageDr - a.averageDr)[0]?.court ?? null,
-    label: inversions.length && matchStacking.length >= 3
+    label: lowerCourtStrengthMatches >= 2 &&
+      lowerCourtStrengthMatches / matchesWithRatingEvidence.length >= 0.5
       ? "Repeated lower-court strength pattern"
-      : inversions.length
-        ? "Possible lower-court stacking pattern"
-      : lines.every(line => Number.isFinite(line.averageDr))
+      : lowerCourtStrengthMatches
+      ? "Possible lower-court stacking pattern"
+      : matchesWithRatingEvidence.length
         ? "Traditional strongest-to-lower ordering"
         : "Limited rating evidence",
-    confidence: matchStacking.length >= 3
+    confidence: matchesWithRatingEvidence.length >= 3
       ? "established"
-      : matchStacking.length === 2 ? "developing" : "single-match evidence"
+      : matchesWithRatingEvidence.length === 2
+      ? "developing"
+      : "single-match evidence"
   };
 }
 
