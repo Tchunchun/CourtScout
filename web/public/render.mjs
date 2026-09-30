@@ -67,6 +67,81 @@ export function buildReportCollections(collections, teams) {
   return cards;
 }
 
+export function collectionWorkspaceHeaderHtml({
+  activeView,
+  collectionName,
+  collectionLevel,
+  teamCount,
+  scheduledMatchCount
+}) {
+  const teamsLabel = `${teamCount} ${teamCount === 1 ? "team" : "teams"}`;
+  const matchesLabel =
+    `${scheduledMatchCount} scheduled ${scheduledMatchCount === 1 ? "match" : "matches"}`;
+  const workspaceButton = (view, title, description) => `
+    <button type="button" data-collection-workspace-view="${view}"
+      aria-current="${activeView === view ? "page" : "false"}">
+      <strong>${title}</strong>
+      <small>${description}</small>
+    </button>`;
+  return `
+    <section class="collection-workspace-context" aria-label="Collection workspace">
+      <div class="collection-workspace-summary">
+        <span class="step-label">Event collection</span>
+        <div>
+          <h2>${escapeHtml(collectionName)}</h2>
+          <span>${escapeHtml(collectionLevel)}</span>
+        </div>
+        <p>${escapeHtml(teamsLabel)} · ${escapeHtml(matchesLabel)}</p>
+      </div>
+      <nav class="collection-workspace-switcher" aria-label="Collection views">
+        ${workspaceButton("reports", "Reports & analysis", "Team intelligence")}
+        ${workspaceButton("cards", "Match Day Cards", "Schedule & lineups")}
+      </nav>
+    </section>`;
+}
+
+export function collectionWorkspaceListRowHtml({
+  className = "",
+  marker = null,
+  eyebrow,
+  title,
+  details = [],
+  actionsHtml
+}) {
+  const extraClasses = String(className)
+    .split(/\s+/)
+    .filter(value => /^[a-z0-9_-]+$/i.test(value))
+    .join(" ");
+  return `
+    <article class="workspace-list-row report-team-row${marker ? " has-schedule" : ""}${extraClasses ? ` ${extraClasses}` : ""}">
+      ${marker ? `
+        <div class="report-team-rank">
+          <strong>${escapeHtml(marker.value)}</strong>
+          <small>${escapeHtml(marker.label)}</small>
+        </div>
+      ` : ""}
+      <div class="report-team-summary">
+        <span>${escapeHtml(eyebrow)}</span>
+        <strong title="${escapeHtml(title)}">${escapeHtml(title)}</strong>
+        ${details.map(detail => {
+          const detailClasses = [
+            detail.emphasis ? "report-team-schedule" : "",
+            String(detail.className ?? "")
+              .split(/\s+/)
+              .filter(value => /^[a-z0-9_-]+$/i.test(value))
+              .join(" ")
+          ].filter(Boolean).join(" ");
+          return `
+          <small class="${detailClasses}">
+            ${escapeHtml(detail.text)}
+          </small>
+        `;
+        }).join("")}
+      </div>
+      <div class="report-team-actions">${actionsHtml}</div>
+    </article>`;
+}
+
 export function ratingDisplay(rating) {
   if (!rating) return "NR";
   return rating.display ?? (rating.value != null ? Number(rating.value).toFixed(2) : "NR");

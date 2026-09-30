@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import {
   activeNationalRoster,
   buildReportCollections,
+  collectionWorkspaceHeaderHtml,
+  collectionWorkspaceListRowHtml,
   matchCourtRows,
   matchStackingDetails,
   rankIneligiblePlayers,
@@ -13,6 +15,41 @@ import {
   TEMP_REPORTS_COLLECTION_ID,
   topDoublesPairsTable
 } from "../web/public/render.mjs";
+
+test("collection workspace header keeps reports and cards in one collection context", () => {
+  const html = collectionWorkspaceHeaderHtml({
+    activeView: "cards",
+    collectionName: "2027 Mixed <Local>",
+    collectionLevel: "Local season",
+    teamCount: 12,
+    scheduledMatchCount: 3
+  });
+
+  assert.match(html, /2027 Mixed &lt;Local&gt;/);
+  assert.match(html, /12 teams · 3 scheduled matches/);
+  assert.match(
+    html,
+    /data-collection-workspace-view="cards"[\s\S]*aria-current="page"/
+  );
+  assert.match(html, /Reports & analysis/);
+});
+
+test("collection workspace rows share one structure and escape their content", () => {
+  const html = collectionWorkspaceListRowHtml({
+    className: "scheduled invalid<script>",
+    marker: { value: "#1", label: "Schedule" },
+    eyebrow: "Scheduled opponent",
+    title: "Team <One>",
+    details: [{ text: "Oct 4 · 6 PM", emphasis: true }],
+    actionsHtml: '<button type="button">Prepare match</button>'
+  });
+
+  assert.match(html, /workspace-list-row report-team-row has-schedule scheduled/);
+  assert.doesNotMatch(html, /invalid<script>/);
+  assert.match(html, /Team &lt;One&gt;/);
+  assert.match(html, /report-team-schedule/);
+  assert.match(html, /Prepare match/);
+});
 
 test("activeNationalRoster joins official players to scouting data", () => {
   const roster = activeNationalRoster({

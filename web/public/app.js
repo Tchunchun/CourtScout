@@ -1,6 +1,8 @@
 import {
   activeNationalRoster,
   buildReportCollections,
+  collectionWorkspaceHeaderHtml,
+  collectionWorkspaceListRowHtml,
   escapeHtml,
   matchCourtRows,
   matchStackingDetails,
@@ -815,12 +817,15 @@ function renderReportsTeamList() {
   refreshScheduleButton.title = state.teamWorkspace.ourTeamId
     ? ""
     : "Assign Our team before refreshing the schedule.";
-  $("#reportsCollectionName").textContent = collectionName;
-  $("#reportsCollectionLevel").textContent = collection
-    ? collectionCompetitionLevelLabel(collection.competitionLevel)
-    : "Unassigned";
-  $("#reportsTeamCount").textContent =
-    `${teams.length} ${teams.length === 1 ? "team" : "teams"}`;
+  $("#reportsCollectionContext").innerHTML = collectionWorkspaceHeaderHtml({
+    activeView: "reports",
+    collectionName,
+    collectionLevel: collection
+      ? collectionCompetitionLevelLabel(collection.competitionLevel)
+      : "Unassigned",
+    teamCount: teams.length,
+    scheduledMatchCount: scheduleTeamIds.length
+  });
   $("#reportsTeamSummary").textContent =
     `${readyCount} ${readyCount === 1 ? "report" : "reports"} ready` +
     `${hasSchedule
@@ -849,37 +854,32 @@ function renderReportsTeamList() {
         : role === "our"
           ? "Our team"
           : reportAvailable ? "Scouted team" : "National team";
-      return `
-      <article class="report-team-row${hasSchedule ? " has-schedule" : ""}${scheduleRank != null ? " scheduled" : ""}">
-        ${hasSchedule ? `
-          <div class="report-team-rank">
-            ${scheduleRank != null
-              ? `<strong>#${scheduleRank}</strong><small>Schedule</small>`
-              : '<span aria-hidden="true">—</span><small>Not scheduled</small>'}
-          </div>
-        ` : ""}
-        <div class="report-team-summary">
-          <span>${status}</span>
-          <strong title="${escapeHtml(labels.title)}">
-            <span class="team-section-name">${escapeHtml(labels.sectional || "Section unavailable")}</span>
-            <span> - </span>
-            <span>${escapeHtml(labels.team)}</span>
-          </strong>
-          <small>${reportAvailable
+      return collectionWorkspaceListRowHtml({
+        className: scheduleRank != null ? "scheduled" : "",
+        marker: hasSchedule
+          ? {
+              value: scheduleRank != null ? `#${scheduleRank}` : "—",
+              label: scheduleRank != null ? "Schedule" : "Not scheduled"
+            }
+          : null,
+        eyebrow: status,
+        title: labels.title,
+        details: [{
+          text: reportAvailable
             ? `${team.matchCount ?? 0} matches · ${team.activeRosterSize ?? team.rosterSize ?? 0} active players`
-            : `${team.activeRosterSize ?? 0} active players · report pending`}</small>
-          ${reportAvailable
-            ? `<small class="report-team-analysis-status">${escapeHtml(analysisStatus)}</small>`
-            : ""}
-          ${scheduledMatch ? `
-            <small class="report-team-schedule">
-              ${escapeHtml(reportScheduleDateLabel(scheduledMatch.date))}
-              · ${escapeHtml(scheduledMatch.time ?? "Time TBD")}
-              · ${escapeHtml(scheduledMatch.site ?? "Location TBD")}
-            </small>
-          ` : ""}
-        </div>
-        <div class="report-team-actions">
+            : `${team.activeRosterSize ?? 0} active players · report pending`
+        }, ...(reportAvailable ? [{
+          text: analysisStatus,
+          emphasis: true
+        }] : []), ...(scheduledMatch ? [{
+          text: [
+            reportScheduleDateLabel(scheduledMatch.date),
+            scheduledMatch.time ?? "Time TBD",
+            scheduledMatch.site ?? "Location TBD"
+          ].join(" · "),
+          emphasis: true
+        }] : [])],
+        actionsHtml: `
           <button class="button-secondary" type="button"
             ${reportAvailable
               ? `data-report-team-id="${escapeHtml(team.id)}"`
@@ -896,9 +896,8 @@ function renderReportsTeamList() {
               Prepare match
             </button>
           ` : ""}
-        </div>
-      </article>
-    `;
+        `
+      });
     }).join("")
     : `
       <div class="reports-empty-state">
@@ -1454,12 +1453,13 @@ function getRows() {
   const data = state.dataset;
   const selections = getRatingSelections(data);
   if (state.tab === "roster") {
-    const hasNationalRoster = Boolean(data.nationalRoster?.length);
     return activeNationalRoster(data).map(player => ({
-      search: `${player.name} ${player.location ?? ""}`,
+      search: `${player.name} ${player.gender ?? ""} ${player.location ?? ""}`,
       cells: [
         escapeHtml(player.name),
-        ...(hasNationalRoster ? [escapeHtml(player.gender)] : []),
+        player.gender
+          ? escapeHtml(player.gender)
+          : '<span class="missing-value" title="Not available">—</span>',
         player.location ? escapeHtml(player.location) : '<span class="missing-value" title="Not available">—</span>',
         player.ntrp?.level ? escapeHtml(player.ntrp.level) : '<span class="missing-value" title="Not available">—</span>',
         player.dr != null ? `<span class="rating">${Number(player.dr).toFixed(2)}</span>` : '<span class="missing-value" title="Not available">—</span>',
@@ -1523,10 +1523,9 @@ function getRatingSelections(data) {
 function getHeadings() {
   const selections = getRatingSelections(state.dataset);
   if (state.tab === "roster") {
-    const hasNationalRoster = Boolean(state.dataset.nationalRoster?.length);
     return [
       "Player",
-      ...(hasNationalRoster ? ["Gender"] : []),
+      "Gender",
       "Location",
       "NTRP",
       "Dynamic rating",
@@ -2245,39 +2244,16 @@ function scheduledMatchListHtml() {
         const opponentTeam = resolveScheduledOpponent(match, teams);
         const card = scheduledMatchCard(match, opponentTeam);
         const preparationState = scheduledMatchState(match, opponentTeam, card);
-        const dateTime = [
-          match.date ?? "TBD",
-          match.time,
-          match.time
-            ? match.timezone ?? state.eventSchedule?.timezone ?? "Timezone TBD"
-            : null
-        ].filter(Boolean).join(" · ");
         const location = [
           match.site ?? "Location TBD",
           match.designation !== "unknown" ? match.designation : null
         ].filter(Boolean).join(" · ");
-        return `
-          <article class="schedule-match-row ${match.status}">
-            <div class="schedule-match-date">
-              <strong>${escapeHtml(dateTime)}</strong>
-              <small>${escapeHtml(match.round ?? "Round TBD")}</small>
-            </div>
-            <div class="schedule-match-opponent">
-              <span>Opponent</span>
-              <strong>${escapeHtml(match.sourceOpponentName)}</strong>
-              <small>${escapeHtml(location)}</small>
-            </div>
-            <div class="schedule-match-status">
-              <span>${escapeHtml(match.status)}</span>
-              <b>${escapeHtml(preparationState)}</b>
-              <small>${card?.updatedAt
-                ? `Card updated ${escapeHtml(new Date(card.updatedAt).toLocaleString())}`
-                : "No saved preparation"}</small>
-            </div>
-            ${match.status === "cancelled" && !card
+        const actionsHtml = match.status === "cancelled" && !card
               ? '<span class="schedule-no-action">No preparation required</span>'
               : opponentTeam
-              ? `<button class="button-secondary compact" type="button"
+              ? `<button class="${card || match.status === "completed"
+                  ? "button-secondary"
+                  : "button-primary"} compact" type="button"
                   data-card-action="open-scheduled-match"
                   data-scheduled-match-id="${escapeHtml(match.id)}">
                   ${card
@@ -2299,8 +2275,35 @@ function scheduledMatchListHtml() {
                     data-scheduled-match-id="${escapeHtml(match.id)}">
                     Scout opponent
                   </button>
-                </div>`}
-          </article>`;
+                </div>`;
+        return collectionWorkspaceListRowHtml({
+          className: `scheduled schedule-match-row ${
+            ["completed", "cancelled"].includes(match.status) ? match.status : ""
+          }`,
+          marker: {
+            value: reportScheduleDateLabel(match.date),
+            label: match.time ?? "Time TBD"
+          },
+          eyebrow: `Scheduled match · ${preparationState}`,
+          title: match.sourceOpponentName,
+          details: [{
+            text: location
+          }, {
+            text: [
+              match.round ?? "Round TBD",
+              match.status,
+              match.time
+                ? match.timezone ?? state.eventSchedule?.timezone ?? "Timezone TBD"
+                : null
+            ].filter(Boolean).join(" · ")
+          }, {
+            text: card?.updatedAt
+              ? `Card updated ${new Date(card.updatedAt).toLocaleString()}`
+              : "No saved preparation",
+            emphasis: true
+          }],
+          actionsHtml
+        });
       }).join("")}
     </div>`;
 }
@@ -2371,6 +2374,10 @@ function renderMatchCardsHome() {
   const confirmedMatches = (state.matchSchedule ?? []).filter(
     match => match.status !== "cancelled"
   );
+  const collection = state.teamCollections.find(
+    item => item.id === state.activeCollectionId
+  );
+  const collectionTeams = hasActiveCollection ? activeCollectionTeams() : [];
   const readyForPlanning = Boolean(defaultOurTeam && confirmedMatches.length);
   $("#matchCardsWorkspace").innerHTML = `
     <div class="match-cards-topbar">
@@ -2380,6 +2387,15 @@ function renderMatchCardsHome() {
         <p>Draft our lineup against a scouted opponent, compare every court, and print a shareable card.</p>
       </div>
     </div>
+    ${collectionWorkspaceHeaderHtml({
+      activeView: "cards",
+      collectionName: collection?.name ?? "No collection selected",
+      collectionLevel: collection
+        ? collectionCompetitionLevelLabel(collection.competitionLevel)
+        : "Choose a collection to begin",
+      teamCount: collectionTeams.length,
+      scheduledMatchCount: confirmedMatches.length
+    })}
     ${state.matchCardStorageError
       ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardStorageError)}</p>`
       : ""}
@@ -4057,6 +4073,24 @@ $("#teamList").addEventListener("click", event => {
     void openTeamData(button.dataset.teamId);
   }
 });
+function openCollectionWorkspaceView(view) {
+  if (view === "cards") {
+    void openMatchCardsWorkspace();
+    return;
+  }
+  if (view === "reports") {
+    if (state.activeCollectionId) {
+      showReportsCollection(state.activeCollectionId);
+    } else {
+      showReportsHome();
+    }
+  }
+}
+
+$("#reportsTeamsPanel").addEventListener("click", event => {
+  const button = event.target.closest("[data-collection-workspace-view]");
+  if (button) openCollectionWorkspaceView(button.dataset.collectionWorkspaceView);
+});
 $("#reportsTeamList").addEventListener("click", event => {
   if (event.target.closest("[data-scout-collection-team]")) {
     scoutTeamForActiveCollection();
@@ -4487,6 +4521,11 @@ $("#matchCardsWorkspace").addEventListener("change", event => {
   }
 });
 $("#matchCardsWorkspace").addEventListener("click", event => {
+  const workspaceView = event.target.closest("[data-collection-workspace-view]");
+  if (workspaceView) {
+    openCollectionWorkspaceView(workspaceView.dataset.collectionWorkspaceView);
+    return;
+  }
   const button = event.target.closest("[data-card-action]");
   const scheduleAction = event.target.closest("[data-schedule-action]");
   if (scheduleAction) {
@@ -4530,7 +4569,7 @@ $("#matchCardsWorkspace").addEventListener("click", event => {
     return;
   }
   if (action === "choose-collection") {
-    requestAnimationFrame(() => $("#teamCollection").focus());
+    showReportsHome();
     return;
   }
   if (action === "choose-our-team") {

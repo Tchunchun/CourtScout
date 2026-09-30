@@ -224,24 +224,23 @@
           <button class="team-workspace-back" type="button" data-back-to-collections>
             <span aria-hidden="true">←</span> Back to collections
           </button>
-          <div class="reports-section-heading reports-team-heading">
-            <div>
-              <p class="step-label">Team reports</p>
-              <div class="reports-team-title">
-                <h2 id="reportsCollectionName">Collection</h2>
-                <span id="reportsCollectionLevel">Local season</span>
-                <span id="reportsTeamCount">0 teams</span>
+          <div id="reportsCollectionContext"></div>
+          <section class="schedule-planning">
+            <div class="saved-cards-heading">
+              <div>
+                <p class="step-label">Team directory</p>
+                <h2>Scouted teams</h2>
+                <p id="reportsTeamSummary"></p>
               </div>
-              <p id="reportsTeamSummary"></p>
+              <div class="schedule-actions reports-team-heading-actions">
+                <button class="button-secondary compact" id="refreshReportsSchedule" type="button">Refresh schedule</button>
+                <button class="button-primary compact" id="scoutCollectionTeam" type="button">+ Scout a new team</button>
+              </div>
             </div>
-            <div class="reports-team-heading-actions">
-              <button class="button-secondary compact" id="refreshReportsSchedule" type="button">Refresh schedule</button>
-              <button class="button-primary compact" id="scoutCollectionTeam" type="button">+ Scout a new team</button>
+            <div class="reports-team-list schedule-match-list" id="reportsTeamList">
+              <p class="empty-state">Loading team reports…</p>
             </div>
-          </div>
-          <div class="reports-team-list" id="reportsTeamList">
-            <p class="empty-state">Loading team reports…</p>
-          </div>
+          </section>
         </div>
       </section>
 
