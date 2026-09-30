@@ -757,11 +757,14 @@ function renderReportsTeamList() {
   );
   const collectionName = collection?.name ?? "Temp collection";
   const readyCount = teams.filter(team => team.reportAvailable !== false).length;
-  const scheduleTeamIds = reportScheduleMatches()
-    ?.map(match => resolveScheduledOpponent(match, teams)?.id)
-    .filter((teamId, index, teamIds) =>
-      teamId && teamIds.indexOf(teamId) === index
-    );
+  const scheduleMatchesByTeamId = new Map();
+  for (const match of orderScheduledMatches(reportScheduleMatches() ?? [])) {
+    const opponentId = resolveScheduledOpponent(match, teams)?.id;
+    if (opponentId && !scheduleMatchesByTeamId.has(opponentId)) {
+      scheduleMatchesByTeamId.set(opponentId, match);
+    }
+  }
+  const scheduleTeamIds = [...scheduleMatchesByTeamId.keys()];
   const rankedTeams = rankTeamsBySchedule(teams, {
     ...state.teamWorkspace,
     scheduledOpponentIds: scheduleTeamIds?.length
@@ -822,7 +825,7 @@ function renderReportsTeamList() {
           </button>
           ${scheduleRank != null ? `
             <button class="button-primary compact" type="button"
-              data-prepare-match-id="${escapeHtml(team.id)}"
+              data-prepare-match-id="${escapeHtml(scheduleMatchesByTeamId.get(team.id).id)}"
               aria-label="Prepare match against ${escapeHtml(labels.title)}">
               Prepare match
             </button>
@@ -937,7 +940,7 @@ function renderReportsSchedule() {
                 <span>${escapeHtml(match.status ?? "scheduled")}</span>
                 ${opponent
                   ? `<button class="button-primary compact" type="button"
-                      data-reports-prepare-match="${escapeHtml(opponent.id)}">
+                      data-reports-prepare-match="${escapeHtml(match.id)}">
                       Prepare match
                     </button>`
                   : `<select data-reports-link-match="${escapeHtml(match.id)}"
@@ -3664,6 +3667,18 @@ async function loadMatchSchedule() {
       `/api/team-data?team=${encodeURIComponent(ourTeamId)}`
     );
     if (state.matchScheduleTeamId !== ourTeamId) return;
+    const collection = state.teamCollections.find(
+      item => item.id === state.activeCollectionId
+    );
+    const collectionMatches = collectionMatchSchedule(collection, state.teams)
+      .map((match, index) => ({
+        ...match,
+        id: `collection:${state.activeCollectionId}:${index}`,
+        sourceOpponentName: matchCardTeamName(match.opponentTeamId),
+        linkedOpponentTeamId: match.opponentTeamId,
+        designation: "neutral",
+        status: "scheduled"
+      }));
     state.eventSchedule = stored.schedule ?? {
       collectionId: state.activeCollectionId,
       ourTeamId,
@@ -3676,7 +3691,9 @@ async function loadMatchSchedule() {
           source.type === "tennisrecord"
         )?.url ?? null
       },
-      matches: data.leagueSchedule ?? [],
+      matches: data.leagueSchedule?.length
+        ? data.leagueSchedule
+        : collectionMatches,
       lastSuccessfulSyncAt: data.leagueSchedule?.[0]?.sourceRetrievedAt ?? null
     };
     state.eventSchedule.persisted = Boolean(stored.schedule);
@@ -3706,6 +3723,11 @@ async function openMatchCardsWorkspace(opponentId = null) {
   if (!views.matchCards.hidden && !state.activeMatchCardId) {
     renderMatchCardsHome();
   }
+}
+
+async function openMatchPreparation(matchId) {
+  await openMatchCardsWorkspace();
+  await openScheduledMatch(matchId);
 }
 
 async function openScheduledMatch(matchId) {
@@ -4087,7 +4109,7 @@ $("#reportsTeamList").addEventListener("click", event => {
   }
   const prepareButton = event.target.closest("[data-prepare-match-id]");
   if (prepareButton) {
-    openMatchCardsWorkspace(prepareButton.dataset.prepareMatchId);
+    void openMatchPreparation(prepareButton.dataset.prepareMatchId);
     return;
   }
   const reportButton = event.target.closest("[data-report-team-id]");
@@ -4104,7 +4126,7 @@ $("#reportsSchedule").addEventListener("click", event => {
   }
   const prepareButton = event.target.closest("[data-reports-prepare-match]");
   if (prepareButton) {
-    openMatchCardsWorkspace(prepareButton.dataset.reportsPrepareMatch);
+    void openMatchPreparation(prepareButton.dataset.reportsPrepareMatch);
   }
 });
 $("#reportsSchedule").addEventListener("change", event => {
