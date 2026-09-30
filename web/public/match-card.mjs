@@ -181,10 +181,66 @@ export function migrateMatchCardLeagueFormat(card, leagueFormat) {
   };
 }
 
+export function normalizePlayerGender(value) {
+  if (/^(m|men|male)$/i.test(value ?? "")) return "Men";
+  if (/^(f|w|women|female)$/i.test(value ?? "")) return "Women";
+  return null;
+}
+
+export function validateMixedPair(
+  players,
+  genderByName,
+  ntrpByName = null,
+  maxCombinedNtrp = null
+) {
+  const selected = players.filter(Boolean);
+  if (selected.length < 2) {
+    return {
+      valid: false,
+      complete: false,
+      unresolvedNames: [],
+      unresolvedNtrpNames: [],
+      combinedNtrp: null,
+      exceedsNtrpLimit: false
+    };
+  }
+  const genders = selected.map(name =>
+    normalizePlayerGender(genderByName?.get(name))
+  );
+  const ntrpValues = selected.map(name => {
+    const value = Number(ntrpByName?.get(name));
+    return Number.isFinite(value) ? value : null;
+  });
+  const combinedNtrp = ntrpValues.every(Number.isFinite)
+    ? ntrpValues.reduce((sum, value) => sum + value, 0)
+    : null;
+  const exceedsNtrpLimit = Number.isFinite(maxCombinedNtrp) &&
+    Number.isFinite(combinedNtrp) &&
+    combinedNtrp > maxCombinedNtrp;
+  const unresolvedNtrpNames = Number.isFinite(maxCombinedNtrp)
+    ? selected.filter((_, index) => !Number.isFinite(ntrpValues[index]))
+    : [];
+  const validGender = genders.includes("Men") && genders.includes("Women");
+  return {
+    complete: true,
+    valid: validGender &&
+      !exceedsNtrpLimit &&
+      !unresolvedNtrpNames.length,
+    validGender,
+    unresolvedNames: selected.filter((_, index) => !genders[index]),
+    unresolvedNtrpNames,
+    combinedNtrp,
+    exceedsNtrpLimit
+  };
+}
+
 export function validateDraft(
   draft,
   eligibleNames = null,
-  leagueFormat = "single_gender"
+  leagueFormat = "single_gender",
+  genderByName = null,
+  ntrpByName = null,
+  maxCombinedNtrp = null
 ) {
   const courts = matchCardCourtDefinitions(leagueFormat);
   const selected = courts.flatMap(({ court }) => draft[court] ?? [])
@@ -199,21 +255,67 @@ export function validateDraft(
     (sum, court) => sum + court.players,
     0
   );
+  const mixedPairIssues = leagueFormat === "mixed" && genderByName
+    ? courts.flatMap(({ court }) => {
+        const pair = validateMixedPair(
+          draft[court] ?? [],
+          genderByName,
+          ntrpByName,
+          maxCombinedNtrp
+        );
+        return pair.complete && !pair.valid
+          ? [{
+              court,
+              unresolvedNames: pair.unresolvedNames,
+              unresolvedNtrpNames: pair.unresolvedNtrpNames,
+              invalidGender: !pair.validGender,
+              exceedsNtrpLimit: pair.exceedsNtrpLimit,
+              combinedNtrp: pair.combinedNtrp
+            }]
+          : [];
+      })
+    : [];
   return {
     complete: selected.length === requiredPlayers,
     selectedPlayers: selected.length,
     requiredPlayers,
     duplicateNames,
     unavailableNames,
-    valid: selected.length === requiredPlayers && duplicateNames.length === 0
+    invalidGenderCourts: mixedPairIssues
+      .filter(issue => issue.invalidGender)
+      .map(issue => issue.court),
+    invalidNtrpCourts: mixedPairIssues
+      .filter(issue => issue.exceedsNtrpLimit)
+      .map(issue => issue.court),
+    unresolvedNtrpCourts: mixedPairIssues
+      .filter(issue => issue.unresolvedNtrpNames.length)
+      .map(issue => issue.court),
+    unresolvedGenderNames: [...new Set(
+      mixedPairIssues.flatMap(issue => issue.unresolvedNames)
+    )],
+    unresolvedNtrpNames: [...new Set(
+      mixedPairIssues.flatMap(issue => issue.unresolvedNtrpNames)
+    )],
+    valid: selected.length === requiredPlayers &&
+      duplicateNames.length === 0 &&
+      mixedPairIssues.length === 0
   };
 }
 
-export function validateCardFinalization(card, eligibleNames = null) {
+export function validateCardFinalization(
+  card,
+  eligibleNames = null,
+  genderByName = null,
+  ntrpByName = null,
+  maxCombinedNtrp = null
+) {
   const validation = validateDraft(
     card.draft,
     eligibleNames,
-    card.leagueFormat
+    card.leagueFormat,
+    genderByName,
+    ntrpByName,
+    maxCombinedNtrp
   );
   return {
     ...validation,
@@ -222,13 +324,24 @@ export function validateCardFinalization(card, eligibleNames = null) {
       ? null
       : validation.duplicateNames.length
         ? `Remove duplicate assignments for ${validation.duplicateNames.join(", ")}.`
+        : validation.invalidNtrpCourts.length
+          ? `Mixed pair NTRP exceeds ${maxCombinedNtrp.toFixed(1)} on ${validation.invalidNtrpCourts.join(", ")}.`
+        : validation.unresolvedNtrpNames.length
+          ? `Refresh player NTRP levels before finalizing ${validation.unresolvedNtrpCourts.join(", ")}.`
+        : validation.unresolvedGenderNames.length
+          ? `Refresh player genders before finalizing ${validation.invalidGenderCourts.join(", ")}.`
+          : validation.invalidGenderCourts.length
+            ? `Each Mixed pair must include one man and one woman: ${validation.invalidGenderCourts.join(", ")}.`
         : `Select all ${validation.requiredPlayers} required players.`
   };
 }
 
 export function resolveScheduledOpponent(match, teams) {
   if (match.linkedOpponentTeamId) {
-    return teams.find(team => team.id === match.linkedOpponentTeamId) ?? null;
+    const linkedTeam = teams.find(
+      team => team.id === match.linkedOpponentTeamId
+    );
+    if (linkedTeam) return linkedTeam;
   }
   if (match.sourceOpponentUrl) {
     const sourceKey = normalizedTeamSourceUrl(match.sourceOpponentUrl);
@@ -573,12 +686,6 @@ export function buildOnsitePredictions(predictions = [], evidence = []) {
     .map((prediction, index) => ({ ...prediction, rank: index + 1 }));
 }
 
-function normalizedGender(value) {
-  if (/^(m|men|male)$/i.test(value ?? "")) return "Men";
-  if (/^(f|w|women|female)$/i.test(value ?? "")) return "Women";
-  return null;
-}
-
 function ratingStrength(player, discipline) {
   const utr = ratingValue(player.utr?.[discipline]);
   if (Number.isFinite(utr)) {
@@ -616,35 +723,53 @@ function playerPair(left, right, pairHistory) {
   };
 }
 
-function permutations(items) {
-  if (items.length < 2) return [items];
-  return items.flatMap((item, index) =>
-    permutations(items.filter((_, itemIndex) => itemIndex !== index))
-      .map(rest => [item, ...rest])
-  );
-}
-
-function mixedRatingPairs(candidates, pairHistory) {
+function mixedRatingPairs(candidates, pairHistory, maxCombinedNtrp) {
   const men = candidates.filter(player =>
-    normalizedGender(player.gender) === "Men"
-  ).slice(0, 3);
+    normalizePlayerGender(player.gender) === "Men"
+  ).slice(0, 10);
   const women = candidates.filter(player =>
-    normalizedGender(player.gender) === "Women"
-  ).slice(0, 3);
+    normalizePlayerGender(player.gender) === "Women"
+  ).slice(0, 10);
   if (men.length < 3 || women.length < 3) return null;
-  const bestWomenOrder = permutations(women)
-    .map(order => ({
-      order,
-      partnerAppearances: order.reduce((sum, woman, index) =>
-        sum + (
-          pairHistory.get(pairKey([men[index].name, woman.name]))
-            ?.appearances ?? 0
-        ), 0)
-    }))
-    .sort((a, b) => b.partnerAppearances - a.partnerAppearances)[0].order;
-  return men.map((man, index) =>
-    playerPair(man, bestWomenOrder[index], pairHistory)
-  );
+  let best = null;
+  const search = (manIndex, selectedPairs, usedWomen, score) => {
+    if (selectedPairs.length === 3) {
+      if (!best || score > best.score) {
+        best = { pairs: selectedPairs, score };
+      }
+      return;
+    }
+    if (men.length - manIndex < 3 - selectedPairs.length) return;
+    for (let index = manIndex; index < men.length; index += 1) {
+      const man = men[index];
+      for (const woman of women) {
+        if (usedWomen.has(woman.name)) continue;
+        const ntrpValues = [
+          Number(man.ntrp?.level),
+          Number(woman.ntrp?.level)
+        ];
+        if (
+          Number.isFinite(maxCombinedNtrp) &&
+          (
+            !ntrpValues.every(Number.isFinite) ||
+            ntrpValues[0] + ntrpValues[1] > maxCombinedNtrp
+          )
+        ) {
+          continue;
+        }
+        const pair = playerPair(man, woman, pairHistory);
+        const partnerBonus = (pair.history?.appearances ?? 0) * 0.05;
+        search(
+          index + 1,
+          [...selectedPairs, pair],
+          new Set([...usedWomen, woman.name]),
+          score + pair.strength + partnerBonus
+        );
+      }
+    }
+  };
+  search(0, [], new Set(), 0);
+  return best?.pairs ?? null;
 }
 
 function singleGenderRatingPairs(candidates, pairHistory) {
@@ -678,7 +803,8 @@ export function buildRatingCeilingPrediction({
   eligibilityPlayers = [],
   pairs = [],
   matches = [],
-  leagueFormat = "single_gender"
+  leagueFormat = "single_gender",
+  maxCombinedNtrp = null
 }) {
   const eligibilityByName = new Map(
     eligibilityPlayers.map(player => [player.name, player.status])
@@ -707,7 +833,11 @@ export function buildRatingCeilingPrediction({
   let lines;
   let selectedPlayers;
   if (leagueFormat === "mixed") {
-    const ratingPairs = mixedRatingPairs(candidates, pairHistory);
+    const ratingPairs = mixedRatingPairs(
+      candidates,
+      pairHistory,
+      maxCombinedNtrp
+    );
     if (!ratingPairs) return null;
     const orderedPairs = [...ratingPairs].sort((a, b) =>
       b.strength - a.strength

@@ -2099,6 +2099,22 @@ tbody tr:hover, tbody tr:focus-within { background: #f7f9fc; }
 .prediction-court li.unused { border-left-color: #d89b50; background: #fff8e8; }
 .prediction-court li > span { min-width: 0; display: grid; gap: 3px; }
 .prediction-court li b { overflow: hidden; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.player-gender {
+  min-width: 18px;
+  margin-left: 3px;
+  padding: 2px 4px;
+  display: inline-block;
+  color: var(--ink-soft);
+  border-radius: 999px;
+  background: var(--surface-subtle);
+  font-size: 8px;
+  font-style: normal;
+  line-height: 1;
+  text-align: center;
+}
+.player-gender.men { color: #1f4b99; background: #e8eef9; }
+.player-gender.women { color: #8c3f66; background: #f7eaf1; }
+.player-gender.unknown { color: #765022; background: #f4e7bd; }
 .prediction-court li em { width: max-content; padding: 2px 4px; color: var(--ink-soft); border-radius: 999px; background: var(--surface-subtle); font-size: 8px; font-style: normal; font-weight: 800; text-transform: uppercase; }
 .prediction-court li.played em { color: var(--success); background: #e5f3ec; }
 .prediction-court li.unused em { color: #765022; background: #f4e7bd; }

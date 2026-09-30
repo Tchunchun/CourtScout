@@ -80,17 +80,95 @@ test("mixed match cards use three doubles courts and six players", () => {
   );
 });
 
+test("mixed lineup validation requires one man and one woman per court", () => {
+  const draft = {
+    D1: ["Man One", "Woman One"],
+    D2: ["Man Two", "Man Three"],
+    D3: ["Woman Two", "Unknown Player"]
+  };
+  const genders = new Map([
+    ["Man One", "Men"],
+    ["Woman One", "Women"],
+    ["Man Two", "Men"],
+    ["Man Three", "Men"],
+    ["Woman Two", "Women"],
+    ["Woman Three", "Women"],
+    ["Unknown Player", "Unknown"]
+  ]);
+  const validation = validateDraft(draft, null, "mixed", genders);
+
+  assert.equal(validation.valid, false);
+  assert.deepEqual(validation.invalidGenderCourts, ["D2", "D3"]);
+  assert.deepEqual(validation.unresolvedGenderNames, ["Unknown Player"]);
+  assert.match(
+    validateCardFinalization({
+      draft,
+      leagueFormat: "mixed"
+    }, null, genders).message,
+    /Refresh player genders/
+  );
+
+  draft.D2 = ["Man Two", "Woman Three"];
+  genders.set("Unknown Player", "Men");
+  assert.equal(validateDraft(draft, null, "mixed", genders).valid, true);
+});
+
+test("mixed lineup validation enforces the combined NTRP level", () => {
+  const draft = {
+    D1: ["Man One", "Woman One"],
+    D2: ["Man Two", "Woman Two"],
+    D3: ["Man Three", "Woman Three"]
+  };
+  const genders = new Map([
+    ["Man One", "Men"], ["Woman One", "Women"],
+    ["Man Two", "Men"], ["Woman Two", "Women"],
+    ["Man Three", "Men"], ["Woman Three", "Women"]
+  ]);
+  const ntrp = new Map([
+    ["Man One", "4.0"], ["Woman One", "3.5"],
+    ["Man Two", "3.5"], ["Woman Two", "3.5"],
+    ["Man Three", "3.0"], ["Woman Three", "3.5"]
+  ]);
+  const validation = validateDraft(
+    draft,
+    null,
+    "mixed",
+    genders,
+    ntrp,
+    7
+  );
+
+  assert.equal(validation.valid, false);
+  assert.deepEqual(validation.invalidNtrpCourts, ["D1"]);
+  assert.match(
+    validateCardFinalization({
+      draft,
+      leagueFormat: "mixed"
+    }, null, genders, ntrp, 7).message,
+    /exceeds 7.0 on D1/
+  );
+  ntrp.set("Woman One", "3.0");
+  assert.equal(validateDraft(
+    draft,
+    null,
+    "mixed",
+    genders,
+    ntrp,
+    7
+  ).valid, true);
+});
+
 test("rating ceiling builds strongest eligible mixed lineup with valid pairs", () => {
   const roster = [
-    { name: "Man Ineligible", gender: "Men", dr: 4.5 },
-    { name: "Man One", gender: "Men", dr: 4.2 },
-    { name: "Man Two", gender: "Men", dr: 4.0 },
-    { name: "Man Three", gender: "Men", dr: 3.8 },
-    { name: "Man Four", gender: "Men", dr: 3.0 },
-    { name: "Woman One", gender: "Women", dr: 4.1 },
-    { name: "Woman Two", gender: "Women", dr: 3.9 },
-    { name: "Woman Three", gender: "Women", dr: 3.7 },
-    { name: "Woman Four", gender: "Women", dr: 2.9 }
+    { name: "Man Ineligible", gender: "Men", dr: 4.5, ntrp: { level: "3.5" } },
+    { name: "Man One", gender: "Men", dr: 4.2, ntrp: { level: "4.0" } },
+    { name: "Man Two", gender: "Men", dr: 4.0, ntrp: { level: "3.5" } },
+    { name: "Man Three", gender: "Men", dr: 3.8, ntrp: { level: "3.5" } },
+    { name: "Man Four", gender: "Men", dr: 3.0, ntrp: { level: "3.0" } },
+    { name: "Woman One", gender: "Women", dr: 4.1, ntrp: { level: "3.5" } },
+    { name: "Woman Two", gender: "Women", dr: 3.9, ntrp: { level: "3.0" } },
+    { name: "Woman Three", gender: "Women", dr: 3.7, ntrp: { level: "3.0" } },
+    { name: "Woman Four", gender: "Women", dr: 2.9, ntrp: { level: "3.0" } }
   ];
   const prediction = buildRatingCeilingPrediction({
     roster,
@@ -109,7 +187,8 @@ test("rating ceiling builds strongest eligible mixed lineup with valid pairs", (
         D1: { targetPlayers: ["Man One", "Woman Two"] }
       }
     }],
-    leagueFormat: "mixed"
+    leagueFormat: "mixed",
+    maxCombinedNtrp: 7
   });
 
   assert.equal(prediction.source, "rating_ceiling");
@@ -119,6 +198,14 @@ test("rating ceiling builds strongest eligible mixed lineup with valid pairs", (
     prediction.lines.every(line => {
       const genders = line.players.map(name =>
         roster.find(player => player.name === name).gender
+      );
+      assert.equal(
+        prediction.lines.every(line =>
+          line.players.reduce((sum, name) =>
+            sum + Number(roster.find(player => player.name === name).ntrp.level),
+          0) <= 7
+        ),
+        true
       );
       return genders.includes("Men") && genders.includes("Women");
     }),
@@ -307,6 +394,19 @@ test("scheduled opponents resolve only by stable URL or one exact name", () => {
   assert.equal(resolveScheduledOpponent({
     sourceOpponentName: "Unknown"
   }, teams), null);
+});
+
+test("scheduled opponent falls back to source URL after a linked dataset is replaced", () => {
+  const team = {
+    id: "current-team",
+    sourceUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2027&teamname=Mixed",
+    team: { name: "Mixed Team" }
+  };
+  assert.equal(resolveScheduledOpponent({
+    linkedOpponentTeamId: "stale-team-id",
+    sourceOpponentUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=Mixed&year=2027",
+    sourceOpponentName: "Mixed Team"
+  }, [team]), team);
 });
 
 test("scheduled matches order upcoming before completed and cancelled", () => {

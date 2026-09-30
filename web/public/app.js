@@ -34,6 +34,7 @@ import {
   mergeMatchCards,
   migrateMatchCardLeagueFormat,
   migrateLegacyMatchCards,
+  normalizePlayerGender,
   orderScheduledMatches,
   parseStoredMatchCards,
   parseStoredTournamentEvidence,
@@ -42,7 +43,8 @@ import {
   summarizeRosterUsage,
   summarizeStackingStrategy,
   validateCardFinalization,
-  validateDraft
+  validateDraft,
+  validateMixedPair
 } from "./match-card.mjs";
 import {
   parseCsv,
@@ -2469,6 +2471,13 @@ function evidenceForCard(card) {
 
 function matchCardPredictions(card, context) {
   const activeRoster = activeNationalRoster(context.opponentData);
+  const genderByName = new Map(
+    activeRoster.map(player => [player.name, player.gender])
+  );
+  const ntrpByName = new Map(
+    activeRoster.map(player => [player.name, player.ntrp?.level])
+  );
+  const maxCombinedNtrp = Number(context.opponentData.team?.level);
   const evidencePredictions = buildOnsitePredictions(
     context.opponentAnalysis.lineupPredictions?.predictions ?? [],
     evidenceForCard(card)
@@ -2485,14 +2494,25 @@ function matchCardPredictions(card, context) {
         return activePlayer ? [activePlayer.name] : [];
       })
     }))
-  }));
+  })).filter(prediction =>
+    card.leagueFormat !== "mixed" ||
+    prediction.lines.every(line =>
+      validateMixedPair(
+        line.players ?? [],
+        genderByName,
+        ntrpByName,
+        maxCombinedNtrp
+      ).valid
+    )
+  );
   const ratingCeiling = buildRatingCeilingPrediction({
     roster: activeRoster,
     eligibilityPlayers:
       context.opponentAnalysis.eligibility?.players ?? [],
     pairs: context.opponentAnalysis.doubles?.pairs ?? [],
     matches: context.opponentData.matches ?? [],
-    leagueFormat: card.leagueFormat
+    leagueFormat: card.leagueFormat,
+    maxCombinedNtrp
   });
   const mostLikely = evidencePredictions[0]
     ? { ...evidencePredictions[0], scenarioType: "most_likely" }
@@ -2530,7 +2550,13 @@ function selectedDraftPlayers(card, exceptCourt, exceptIndex) {
   ));
 }
 
-function playerOptionLabel(player, discipline, eligible, analysisPlayer) {
+function playerOptionLabel(
+  player,
+  discipline,
+  eligible,
+  analysisPlayer,
+  leagueFormat
+) {
   const utr = ratingDisplay(player.utr?.[discipline]);
   const dr = Number.isFinite(player.dr) ? Number(player.dr).toFixed(2) : "NR";
   const disciplineRecord = analysisPlayer?.local?.[discipline]?.record;
@@ -2538,7 +2564,15 @@ function playerOptionLabel(player, discipline, eligible, analysisPlayer) {
     ? `${disciplineRecord.wins}–${disciplineRecord.losses}`
     : "No record";
   const role = analysisPlayer?.role ?? "Role unknown";
-  return `${player.name} · ${role} · ${recordLabel} · DR ${dr} · UTR ${utr}${eligible ? "" : " · eligibility warning"}`;
+  const gender = leagueFormat === "mixed"
+    ? ` · ${normalizePlayerGender(player.gender) === "Men"
+      ? "M"
+      : normalizePlayerGender(player.gender) === "Women" ? "F" : "Gender unresolved"}`
+    : "";
+  const ntrp = leagueFormat === "mixed"
+    ? ` · NTRP ${player.ntrp?.level ?? "unknown"}`
+    : "";
+  return `${player.name}${gender}${ntrp} · ${role} · ${recordLabel} · DR ${dr} · UTR ${utr}${eligible ? "" : " · eligibility warning"}`;
 }
 
 function lineupSelectHtml(card, context, court, index, eligibleNames) {
@@ -2551,6 +2585,21 @@ function lineupSelectHtml(card, context, court, index, eligibleNames) {
       player
     ])
   );
+  const genderByName = new Map(
+    activeNationalRoster(context.ourData).map(player => [
+      player.name,
+      player.gender
+    ])
+  );
+  const ntrpByName = new Map(
+    activeNationalRoster(context.ourData).map(player => [
+      player.name,
+      player.ntrp?.level
+    ])
+  );
+  const maxCombinedNtrp = Number(context.ourData.team?.level);
+  const partnerIndex = index === 0 ? 1 : 0;
+  const partnerName = card.draft[court]?.[partnerIndex] ?? "";
   const roster = [...activeNationalRoster(context.ourData)].sort((a, b) =>
     Number(eligibleNames.has(b.name)) - Number(eligibleNames.has(a.name)) ||
     (b.dr ?? -Infinity) - (a.dr ?? -Infinity) ||
@@ -2567,12 +2616,27 @@ function lineupSelectHtml(card, context, court, index, eligibleNames) {
       ${roster.map(player => `
         <option value="${escapeHtml(player.name)}"
           ${player.name === selected ? "selected" : ""}
-          ${selectedElsewhere.has(player.name) ? "disabled" : ""}>
+          ${selectedElsewhere.has(player.name) || (
+            card.leagueFormat === "mixed" &&
+            (
+              !normalizePlayerGender(player.gender) ||
+              (
+                partnerName &&
+                !validateMixedPair(
+                  [partnerName, player.name],
+                  genderByName,
+                  ntrpByName,
+                  maxCombinedNtrp
+                ).valid
+              )
+            )
+          ) ? "disabled" : ""}>
           ${escapeHtml(playerOptionLabel(
             player,
             discipline,
             eligibleNames.has(player.name),
-            analysisByName.get(player.name)
+            analysisByName.get(player.name),
+            card.leagueFormat
           ))}
         </option>
       `).join("")}
@@ -3115,9 +3179,16 @@ function predictionRationaleHtml(prediction) {
 
 function topOpponentPredictionsHtml(card, predictions, context) {
   if (!predictions.length) {
+    const unresolvedGenderCount = card.leagueFormat === "mixed"
+      ? activeNationalRoster(context.opponentData).filter(player =>
+          !normalizePlayerGender(player.gender)
+        ).length
+      : 0;
     return `
       <p class="match-card-alert">
-        No opponent lineup scenarios are available yet. Refresh or analyze the opponent to generate scenarios.
+        ${unresolvedGenderCount
+          ? `${unresolvedGenderCount} opponent player gender${unresolvedGenderCount === 1 ? " is" : "s are"} unresolved. Refresh opponent data before building valid Mixed pairs.`
+          : "No opponent lineup scenarios are available yet. Refresh or analyze the opponent to generate scenarios."}
       </p>`;
   }
   const rosterByName = new Map(
@@ -3170,10 +3241,11 @@ function topOpponentPredictionsHtml(card, predictions, context) {
                 <ul>${line.players.map(name => {
                   const player = rosterByName.get(name);
                   const playerUsage = usageByName.get(name);
+                  const gender = normalizePlayerGender(player?.gender);
                   return `
                     <li class="${playerUsage?.playedBefore ? "played" : "unused"}">
                       <span>
-                        <b>${escapeHtml(name)}</b>
+                        <b>${escapeHtml(name)} <i class="player-gender ${gender?.toLowerCase() ?? "unknown"}">${gender === "Men" ? "M" : gender === "Women" ? "F" : "?"}</i></b>
                         <em>${playerUsage?.playedBefore
                           ? `Played ${playerUsage.appearances} match${playerUsage.appearances === 1 ? "" : "es"}`
                           : "Not yet used"}</em>
@@ -3315,10 +3387,31 @@ function renderMatchCardEditor() {
       .filter(player => player.status === "eligible")
       .map(player => player.name)
   );
+  const ourGenderByName = new Map(
+    activeNationalRoster(context.ourData).map(player => [
+      player.name,
+      player.gender
+    ])
+  );
+  const ourNtrpByName = new Map(
+    activeNationalRoster(context.ourData).map(player => [
+      player.name,
+      player.ntrp?.level
+    ])
+  );
+  const maxCombinedNtrp = Number(context.ourData.team?.level);
+  const unresolvedOurGenderNames = card.leagueFormat === "mixed"
+    ? activeNationalRoster(context.ourData)
+        .filter(player => !normalizePlayerGender(player.gender))
+        .map(player => player.name)
+    : [];
   const validation = validateDraft(
     card.draft,
     eligibleNames,
-    card.leagueFormat
+    card.leagueFormat,
+    ourGenderByName,
+    ourNtrpByName,
+    maxCombinedNtrp
   );
   const comparisons = matchCardComparisons(card, context);
   const summary = summarizeMatchup(comparisons);
@@ -3421,9 +3514,22 @@ function renderMatchCardEditor() {
                 </article>
               `).join("")}
             </div>
+            ${unresolvedOurGenderNames.length
+              ? `<p class="lineup-eligibility-warning"><strong>Gender data required:</strong> ${unresolvedOurGenderNames.length} roster player gender${unresolvedOurGenderNames.length === 1 ? " is" : "s are"} unresolved. Refresh Our team before completing a Mixed lineup.</p>`
+              : ""}
             ${validation.unavailableNames.length
               ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} target.</p>`
               : ""}
+            ${validation.invalidGenderCourts.length
+              ? `<p class="lineup-eligibility-warning"><strong>Mixed pair warning:</strong> ${validation.unresolvedGenderNames.length
+                ? `Refresh gender data for ${validation.unresolvedGenderNames.map(escapeHtml).join(", ")}.`
+                : `Each pair must include one man and one woman on ${validation.invalidGenderCourts.map(escapeHtml).join(", ")}.`}</p>`
+              : ""}
+            ${validation.invalidNtrpCourts.length
+              ? `<p class="lineup-eligibility-warning"><strong>Mixed level warning:</strong> The combined NTRP exceeds ${maxCombinedNtrp.toFixed(1)} on ${validation.invalidNtrpCourts.map(escapeHtml).join(", ")}.</p>`
+              : validation.unresolvedNtrpNames.length
+                ? `<p class="lineup-eligibility-warning"><strong>NTRP data required:</strong> Refresh ${validation.unresolvedNtrpNames.map(escapeHtml).join(", ")} before completing the Mixed lineup.</p>`
+                : ""}
           </section>
           <section class="matchup-analysis lineup-test-column" id="prep-courts">
             <div class="lineup-column-heading">
@@ -4695,7 +4801,26 @@ $("#matchCardsWorkspace").addEventListener("change", event => {
           ?.filter(player => player.status === "eligible")
           .map(player => player.name) ?? []
       );
-      const validation = validateCardFinalization(card, eligibleNames);
+      const genderByName = new Map(
+        activeNationalRoster(state.matchCardContext?.ourData ?? {}).map(
+          player => [player.name, player.gender]
+        )
+      );
+      const ntrpByName = new Map(
+        activeNationalRoster(state.matchCardContext?.ourData ?? {}).map(
+          player => [player.name, player.ntrp?.level]
+        )
+      );
+      const maxCombinedNtrp = Number(
+        state.matchCardContext?.ourData?.team?.level
+      );
+      const validation = validateCardFinalization(
+        card,
+        eligibleNames,
+        genderByName,
+        ntrpByName,
+        maxCombinedNtrp
+      );
       if (!validation.allowed) {
         state.matchCardError = `Finalization blocked. ${validation.message}`;
         renderMatchCardEditor();

@@ -146,6 +146,9 @@ Future Phase B enhancements should add:
    - Alternate likely, using another historical or stacking arrangement.
    Rating-ceiling scenarios must be labeled as unconfirmed rather than likely,
    and Mixed lineups require one known man and one known woman per doubles pair.
+   Each pair's combined NTRP must not exceed the event level (for example, 7.0).
+   Unknown gender or NTRP blocks finalization and prompts a data refresh rather
+   than inferring identity attributes from a player name.
 4. Use a three-column desktop workspace: Our lineup on the left, live
    court-by-court comparison in the middle, and three opponent options on the
    right. Every lineup or scenario change immediately updates the middle.
