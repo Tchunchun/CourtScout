@@ -3,9 +3,12 @@ import assert from "node:assert/strict";
 import {
   TEAM_WORKSPACE_SCHEDULE_LIMIT,
   assignTeamRole,
+  collectionMatchSchedule,
+  defaultTeamWorkspace,
   emptyTeamWorkspace,
   groupWorkspaceTeams,
   parseTeamWorkspace,
+  rankTeamsBySchedule,
   teamRole
 } from "../web/public/team-workspace.mjs";
 
@@ -13,6 +16,60 @@ test("team workspace defaults to an unclassified scouting pool", () => {
   const workspace = parseTeamWorkspace(null);
   assert.deepEqual(workspace, emptyTeamWorkspace());
   assert.equal(teamRole(workspace, "team-a"), "scouting");
+});
+
+test("collection Match Day defaults resolve dataset IDs to current team IDs", () => {
+  const workspace = defaultTeamWorkspace({
+    teamDatasetIds: ["ours-dataset", "opponent-a", "opponent-b"],
+    matchDayDefaults: {
+      ourTeamDatasetId: "ours-dataset",
+      opponentTeamDatasetIds: ["opponent-a", "opponent-b"]
+    }
+  }, [
+    { id: "collections/ours-current", datasetId: "ours-dataset" },
+    { id: "pending/opponent-a", datasetId: "opponent-a" },
+    { id: "collections/opponent-b-current", datasetId: "opponent-b" },
+    { id: "unrelated", datasetId: "other" }
+  ]);
+
+  assert.deepEqual(workspace, {
+    ourTeamId: "collections/ours-current",
+    scheduledOpponentIds: [
+      "pending/opponent-a",
+      "collections/opponent-b-current"
+    ]
+  });
+});
+
+test("collection Match Day schedule resolves each opponent team", () => {
+  const schedule = collectionMatchSchedule({
+    matchDayDefaults: {
+      roundRobinMatches: [
+        {
+          opponentTeamDatasetId: "opponent-a",
+          date: "2026-10-09",
+          time: "8:00 AM",
+          site: "Team USA Site"
+        },
+        {
+          opponentTeamDatasetId: "missing",
+          date: "2026-10-10",
+          time: "3:00 PM",
+          site: "Collegiate Site"
+        }
+      ]
+    }
+  }, [
+    { id: "collections/opponent-a-current", datasetId: "opponent-a" }
+  ]);
+
+  assert.deepEqual(schedule, [{
+    opponentTeamDatasetId: "opponent-a",
+    opponentTeamId: "collections/opponent-a-current",
+    date: "2026-10-09",
+    time: "8:00 AM",
+    site: "Team USA Site"
+  }]);
 });
 
 test("assigning our team removes it from scheduled opponents", () => {
@@ -67,3 +124,40 @@ test("stored workspaces remove duplicates and our team conflicts", () => {
   });
 });
 
+test("report teams follow match schedule order and retain unscheduled teams", () => {
+  const teams = [
+    { id: "research-a" },
+    { id: "opponent-two" },
+    { id: "ours" },
+    { id: "opponent-one" },
+    { id: "research-b" }
+  ];
+
+  const ranked = rankTeamsBySchedule(teams, {
+    ourTeamId: "ours",
+    scheduledOpponentIds: ["opponent-one", "opponent-two"]
+  });
+
+  assert.deepEqual(
+    ranked.map(({ team, scheduleRank }) => [team.id, scheduleRank]),
+    [
+      ["opponent-one", 1],
+      ["opponent-two", 2],
+      ["research-a", null],
+      ["ours", null],
+      ["research-b", null]
+    ]
+  );
+});
+
+test("report teams keep their gathered order when no schedule is available", () => {
+  const teams = [{ id: "team-b" }, { id: "team-a" }];
+
+  assert.deepEqual(
+    rankTeamsBySchedule(teams, emptyTeamWorkspace()),
+    [
+      { team: teams[0], scheduleRank: null },
+      { team: teams[1], scheduleRank: null }
+    ]
+  );
+});

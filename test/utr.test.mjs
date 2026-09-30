@@ -11,8 +11,50 @@ import {
 import {
   candidateFromPublicRating,
   chooseCandidate,
-  hasCompleteExactRatings
+  exactRatingsNotVisibleError,
+  hasCompleteExactRatings,
+  isExactRatingsNotVisibleError,
+  utrSearchExpression,
+  visibleCurrentUtrRatings
 } from "../scripts/lib/utr.mjs";
+
+test("authenticated UTR parser ignores historical ratings without reliability", () => {
+  assert.deepEqual(visibleCurrentUtrRatings(`
+    UTR
+    1.08
+    From May 2025
+    UTR
+    2.91
+    100% Reliable
+  `), [{ value: 2.91, reliability: 100 }]);
+});
+
+test("authenticated UTR parser returns current singles and doubles ratings", () => {
+  assert.deepEqual(visibleCurrentUtrRatings(`
+    UTR
+    2.45
+    100% Reliable
+    UTR
+    2.69
+    100% Reliable
+  `), [
+    { value: 2.45, reliability: 100 },
+    { value: 2.69, reliability: 100 }
+  ]);
+});
+
+test("authenticated UTR search safely serializes apostrophes in player names", () => {
+  const expression = utrSearchExpression("Maureen O'Guin");
+  assert.doesNotThrow(() => new Function("fetch", `return ${expression}`));
+  assert.match(expression, /Maureen%20O'Guin/);
+});
+
+test("missing exact profile ratings use a distinct non-retryable error", () => {
+  const error = exactRatingsNotVisibleError("Magan Flynn");
+  assert.equal(isExactRatingsNotVisibleError(error), true);
+  assert.equal(isExactRatingsNotVisibleError(new Error("network failed")), false);
+  assert.match(error.message, /Magan Flynn/);
+});
 import {
   parseRetryAfter,
   RequestPacer

@@ -38,6 +38,9 @@ schedule from other teams gathered for reconnaissance.
 - Removing a scheduled opponent returns it to the scouting pool.
 - Classification is local workspace metadata and must not alter canonical team
   datasets.
+- A collection may define shared Match Day defaults for a known schedule.
+  Defaults initialize an unconfigured browser without replacing later local
+  classifications.
 - Our team and scheduled-opponent assignments are scoped to the active event
   collection so different flights or tournament stages can have independent
   schedules.
@@ -69,6 +72,13 @@ schedule from other teams gathered for reconnaissance.
 - Each group shows an informative empty state.
 - The selected dataset remains visually identifiable.
 - A team can be reclassified from its dataset review screen.
+- The Team reports page always uses one team list rather than separate
+  scheduled and unscheduled lists.
+- Without a schedule, that list preserves the gathered-team order and offers
+  report access.
+- With a schedule, scheduled opponents appear first in schedule order and
+  expose a direct **Prepare match** action; unscheduled teams remain in the
+  same list with report access only.
 
 ### Handoffs
 

@@ -13,26 +13,28 @@ import {
   cacheKey,
   candidateFromPublicRating,
   chooseCandidate,
+  exactRatingsNotVisibleError,
   hasCompleteExactRatings,
-  updateCourtJoins
+  isExactRatingsNotVisibleError,
+  utrSearchExpression,
+  updateCourtJoins,
+  visibleCurrentUtrRatings
 } from "./lib/utr.mjs";
 import { RequestPacer } from "./lib/request-pacer.mjs";
 
 const usage = `Usage:
   npm run enrich:utr -- --input <team-data.json> [--session utr-collector]
     [--delay-ms 10000] [--cache data/.cache/utr-profiles.json]
-    [--headed] [--accept-ambiguous] [--refresh | --refresh-unresolved]`;
+    [--headed] [--accept-ambiguous] [--refresh | --refresh-unresolved]
+    [--scope all|team|opponents]`;
 const MAX_RATE_LIMIT_RETRIES = 4;
 
 async function searchProfiles(session, name, pacer) {
-  const encodedName = encodeURIComponent(name);
   for (let attempt = 1; attempt <= MAX_RATE_LIMIT_RETRIES; attempt += 1) {
     await pacer.wait();
     const result = await browserJson(
       session,
-      `fetch('https://api.utrsports.net/v2/search/players?top=20&skip=0&query=${encodedName}&showTennisContent=true')` +
-      `.then(async r=>JSON.stringify({status:r.status,retryAfter:r.headers.get('retry-after'),` +
-      `hits:r.ok?(await r.json()).hits||[]:[]}))`
+      utrSearchExpression(name)
     );
     if (result.status === 429) {
       const delayMs = pacer.backoff(result.retryAfter);
@@ -74,12 +76,24 @@ async function readExactProfile(session, candidate, delayMs, pacer) {
       session,
       `JSON.stringify({title:document.title,heading:document.querySelector('h1')?.textContent?.trim(),` +
       `rateLimited:document.body.innerText.includes('Too many requests'),` +
-      `ratings:[...document.body.innerText.matchAll(/UTR\\s+([0-9]+\\.[0-9]+)/g)]` +
-      `.map(m=>Number(m[1])).slice(0,2)})`
+      `bodyText:document.body.innerText.slice(0,5000)})`
     );
     if (!profile.rateLimited) {
-      pacer.succeeded();
-      break;
+      if (normalizeName(profile.heading ?? "") === normalizeName(candidate.name)) {
+        pacer.succeeded();
+        break;
+      }
+      if (attempt === MAX_RATE_LIMIT_RETRIES) {
+        throw new Error(
+          `UTR profile heading mismatch for ${candidate.name}: ` +
+          `received "${profile.heading ?? "no profile heading"}"`
+        );
+      }
+      console.log(
+        `UTR profile navigation for ${candidate.name} rendered ` +
+        `"${profile.heading ?? "no profile heading"}"; retrying`
+      );
+      continue;
     }
     const retryDelay = pacer.backoff();
     if (attempt === MAX_RATE_LIMIT_RETRIES) {
@@ -92,18 +106,13 @@ async function readExactProfile(session, candidate, delayMs, pacer) {
       `UTR rate limit reached; pausing all requests for ${Math.ceil(retryDelay / 1000)}s`
     );
   }
-  if (normalizeName(profile.heading ?? "") !== normalizeName(candidate.name)) {
-    throw new Error(
-      `UTR profile heading mismatch for ${candidate.name}: ` +
-      `received "${profile.heading ?? "no profile heading"}"`
-    );
-  }
   const activeTypes = [
     candidate.singlesStatus !== "Unrated" ? "singles" : null,
     candidate.doublesStatus !== "Unrated" ? "doubles" : null
   ].filter(Boolean);
+  const currentRatings = visibleCurrentUtrRatings(profile.bodyText);
   const values = Object.fromEntries(
-    activeTypes.map((type, index) => [type, profile.ratings[index] ?? null])
+    activeTypes.map((type, index) => [type, currentRatings[index]?.value ?? null])
   );
   const rating = {
     lookupStatus: "authenticated_exact_profile_resolved",
@@ -126,11 +135,9 @@ async function readExactProfile(session, candidate, delayMs, pacer) {
     retrievedAt: new Date().toISOString().slice(0, 10)
   };
   if (!hasCompleteExactRatings(rating)) {
-    throw new Error(
-      `UTR exact ratings were not visible for ${candidate.name}; ` +
-      "confirm the signed-in account can view full ratings"
-    );
+    throw exactRatingsNotVisibleError(candidate.name);
   }
+
   return rating;
 }
 
@@ -165,20 +172,8 @@ try {
   dataset.collectionStage = "utr_partial";
   updateCourtJoins(dataset);
   await writeJsonAtomic(inputPath, dataset);
-  const people = [
-    ...dataset.roster.map(player => ({
-      kind: "roster",
-      name: player.name,
-      locations: [player.location].filter(Boolean),
-      player
-    })),
-    ...dataset.opponents.map(player => ({
-      kind: "opponent",
-      name: player.name,
-      locations: player.locations ?? [],
-      player
-    }))
-  ];
+  const scope = args.scope ?? "all";
+  const people = ratingPeople(dataset, scope);
   const needsBrowser = people.some(person => {
     const cached = cache[cacheKey(person.name, person.locations)];
     return args.refresh || !cached || (
@@ -226,9 +221,24 @@ try {
           Boolean(args["accept-ambiguous"]),
           identityGender(person.player.gender, dataset.team.gender)
         );
-      rating = selection.candidate
-        ? await readExactProfile(session, selection.candidate, delayMs, pacer)
-        : unresolvedRating(selection.status, selection.candidates);
+      if (selection.candidate) {
+        try {
+          rating = await readExactProfile(
+            session,
+            selection.candidate,
+            delayMs,
+            pacer
+          );
+        } catch (error) {
+          if (!isExactRatingsNotVisibleError(error)) throw error;
+          rating = unresolvedRating(
+            "unresolved_exact_ratings_not_visible",
+            selection.candidates
+          );
+        }
+      } else {
+        rating = unresolvedRating(selection.status, selection.candidates);
+      }
       cache[key] = rating;
       await writeJsonAtomic(cachePath, cache);
     }
@@ -263,13 +273,18 @@ try {
       "reliability"
     ]
   });
-  dataset.dataQuality.unresolvedIdentities = people
-    .filter(person => !person.player.utr.exactDecimalsAvailable)
-    .map(person => ({
-      name: person.name,
-      kind: person.kind,
-      status: person.player.utr.lookupStatus
-    }));
+  dataset.dataQuality.unresolvedIdentities = [
+    ...(dataset.dataQuality.unresolvedIdentities ?? []).filter(item =>
+      !ratingScopeIncludes(scope, item.kind ?? "roster")
+    ),
+    ...people
+      .filter(person => !person.player.utr.exactDecimalsAvailable)
+      .map(person => ({
+        name: person.name,
+        kind: person.kind,
+        status: person.player.utr.lookupStatus
+      }))
+  ];
   await writeJsonAtomic(inputPath, dataset);
   console.log(`Enriched ${people.length} unique target/opponent records`);
   console.log(`Cache: ${cachePath}`);

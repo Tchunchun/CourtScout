@@ -75,7 +75,7 @@ One normalized record per unique opponent:
 
 - identity and candidate profile information
 - exact authenticated singles/doubles UTR when resolved
-- public singles/doubles WTN and confidence for roster players when resolved
+- public singles/doubles WTN and confidence when resolved
 - explicit unresolved status otherwise
 - every appearance against the target team
 - historical DR evidence attached to each appearance

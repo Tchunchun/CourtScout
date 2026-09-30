@@ -80,10 +80,11 @@ roles. Team roles are cached in the current browser. Match Day Cards synchronize
 through `data/match-cards.json` and retain browser storage as an offline cache.
 
 For an existing gathered team, use **Refresh data** to repull any combination of
-TennisRecord, UTR, and WTN. Unselected sources and curated player roles/notes are
-preserved. Refresh runs against a temporary copy, validates the result, and only
-then replaces the existing dataset; a failed refresh leaves the previous data
-available.
+TennisRecord, UTR, and WTN for the team roster, opponents, or both. Unselected
+ratings, sources, and curated player roles/notes are preserved. Initial UTR and
+WTN gathering includes both roster and opponent profiles. Refresh runs against a
+temporary copy, validates the result, and only then replaces the existing
+dataset; a failed refresh leaves the previous data available.
 
 ## Validation
 

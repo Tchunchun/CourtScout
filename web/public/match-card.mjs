@@ -98,6 +98,8 @@ export function buildMatchupReadiness({
   };
 }
 
+const ELIGIBILITY_SCOPES = new Set(["national", "sectional", "local"]);
+
 function ratingValue(rating) {
   if (Number.isFinite(rating?.exactValue)) return rating.exactValue;
   return Number.isFinite(rating?.value) ? rating.value : null;

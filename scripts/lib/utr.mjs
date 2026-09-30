@@ -1,5 +1,37 @@
 import { locationScore, normalizeName } from "./ratings.mjs";
 
+export function visibleCurrentUtrRatings(text) {
+  return [...String(text ?? "").matchAll(
+    /\bUTR\s+([0-9]+\.[0-9]+)\s+([0-9]+)%\s+Reliable\b/gi
+  )].map(match => ({
+    value: Number(match[1]),
+    reliability: Number(match[2])
+  }));
+}
+
+export function exactRatingsNotVisibleError(name) {
+  const error = new Error(
+    `UTR exact ratings were not visible for ${name}; ` +
+    "confirm the signed-in account can view full ratings"
+  );
+  error.code = "UTR_EXACT_RATINGS_NOT_VISIBLE";
+  return error;
+}
+
+export function isExactRatingsNotVisibleError(error) {
+  return error?.code === "UTR_EXACT_RATINGS_NOT_VISIBLE";
+}
+
+export function utrSearchExpression(name) {
+  const encodedName = encodeURIComponent(name);
+  const searchUrl =
+    `https://api.utrsports.net/v2/search/players?top=20&skip=0&query=${encodedName}` +
+    "&showTennisContent=true";
+  return `fetch(${JSON.stringify(searchUrl)})` +
+    `.then(async r=>JSON.stringify({status:r.status,retryAfter:r.headers.get('retry-after'),` +
+    `hits:r.ok?(await r.json()).hits||[]:[]}))`;
+}
+
 export function cacheKey(name, locations) {
   return `${normalizeName(name)}|${locations.map(value => value.toLowerCase()).sort().join("|")}`;
 }

@@ -14,7 +14,8 @@ import { RequestPacer } from "./lib/request-pacer.mjs";
 
 const usage = `Usage:
   node scripts/enrich-utr-public.mjs --input <team-data.json> [--delay-ms 3000]
-    [--cache data/.cache/utr-public-profiles.json] [--refresh]`;
+    [--cache data/.cache/utr-public-profiles.json] [--refresh]
+    [--scope all|team|opponents]`;
 const MAX_RATE_LIMIT_RETRIES = 4;
 
 export function publicRating(display, status, reliability) {
@@ -222,7 +223,8 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     await enrichPublicUtr(inputPath, {
       delayMs,
       cachePath: args.cache,
-      refresh: Boolean(args.refresh)
+      refresh: Boolean(args.refresh),
+      scope: args.scope
     });
   } catch (error) {
     console.error(error.message);

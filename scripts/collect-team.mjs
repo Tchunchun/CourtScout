@@ -6,7 +6,7 @@ import { collectTennisRecordTeam } from "./lib/tennisrecord.mjs";
 import { emptyWtn } from "./lib/wtn.mjs";
 
 const usage = `Usage:
-  npm run collect -- --team-url <tennisrecord-url> [--output <path>] [--delay-ms 250]`;
+  npm run collect -- --team-url <tennisrecord-url> [--dataset-id <id>] [--output <path>] [--delay-ms 250]`;
 
 try {
   const args = parseArgs(process.argv.slice(2));
@@ -14,7 +14,11 @@ try {
   const collected = await collectTennisRecordTeam(teamUrl, {
     delayMs: Number(args["delay-ms"] ?? 250)
   });
-  const datasetId = `${collected.team.season}-${slugify(collected.team.name)}`;
+  const datasetId = args["dataset-id"] ??
+    `${collected.team.season}-${slugify(collected.team.name)}`;
+  if (!/^[a-z0-9][a-z0-9.-]+$/.test(datasetId)) {
+    throw new Error("Dataset ID must contain only lowercase letters, numbers, dots, and hyphens.");
+  }
   const outputPath = resolve(
     args.output ?? `data/${datasetId}/team-data.json`
   );

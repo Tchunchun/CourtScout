@@ -68,6 +68,19 @@ and opponent roles only exist inside a specific collection; the aggregate
 7. **Implemented:** cards synchronize through the local server with browser
    storage as an offline cache, and navigation state is represented in the URL.
 
+## Implementation status
+
+As of 2026-09-30, the three-stage workspace, collection-scoped team roles,
+contextual handoffs, match-preparation recovery actions, and Match Day Card
+eligibility targets are implemented. Gathered-team navigation is grouped by
+Our team, Scheduled opponents, and Scouting pool when an event collection is
+active.
+
+Team report tabs, analysis tabs, and saved Match Day Cards are represented in
+the URL for bookmarks and browser back/forward navigation. Server-side card
+persistence and share links remain the separate Phase P2 enhancement described
+below; cards otherwise continue to be stored in the current browser.
+
 ## Target flow
 
 Tennis Court Scout uses three distinct stages:
