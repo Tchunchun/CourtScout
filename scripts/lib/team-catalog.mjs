@@ -27,6 +27,77 @@ function normalizeTeamMetadata(team) {
   };
 }
 
+function normalizedPlayerName(value) {
+  return String(value ?? "")
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^\p{Letter}\p{Number}]/gu, "")
+    .toLocaleLowerCase();
+}
+
+function knownPlayerGender(value) {
+  return ["Men", "Women"].includes(value) ? value : null;
+}
+
+async function mergeAlternateRosterMetadata(
+  dataDirectory,
+  selectedTeam,
+  dataset,
+  catalog
+) {
+  const alternates = catalog.filter(team =>
+    team.reportAvailable &&
+    team.datasetId === selectedTeam.datasetId &&
+    team.id !== selectedTeam.id
+  );
+  if (!alternates.length) return dataset;
+  const alternatePlayers = new Map();
+  for (const alternate of alternates) {
+    const alternateDataset = JSON.parse(
+      await readFile(
+        join(dataDirectory, alternate.id, "team-data.json"),
+        "utf8"
+      )
+    );
+    for (const player of alternateDataset.roster ?? []) {
+      const key = normalizedPlayerName(player.name);
+      const current = alternatePlayers.get(key) ?? {};
+      alternatePlayers.set(key, {
+        gender: knownPlayerGender(current.gender) ??
+          knownPlayerGender(player.gender),
+        ntrpType: current.ntrpType && current.ntrpType !== "unknown"
+          ? current.ntrpType
+          : player.ntrp?.type
+      });
+    }
+  }
+  return {
+    ...dataset,
+    roster: (dataset.roster ?? []).map(player => {
+      const alternate = alternatePlayers.get(
+        normalizedPlayerName(player.name)
+      );
+      if (!alternate) return player;
+      return {
+        ...player,
+        ...(knownPlayerGender(player.gender)
+          ? {}
+          : alternate.gender ? { gender: alternate.gender } : {}),
+        ntrp: {
+          ...player.ntrp,
+          ...(
+            player.ntrp?.type && player.ntrp.type !== "unknown"
+              ? {}
+              : alternate.ntrpType
+                ? { type: alternate.ntrpType }
+                : {}
+          )
+        }
+      };
+    })
+  };
+}
+
 async function findTeamDataFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const files = [];
@@ -219,8 +290,14 @@ export async function readCatalogTeam(dataDirectory, id) {
     error.statusCode = 404;
     throw error;
   }
-  const dataset = JSON.parse(
+  const storedDataset = JSON.parse(
     await readFile(join(dataDirectory, id, "team-data.json"), "utf8")
+  );
+  const dataset = await mergeAlternateRosterMetadata(
+    dataDirectory,
+    team,
+    storedDataset,
+    teams
   );
   return {
     ...dataset,

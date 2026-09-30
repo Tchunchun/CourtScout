@@ -118,3 +118,49 @@ test("team catalog infers mixed league format for legacy datasets", async t => {
   const dataset = await readCatalogTeam(dataDirectory, team.id);
   assert.equal(dataset.team.leagueFormat, "mixed");
 });
+
+test("team catalog fills missing player gender from another report of the same team", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "team-metadata-"));
+  await mkdir(join(dataDirectory, "current"));
+  await mkdir(join(dataDirectory, "legacy"));
+  const base = {
+    datasetId: "2027-mixed",
+    generatedAt: "2026-09-01T00:00:00.000Z",
+    collectionStage: "step_1_complete",
+    team: {
+      name: "Mixed Team",
+      section: "Mixed 18+ X 7.0",
+      season: 2027
+    },
+    sources: [],
+    matches: []
+  };
+  await writeFile(
+    join(dataDirectory, "current", "team-data.json"),
+    JSON.stringify({
+      ...base,
+      generatedAt: "2026-09-02T00:00:00.000Z",
+      roster: [{
+        name: "Player One",
+        gender: null,
+        ntrp: { level: "3.5", type: "unknown" }
+      }]
+    })
+  );
+  await writeFile(
+    join(dataDirectory, "legacy", "team-data.json"),
+    JSON.stringify({
+      ...base,
+      roster: [{
+        name: "Player One",
+        gender: "Women",
+        ntrp: { level: "3.5", type: "C" }
+      }]
+    })
+  );
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+
+  const dataset = await readCatalogTeam(dataDirectory, "current");
+  assert.equal(dataset.roster[0].gender, "Women");
+  assert.equal(dataset.roster[0].ntrp.type, "C");
+});
