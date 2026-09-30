@@ -3,7 +3,11 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, requireArg } from "./lib/cli.mjs";
 import { readJson, writeJsonAtomic } from "./lib/io.mjs";
-import { emptyRating, identityGender } from "./lib/ratings.mjs";
+import {
+  emptyRating,
+  identityGender,
+  ratingPeople
+} from "./lib/ratings.mjs";
 import {
   cacheKey,
   chooseCandidate,
@@ -142,20 +146,7 @@ export async function enrichPublicUtr(inputPath, options = {}) {
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
   }
-  const people = [
-    ...dataset.roster.map(player => ({
-      kind: "roster",
-      name: player.name,
-      locations: [player.location].filter(Boolean),
-      player
-    })),
-    ...dataset.opponents.map(player => ({
-      kind: "opponent",
-      name: player.name,
-      locations: player.locations ?? [],
-      player
-    }))
-  ];
+  const people = ratingPeople(dataset, options.scope);
 
   dataset.collectionStage = "utr_partial";
   await writeJsonAtomic(inputPath, dataset);

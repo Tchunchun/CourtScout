@@ -3,7 +3,11 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, requireArg } from "./lib/cli.mjs";
 import { readJson, sleep, writeJsonAtomic } from "./lib/io.mjs";
-import { identityGender } from "./lib/ratings.mjs";
+import {
+  identityGender,
+  ratingPeople,
+  ratingScopeIncludes
+} from "./lib/ratings.mjs";
 import { updateCourtJoins } from "./lib/utr.mjs";
 import {
   chooseWtnCandidate,
@@ -75,12 +79,8 @@ export async function enrichPublicWtn(inputPath, options = {}) {
   const delayMs = options.delayMs ?? 300;
   const fetchImpl = options.fetchImpl ?? fetch;
   const dataset = await readJson(inputPath);
-  const people = dataset.roster.map(player => ({
-    kind: "roster",
-    name: player.name,
-    locations: [player.location].filter(Boolean),
-    player
-  }));
+  const scope = options.scope ?? "all";
+  const people = ratingPeople(dataset, scope);
 
   for (const person of people) {
     const candidates = await searchWtnProfiles(person.name, fetchImpl);

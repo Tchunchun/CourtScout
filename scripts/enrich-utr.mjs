@@ -7,7 +7,9 @@ import {
   emptyRating,
   exactRating,
   identityGender,
-  normalizeName
+  normalizeName,
+  ratingPeople,
+  ratingScopeIncludes
 } from "./lib/ratings.mjs";
 import {
   cacheKey,

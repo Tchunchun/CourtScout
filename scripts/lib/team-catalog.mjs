@@ -114,6 +114,10 @@ export async function listTeamCatalog(dataDirectory) {
   );
   const gatheredTeams = await Promise.all(files.map(async file => {
     const dataset = JSON.parse(await readFile(file, "utf8"));
+    const configured = configuredTeams.find(team =>
+      team.datasetId === dataset.datasetId
+    );
+    const nationalTeam = nationalTeams.get(dataset.datasetId);
     const tennisRecordSource = dataset.sources?.find(source =>
       source.type === "tennisrecord" && source.url
     );
@@ -140,8 +144,9 @@ export async function listTeamCatalog(dataDirectory) {
       nationalRosterAsOf: nationalTeam ? nationalRosterStore.activeAsOf : null,
       nationalRosterSource: nationalTeam ? nationalRosterStore.source : null,
       matchCount: dataset.matches?.length ?? 0,
-      sourceUrl: tennisRecordSource?.url ?? null,
-      finalReportReady: dataset.collectionStage === "step_1_complete"
+      sourceUrl: tennisRecordSource?.url ?? configured?.sourceUrl ?? null,
+      finalReportReady: dataset.collectionStage === "step_1_complete",
+      reportAvailable: true
     };
   }));
   const gatheredIds = new Set(gatheredTeams.map(team => team.datasetId));

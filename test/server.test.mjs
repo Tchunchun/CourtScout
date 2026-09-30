@@ -15,6 +15,7 @@ import {
   parseRefreshSelections,
   parseRatingSelections,
   ratingSelectionSlug,
+  resolveDataDirectory,
   runScoutingJob,
   teamSourceKey,
   temporaryCollectionName,
@@ -191,7 +192,8 @@ test("refresh selections require at least one explicitly selected source", () =>
     utrMode: "none"
   }), {
     tennisrecord: true,
-    utr: "none"
+    utr: "none",
+    scope: "all"
   });
   assert.deepEqual(parseRefreshSelections({
     refreshTennisRecord: false,
@@ -199,7 +201,8 @@ test("refresh selections require at least one explicitly selected source", () =>
     utrMode: "authenticated"
   }), {
     tennisrecord: false,
-    utr: "authenticated"
+    utr: "authenticated",
+    scope: "all"
   });
   assert.throws(() => parseRefreshSelections({
     refreshTennisRecord: false,
@@ -814,7 +817,10 @@ test("server creates event collections and assigns gathered teams", async t => {
     {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name: "2026 Nationals Schedule" })
+      body: JSON.stringify({
+        name: "2026 Nationals Schedule",
+        competitionLevel: "national"
+      })
     }
   );
   assert.equal(duplicateResponse.status, 409);

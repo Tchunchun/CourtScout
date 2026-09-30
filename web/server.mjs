@@ -37,7 +37,12 @@ import {
   readMatchCards,
   writeMatchCards
 } from "../scripts/lib/match-cards-store.mjs";
-import { emptyRating, normalizeName } from "../scripts/lib/ratings.mjs";
+import {
+  emptyRating,
+  normalizeName,
+  normalizeRatingScope,
+  ratingScopeIncludes
+} from "../scripts/lib/ratings.mjs";
 import { previewTennisRecordTeam } from "../scripts/lib/tennisrecord.mjs";
 import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
@@ -237,7 +242,19 @@ export function mergePreservedRefreshData(fresh, current, refreshSelections) {
   for (const player of fresh.roster ?? []) {
     const previous = currentRoster.get(normalizeName(player.name));
     if (!previous) continue;
-    if (!refreshUtr && previous.utr) player.utr = previous.utr;
+    if (!ratingScopeIncludes(scope, "roster") &&
+        Object.hasOwn(previous, "dr")) {
+      player.dr = previous.dr;
+    }
+    if ((!refreshUtr || !ratingScopeIncludes(scope, "roster")) &&
+        Object.hasOwn(previous, "utr")) {
+      player.utr = previous.utr;
+    }
+    if (refreshSelections.wtn === true &&
+        !ratingScopeIncludes(scope, "roster") &&
+        Object.hasOwn(previous, "wtn")) {
+      player.wtn = previous.wtn;
+    }
     if (previous.likelyRole != null) player.likelyRole = previous.likelyRole;
     if (previous.note != null) player.note = previous.note;
   }
@@ -252,7 +269,8 @@ export function mergePreservedRefreshData(fresh, current, refreshSelections) {
         Object.hasOwn(previous, "utr")) {
       player.utr = previous.utr;
     }
-    if ((!refreshSelections.wtn || !ratingScopeIncludes(scope, "opponent")) &&
+    if (refreshSelections.wtn === true &&
+        !ratingScopeIncludes(scope, "opponent") &&
         Object.hasOwn(previous, "wtn")) {
       player.wtn = previous.wtn;
     }
@@ -260,8 +278,12 @@ export function mergePreservedRefreshData(fresh, current, refreshSelections) {
 
   const selectedSource = source => {
     if (source.type === "tennisrecord") return false;
-    if (source.type?.includes("utr_")) return !refreshUtr;
-    if (source.type === "world_tennis_number_public_profiles") return false;
+    if (source.type?.includes("utr_")) {
+      return !refreshUtr || scope !== "all";
+    }
+    if (source.type === "world_tennis_number_public_profiles") {
+      return refreshSelections.wtn === true && scope !== "all";
+    }
     return true;
   };
   fresh.sources = [
@@ -772,7 +794,8 @@ export function parseRefreshSelections(body) {
   const scope = normalizeRatingScope(body.ratingScope ?? "all");
   return {
     tennisrecord: body.refreshTennisRecord,
-    utr
+    utr,
+    scope
   };
 }
 
@@ -924,7 +947,10 @@ export function createAppServer(options = {}) {
         if (eventCollectionId == null) {
           const collection = await createTeamCollection(
             dataDirectory,
-            temporaryCollectionName(teamUrl, id)
+            temporaryCollectionName(teamUrl, id),
+            new Date(),
+            null,
+            "local"
           );
           eventCollectionId = collection.id;
         }

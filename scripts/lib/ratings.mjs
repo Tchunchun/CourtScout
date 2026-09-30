@@ -31,6 +31,41 @@ export function identityGender(playerGender, teamGender) {
     gender === "Women" ? "Female" : null;
 }
 
+export function normalizeRatingScope(value = "all") {
+  if (!["all", "team", "opponents"].includes(value)) {
+    throw new Error("Choose team ratings, opponent ratings, or both.");
+  }
+  return value;
+}
+
+export function ratingScopeIncludes(scope, kind) {
+  return scope === "all" ||
+    (scope === "team" && kind === "roster") ||
+    (scope === "opponents" && kind === "opponent");
+}
+
+export function ratingPeople(dataset, scope = "all") {
+  const normalizedScope = normalizeRatingScope(scope);
+  return [
+    ...(ratingScopeIncludes(normalizedScope, "roster")
+      ? (dataset.roster ?? []).map(player => ({
+          kind: "roster",
+          name: player.name,
+          locations: [player.location].filter(Boolean),
+          player
+        }))
+      : []),
+    ...(ratingScopeIncludes(normalizedScope, "opponent")
+      ? (dataset.opponents ?? []).map(player => ({
+          kind: "opponent",
+          name: player.name,
+          locations: player.locations ?? [],
+          player
+        }))
+      : [])
+  ];
+}
+
 export function locationScore(candidateLocation, expectedLocation) {
   if (!candidateLocation || !expectedLocation) return 0;
   const candidate = candidateLocation.toLowerCase();

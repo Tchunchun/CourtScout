@@ -1110,7 +1110,6 @@ $("#sourceRetryActions").addEventListener("click", event => {
   const source = button.dataset.retrySource;
   $("#refreshTennisRecord").checked = source === "tennisrecord";
   $("#refreshUtr").checked = source === "utr";
-  $("#refreshWtn").checked = source === "wtn";
   syncRefreshOptions();
   requestAnimationFrame(() => {
     $("#refreshForm [type=submit]")?.focus();
@@ -1280,10 +1279,6 @@ function getRows() {
           ratingCell(player.utr?.doubles),
           `<span class="pill status-pill" title="${escapeHtml(player.utr?.lookupStatus?.replaceAll("_", " ") ?? "unresolved")}">${escapeHtml(profileStatusLabel(player.utr?.lookupStatus))}</span>`
         ] : []),
-        ...(selections.wtn ? [
-          ratingCell(player.wtn?.singles),
-          ratingCell(player.wtn?.doubles)
-        ] : [])
       ]
     }));
   }
@@ -1341,7 +1336,6 @@ function getHeadings() {
       ...(selections.utr !== "none"
         ? ["Singles UTR", "Doubles UTR", "Profile status"]
         : []),
-      ...(selections.wtn ? ["Singles WTN", "Doubles WTN"] : [])
     ];
   }
   return headings[state.tab];
@@ -1498,16 +1492,10 @@ function renderDataset(data) {
     ? "Validated with selected rating sources."
     : "Only TennisRecord team, roster, and match data were requested.";
   const unresolvedUtr = data.dataQuality?.unresolvedIdentities?.length ?? 0;
-  const unresolvedWtn =
-    data.dataQuality?.unresolvedWtnIdentities?.length ?? 0;
   const utrRetry = $('[data-retry-source="utr"]');
-  const wtnRetry = $('[data-retry-source="wtn"]');
   utrRetry.textContent = unresolvedUtr
     ? `UTR · ${unresolvedUtr} unresolved`
     : "UTR";
-  wtnRetry.textContent = unresolvedWtn
-    ? `WTN · ${unresolvedWtn} unresolved`
-    : "WTN";
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   $("#downloadData").href = URL.createObjectURL(blob);
   syncTabState("[data-tab]", "tab", state.tab, "#datasetPanel");
@@ -2655,7 +2643,7 @@ function opponentActiveRosterHtml(context) {
         <table class="active-roster-table">
           <thead><tr>
             <th>Player</th><th>Gender</th><th>NTRP</th><th>DR</th>
-            <th>UTR S</th><th>UTR D</th><th>WTN S</th><th>WTN D</th><th>Eligibility</th>
+            <th>UTR S</th><th>UTR D</th><th>Eligibility</th>
           </tr></thead>
           <tbody>${data.roster.map(player => `
             <tr>
@@ -2665,8 +2653,6 @@ function opponentActiveRosterHtml(context) {
               <td>${Number.isFinite(player.dr) ? Number(player.dr).toFixed(2) : "NR"}</td>
               <td>${escapeHtml(ratingDisplay(player.utr?.singles))}</td>
               <td>${escapeHtml(ratingDisplay(player.utr?.doubles))}</td>
-              <td>${escapeHtml(ratingDisplay(player.wtn?.singles))}</td>
-              <td>${escapeHtml(ratingDisplay(player.wtn?.doubles))}</td>
               <td>${escapeHtml(eligibilityByName.get(player.name) ?? "unknown")}</td>
             </tr>
           `).join("")}</tbody>
@@ -4089,6 +4075,13 @@ $("#renameActiveCollection").addEventListener("click", async () => {
     $("#teamList").innerHTML =
       `<p class="team-list-status error">${escapeHtml(error.message)}</p>`;
   }
+});
+$("#scoutCollectionTeam").addEventListener("click", () => {
+  const collectionId = state.activeCollectionId;
+  reset();
+  state.intakeEventCollectionId = collectionId;
+  $('input[name="teamType"][value="opponent"]').checked = true;
+  syncTeamType();
 });
 $("#teamEventCollection").addEventListener("change", async event => {
   const team = selectedTeam();
