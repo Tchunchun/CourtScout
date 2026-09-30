@@ -34,6 +34,7 @@ import {
   emptyTeamWorkspace,
   groupWorkspaceTeams,
   parseTeamWorkspace,
+  rankTeamsBySchedule,
   teamRole
 } from "./team-workspace.mjs";
 
@@ -378,6 +379,7 @@ function updateWorkspaceRole(teamId, role) {
   }
   $("#teamRoleError").textContent = "";
   renderTeamList();
+  renderReportsTeamList();
   updateTeamWorkspaceActions();
   if (!views.matchCards.hidden && !state.activeMatchCardId) {
     renderMatchCardsHome();
@@ -686,17 +688,41 @@ function renderTeamList() {
 
 function renderReportsTeamList() {
   const teams = activeCollectionTeams();
+  const rankedTeams = rankTeamsBySchedule(teams, state.teamWorkspace);
+  const hasSchedule = rankedTeams.some(({ scheduleRank }) => scheduleRank != null);
   $("#reportsTeamList").innerHTML = teams.length
-    ? teams.map(team => `
-      <button class="report-team-card" type="button" data-report-team-id="${escapeHtml(team.id)}">
-        <span>Scouted team</span>
-        <span>
-          <strong>${escapeHtml(team.team?.name ?? team.datasetId)}</strong>
+    ? rankedTeams.map(({ team, scheduleRank }) => {
+      const teamName = team.team?.name ?? team.datasetId;
+      const role = workspaceRole(team.id);
+      const status = scheduleRank != null
+        ? "Scheduled opponent"
+        : role === "our" ? "Our team" : "Scouted team";
+      return `
+      <article class="report-team-row${hasSchedule ? " has-schedule" : ""}${scheduleRank != null ? " scheduled" : ""}">
+        ${hasSchedule ? `
+          <div class="report-team-rank">
+            ${scheduleRank != null
+              ? `<strong>#${scheduleRank}</strong><small>Schedule</small>`
+              : '<span aria-hidden="true">—</span><small>Not scheduled</small>'}
+          </div>
+        ` : ""}
+        <div class="report-team-summary">
+          <span>${status}</span>
+          <strong>${escapeHtml(teamName)}</strong>
           <small>${escapeHtml(team.team?.section ?? "Section unavailable")} · ${team.matchCount ?? 0} matches · ${team.rosterSize ?? 0} players</small>
-        </span>
-        <span>View report & analysis →</span>
-      </button>
-    `).join("")
+        </div>
+        <div class="report-team-actions">
+          <button class="button-secondary" type="button" data-report-team-id="${escapeHtml(team.id)}" aria-label="View report and analysis for ${escapeHtml(teamName)}">
+            View report &amp; analysis
+          </button>
+          ${scheduleRank != null ? `
+            <button class="button-primary compact" type="button" data-prepare-match-id="${escapeHtml(team.id)}" aria-label="Prepare match against ${escapeHtml(teamName)}">
+              Prepare match
+            </button>
+          ` : ""}
+        </div>
+      </article>`;
+    }).join("")
     : '<p class="empty-state">No scouted teams in this collection yet.</p>';
 }
 
@@ -2613,8 +2639,13 @@ $("#teamList").addEventListener("click", event => {
   }
 });
 $("#reportsTeamList").addEventListener("click", event => {
-  const button = event.target.closest("[data-report-team-id]");
-  if (button) void openTeamData(button.dataset.reportTeamId);
+  const prepareButton = event.target.closest("[data-prepare-match-id]");
+  if (prepareButton) {
+    openMatchCardsWorkspace(prepareButton.dataset.prepareMatchId);
+    return;
+  }
+  const reportButton = event.target.closest("[data-report-team-id]");
+  if (reportButton) void openTeamData(reportButton.dataset.reportTeamId);
 });
 $$("[data-back-to-reports]").forEach(button => {
   button.addEventListener("click", () => {
