@@ -2508,16 +2508,27 @@ function selectedDraftPlayers(card, exceptCourt, exceptIndex) {
   ));
 }
 
-function playerOptionLabel(player, discipline, eligible) {
+function playerOptionLabel(player, discipline, eligible, analysisPlayer) {
   const utr = ratingDisplay(player.utr?.[discipline]);
   const dr = Number.isFinite(player.dr) ? Number(player.dr).toFixed(2) : "NR";
-  return `${player.name} · DR ${dr} · UTR ${utr}${eligible ? "" : " · eligibility warning"}`;
+  const disciplineRecord = analysisPlayer?.local?.[discipline]?.record;
+  const recordLabel = disciplineRecord
+    ? `${disciplineRecord.wins}–${disciplineRecord.losses}`
+    : "No record";
+  const role = analysisPlayer?.role ?? "Role unknown";
+  return `${player.name} · ${role} · ${recordLabel} · DR ${dr} · UTR ${utr}${eligible ? "" : " · eligibility warning"}`;
 }
 
 function lineupSelectHtml(card, context, court, index, eligibleNames) {
   const discipline = court.startsWith("S") ? "singles" : "doubles";
   const selected = card.draft[court]?.[index] ?? "";
   const selectedElsewhere = selectedDraftPlayers(card, court, index);
+  const analysisByName = new Map(
+    (context.ourAnalysis.eligibility?.players ?? []).map(player => [
+      player.name,
+      player
+    ])
+  );
   const roster = [...activeNationalRoster(context.ourData)].sort((a, b) =>
     Number(eligibleNames.has(b.name)) - Number(eligibleNames.has(a.name)) ||
     (b.dr ?? -Infinity) - (a.dr ?? -Infinity) ||
@@ -2535,7 +2546,12 @@ function lineupSelectHtml(card, context, court, index, eligibleNames) {
         <option value="${escapeHtml(player.name)}"
           ${player.name === selected ? "selected" : ""}
           ${selectedElsewhere.has(player.name) ? "disabled" : ""}>
-          ${escapeHtml(playerOptionLabel(player, discipline, eligibleNames.has(player.name)))}
+          ${escapeHtml(playerOptionLabel(
+            player,
+            discipline,
+            eligibleNames.has(player.name),
+            analysisByName.get(player.name)
+          ))}
         </option>
       `).join("")}
     </select>`;
@@ -2748,6 +2764,19 @@ function matchupReadinessHtml(context) {
     ourAnalysis: context.ourAnalysis,
     opponentAnalysis: context.opponentAnalysis
   });
+  const teamsNeedingAttention = readiness.teams.filter(team =>
+    team.needsAttention
+  );
+  if (!teamsNeedingAttention.length) {
+    return `
+      <section class="matchup-readiness-compact" aria-label="Matchup data readiness">
+        <span aria-hidden="true">✓</span>
+        <div>
+          <strong>Ready to test lineups</strong>
+          <small>Both analyses are current, identities are resolved, and lineup scenarios are available.</small>
+        </div>
+      </section>`;
+  }
   return `
     <section class="matchup-data-readiness" aria-label="Matchup data readiness">
       <div class="match-card-section-heading">
@@ -2758,7 +2787,7 @@ function matchupReadinessHtml(context) {
         <p>Data older than ${readiness.freshnessLimitDays} days is flagged for review.</p>
       </div>
       <div class="matchup-readiness-grid">
-        ${readiness.teams.map(team => `
+        ${teamsNeedingAttention.map(team => `
           <article class="${team.needsAttention ? "attention" : "ready"}">
             <header>
               <div>
@@ -2789,6 +2818,129 @@ function matchupReadinessHtml(context) {
         `).join("")}
       </div>
     </section>`;
+}
+
+function predictedOpponentNames(predictions) {
+  return new Set(predictions.slice(0, 3).flatMap(prediction =>
+    prediction.lines.flatMap(line => line.players ?? [])
+  ));
+}
+
+function playerPerformanceEvidenceHtml(context, predictions) {
+  const predictedNames = predictedOpponentNames(predictions);
+  const players = (context.opponentAnalysis.eligibility?.players ?? [])
+    .filter(player => predictedNames.has(player.name))
+    .sort((a, b) =>
+      b.local.appearances - a.local.appearances ||
+      b.postseasonAppearances - a.postseasonAppearances ||
+      (b.dr ?? -Infinity) - (a.dr ?? -Infinity)
+    );
+  if (!players.length) {
+    return '<p class="match-card-alert">No predicted-player performance evidence is available.</p>';
+  }
+  return `
+    <div class="decision-player-grid">
+      ${players.map(player => {
+        const singles = player.local.singles;
+        const doubles = player.local.doubles;
+        const upsetSignals = player.singlesUpsets.higherDrWins +
+          player.singlesUpsets.higherUtrWins;
+        return `
+          <article>
+            <header>
+              <div>
+                <strong>${escapeHtml(player.name)}</strong>
+                <small>${escapeHtml(player.role)}</small>
+              </div>
+              <span>${escapeHtml(player.status)}</span>
+            </header>
+            <p>${escapeHtml(player.standoutNote)}</p>
+            <div>
+              <span>S ${singles.record.wins}–${singles.record.losses} · ${singles.appearances} played</span>
+              <span>D ${doubles.record.wins}–${doubles.record.losses} · ${doubles.appearances} played</span>
+              <span>${upsetSignals} higher-rated win signal${upsetSignals === 1 ? "" : "s"}</span>
+              ${player.primaryPartner
+                ? `<span>${escapeHtml(player.primaryPartner.name)} partner · ${player.primaryPartner.record.wins}–${player.primaryPartner.record.losses}</span>`
+                : ""}
+            </div>
+          </article>`;
+      }).join("")}
+    </div>`;
+}
+
+function pairAndStackingEvidenceHtml(context) {
+  const pairs = context.opponentAnalysis.doubles?.pairs ?? [];
+  const strategy = summarizeStackingStrategy(
+    context.opponentAnalysis.doubles?.matchStacking
+  );
+  return `
+    <div class="decision-strategy-grid">
+      <article>
+        <span class="step-label">Pair evidence</span>
+        <h3>${pairs.length ? "Most relevant doubles pairs" : "No known pairs"}</h3>
+        ${pairs.length ? `
+          <ul>${pairs.slice(0, 4).map(pair => `
+            <li>
+              <strong>${escapeHtml(pair.pair)}</strong>
+              <span>${pair.appearances} appearance${pair.appearances === 1 ? "" : "s"} · ${pair.record.wins}–${pair.record.losses} · ${escapeHtml(pair.courts.map(court => court.court).join(", "))}</span>
+            </li>
+          `).join("")}</ul>` : "<p>No repeated pair history is available.</p>"}
+      </article>
+      <article>
+        <span class="step-label">Stacking evidence</span>
+        <h3>${escapeHtml(strategy?.label ?? "No stacking pattern")}</h3>
+        ${strategy ? `
+          <p>${escapeHtml(strategy.confidence)} confidence across ${strategy.matchesAnalyzed} match${strategy.matchesAnalyzed === 1 ? "" : "es"}.</p>
+          <p>${strategy.strongestCourtByDr
+            ? `${escapeHtml(strategy.strongestCourtByDr)} was strongest by average DR.`
+            : "Court strength is not distinguishable from available ratings."}</p>
+          ${strategy.inversions.length
+            ? `<ul>${strategy.inversions.slice(0, 3).map(item => `
+              <li>${escapeHtml(item.lowerCourt)} ${item.lowerDr.toFixed(2)} DR above ${escapeHtml(item.upperCourt)} ${item.upperDr.toFixed(2)}</li>
+            `).join("")}</ul>`
+            : ""}
+        ` : "<p>No match-level court-strength evidence is available.</p>"}
+      </article>
+    </div>`;
+}
+
+function tournamentEvidenceDisclosureHtml(card, context) {
+  const evidence = evidenceForCard(card);
+  const onsite = confirmedOnsitePlayers(
+    state.tournamentEvidence,
+    card.collectionId,
+    card.opponentTeamId
+  );
+  const pending = state.pendingTournamentEvidence?.cardId === card.id;
+  return `
+    <details class="decision-evidence-disclosure no-print" ${pending ? "open" : ""}>
+      <summary>
+        <span>
+          <strong>Onsite and tournament evidence</strong>
+          <small>${onsite.size} player${onsite.size === 1 ? "" : "s"} confirmed · ${evidence.length} reviewed result${evidence.length === 1 ? "" : "s"}</small>
+        </span>
+        <b>${pending ? "Review extraction" : "Add or review"}</b>
+      </summary>
+      ${tournamentEvidenceHtml(card, context)}
+    </details>`;
+}
+
+function opponentReferenceHtml(context) {
+  return `
+    <details class="opponent-reference-details" id="prep-reference">
+      <summary>
+        <span>
+          <strong>Full opponent reference</strong>
+          <small>Roster, every known pair, stacking matches, and data-quality notes</small>
+        </span>
+        <b>View details</b>
+      </summary>
+      <div>
+        ${opponentActiveRosterHtml(context)}
+        ${opponentPairsHtml(context)}
+        ${opponentStackingHtml(context)}
+      </div>
+    </details>`;
 }
 
 function opponentActiveRosterHtml(context) {
@@ -2949,63 +3101,78 @@ function topOpponentPredictionsHtml(card, predictions, context) {
   );
   const usageByName = new Map(usage.map(player => [player.name, player]));
   const unusedPlayers = usage.filter(player => !player.playedBefore);
+  const visiblePredictions = predictions.slice(0, 3);
+  const selectedPrediction = visiblePredictions.find(
+    prediction => prediction.rank === card.opponentPredictionRank
+  ) ?? visiblePredictions[0];
+  const selectedIndex = visiblePredictions.indexOf(selectedPrediction);
+  const scenarioTitle = prediction => prediction.source === "tournament"
+    ? "Reviewed tournament lineup"
+    : `Historical projection #${prediction.historicalRank ?? prediction.rank}`;
   return `
     <p class="opponent-scenario-coverage">
-      Showing ${Math.min(predictions.length, 3)} of up to 3 evidence-backed scenarios.
+      Testing scenario ${selectedIndex + 1} of ${visiblePredictions.length}.
       ${predictions.length < 3
         ? "More scenarios will appear when additional distinct lineup history or reviewed tournament evidence is available."
-        : ""}
+        : "Choose an alternate below to retest Our lineup."}
     </p>
-    <div class="top-opponent-predictions">
-      ${predictions.slice(0, 3).map((prediction, index) => `
-        <article>
-          <header>
-            <div>
-              <span>Scenario ${index + 1}</span>
-              <strong>${prediction.source === "tournament"
-                ? "Reviewed tournament lineup"
-                : `Historical projection #${prediction.historicalRank ?? prediction.rank}`}</strong>
-            </div>
-            <b>${escapeHtml(prediction.confidence ?? "emerging")}</b>
-          </header>
-          <div class="prediction-court-list">
-            ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, discipline }) => {
-              const line = predictionLine(prediction, court);
-              return `
-                <div class="prediction-court">
-                  <strong>${court}</strong>
-                  ${line.players?.length ? `
-                    <ul>${line.players.map(name => {
-                      const player = rosterByName.get(name);
-                      const playerUsage = usageByName.get(name);
-                      return `
-                        <li class="${playerUsage?.playedBefore ? "played" : "unused"}">
-                          <span>
-                            <b>${escapeHtml(name)}</b>
-                            <em>${playerUsage?.playedBefore
-                              ? `Played ${playerUsage.appearances} match${playerUsage.appearances === 1 ? "" : "es"}`
-                              : "Not yet used"}</em>
-                          </span>
-                          <small>DR ${Number.isFinite(player?.dr) ? player.dr.toFixed(2) : "NR"} · UTR ${escapeHtml(ratingDisplay(player?.utr?.[discipline]))}</small>
-                        </li>`;
-                    }).join("")}</ul>`
-                    : "<span>Unavailable</span>"}
-                </div>`;
-            }).join("")}
-          </div>
-          <footer>
-            <span>${prediction.historicalSupport ?? 0}% usage support</span>
-            <span>${prediction.observedTogether ?? 0} full-lineup observation${prediction.observedTogether === 1 ? "" : "s"}</span>
-          </footer>
-          ${predictionRationaleHtml(prediction)}
-        </article>
-      `).join("")}
-    </div>
-    <div class="unused-roster-watch">
-      <div>
-        <strong>Roster watch: not yet used in gathered matches</strong>
-        <small>${unusedPlayers.length} player${unusedPlayers.length === 1 ? "" : "s"} · source coverage may be incomplete</small>
+    <article class="selected-opponent-prediction">
+      <header>
+        <div>
+          <span>Scenario ${selectedIndex + 1}</span>
+          <strong>${scenarioTitle(selectedPrediction)}</strong>
+        </div>
+        <b>${escapeHtml(selectedPrediction.confidence ?? "emerging")}</b>
+      </header>
+      <div class="prediction-court-list">
+        ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, discipline }) => {
+          const line = predictionLine(selectedPrediction, court);
+          return `
+            <div class="prediction-court">
+              <strong>${court}</strong>
+              ${line.players?.length ? `
+                <ul>${line.players.map(name => {
+                  const player = rosterByName.get(name);
+                  const playerUsage = usageByName.get(name);
+                  return `
+                    <li class="${playerUsage?.playedBefore ? "played" : "unused"}">
+                      <span>
+                        <b>${escapeHtml(name)}</b>
+                        <em>${playerUsage?.playedBefore
+                          ? `Played ${playerUsage.appearances} match${playerUsage.appearances === 1 ? "" : "es"}`
+                          : "Not yet used"}</em>
+                      </span>
+                      <small>DR ${Number.isFinite(player?.dr) ? player.dr.toFixed(2) : "NR"} · UTR ${escapeHtml(ratingDisplay(player?.utr?.[discipline]))}</small>
+                    </li>`;
+                }).join("")}</ul>`
+                : "<span>Unavailable</span>"}
+            </div>`;
+        }).join("")}
       </div>
+      <footer>
+        <span>${selectedPrediction.historicalSupport ?? 0}% usage support</span>
+        <span>${selectedPrediction.observedTogether ?? 0} full-lineup observation${selectedPrediction.observedTogether === 1 ? "" : "s"}</span>
+      </footer>
+      ${predictionRationaleHtml(selectedPrediction)}
+    </article>
+    ${visiblePredictions.length > 1 ? `
+      <div class="opponent-scenario-switcher">
+        ${visiblePredictions.map((prediction, index) => `
+          <button type="button" data-card-action="prediction"
+            data-prediction-rank="${prediction.rank}"
+            aria-pressed="${prediction.rank === selectedPrediction.rank}"
+            ${prediction.rank === selectedPrediction.rank ? "disabled" : ""}>
+            <span>Scenario ${index + 1}</span>
+            <strong>${escapeHtml(scenarioTitle(prediction))}</strong>
+            <small>${escapeHtml(prediction.confidence ?? "emerging")} · ${prediction.historicalSupport ?? 0}% support</small>
+          </button>
+        `).join("")}
+      </div>` : ""}
+    <details class="unused-roster-watch">
+      <summary>
+        <strong>Roster watch</strong>
+        <small>${unusedPlayers.length} player${unusedPlayers.length === 1 ? "" : "s"} not yet used in gathered matches</small>
+      </summary>
       ${unusedPlayers.length ? `
         <ul>${unusedPlayers.map(item => {
           const player = rosterByName.get(item.name);
@@ -3016,7 +3183,7 @@ function topOpponentPredictionsHtml(card, predictions, context) {
             </li>`;
         }).join("")}</ul>`
         : "<p>Every roster player appears in at least one gathered match.</p>"}
-    </div>`;
+    </details>`;
 }
 
 function lineupChallengeHtml(card, context, predictions, validation) {
@@ -3187,81 +3354,91 @@ function renderMatchCardEditor() {
         ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardError)}</p>`
         : ""}
       <nav class="preparation-section-nav no-print" aria-label="Match preparation sections">
-        <a href="#prep-roster">Roster</a>
-        <a href="#prep-pairs">Pairs</a>
-        ${context.opponentAnalysis.doubles?.matchStacking?.length
-          ? '<a href="#prep-stacking">Stacking</a>'
-          : ""}
-        <a href="#prep-opponent-lineups">Opponent lineups</a>
-        <a href="#prep-our-lineup">Our lineup</a>
+        <a href="#prep-plan">Test lineup</a>
         <a href="#prep-challenge">Challenge</a>
-        <a href="#prep-courts">Court analysis</a>
+        <a href="#prep-evidence">Evidence</a>
+        <a href="#prep-reference">Full reference</a>
+        <a href="#prep-notes">Notes</a>
       </nav>
-      ${opponentActiveRosterHtml(context)}
-      ${opponentPairsHtml(context)}
-      ${opponentStackingHtml(context)}
       ${matchupReadinessHtml(context)}
-      <section class="opponent-prediction-picker no-print" id="prep-opponent-lineups">
-        <div>
-          <span class="step-label">Opponent</span>
-          <h2>Top lineup options</h2>
-          <p>${evidenceForCard(card).length
-            ? "Reviewed tournament evidence is weighted ahead of older scouting history."
-            : "Scenarios use gathered match history and observed pair usage."}</p>
-        </div>
-        <p class="scenario-primary-note">Scenario 1 drives the detailed court-by-court view because it is the most evidence-supported option. It is not necessarily the highest-rated possible lineup. The Lineup Challenge compares Our lineup against every option shown.</p>
-        ${topOpponentPredictionsHtml(card, predictions, context)}
-      </section>
-      <section class="our-lineup-builder" id="prep-our-lineup">
-        <div class="match-card-section-heading">
-          <div><span class="step-label">Team</span><h2>Set the lineup</h2></div>
-          <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
-            ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
-            : `${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligible roster`}</p>
-        </div>
-        <div class="lineup-builder-grid">
-          ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => `
-            <article>
-              <strong>${court}</strong>
-              <div>${Array.from({ length: players }, (_, index) =>
-                lineupSelectHtml(card, context, court, index, eligibleNames)
-              ).join("")}</div>
-            </article>
-          `).join("")}
-        </div>
-        ${validation.unavailableNames.length
-          ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} target.</p>`
-          : ""}
-      </section>
-      ${lineupChallengeHtml(card, context, predictions, validation)}
-      <section class="matchup-analysis" id="prep-courts">
-        <div class="match-card-section-heading">
-          <div><span class="step-label">Matchup</span><h2>At a glance</h2></div>
-        </div>
-        <div class="matchup-overview">
-          <strong>${escapeHtml(summary.read)}</strong>
+      <section class="lineup-decision-workspace" id="prep-plan">
+        <div class="decision-workspace-heading">
           <div>
-            <span><b>${summary.favorable}</b> favorable</span>
-            <span><b>${summary.swing}</b> swing</span>
-            <span><b>${summary.challenging}</b> challenging</span>
-            <span><b>${summary.limited}</b> limited data</span>
+            <span class="step-label">Primary decision</span>
+            <h2>Test our lineup against their predicted lineup</h2>
+          </div>
+          <p>Choose an opponent scenario, set every court, and review the matchup response immediately.</p>
+        </div>
+        ${tournamentEvidenceDisclosureHtml(card, context)}
+        <div class="lineup-decision-grid">
+          <section class="opponent-prediction-picker no-print" id="prep-opponent-lineups">
+            <div>
+              <span class="step-label">1 · Opponent scenario</span>
+              <h2>Most likely lineups</h2>
+              <p>${evidenceForCard(card).length
+                ? "Reviewed tournament evidence is weighted ahead of older scouting history."
+                : "Scenarios use gathered match history and observed pair usage."}</p>
+            </div>
+            <p class="scenario-primary-note">Scenario 1 is the most evidence-supported option, not necessarily the highest-rated possible lineup.</p>
+            ${topOpponentPredictionsHtml(card, predictions, context)}
+          </section>
+          <div class="decision-lineup-results">
+            <section class="our-lineup-builder" id="prep-our-lineup">
+              <div class="match-card-section-heading">
+                <div><span class="step-label">2 · Our lineup</span><h2>Set every court</h2></div>
+                <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
+                  ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
+                  : `${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligible roster`}</p>
+              </div>
+              <div class="lineup-builder-grid">
+                ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => `
+                  <article>
+                    <strong>${court}</strong>
+                    <div>${Array.from({ length: players }, (_, index) =>
+                      lineupSelectHtml(card, context, court, index, eligibleNames)
+                    ).join("")}</div>
+                  </article>
+                `).join("")}
+              </div>
+              ${validation.unavailableNames.length
+                ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} target.</p>`
+                : ""}
+            </section>
+            <section class="matchup-analysis" id="prep-courts">
+              <div class="match-card-section-heading">
+                <div><span class="step-label">3 · Live result</span><h2>How this lineup matches up</h2></div>
+              </div>
+              <div class="matchup-overview">
+                <strong>${escapeHtml(summary.read)}</strong>
+                <div>
+                  <span><b>${summary.favorable}</b> favorable</span>
+                  <span><b>${summary.swing}</b> swing</span>
+                  <span><b>${summary.challenging}</b> challenging</span>
+                  <span><b>${summary.limited}</b> limited data</span>
+                </div>
+              </div>
+              <div class="matchup-courts decision-matchup-courts">${comparisons.map(matchCardCourtHtml).join("")}</div>
+            </section>
           </div>
         </div>
-        <details class="matchup-details">
-          <summary>
-            <span>View court-by-court analysis</span>
-            <small>DR and UTR comparisons</small>
-          </summary>
-          <div class="matchup-courts">${comparisons.map(matchCardCourtHtml).join("")}</div>
-        </details>
       </section>
+      ${lineupChallengeHtml(card, context, predictions, validation)}
+      <section class="decision-evidence" id="prep-evidence">
+        <div class="match-card-section-heading">
+          <div><span class="step-label">Why this matchup</span><h2>Performance and strategy evidence</h2></div>
+          <p>Evidence is limited to players appearing in the top opponent scenarios.</p>
+        </div>
+        ${playerPerformanceEvidenceHtml(context, predictions)}
+        ${pairAndStackingEvidenceHtml(context)}
+      </section>
+      ${opponentReferenceHtml(context)}
       <footer class="match-card-footnote">
         Opponent projection #${prediction?.rank ?? "—"} · ${prediction?.source === "tournament"
           ? `reviewed tournament result from ${escapeHtml(prediction.evidenceDate || "an unknown date")}`
           : `${prediction?.onsiteConfirmed ?? 0}/${prediction?.onsiteTotal ?? 0} players confirmed onsite; weighted with Step 1 scouting history`}.
         This card is a planning aid, not a prediction of final match results.
       </footer>
-      <section class="match-card-notes">
+      <section class="match-card-notes" id="prep-notes">
         <label for="matchCardNotes"><span class="step-label">Match notes</span>
           <textarea id="matchCardNotes" data-card-field="notes" rows="3"
             placeholder="Add preparation notes, availability, or match-day reminders.">${escapeHtml(card.notes ?? "")}</textarea>

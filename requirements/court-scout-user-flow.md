@@ -135,18 +135,21 @@ Future Phase B enhancements should add:
 ### Phase C — Match preparation
 
 1. Open the active event's confirmed schedule and select a scheduled match.
-2. Review data freshness, unresolved identities, eligible roster size, and
-   lineup-prediction availability.
-3. Review the opponent active roster with ratings, known pairs, and
-   evidence-qualified stacking strategy when available.
-4. Start from likely lineups for both teams.
-5. View up to three evidence-backed opponent lineups and challenge Our lineup
-   against each scenario with transparent court-edge pros and risks.
-6. Resolve warnings, finalize, and share the card.
+2. Show blocking data-readiness warnings; collapse the readiness section when
+   both teams are ready.
+3. Expand one evidence-backed opponent scenario, keep alternate scenarios
+   compact, and allow the captain to switch the scenario being tested.
+4. Place Our lineup editor beside live court-by-court matchup results so every
+   lineup change immediately updates the decision view.
+5. Challenge Our lineup against every predicted scenario and surface player
+   performance, pair, and stacking evidence supporting the comparison.
+6. Keep the full opponent roster and history tables available as secondary
+   expandable reference material.
+7. Resolve warnings, finalize, and share the card.
 
-Each Match Day Card stores its eligibility target. Both team analyses and
-lineup eligibility use that target when the card opens. Existing cards without
-a stored target continue to use National eligibility.
+Each Match Day Card inherits its eligibility target from the event collection.
+Both team analyses and lineup eligibility use that inherited target when the
+card opens.
 
 Schedule-driven planning uses one stable scheduled-match identity and one
 primary Match Day Card per match. Future scoreless TennisRecord rows remain in
