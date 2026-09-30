@@ -15,37 +15,25 @@ import {
   topDoublesPairsTable
 } from "./render.mjs";
 import {
-  MATCH_CARD_ELIGIBILITY_SCOPES,
-  buildMatchupReadiness,
+  MATCH_CARD_COURTS,
   buildOnsitePredictions,
-  challengeLineupAgainstPredictions,
   cloneMatchCard,
   compareCourtLine,
   confirmedOnsitePlayers,
   createMatchCard,
   createTournamentEvidence,
-  initializeBlankDraft,
-  explainLineupPrediction,
+  draftFromPrediction,
   extractLineupFromText,
-  matchCardCourtDefinitions,
   matchRosterNames,
-  mergeMatchCards,
-  migrateLegacyMatchCards,
-  orderScheduledMatches,
   parseStoredMatchCards,
   parseStoredTournamentEvidence,
-  resolveScheduledOpponent,
   summarizeMatchup,
-  summarizeRosterUsage,
-  summarizeStackingStrategy,
-  validateCardFinalization,
   validateDraft
 } from "./match-card.mjs";
 import {
-  parseCsv,
-  scheduleRowsFromCsv,
-  suggestScheduleColumns
-} from "./schedule.mjs";
+  courtScoutRouteHash,
+  parseCourtScoutRoute
+} from "./navigation.mjs";
 import {
   TEAM_WORKSPACE_SCHEDULE_LIMIT,
   assignTeamRole,
@@ -74,18 +62,15 @@ const MATCH_CARDS_STORAGE_KEY = "courtScoutMatchCards";
 const TOURNAMENT_EVIDENCE_STORAGE_KEY = "courtScoutTournamentEvidence";
 const TEAM_WORKSPACE_STORAGE_KEY = "courtScoutTeamWorkspace";
 const ACTIVE_COLLECTION_STORAGE_KEY = "courtScoutActiveTeamCollection";
-const PENDING_SCHEDULE_MATCH_STORAGE_KEY = "courtScoutPendingScheduleMatch";
-const initialRoute = new URL(window.location.href).searchParams;
+const PENDING_SCOUT_COLLECTION_STORAGE_KEY = "courtScoutPendingTeamCollection";
 let collectionCreateDatasetId = null;
-let routeInitializationPending = true;
 const state = {
   jobId: localStorage.getItem("courtScoutJob"),
   jobKind: null,
   dataset: null,
   teams: [],
   teamCollections: [],
-  activeCollectionId: initialRoute.get("collection") ??
-    localStorage.getItem(ACTIVE_COLLECTION_STORAGE_KEY),
+  activeCollectionId: localStorage.getItem(ACTIVE_COLLECTION_STORAGE_KEY),
   selectedTeamId: null,
   analysis: null,
   analysisTeamId: null,
@@ -101,62 +86,104 @@ const state = {
   activeMatchCardId: null,
   matchCardContext: null,
   matchCardError: "",
-  pendingMatchCardRefreshId: null,
-  matchSchedule: null,
-  matchScheduleError: null,
-  matchScheduleTeamId: null,
-  eventSchedule: null,
-  schedulePreview: null,
-  legacyCardMigration: null,
-  intakeEventCollectionId: null,
-  intakePreview: null,
   teamWorkspace: emptyTeamWorkspace(),
   teamWorkspaceStorageError: null,
   matchCardPrefillOpponentId: null
 };
 const analysisScopes = new Set(["national", "sectional", "local"]);
+const analysisTabs = new Set(["eligibility", "singles", "doubles", "lineups"]);
 const eligibilityScopeLabels = {
   national: "National",
   sectional: "Sectional",
   local: "Local"
 };
+let routeReady = false;
 
-function updateRouteState(viewName = null) {
-  if (routeInitializationPending || state.jobId) return;
-  const url = new URL(window.location.href);
-  const stage = viewName === "matchCards"
-    ? "match"
-    : ["reports", "results", "analysisSetup", "analysis"].includes(viewName)
-      ? "reports"
-      : "scout";
-  url.searchParams.set("stage", stage);
-  if (state.activeCollectionId) {
-    url.searchParams.set("collection", state.activeCollectionId);
-  } else {
-    url.searchParams.delete("collection");
+function updateBrowserRoute(route, { replace = false } = {}) {
+  if (!routeReady) return;
+  const hash = courtScoutRouteHash(route);
+  if (window.location.hash === hash) return;
+  window.history[replace ? "replaceState" : "pushState"](null, "", hash);
+}
+
+function updateRouteForView(name) {
+  if (name === "intake") {
+    updateBrowserRoute({ view: "scout" });
+  } else if (name === "reports") {
+    updateBrowserRoute({ view: "reports" });
+  } else if (name === "results" && state.selectedTeamId) {
+    updateBrowserRoute({
+      view: "team",
+      teamId: state.selectedTeamId,
+      tab: state.tab
+    });
+  } else if (name === "analysisSetup" && state.selectedTeamId) {
+    updateBrowserRoute({
+      view: "analysis-setup",
+      teamId: state.selectedTeamId
+    });
+  } else if (name === "analysis" && state.selectedTeamId) {
+    updateBrowserRoute({
+      view: "analysis",
+      teamId: state.selectedTeamId,
+      tab: state.analysisTab
+    });
+  } else if (name === "matchCards") {
+    updateBrowserRoute(state.activeMatchCardId
+      ? { view: "card", cardId: state.activeMatchCardId }
+      : { view: "cards" });
   }
-  if (stage === "reports" && state.selectedTeamId) {
-    url.searchParams.set("team", state.selectedTeamId);
-    url.searchParams.set("view", viewName ?? "reports");
-    if (state.tab) url.searchParams.set("tab", state.tab);
-  } else {
-    url.searchParams.delete("team");
-    url.searchParams.delete("view");
-    url.searchParams.delete("tab");
+}
+
+async function applyBrowserRoute() {
+  const route = parseCourtScoutRoute(window.location.hash);
+  if (route.view === "reports") {
+    renderReportsTeamList();
+    showView("reports");
+    return;
   }
-  if (stage === "match" && state.activeMatchCardId) {
-    url.searchParams.set("card", state.activeMatchCardId);
-    const card = state.matchCards.find(
-      item => item.id === state.activeMatchCardId
-    );
-    if (card?.scheduledMatchId) {
-      url.searchParams.set("match", card.scheduledMatchId);
+  if (route.view === "team") {
+    if (!state.teams.some(team => team.id === route.teamId)) {
+      renderReportsTeamList();
+      showView("reports");
+      return;
     }
-  } else {
-    url.searchParams.delete("card");
-    if (stage !== "match") url.searchParams.delete("match");
+    state.tab = route.tab;
+    await openTeamData(route.teamId);
+    return;
   }
-  window.history.replaceState(null, "", url);
+  if (route.view === "analysis-setup") {
+    if (state.teams.some(team => team.id === route.teamId)) {
+      openAnalysisSetup(route.teamId);
+      return;
+    }
+    renderReportsTeamList();
+    showView("reports");
+    return;
+  }
+  if (route.view === "analysis") {
+    if (!state.teams.some(team => team.id === route.teamId)) {
+      renderReportsTeamList();
+      showView("reports");
+      return;
+    }
+    state.analysisTab = route.tab;
+    await openCompletedAnalysis(route.teamId);
+    return;
+  }
+  if (route.view === "cards") {
+    openMatchCardsWorkspace();
+    return;
+  }
+  if (route.view === "card") {
+    if (state.matchCards.some(card => card.id === route.cardId)) {
+      await openMatchCard(route.cardId);
+    } else {
+      openMatchCardsWorkspace();
+    }
+    return;
+  }
+  showView("intake");
 }
 
 function analysisStorageKey(teamId) {
@@ -260,9 +287,6 @@ function renderCollectionControls() {
   }
   $("#teamCollection").innerHTML = collectionOptions(true);
   $("#teamCollection").value = state.activeCollectionId ?? "";
-  $("#reportsCollection").innerHTML = collectionOptions(true);
-  $("#reportsCollection").value = state.activeCollectionId ?? "";
-  $("#renameActiveCollection").hidden = !state.activeCollectionId;
   $("#gatherEventCollection").innerHTML = collectionOptions(
     false,
     "Temp collection (unassigned)"
@@ -384,13 +408,19 @@ function updateWorkspaceRole(teamId, role) {
 function workspaceActionFor(teamId) {
   const role = workspaceRole(teamId);
   if (role === "our") {
-    return { action: "open-match-day", label: "View match schedule" };
+    return { action: "scout-opponent", label: "Scout an opponent" };
   }
   if (role === "scheduled") {
-    return { action: "open-match-day", label: "View match schedule" };
+    return { action: "build-matchup", label: "Build matchup" };
   }
   if (!state.teamWorkspace.ourTeamId) {
     return { action: "set-our-team", label: "Set as our team" };
+  }
+  if (
+    state.teamWorkspace.scheduledOpponentIds.length <
+    TEAM_WORKSPACE_SCHEDULE_LIMIT
+  ) {
+    return { action: "add-to-schedule", label: "Add to schedule" };
   }
   return null;
 }
@@ -496,7 +526,7 @@ function showView(name) {
   requestAnimationFrame(() => {
     views[name].querySelector(".view-heading")?.focus({ preventScroll: true });
   });
-  updateRouteState(name);
+  updateRouteForView(name);
 }
 
 function syncTabState(selector, dataKey, value, panelSelector) {
@@ -575,9 +605,6 @@ function profileStatusLabel(status) {
 }
 
 function bestTeamDatasets(teams, pinnedId) {
-  const pinnedIds = new Set(
-    (Array.isArray(pinnedId) ? pinnedId : [pinnedId]).filter(Boolean)
-  );
   const stageRank = {
     tennisrecord_complete: 1,
     utr_partial: 2,
@@ -585,17 +612,18 @@ function bestTeamDatasets(teams, pinnedId) {
   };
   const selected = new Map();
   for (const team of teams) {
-    const identity = team.datasetId || [
+    const identity = [
       team.team?.season,
       team.team?.name?.toLowerCase(),
-      team.team?.level
+      team.team?.level,
+      team.team?.gender
     ].join("|");
     const current = selected.get(identity);
-    if (!current || pinnedIds.has(team.id)) {
+    if (!current || team.id === pinnedId) {
       selected.set(identity, team);
       continue;
     }
-    if (pinnedIds.has(current.id)) continue;
+    if (current.id === pinnedId) continue;
     const teamRank = stageRank[team.collectionStage] ?? 0;
     const currentRank = stageRank[current.collectionStage] ?? 0;
     if (
@@ -645,45 +673,39 @@ function renderTeamList() {
       <div class="team-list-group-heading">
         <span>${escapeHtml(title)}</span><b>${escapeHtml(count)}</b>
       </div>
-      <div class="challenge-reading-guide">
-        <strong>How a captain should read this</strong>
-        <ol>
-          <li><b>3 points</b> means a favorable rating edge; <b>1.5</b> is a swing court; <b>0</b> is challenging; <b>0.5</b> means evidence is limited.</li>
-          <li>Start with the Risks, adjust one pair, and watch whether the change improves several scenarios instead of only one.</li>
-          <li>Use Pros as courts to protect. Do not maximize the score by sacrificing eligibility, availability, or pair chemistry.</li>
-        </ol>
-      </div>
       ${teams.length
         ? teams.map(teamButton).join("")
         : `<p class="team-list-group-empty">${escapeHtml(emptyMessage)}</p>`}
     </section>`;
-  if (state.activeCollectionId) {
-    const groupedTeams = groupWorkspaceTeams(visibleTeams, state.teamWorkspace);
-    const scoutingPool = [
-      ...groupedTeams.scheduledOpponents,
-      ...groupedTeams.scoutingPool
-    ];
-    list.innerHTML = [
-      group(
-        "Our team",
-        groupedTeams.ourTeam ? "1" : "0",
-        groupedTeams.ourTeam ? [groupedTeams.ourTeam] : [],
-        "Assign the home team used for match planning."
-      ),
-      group(
-        "Scouting pool",
-        String(scoutingPool.length),
-        scoutingPool,
-        "Gathered opponents are linked through confirmed scheduled matches."
-      )
-    ].join("");
-  } else {
+  if (!state.activeCollectionId) {
     list.innerHTML = group(
       "All gathered teams",
       String(visibleTeams.length),
       visibleTeams,
       "No gathered teams yet."
     );
+  } else {
+    const groups = groupWorkspaceTeams(visibleTeams, state.teamWorkspace);
+    list.innerHTML = [
+      group(
+        "Our team",
+        groups.ourTeam ? "1" : "0",
+        groups.ourTeam ? [groups.ourTeam] : [],
+        "No team assigned yet."
+      ),
+      group(
+        "Scheduled opponents",
+        `${groups.scheduledOpponents.length}/${TEAM_WORKSPACE_SCHEDULE_LIMIT}`,
+        groups.scheduledOpponents,
+        "No scheduled opponents yet."
+      ),
+      group(
+        "Scouting pool",
+        String(groups.scoutingPool.length),
+        groups.scoutingPool,
+        "No additional scouting reports yet."
+      )
+    ].join("");
   }
   if (window.matchMedia("(max-width: 900px)").matches) {
     requestAnimationFrame(() => {
@@ -720,110 +742,147 @@ function renderReportsTeamList() {
   $("#reportsTeamSummary").textContent =
     `${readyCount} ${readyCount === 1 ? "report" : "reports"} ready in this collection.`;
   $("#reportsTeamList").innerHTML = teams.length
-    ? teams.map(team => `
-      <button class="report-team-card" type="button" data-report-team-id="${escapeHtml(team.id)}">
-        <span>Scouted team</span>
-        <span>
-          <strong>${escapeHtml(team.team?.name ?? team.datasetId)}</strong>
-          <small>${escapeHtml(team.team?.section ?? "Section unavailable")} · ${team.matchCount ?? 0} matches · ${team.rosterSize ?? 0} players</small>
-        </span>
-        <span>View report & analysis →</span>
-      </button>
-    `).join("")
-    : '<p class="empty-state">No scouted teams in this collection yet.</p>';
-  renderReportsSchedule();
+    ? rankedTeams.map(({ team, scheduleRank }) => {
+      const labels = reportTeamLabels(
+        team.team?.section,
+        team.team?.name ?? team.datasetId
+      );
+      const reportAvailable = team.reportAvailable !== false;
+      const role = workspaceRole(team.id);
+      const status = scheduleRank != null
+        ? "Scheduled opponent"
+        : role === "our"
+          ? "Our team"
+          : reportAvailable ? "Scouted team" : "National team";
+      return `
+      <article class="report-team-row${hasSchedule ? " has-schedule" : ""}${scheduleRank != null ? " scheduled" : ""}">
+        ${hasSchedule ? `
+          <div class="report-team-rank">
+            ${scheduleRank != null
+              ? `<strong>#${scheduleRank}</strong><small>Schedule</small>`
+              : '<span aria-hidden="true">—</span><small>Not scheduled</small>'}
+          </div>
+        ` : ""}
+        <div class="report-team-summary">
+          <span>${status}</span>
+          <strong title="${escapeHtml(labels.title)}">
+            <span class="team-section-name">${escapeHtml(labels.sectional || "Section unavailable")}</span>
+            <span> - </span>
+            <span>${escapeHtml(labels.team)}</span>
+          </strong>
+          <small>${reportAvailable
+            ? `${team.matchCount ?? 0} matches · ${team.activeRosterSize ?? team.rosterSize ?? 0} active players`
+            : `${team.activeRosterSize ?? 0} active players · report pending`}</small>
+        </div>
+        <div class="report-team-actions">
+          <button class="button-secondary" type="button"
+            ${reportAvailable
+              ? `data-report-team-id="${escapeHtml(team.id)}"`
+              : "disabled"}
+            aria-label="${reportAvailable
+              ? `View report and analysis for ${escapeHtml(labels.title)}`
+              : `Report not gathered for ${escapeHtml(labels.title)}`}">
+            ${reportAvailable ? "View report &amp; analysis" : "Report not gathered"}
+          </button>
+          ${scheduleRank != null ? `
+            <button class="button-primary compact" type="button"
+              data-prepare-match-id="${escapeHtml(team.id)}"
+              aria-label="Prepare match against ${escapeHtml(labels.title)}">
+              Prepare match
+            </button>
+          ` : ""}
+        </div>
+      </article>
+    `;
+    }).join("")
+    : `
+      <div class="reports-empty-state">
+        <strong>No scouted teams in this collection yet</strong>
+        <p>Scout a team to gather its roster, match history, and ratings.</p>
+        <button class="button-primary compact" type="button" data-scout-collection-team>Scout your first team</button>
+      </div>
+    `;
 }
 
-function scheduleActionsHtml() {
-  const eventType = state.eventSchedule?.eventType ?? "local";
-  return `
-    <div class="schedule-actions">
-      <button class="button-secondary compact" type="button" data-schedule-action="refresh-local"
-        ${eventType === "local" ? "" : "disabled"}>Refresh local schedule</button>
-      <label class="button-secondary compact schedule-file-action">
-        Import CSV
-        <input type="file" accept=".csv,text/csv" data-schedule-csv>
-      </label>
-      <button class="button-secondary compact" type="button" data-schedule-action="add-manual">
-        Add match
-      </button>
-    </div>`;
-}
+function renderReportsCollections() {
+  const cards = buildReportCollections(state.teamCollections, state.teams);
 
-function renderReportsSchedule() {
-  const container = $("#reportsSchedule");
-  if (!state.activeCollectionId) {
-    container.innerHTML = `
-      <div class="reports-schedule-heading">
-        <div><span class="step-label">Match schedule</span><h2>Choose a collection</h2></div>
-      </div>
-      <p class="empty-state">Schedules belong to an event collection and its assigned Our team.</p>`;
-    return;
-  }
-  const ourTeamId = state.eventSchedule?.ourTeamId ??
-    state.teamWorkspace.ourTeamId;
-  const ourTeam = matchCardTeam(ourTeamId);
-  if (!ourTeam) {
-    container.innerHTML = `
-      <div class="reports-schedule-heading">
-        <div><span class="step-label">Match schedule</span><h2>Our team is unavailable</h2></div>
-      </div>
-      <p class="empty-state">The confirmed home-team dataset is unavailable. Refresh the collection or scout the home team again.</p>`;
-    return;
-  }
-  container.innerHTML = `
-    <div class="reports-schedule-heading">
-      <div>
-        <span class="step-label">Confirmed schedule</span>
-        <h2>${escapeHtml(ourTeam.team?.name ?? ourTeam.datasetId)} matches</h2>
-        <p>${escapeHtml(state.eventSchedule?.eventType ?? "local")} event · ${
-          state.eventSchedule?.lastSuccessfulSyncAt
-            ? `Updated ${escapeHtml(new Date(state.eventSchedule.lastSuccessfulSyncAt).toLocaleString())}`
-            : "Not yet synchronized"
-        }</p>
-      </div>
-      <div>
-        ${scheduleActionsHtml()}
-        <button class="button-primary compact" type="button" data-open-match-day>
-          Open Match Day planning
+  const reportCount = state.teams.filter(
+    team => team.reportAvailable !== false
+  ).length;
+  $("#reportsCollectionSummary").textContent = cards.length
+    ? `${cards.length} ${cards.length === 1 ? "collection" : "collections"} · ${reportCount} ${reportCount === 1 ? "report" : "reports"} ready`
+    : "Collections keep reports for the same event together.";
+  $("#reportsCollectionList").innerHTML = cards.length
+    ? cards.map(({ id, name, competitionLevel, temporary, teams }) => {
+      const readyCount = teams.filter(team =>
+        team.reportAvailable !== false
+      ).length;
+      return `
+        <button class="report-collection-card" type="button"
+          data-reports-collection-id="${escapeHtml(id)}">
+          <span class="report-collection-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 7.5h6l2-2h10v13H3z"/><path d="M3 9.5h18"/></svg>
+          </span>
+          <span class="report-collection-copy">
+            <span class="report-collection-level">${
+              competitionLevel
+                ? escapeHtml(collectionCompetitionLevelLabel(competitionLevel))
+                : temporary ? "Unassigned" : "Unfiled"
+            }</span>
+            <strong title="${escapeHtml(name)}">${escapeHtml(name)}</strong>
+            <small>${teams.length} ${teams.length === 1 ? "team" : "teams"} · ${readyCount} ${readyCount === 1 ? "report" : "reports"} ready</small>
+          </span>
+          <span class="report-collection-action">View team reports <b aria-hidden="true">→</b></span>
         </button>
+      `;
+    }).join("")
+    : `
+      <div class="reports-empty-state">
+        <strong>No report collections yet</strong>
+        <p>Create a collection to organize teams for an event, then gather team data in Step 1.</p>
+        <button class="button-primary compact" type="button" data-create-report-collection>Create collection</button>
       </div>
-    </div>
-    ${scheduledMatchListHtml()}`;
+    `;
 }
 
-async function loadReportsSchedule() {
-  await loadMatchSchedule();
-  if (!views.reports.hidden) renderReportsSchedule();
+function showReportsHome() {
+  renderReportsCollections();
+  $("#reportsViewEyebrow").textContent = "Step 2 · Reports & analysis";
+  $("#reportsViewHeading").textContent = "Report collections";
+  $("#reportsViewDescription").textContent =
+    "Choose an event collection, then open a team report to review and analyze.";
+  $("#createReportCollection").hidden = false;
+  $("#reportsCollectionsPanel").hidden = false;
+  $("#reportsTeamsPanel").hidden = true;
+  showView("reports");
 }
 
-async function restoreOurTeamFromEventSchedule() {
-  if (!state.activeCollectionId) return;
-  const response = await api(
-    `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}`
-  );
-  const ourTeamId = response.schedule?.ourTeamId;
-  if (!ourTeamId || state.teamWorkspace.ourTeamId === ourTeamId) return;
-  state.eventSchedule = response.schedule;
-  state.teamWorkspace = assignTeamRole(
-    state.teamWorkspace,
-    ourTeamId,
-    "our"
-  );
-  persistTeamWorkspace();
+function showReportsCollection(collectionId) {
+  setActiveCollection(collectionId);
+  renderReportsTeamList();
+  $("#reportsViewEyebrow").textContent = "Reports & analysis · Collection";
+  $("#reportsViewHeading").textContent = "Team reports";
+  $("#reportsViewDescription").textContent =
+    "Choose a team to inspect its roster, match history, and analysis.";
+  $("#createReportCollection").hidden = true;
+  $("#reportsCollectionsPanel").hidden = true;
+  $("#reportsTeamsPanel").hidden = false;
+  showView("reports");
+}
+
+function showSelectedTeamCollection() {
+  const team = selectedTeam();
+  showReportsCollection(team ? teamCollectionId(team) || null : state.activeCollectionId);
 }
 
 async function loadTeams(selectedId = state.selectedTeamId) {
   try {
     const response = await api("/api/teams");
-    state.teams = bestTeamDatasets(response.teams, [
-      selectedId,
-      state.teamWorkspace.ourTeamId
-    ]);
+    state.teams = bestTeamDatasets(response.teams, selectedId);
     if (selectedId && state.teams.some(team => team.id === selectedId)) {
       state.selectedTeamId = selectedId;
     }
-
     renderTeamList();
     renderReportsTeamList();
     renderReportsCollections();
@@ -941,109 +1000,15 @@ $("#connectUtr").addEventListener("click", async () => {
   }
 });
 
-function intakePreviewMatches(teamUrl, teamType) {
-  return state.intakePreview?.teamUrl === teamUrl &&
-    state.intakePreview?.teamType === teamType;
-}
-
-function clearIntakePreview() {
-  state.intakePreview = null;
-  $("#intakeConfirmation").hidden = true;
-}
-
-function renderIntakePreview(preview) {
-  const isHomeTeam = preview.teamType === "home";
-  const leagueTeams = preview.leagueTeams ?? [];
-  const leagueFormat = preview.team.leagueFormat === "mixed"
-    ? "Mixed league"
-    : "Single-gender league";
-  $("#intakeConfirmationLabel").textContent = isHomeTeam
-    ? "Home team confirmed"
-    : "Opponent confirmed";
-  $("#intakeConfirmationName").textContent = preview.team.name;
-  $("#intakeConfirmationMeta").textContent = [
-    preview.team.season,
-    leagueFormat,
-    preview.team.gender !== "Mixed" ? preview.team.gender : null,
-    preview.team.league,
-    preview.team.section,
-    `${preview.rosterSize} roster players`
-  ].filter(Boolean).join(" · ");
-  $("#intakeConfirmationScope").innerHTML = isHomeTeam
-    ? `
-      <div class="intake-confirmation-summary">
-        <span>League collection preview</span>
-        <strong>${preview.leagueSchedule?.length ?? leagueTeams.length} scheduled match${(preview.leagueSchedule?.length ?? leagueTeams.length) === 1 ? "" : "es"}</strong>
-      </div>
-      ${(preview.leagueSchedule?.length ?? leagueTeams.length)
-        ? `<ul class="intake-opponent-preview">${(preview.leagueSchedule ?? leagueTeams).map(item =>
-          `<li title="${escapeHtml(item.sourceOpponentName ?? item.name)}">${escapeHtml([
-            item.date,
-            item.sourceOpponentName ?? item.name
-          ].filter(Boolean).join(" · "))}</li>`
-        ).join("")}</ul>`
-        : "<p>No dated league opponents were found. Only the confirmed home team will be gathered.</p>"}
-    `
-    : "<p>Only this confirmed opponent profile will be gathered into the temporary collection.</p>";
-  $("#intakeConfirmation").hidden = false;
-}
-
-function syncTeamType() {
-  const isHomeTeam = $('input[name="teamType"]:checked').value === "home";
-  const teamType = isHomeTeam ? "home" : "opponent";
-  const confirmed = intakePreviewMatches($("#teamUrl").value.trim(), teamType);
-  $("#urlHint").textContent = isHomeTeam
-    ? "Use your home team profile. Every dated league opponent on its schedule will also be gathered."
-    : "Use the opponent’s TennisRecord team profile URL.";
-  $("#collectionForm").querySelector('[type="submit"]').firstChild.textContent =
-    confirmed
-      ? isHomeTeam ? "Confirm & gather league teams " : "Confirm & gather opponent "
-      : isHomeTeam ? "Review home team " : "Review opponent team ";
-}
-
-$$('input[name="teamType"]').forEach(input => {
-  input.addEventListener("change", () => {
-    clearIntakePreview();
-    syncTeamType();
-  });
-});
-$("#teamUrl").addEventListener("input", () => {
-  clearIntakePreview();
-  $("#formError").textContent = "";
-  syncTeamType();
-});
-
 $("#collectionForm").addEventListener("submit", async event => {
   event.preventDefault();
   const submit = event.currentTarget.querySelector('[type="submit"]');
   const teamUrl = $("#teamUrl").value.trim();
-  const teamType = $('input[name="teamType"]:checked').value;
   const utrMode = $("#includeUtr").checked
     ? $('input[name="utrMode"]:checked').value
     : "none";
   $("#formError").textContent = "";
   submit.disabled = true;
-
-  if (!intakePreviewMatches(teamUrl, teamType)) {
-    submit.firstChild.textContent = "Checking TennisRecord ";
-    try {
-      const preview = await api("/api/team-preview", {
-        method: "POST",
-        body: JSON.stringify({ teamUrl, teamType })
-      });
-      state.intakePreview = preview;
-      $("#teamUrl").value = preview.teamUrl;
-      renderIntakePreview(preview);
-    } catch (error) {
-      clearIntakePreview();
-      $("#formError").textContent = error.message;
-    } finally {
-      submit.disabled = false;
-      syncTeamType();
-    }
-    return;
-  }
-
   submit.firstChild.textContent = "Starting collection ";
   const collectionTarget = $("#scoutCollectionContext").dataset.collectionTarget;
   const eventCollectionId =
@@ -1056,13 +1021,12 @@ $("#collectionForm").addEventListener("submit", async event => {
       method: "POST",
       body: JSON.stringify({
         teamUrl,
-        utrMode
+        utrMode,
+        eventCollectionId
       })
     });
     state.jobId = job.id;
     state.jobKind = job.kind;
-    state.intakeEventCollectionId = null;
-    clearIntakePreview();
     localStorage.setItem("courtScoutJob", job.id);
     if (collectionTarget) {
       localStorage.setItem(
@@ -1079,7 +1043,7 @@ $("#collectionForm").addEventListener("submit", async event => {
     $("#formError").textContent = error.message;
   } finally {
     submit.disabled = false;
-    syncTeamType();
+    submit.firstChild.textContent = "Start gathering data ";
   }
 });
 
@@ -1097,23 +1061,12 @@ $("#openRefreshData").addEventListener("click", () => {
   const current = getRatingSelections(state.dataset);
   $("#refreshTennisRecord").checked = false;
   $("#refreshUtr").checked = false;
+  $('input[name="refreshRatingScope"][value="all"]').checked = true;
   const utrMode = current.utr === "authenticated" ? "authenticated" : "public";
   $(`input[name="refreshUtrMode"][value="${utrMode}"]`).checked = true;
   $("#refreshError").textContent = "";
   syncRefreshOptions();
   $("#refreshDialog").showModal();
-});
-$("#sourceRetryActions").addEventListener("click", event => {
-  const button = event.target.closest("[data-retry-source]");
-  if (!button) return;
-  $("#openRefreshData").click();
-  const source = button.dataset.retrySource;
-  $("#refreshTennisRecord").checked = source === "tennisrecord";
-  $("#refreshUtr").checked = source === "utr";
-  syncRefreshOptions();
-  requestAnimationFrame(() => {
-    $("#refreshForm [type=submit]")?.focus();
-  });
 });
 
 $("#closeRefreshDialog").addEventListener("click", () => {
@@ -1146,6 +1099,7 @@ $("#refreshForm").addEventListener("submit", async event => {
   const submit = event.currentTarget.querySelector('[type="submit"]');
   const refreshTennisRecord = $("#refreshTennisRecord").checked;
   const refreshUtr = $("#refreshUtr").checked;
+  const ratingScope = $('input[name="refreshRatingScope"]:checked').value;
   const utrMode = refreshUtr
     ? $('input[name="refreshUtrMode"]:checked').value
     : "none";
@@ -1159,7 +1113,8 @@ $("#refreshForm").addEventListener("submit", async event => {
         teamId: state.selectedTeamId,
         refreshTennisRecord,
         refreshUtr,
-        utrMode
+        utrMode,
+        ratingScope
       })
     });
     state.jobId = job.id;
@@ -1201,7 +1156,6 @@ function updateProgress(job) {
     ? "Return to team"
     : "Return to setup";
   const current = order.indexOf(job.phase);
-  const isLeagueCollection = job.kind === "league-collection";
   $$(".phase-list > div").forEach(item => {
     const index = order.indexOf(item.dataset.phase);
     item.hidden = index === -1;
@@ -1219,9 +1173,6 @@ function updateProgress(job) {
       ? "The previous dataset is still available."
       : "We couldn’t finish this dataset.";
     $("#tryAgain").hidden = false;
-  } else if (isLeagueCollection && job.status !== "complete") {
-    $(".progress-copy .eyebrow").textContent = "League collection in progress";
-    $(".progress-copy h1").textContent = "Building your league scouting collection.";
   }
 }
 
@@ -1278,7 +1229,7 @@ function getRows() {
           ratingCell(player.utr?.singles),
           ratingCell(player.utr?.doubles),
           `<span class="pill status-pill" title="${escapeHtml(player.utr?.lookupStatus?.replaceAll("_", " ") ?? "unresolved")}">${escapeHtml(profileStatusLabel(player.utr?.lookupStatus))}</span>`
-        ] : []),
+        ] : [])
       ]
     }));
   }
@@ -1335,7 +1286,7 @@ function getHeadings() {
       "Dynamic rating",
       ...(selections.utr !== "none"
         ? ["Singles UTR", "Doubles UTR", "Profile status"]
-        : []),
+        : [])
     ];
   }
   return headings[state.tab];
@@ -1383,7 +1334,11 @@ bindTablist("[data-tab]", "tab", button => {
     $("#tableSearch").value = "";
     syncTabState("[data-tab]", "tab", state.tab, "#datasetPanel");
     renderTable();
-    updateRouteState("results");
+    updateBrowserRoute({
+      view: "team",
+      teamId: state.selectedTeamId,
+      tab: state.tab
+    });
 });
 
 $("#tableSearch").addEventListener("input", event => {
@@ -1414,31 +1369,12 @@ async function loadResults(job) {
   if (job.kind === "refresh" && teamId) {
     markAnalysisStale(teamId);
   }
-  if (job.eventCollectionId) {
-    state.activeCollectionId = job.eventCollectionId;
-    localStorage.setItem(ACTIVE_COLLECTION_STORAGE_KEY, job.eventCollectionId);
-    await loadTeamCollections();
-    loadStoredTeamWorkspace();
-  }
+  routeReady = true;
   renderDataset(data);
   if (teamId) await loadTeams(teamId);
-  if (job.kind === "refresh" && state.pendingMatchCardRefreshId) {
-    const cardId = state.pendingMatchCardRefreshId;
-    state.pendingMatchCardRefreshId = null;
-    await openMatchCard(cardId);
-    return;
+  if (collectionSyncError || job.warning) {
+    $("#teamRoleError").textContent = job.warning ?? collectionSyncError;
   }
-  if (job.teamType === "home" && teamId) {
-    updateWorkspaceRole(teamId, "our");
-  }
-  if (job.teamType === "opponent" && teamId) {
-    if (await resumePendingScheduledMatch(teamId)) return;
-  }
-  if (job.warning) {
-    $("#teamRoleError").textContent = job.warning;
-  }
-  routeInitializationPending = false;
-  updateRouteState("results");
 }
 
 function renderDataset(data) {
@@ -1491,11 +1427,6 @@ function renderDataset(data) {
   $("#qualityText").textContent = ratingLabels.length
     ? "Validated with selected rating sources."
     : "Only TennisRecord team, roster, and match data were requested.";
-  const unresolvedUtr = data.dataQuality?.unresolvedIdentities?.length ?? 0;
-  const utrRetry = $('[data-retry-source="utr"]');
-  utrRetry.textContent = unresolvedUtr
-    ? `UTR · ${unresolvedUtr} unresolved`
-    : "UTR";
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   $("#downloadData").href = URL.createObjectURL(blob);
   syncTabState("[data-tab]", "tab", state.tab, "#datasetPanel");
@@ -1653,7 +1584,7 @@ function renderLineupPredictions() {
       <div class="lineup-version-warning" role="alert">
         <strong>Lineup predictions are not available from the running analysis server.</strong>
         <span>The page received analysis version ${escapeHtml(state.analysis.analysisVersion ?? "unknown")}.
-        Restart Tennis Court Scout to load analysis version 1.2 or newer, then run the team analysis again.</span>
+        Restart Court Scout to load analysis version 1.1 or newer, then run the team analysis again.</span>
       </div>`;
   }
   const predictions = lineupAnalysis.predictions ?? [];
@@ -1887,49 +1818,18 @@ function loadStoredMatchCards() {
   }
 }
 
-function persistMatchCards(syncServer = true) {
+function persistMatchCards() {
   try {
     localStorage.setItem(
       MATCH_CARDS_STORAGE_KEY,
       JSON.stringify(state.matchCards)
     );
     state.matchCardStorageError = null;
-    if (syncServer) {
-      void api("/api/match-cards", {
-        method: "PUT",
-        body: JSON.stringify({ cards: state.matchCards })
-      }).catch(error => {
-        state.matchCardStorageError =
-          `Cards are saved on this device, but server sync failed: ${error.message}`;
-      });
-    }
     return true;
   } catch (error) {
     state.matchCardStorageError =
       `Match cards could not be saved locally: ${error.message}`;
     return false;
-  }
-}
-
-async function loadServerMatchCards() {
-  try {
-    const response = await api("/api/match-cards");
-    const serverCards = parseStoredMatchCards(
-      JSON.stringify(response.cards)
-    );
-    const merged = mergeMatchCards(state.matchCards, serverCards);
-    const changed = JSON.stringify(merged) !== JSON.stringify(serverCards);
-    state.matchCards = merged;
-    persistMatchCards(false);
-    if (changed) {
-      await api("/api/match-cards", {
-        method: "PUT",
-        body: JSON.stringify({ cards: state.matchCards })
-      });
-    }
-  } catch (error) {
-    state.matchCardStorageError =
-      `Server cards could not be synchronized; local cards remain available: ${error.message}`;
   }
 }
 
@@ -2003,12 +1903,50 @@ function matchCardCollectionOptions(selectedId) {
   ].join("");
 }
 
-function matchCardEligibilityOptions(selectedScope = "national") {
-  return MATCH_CARD_ELIGIBILITY_SCOPES.map(scope => `
-    <option value="${scope}" ${scope === selectedScope ? "selected" : ""}>
-      ${eligibilityScopeLabels[scope]}
-    </option>
-  `).join("");
+function matchScheduleDateLabel(value) {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC"
+  }).format(new Date(Date.UTC(year, month - 1, day)));
+}
+
+function roundRobinScheduleHtml(matches) {
+  if (!matches.length) return "";
+  return `
+    <section class="round-robin-schedule" aria-labelledby="roundRobinScheduleHeading">
+      <div class="round-robin-schedule-heading">
+        <div>
+          <span class="step-label">Official round robin</span>
+          <h2 id="roundRobinScheduleHeading">PNW match schedule</h2>
+        </div>
+        <span>${matches.length} matches</span>
+      </div>
+      <div class="round-robin-match-grid">
+        ${matches.map((match, index) => `
+          <article class="round-robin-match">
+            <span class="round-robin-number">Match ${index + 1}</span>
+            <div class="round-robin-time">
+              <strong>${escapeHtml(matchScheduleDateLabel(match.date))}</strong>
+              <span>${escapeHtml(match.time)}</span>
+            </div>
+            <div class="round-robin-opponent">
+              <span>vs</span>
+              <strong>${escapeHtml(matchCardTeamName(match.opponentTeamId))}</strong>
+              <small>${escapeHtml(match.site)}</small>
+            </div>
+            <button class="button-secondary compact" type="button"
+              data-card-action="plan-scheduled-match"
+              data-opponent-team-id="${escapeHtml(match.opponentTeamId)}"
+              data-match-date="${escapeHtml(match.date)}">
+              Plan matchup
+            </button>
+          </article>
+        `).join("")}
+      </div>
+    </section>`;
 }
 
 function newMatchCardId() {
@@ -2016,124 +1954,6 @@ function newMatchCardId() {
   const values = new Uint32Array(4);
   crypto.getRandomValues(values);
   return [...values].map(value => value.toString(16).padStart(8, "0")).join("-");
-}
-
-function scheduledMatchCard(match, opponentTeam = null) {
-  const linked = state.matchCards.find(card =>
-    card.scheduledMatchId === match.id
-  );
-  if (linked) return linked;
-  if (!opponentTeam) return null;
-  return state.matchCards.find(card =>
-    !card.scheduledMatchId &&
-    card.collectionId === state.activeCollectionId &&
-    card.ourTeamId === state.teamWorkspace.ourTeamId &&
-    card.opponentTeamId === opponentTeam.id &&
-    card.date === match.date
-  ) ?? null;
-}
-
-function scheduledMatchState(match, opponentTeam, card) {
-  if (match.status === "cancelled") return "Cancelled";
-  if (match.status === "completed" && !card) return "Completed";
-  if (!opponentTeam) return "Needs scouting";
-  if (card?.status === "archived") return "Archived";
-  if (card?.status === "final") return "Final";
-  if (card?.status === "not_started") return "Not started";
-  if (card) return "Lineup in progress";
-  return "Report ready";
-}
-
-function matchCardStatusLabel(status) {
-  return {
-    not_started: "Not started",
-    draft: "Draft",
-    final: "Final",
-    archived: "Archived"
-  }[status] ?? "Draft";
-}
-
-function scheduledMatchListHtml() {
-  if (state.matchSchedule == null) {
-    return '<div class="match-card-empty"><strong>Loading schedule…</strong><span>Reading confirmed matches from Our team.</span></div>';
-  }
-  const errorHtml = state.matchScheduleError
-    ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchScheduleError)}</p>`
-    : "";
-  if (!state.matchSchedule.length) {
-    return `
-      ${errorHtml}
-      <div class="match-card-empty">
-        <strong>No confirmed schedule yet</strong>
-        <span>Refresh Our team from TennisRecord to pull local schedule rows, including future scoreless matches.</span>
-      </div>`;
-  }
-  const teams = activeCollectionTeams();
-  return `
-    ${errorHtml}
-    <div class="schedule-match-list">
-      ${orderScheduledMatches(state.matchSchedule).map(match => {
-        const opponentTeam = resolveScheduledOpponent(match, teams);
-        const card = scheduledMatchCard(match, opponentTeam);
-        const preparationState = scheduledMatchState(match, opponentTeam, card);
-        const dateTime = [
-          match.date ?? "TBD",
-          match.time,
-          match.time
-            ? match.timezone ?? state.eventSchedule?.timezone ?? "Timezone TBD"
-            : null
-        ].filter(Boolean).join(" · ");
-        const location = [
-          match.site ?? "Location TBD",
-          match.designation !== "unknown" ? match.designation : null
-        ].filter(Boolean).join(" · ");
-        return `
-          <article class="schedule-match-row ${match.status}">
-            <div class="schedule-match-date">
-              <strong>${escapeHtml(dateTime)}</strong>
-              <small>${escapeHtml(match.round ?? "Round TBD")}</small>
-            </div>
-            <div class="schedule-match-opponent">
-              <span>Opponent</span>
-              <strong>${escapeHtml(match.sourceOpponentName)}</strong>
-              <small>${escapeHtml(location)}</small>
-            </div>
-            <div class="schedule-match-status">
-              <span>${escapeHtml(match.status)}</span>
-              <b>${escapeHtml(preparationState)}</b>
-              <small>${card?.updatedAt
-                ? `Card updated ${escapeHtml(new Date(card.updatedAt).toLocaleString())}`
-                : "No saved preparation"}</small>
-            </div>
-            ${match.status === "cancelled" && !card
-              ? '<span class="schedule-no-action">No preparation required</span>'
-              : opponentTeam
-              ? `<button class="button-secondary compact" type="button"
-                  data-card-action="open-scheduled-match"
-                  data-scheduled-match-id="${escapeHtml(match.id)}">
-                  ${card
-                    ? match.status === "cancelled" ? "View preparation" : "Resume preparation"
-                    : match.status === "completed" ? "Review match" : "Prepare match"}
-                </button>`
-              : `<div class="schedule-resolution">
-                  <select data-schedule-link-match="${escapeHtml(match.id)}"
-                    aria-label="Choose gathered team for ${escapeHtml(match.sourceOpponentName)}">
-                    <option value="">Choose gathered team</option>
-                    ${teams.filter(team =>
-                      team.id !== state.teamWorkspace.ourTeamId
-                    ).map(team => `
-                      <option value="${escapeHtml(team.id)}">${escapeHtml(team.team?.name ?? team.datasetId)}</option>
-                    `).join("")}
-                  </select>
-                  <button class="button-secondary compact" type="button"
-                    data-card-action="scout-scheduled-opponent"
-                    data-scheduled-match-id="${escapeHtml(match.id)}">
-                    Scout opponent
-                  </button>
-                </div>`}
-          </article>`;
-      }).join("")}
-    </div>`;
 }
 
 function matchCardListHtml() {
@@ -2170,7 +1990,7 @@ function matchCardListHtml() {
       <div class="saved-card-grid">
         ${cards.map(card => `
           <button type="button" class="saved-match-card" data-card-action="open" data-card-id="${escapeHtml(card.id)}">
-            <span class="saved-card-status ${card.status === "final" ? "final" : ""}">${escapeHtml(matchCardStatusLabel(card.status))}</span>
+            <span class="saved-card-status ${card.status === "final" ? "final" : ""}">${escapeHtml(card.status ?? "draft")}</span>
             <span class="saved-card-main">
               <strong>${escapeHtml(card.title)}</strong>
               <small>vs ${escapeHtml(matchCardTeamName(card.opponentTeamId))}</small>
@@ -2178,8 +1998,7 @@ function matchCardListHtml() {
             <span class="saved-card-meta">
               <span>${escapeHtml(card.date ?? "Date not set")}</span>
               <span>${escapeHtml(card.location ?? "home")}</span>
-              <span>${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligibility</span>
-              ${card.scheduledMatchId ? "" : "<span>Legacy card</span>"}
+              <span>${escapeHtml(eligibilityScopeLabels[card.eligibilityScope] ?? "National")}</span>
             </span>
             <span class="saved-card-open" aria-hidden="true">Open →</span>
           </button>
@@ -2192,21 +2011,38 @@ function matchCardListHtml() {
 function renderMatchCardsHome() {
   state.activeMatchCardId = null;
   state.matchCardContext = null;
-  updateRouteState("matchCards");
   const hasActiveCollection = Boolean(state.activeCollectionId);
-  const authoritativeOurTeamId = state.eventSchedule?.ourTeamId ??
-    state.teamWorkspace.ourTeamId;
   const defaultOurTeam = hasActiveCollection
-    ? matchCardTeam(authoritativeOurTeamId)?.id ?? ""
+    ? matchCardTeam(state.teamWorkspace.ourTeamId)?.id ?? ""
     : "";
-  const confirmedMatches = (state.matchSchedule ?? []).filter(
-    match => match.status !== "cancelled"
+  const scheduledTeams = hasActiveCollection
+    ? state.teamWorkspace.scheduledOpponentIds.map(matchCardTeam).filter(Boolean)
+    : [];
+  const collection = state.teamCollections.find(
+    item => item.id === state.activeCollectionId
   );
-  const readyForPlanning = Boolean(defaultOurTeam && confirmedMatches.length);
+  const roundRobinMatches = hasActiveCollection
+    ? collectionMatchSchedule(collection, state.teams)
+    : [];
+  const scoutingCandidates = hasActiveCollection
+    ? activeCollectionTeams().filter(team =>
+      team.id !== defaultOurTeam &&
+      !state.teamWorkspace.scheduledOpponentIds.includes(team.id)
+    )
+    : [];
+  const defaultOpponent = scheduledTeams.some(
+    team => team.id === state.matchCardPrefillOpponentId
+  )
+    ? state.matchCardPrefillOpponentId
+    : scheduledTeams[0]?.id ?? "";
+  const canCreateCard = Boolean(defaultOurTeam && defaultOpponent);
+  const defaultEligibilityScope =
+    completedAnalysisScope(defaultOurTeam) ?? "national";
+  const today = new Date().toISOString().slice(0, 10);
   $("#matchCardsWorkspace").innerHTML = `
     <div class="match-cards-topbar">
       <div>
-        <p class="eyebrow">Step 3 · Match day planning</p>
+        <p class="eyebrow">Step 3 · Match day planning <span class="feature-status">Work in progress</span></p>
         <h1 class="view-heading" tabindex="-1">Match Day Cards</h1>
         <p>Draft our lineup against a scouted opponent, compare every court, and print a shareable card.</p>
       </div>
@@ -2217,18 +2053,12 @@ function renderMatchCardsHome() {
     ${state.teamWorkspaceStorageError
       ? `<p class="match-card-alert" role="alert">${escapeHtml(state.teamWorkspaceStorageError)}</p>`
       : ""}
-    ${state.legacyCardMigration?.migrated
-      ? `<p class="match-card-alert success">${state.legacyCardMigration.migrated} legacy card${state.legacyCardMigration.migrated === 1 ? "" : "s"} linked to the confirmed schedule.</p>`
-      : ""}
-    ${state.legacyCardMigration?.unresolved
-      ? `<p class="match-card-alert">${state.legacyCardMigration.unresolved} legacy card${state.legacyCardMigration.unresolved === 1 ? "" : "s"} could not be linked automatically. Open each card to archive it or retain it unchanged.</p>`
-      : ""}
     <section class="match-readiness" aria-label="Match preparation readiness">
       <div>
         <span class="step-label">Workspace readiness</span>
         <h2>${!hasActiveCollection
           ? "Choose an event collection"
-          : readyForPlanning ? "Ready to prepare scheduled matches" : "Complete the schedule setup"}</h2>
+          : canCreateCard ? "Ready to build a matchup" : "Complete the scouting setup"}</h2>
       </div>
       <div class="match-readiness-items">
         <article class="${defaultOurTeam ? "ready" : ""}">
@@ -2237,38 +2067,68 @@ function renderMatchCardsHome() {
             ? escapeHtml(matchCardTeamName(defaultOurTeam))
             : "Gather or assign the team you are preparing."}</small></div>
         </article>
-        <article class="${confirmedMatches.length ? "ready" : ""}">
-          <span>${confirmedMatches.length ? "✓" : "2"}</span>
-          <div><strong>Confirmed schedule</strong><small>${confirmedMatches.length} active match${confirmedMatches.length === 1 ? "" : "es"}</small></div>
+        <article class="${scheduledTeams.length ? "ready" : ""}">
+          <span>${scheduledTeams.length ? "✓" : "2"}</span>
+          <div><strong>Scheduled opponents</strong><small>${scheduledTeams.length} of ${TEAM_WORKSPACE_SCHEDULE_LIMIT} added</small></div>
         </article>
       </div>
       ${!hasActiveCollection
         ? '<button class="button-secondary compact" type="button" data-card-action="choose-collection">Choose collection</button>'
         : !defaultOurTeam
-        ? '<button class="button-secondary compact" type="button" data-card-action="scout-our-team">Restore home team</button>'
-        : !confirmedMatches.length
-          ? `<button class="button-secondary compact" type="button" data-schedule-action="${
-            state.eventSchedule?.eventType === "local" ? "refresh-local" : "add-manual"
-          }">${state.eventSchedule?.eventType === "local"
-            ? "Refresh local schedule"
-            : "Add or import schedule"}</button>`
+        ? activeCollectionTeams().length
+          ? '<button class="button-secondary compact" type="button" data-card-action="choose-our-team">Assign Our team</button>'
+          : '<button class="button-secondary compact" type="button" data-card-action="scout-our-team">Scout Our team</button>'
+        : !scheduledTeams.length
+          ? scoutingCandidates.length
+            ? '<button class="button-secondary compact" type="button" data-card-action="choose-opponent">Add a scheduled opponent</button>'
+            : '<button class="button-secondary compact" type="button" data-card-action="scout-opponent">Scout an opponent</button>'
           : ""}
     </section>
-    <section class="schedule-planning">
-      <div class="saved-cards-heading">
-        <div>
-          <span class="step-label">Confirmed schedule</span>
-          <h2>Choose a scheduled match</h2>
-          <p>Each match has one primary Match Day Card. Reopen it to resume preparation.</p>
-        </div>
-        ${scheduleActionsHtml()}
+    ${roundRobinScheduleHtml(roundRobinMatches)}
+    <div class="match-card-create-panel">
+      <div>
+        <span class="step-label">Start here</span>
+        <h2>Choose the matchup</h2>
+        <p>Select the tournament first, then the scheduled opponent you are preparing for.</p>
       </div>
-      ${scheduledMatchListHtml()}
-    </section>
+      <form id="matchCardCreateForm" class="match-card-create-form">
+        <label>Tournament
+          <select name="collectionId" data-match-collection required>
+            ${matchCardCollectionOptions(state.activeCollectionId)}
+          </select>
+        </label>
+        <label>Opponent
+         <select name="opponentTeamId" required>${matchCardOpponentOptions(defaultOpponent)}</select>
+        </label>
+        <input name="ourTeamId" type="hidden" value="${escapeHtml(defaultOurTeam)}">
+        <label>Match date
+          <input name="date" type="date" required value="${today}">
+        </label>
+        <label>Location
+          <select name="location">
+            <option value="home">Home</option>
+            <option value="away">Away</option>
+            <option value="neutral">Neutral</option>
+          </select>
+        </label>
+        <label>Eligibility target
+          <select name="eligibilityScope">
+            ${Object.entries(eligibilityScopeLabels).map(([scope, label]) => `
+              <option value="${scope}" ${scope === defaultEligibilityScope ? "selected" : ""}>${label}</option>
+            `).join("")}
+          </select>
+        </label>
+        <label class="match-card-title-field">Card name
+          <input name="title" maxlength="80" placeholder="e.g. Nationals semifinal">
+        </label>
+        <button class="button-primary compact" type="submit" ${canCreateCard ? "" : "disabled"}>Plan this match</button>
+      </form>
+      <p class="form-error" id="matchCardCreateError" role="alert"></p>
+    </div>
     <div class="saved-cards">
       <div class="saved-cards-heading">
-        <span class="step-label">Saved preparation</span>
-        <h2>Match Day Cards</h2>
+        <span class="step-label">Saved locally</span>
+        <h2>Upcoming Match Day Cards</h2>
       </div>
       ${matchCardListHtml()}
     </div>`;
@@ -2317,7 +2177,7 @@ function predictionLine(prediction, court) {
 }
 
 function selectedDraftPlayers(card, exceptCourt, exceptIndex) {
-  return new Set(matchCardCourtDefinitions(card.leagueFormat).flatMap(({ court }) =>
+  return new Set(MATCH_CARD_COURTS.flatMap(({ court }) =>
     (card.draft[court] ?? []).filter((name, index) =>
       name && !(court === exceptCourt && index === exceptIndex)
     )
@@ -2370,7 +2230,7 @@ function marginDisplay(value, digits) {
 
 function matchCardComparisons(card, context) {
   const prediction = opponentPrediction(card, context, card.opponentPredictionRank);
-  return matchCardCourtDefinitions(card.leagueFormat).map(({ court }) => {
+  return MATCH_CARD_COURTS.map(({ court }) => {
     const opponent = predictionLine(prediction, court);
     return compareCourtLine({
       court,
@@ -2424,7 +2284,7 @@ function pendingEvidenceReviewHtml(card, context) {
         <legend>Extracted opponent lineup</legend>
         <p>Assign only courts visible in this result. A complete lineup becomes the newest opponent scenario.</p>
         <div class="evidence-lineup-grid">
-          ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => `
+          ${MATCH_CARD_COURTS.map(({ court, players }) => `
             <div>
               <strong>${court}</strong>
               ${Array.from({ length: players }, (_, index) => `
@@ -2531,17 +2391,11 @@ function matchCardCourtHtml(comparison) {
           <span>Our lineup</span>
           <strong>${comparison.ourPlayers.map(escapeHtml).join(" + ") || "Not selected"}</strong>
           <small>DR ${metricDisplay(comparison.ours.dr, 2)} · ${disciplineLabel} ${metricDisplay(comparison.ours.utr, 2)}</small>
-          <ul class="court-player-ratings">${comparison.ours.players.map(player => `
-            <li><b>${escapeHtml(player.name)}</b><span>DR ${metricDisplay(player.dr, 2)} · UTR ${escapeHtml(player.utrDisplay)}</span></li>
-          `).join("")}</ul>
         </div>
         <div>
           <span>Opponent prediction</span>
           <strong>${comparison.opponentPlayers.map(escapeHtml).join(" + ") || "Unavailable"}</strong>
           <small>DR ${metricDisplay(comparison.opponent.dr, 2)} · ${disciplineLabel} ${metricDisplay(comparison.opponent.utr, 2)}</small>
-          <ul class="court-player-ratings">${comparison.opponent.players.map(player => `
-            <li><b>${escapeHtml(player.name)}</b><span>DR ${metricDisplay(player.dr, 2)} · UTR ${escapeHtml(player.utrDisplay)}</span></li>
-          `).join("")}</ul>
         </div>
       </div>
       <footer>
@@ -2549,357 +2403,6 @@ function matchCardCourtHtml(comparison) {
         <span>${disciplineLabel}: ${marginDisplay(comparison.margins.utr, 2)}</span>
       </footer>
     </article>`;
-}
-
-function freshnessLabel(team) {
-  if (team.ageDays == null) return "Update date unavailable";
-  if (team.ageDays === 0) return "Updated today";
-  return `Updated ${team.ageDays} day${team.ageDays === 1 ? "" : "s"} ago`;
-}
-
-function matchupReadinessHtml(context) {
-  const readiness = buildMatchupReadiness({
-    ourData: context.ourData,
-    opponentData: context.opponentData,
-    ourAnalysis: context.ourAnalysis,
-    opponentAnalysis: context.opponentAnalysis
-  });
-  return `
-    <section class="matchup-data-readiness" aria-label="Matchup data readiness">
-      <div class="match-card-section-heading">
-        <div>
-          <span class="step-label">Planning readiness</span>
-          <h2>Check the evidence before setting lineups</h2>
-        </div>
-        <p>Data older than ${readiness.freshnessLimitDays} days is flagged for review.</p>
-      </div>
-      <div class="matchup-readiness-grid">
-        ${readiness.teams.map(team => `
-          <article class="${team.needsAttention ? "attention" : "ready"}">
-            <header>
-              <div>
-                <span>${team.side === "our" ? "Our team" : "Opponent"}</span>
-                <h3>${escapeHtml(team.teamName)}</h3>
-              </div>
-              <b>${team.needsAttention ? "Review" : "Ready"}</b>
-            </header>
-            <dl>
-              <div>
-                <dt>Freshness</dt>
-                <dd class="${team.freshnessStatus}">${escapeHtml(freshnessLabel(team))}</dd>
-              </div>
-              <div>
-                <dt>Unresolved identities</dt>
-                <dd>${team.unresolvedIdentities}</dd>
-              </div>
-              <div>
-                <dt>Eligible roster</dt>
-                <dd>${team.eligiblePlayers}/${team.rosterSize}</dd>
-              </div>
-              <div>
-                <dt>Lineup scenarios</dt>
-                <dd>${team.lineupScenarios}</dd>
-              </div>
-            </dl>
-          </article>
-        `).join("")}
-      </div>
-    </section>`;
-}
-
-function opponentActiveRosterHtml(context) {
-  const data = context.opponentData;
-  const analysis = context.opponentAnalysis;
-  const warnings = analysis.disclosures?.warnings ?? [];
-  const eligibilityByName = new Map(
-    (analysis.eligibility?.players ?? []).map(player => [
-      player.name,
-      player.status
-    ])
-  );
-  return `
-    <section class="opponent-active-roster" id="prep-roster">
-      <div class="match-card-section-heading">
-        <div>
-          <span class="step-label">Opponent</span>
-          <h2>Active roster and ratings</h2>
-        </div>
-        <p>${data.roster.length} players · ${data.matches.length} completed matches</p>
-      </div>
-      <div class="opponent-report-meta">
-        <span>Gathered ${escapeHtml(data.generatedAt ? new Date(data.generatedAt).toLocaleString() : "unknown")}</span>
-        <span>Analyzed ${escapeHtml(analysis.generatedAt ? new Date(analysis.generatedAt).toLocaleString() : "unknown")}</span>
-        <span>${escapeHtml(analysis.eligibility?.label ?? "Selected")} eligibility</span>
-        <button class="button-secondary compact" type="button" data-card-action="refresh-opponent">
-          Refresh opponent data
-        </button>
-      </div>
-      ${warnings.length
-        ? `<div class="match-card-alert"><strong>Data-quality notes</strong><ul>${warnings.map(warning =>
-          `<li>${escapeHtml(warning)}</li>`
-        ).join("")}</ul></div>`
-        : ""}
-      <div class="active-roster-table-wrap">
-        <table class="active-roster-table">
-          <thead><tr>
-            <th>Player</th><th>Gender</th><th>NTRP</th><th>DR</th>
-            <th>UTR S</th><th>UTR D</th><th>Eligibility</th>
-          </tr></thead>
-          <tbody>${data.roster.map(player => `
-            <tr>
-              <td><strong>${escapeHtml(player.name)}</strong></td>
-              <td>${escapeHtml(player.gender ?? "Unknown")}</td>
-              <td>${escapeHtml(player.ntrp?.level ?? "—")}</td>
-              <td>${Number.isFinite(player.dr) ? Number(player.dr).toFixed(2) : "NR"}</td>
-              <td>${escapeHtml(ratingDisplay(player.utr?.singles))}</td>
-              <td>${escapeHtml(ratingDisplay(player.utr?.doubles))}</td>
-              <td>${escapeHtml(eligibilityByName.get(player.name) ?? "unknown")}</td>
-            </tr>
-          `).join("")}</tbody>
-        </table>
-      </div>
-    </section>`;
-}
-
-function opponentPairsHtml(context) {
-  const pairs = context.opponentAnalysis.doubles?.pairs ?? [];
-  return `
-    <section class="opponent-pairs" id="prep-pairs">
-      <div class="match-card-section-heading">
-        <div><span class="step-label">Opponent pairs</span><h2>Known doubles combinations</h2></div>
-        <p>${pairs.length} observed pair${pairs.length === 1 ? "" : "s"} · ranked by usage and results</p>
-      </div>
-      ${pairs.length ? `
-        <div class="opponent-pair-grid">
-          ${pairs.slice(0, 8).map((pair, index) => `
-            <article>
-              <header><span>#${index + 1}</span><strong>${escapeHtml(pair.pair)}</strong></header>
-              <div>
-                <span>${pair.appearances} appearance${pair.appearances === 1 ? "" : "s"}</span>
-                <span>${pair.record.wins}–${pair.record.losses}</span>
-                <span>${pair.courts.map(court => `${court.court} ×${court.appearances}`).join(", ")}</span>
-              </div>
-              <div class="pair-player-ratings">
-                ${(pair.currentRatings?.players ?? []).map(player => `
-                  <p>
-                    <strong>${escapeHtml(player.name)}</strong>
-                    <span>DR ${Number.isFinite(player.dr) ? player.dr.toFixed(2) : "NR"} · UTR D ${escapeHtml(ratingDisplay(player.doublesUtr))}</span>
-                  </p>
-                `).join("")}
-              </div>
-              <footer>
-                <span>Average DR ${Number.isFinite(pair.currentRatings?.drAverage) ? pair.currentRatings.drAverage.toFixed(2) : "NR"}</span>
-                <span>Average UTR D ${Number.isFinite(pair.currentRatings?.doublesUtrAverage) ? pair.currentRatings.doublesUtrAverage.toFixed(2) : "Incomplete"}</span>
-              </footer>
-            </article>
-          `).join("")}
-        </div>`
-        : '<p class="match-card-alert">No opponent pair history is available.</p>'}
-    </section>`;
-}
-
-function opponentStackingHtml(context) {
-  const strategy = summarizeStackingStrategy(
-    context.opponentAnalysis.doubles?.matchStacking
-  );
-  if (!strategy) return "";
-  return `
-    <section class="opponent-stacking" id="prep-stacking">
-      <div class="match-card-section-heading">
-        <div><span class="step-label">Stacking strategy</span><h2>${escapeHtml(strategy.label)}</h2></div>
-        <p>${escapeHtml(strategy.confidence)} · ${strategy.matchesAnalyzed} match${strategy.matchesAnalyzed === 1 ? "" : "es"} analyzed</p>
-      </div>
-      <p class="stacking-evidence-note">
-        Latest evidence: ${escapeHtml(strategy.latestDate ?? "Date unavailable")}
-        ${strategy.opponentTeam ? ` vs ${escapeHtml(strategy.opponentTeam)}` : ""}.
-        ${strategy.strongestCourtByDr
-          ? `${escapeHtml(strategy.strongestCourtByDr)} was strongest by average DR.`
-          : ""}
-        This describes observed court strength, not confirmed captain intent.
-      </p>
-      <div class="stacking-court-grid">
-        ${strategy.lines.map(line => `
-          <article>
-            <strong>${escapeHtml(line.court)}</strong>
-            <span>${line.targetPlayers.map(escapeHtml).join(" + ")}</span>
-            <small>Average DR ${Number.isFinite(line.averageDr) ? line.averageDr.toFixed(2) : "NR"} · ${escapeHtml(line.result ?? "Unknown result")}</small>
-          </article>
-        `).join("")}
-      </div>
-      ${strategy.inversions.length
-        ? `<ul class="stacking-observations">${strategy.inversions.map(item => `
-          <li>${escapeHtml(item.lowerCourt)} averaged ${item.lowerDr.toFixed(2)} DR, above ${escapeHtml(item.upperCourt)} at ${item.upperDr.toFixed(2)}.</li>
-        `).join("")}</ul>`
-        : ""}
-    </section>`;
-}
-
-function predictionRationaleHtml(prediction) {
-  const rationale = explainLineupPrediction(prediction);
-  return `
-    <details class="lineup-rationale">
-      <summary>Why this lineup?</summary>
-      <p>${escapeHtml(rationale.summary)}</p>
-      <ul>${rationale.reasons.map(reason =>
-        `<li>${escapeHtml(reason)}</li>`
-      ).join("")}</ul>
-      <div>${rationale.courts.map(court => `
-        <span><b>${escapeHtml(court.court)}</b>${escapeHtml(court.reason)}</span>
-      `).join("")}</div>
-    </details>`;
-}
-
-function topOpponentPredictionsHtml(card, predictions, context) {
-  if (!predictions.length) {
-    return `
-      <p class="match-card-alert">
-        No opponent lineup scenarios are available yet. Refresh or analyze the opponent to generate scenarios.
-      </p>`;
-  }
-  const rosterByName = new Map(
-    context.opponentData.roster.map(player => [player.name, player])
-  );
-  const usage = summarizeRosterUsage(
-    context.opponentData.roster,
-    context.opponentData.matches
-  );
-  const usageByName = new Map(usage.map(player => [player.name, player]));
-  const unusedPlayers = usage.filter(player => !player.playedBefore);
-  return `
-    <p class="opponent-scenario-coverage">
-      Showing ${Math.min(predictions.length, 3)} of up to 3 evidence-backed scenarios.
-      ${predictions.length < 3
-        ? "More scenarios will appear when additional distinct lineup history or reviewed tournament evidence is available."
-        : ""}
-    </p>
-    <div class="top-opponent-predictions">
-      ${predictions.slice(0, 3).map((prediction, index) => `
-        <article>
-          <header>
-            <div>
-              <span>Scenario ${index + 1}</span>
-              <strong>${prediction.source === "tournament"
-                ? "Reviewed tournament lineup"
-                : `Historical projection #${prediction.historicalRank ?? prediction.rank}`}</strong>
-            </div>
-            <b>${escapeHtml(prediction.confidence ?? "emerging")}</b>
-          </header>
-          <div class="prediction-court-list">
-            ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, discipline }) => {
-              const line = predictionLine(prediction, court);
-              return `
-                <div class="prediction-court">
-                  <strong>${court}</strong>
-                  ${line.players?.length ? `
-                    <ul>${line.players.map(name => {
-                      const player = rosterByName.get(name);
-                      const playerUsage = usageByName.get(name);
-                      return `
-                        <li class="${playerUsage?.playedBefore ? "played" : "unused"}">
-                          <span>
-                            <b>${escapeHtml(name)}</b>
-                            <em>${playerUsage?.playedBefore
-                              ? `Played ${playerUsage.appearances} match${playerUsage.appearances === 1 ? "" : "es"}`
-                              : "Not yet used"}</em>
-                          </span>
-                          <small>DR ${Number.isFinite(player?.dr) ? player.dr.toFixed(2) : "NR"} · UTR ${escapeHtml(ratingDisplay(player?.utr?.[discipline]))}</small>
-                        </li>`;
-                    }).join("")}</ul>`
-                    : "<span>Unavailable</span>"}
-                </div>`;
-            }).join("")}
-          </div>
-          <footer>
-            <span>${prediction.historicalSupport ?? 0}% usage support</span>
-            <span>${prediction.observedTogether ?? 0} full-lineup observation${prediction.observedTogether === 1 ? "" : "s"}</span>
-          </footer>
-          ${predictionRationaleHtml(prediction)}
-        </article>
-      `).join("")}
-    </div>
-    <div class="unused-roster-watch">
-      <div>
-        <strong>Roster watch: not yet used in gathered matches</strong>
-        <small>${unusedPlayers.length} player${unusedPlayers.length === 1 ? "" : "s"} · source coverage may be incomplete</small>
-      </div>
-      ${unusedPlayers.length ? `
-        <ul>${unusedPlayers.map(item => {
-          const player = rosterByName.get(item.name);
-          return `
-            <li>
-              <b>${escapeHtml(item.name)}</b>
-              <span>DR ${Number.isFinite(player?.dr) ? player.dr.toFixed(2) : "NR"} · UTR S ${escapeHtml(ratingDisplay(player?.utr?.singles))} · UTR D ${escapeHtml(ratingDisplay(player?.utr?.doubles))}</span>
-            </li>`;
-        }).join("")}</ul>`
-        : "<p>Every roster player appears in at least one gathered match.</p>"}
-    </div>`;
-}
-
-function lineupChallengeHtml(card, context, predictions, validation) {
-  const scenarios = challengeLineupAgainstPredictions({
-    draft: card.draft,
-    predictions,
-    ourRoster: context.ourData.roster,
-    opponentRoster: context.opponentData.roster,
-    leagueFormat: card.leagueFormat
-  });
-  return `
-    <section class="lineup-challenge" id="prep-challenge">
-      <div class="match-card-section-heading">
-        <div>
-          <span class="step-label">Lineup challenge</span>
-          <h2>Test our lineup against the top scenarios</h2>
-        </div>
-        <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · planning edges, not a match-result prediction</p>
-      </div>
-      ${!validation.complete
-        ? `<div class="match-card-alert lineup-challenge-blocked">
-            <strong>Complete Our lineup to run the challenge.</strong>
-            Choose all ${validation.requiredPlayers} required players. Scores, pros, and risks will appear after the lineup is complete.
-          </div>`
-        : scenarios.length ? `
-        <div class="lineup-challenge-grid">
-          ${scenarios.map((scenario, index) => `
-            <article>
-              <header>
-                <div>
-                  <span>Opponent scenario ${index + 1}</span>
-                  <h3>${scenario.source === "tournament" ? "Tournament evidence" : `Historical option ${scenario.rank}`}</h3>
-                </div>
-                <div class="challenge-score">
-                  <strong>${scenario.score}/${scenario.maxScore}</strong>
-                  <small>edge points</small>
-                </div>
-              </header>
-              <div class="challenge-meter" aria-label="${scenario.scorePercent}% of available matchup edge points">
-                <span style="width:${scenario.scorePercent}%"></span>
-              </div>
-              <div class="challenge-edge-counts">
-                <span><b>${scenario.summary.favorable}</b> favorable</span>
-                <span><b>${scenario.summary.swing}</b> swing</span>
-                <span><b>${scenario.summary.challenging}</b> challenging</span>
-                <span><b>${scenario.summary.limited}</b> limited</span>
-              </div>
-              <p class="challenge-rating-coverage">
-                Rating signals used: DR ${scenario.ratingCoverage.drCourts}/${scenario.ratingCoverage.totalCourts} courts ·
-                UTR ${scenario.ratingCoverage.utrCourts}/${scenario.ratingCoverage.totalCourts} courts.
-              </p>
-              <div class="challenge-pros-cons">
-                <div><strong>Pros</strong><ul>${scenario.pros.map(item =>
-                  `<li>${escapeHtml(item)}</li>`
-                ).join("")}</ul></div>
-                <div><strong>Risks</strong><ul>${scenario.risks.map(item =>
-                  `<li>${escapeHtml(item)}</li>`
-                ).join("")}</ul></div>
-              </div>
-            </article>
-          `).join("")}
-        </div>`
-        : '<p class="match-card-alert">No opponent scenarios are available for the lineup challenge yet.</p>'}
-      <p class="lineup-challenge-disclaimer">
-        Edge points summarize available DR and UTR comparisons. They do not predict the final match result.
-      </p>
-    </section>`;
 }
 
 function renderMatchCardEditor() {
@@ -2918,7 +2421,6 @@ function renderMatchCardEditor() {
       </div>`;
     return;
   }
-  updateRouteState("matchCards");
   const predictions = matchCardPredictions(card, context);
   const prediction = opponentPrediction(card, context, card.opponentPredictionRank);
   const eligibleNames = new Set(
@@ -2926,11 +2428,7 @@ function renderMatchCardEditor() {
       .filter(player => player.status === "eligible")
       .map(player => player.name)
   );
-  const validation = validateDraft(
-    card.draft,
-    eligibleNames,
-    card.leagueFormat
-  );
+  const validation = validateDraft(card.draft, eligibleNames);
   const comparisons = matchCardComparisons(card, context);
   const summary = summarizeMatchup(comparisons);
   const ourTeamName = context.ourData.team.name;
@@ -2940,17 +2438,6 @@ function renderMatchCardEditor() {
   const collectionName = state.teamCollections.find(
     collection => collection.id === card.collectionId
   )?.name ?? "Tournament";
-  const scheduledMatch = state.matchSchedule?.find(
-    match => match.id === card.scheduledMatchId
-  );
-  const displayDate = scheduledMatch?.date ?? card.date ?? "TBD";
-  const displayLocation = scheduledMatch
-    ? scheduledMatch.site ?? (
-      scheduledMatch.designation !== "unknown"
-        ? scheduledMatch.designation
-        : "TBD"
-    )
-    : card.location ?? "TBD";
   $("#matchCardsWorkspace").innerHTML = `
     <div class="match-card-editor">
       <div class="match-card-editor-topbar no-print">
@@ -2971,30 +2458,28 @@ function renderMatchCardEditor() {
           <p class="eyebrow">Step 3 · Match Day Card</p>
           <h1 class="view-heading" tabindex="-1">${escapeHtml(card.title)}</h1>
           <div class="match-card-meta" aria-label="Match details">
-            <span>${escapeHtml(displayDate)}</span>
-            <span>${escapeHtml(displayLocation)}</span>
-            <span>${escapeHtml(scheduledMatch?.round ?? "Round TBD")}</span>
+            <span>${escapeHtml(card.date)}</span>
+            <span>${escapeHtml(card.location)}</span>
             <span>${escapeHtml(collectionName)}</span>
-            <span>${escapeHtml(state.eventSchedule?.eventType ?? "local")} event</span>
+            <span>${escapeHtml(eligibilityLabel)} eligibility</span>
             <span>${escapeHtml(ourTeamName)} vs ${escapeHtml(opponentName)}</span>
-            <span>${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligibility</span>
-            <span>Schedule updated ${escapeHtml(
-              state.eventSchedule?.lastSuccessfulSyncAt
-                ? new Date(state.eventSchedule.lastSuccessfulSyncAt).toLocaleString()
-                : "unknown"
-            )}</span>
           </div>
           <p class="match-card-save-note no-print">Saved automatically on this device</p>
         </div>
         <label class="card-status no-print">Card status
           <select data-card-field="status">
-            <option value="not_started" ${card.status === "not_started" ? "selected" : ""}>Not started</option>
             <option value="draft" ${card.status === "draft" ? "selected" : ""}>Draft</option>
             <option value="final" ${card.status === "final" ? "selected" : ""}>Final</option>
-            <option value="archived" ${card.status === "archived" ? "selected" : ""}>Archived</option>
           </select>
         </label>
-        <span class="print-status">${escapeHtml(matchCardStatusLabel(card.status))}</span>
+        <label class="card-status no-print">Eligibility target
+          <select data-card-field="eligibility">
+            ${Object.entries(eligibilityScopeLabels).map(([scope, label]) => `
+              <option value="${scope}" ${card.eligibilityScope === scope ? "selected" : ""}>${label}</option>
+            `).join("")}
+          </select>
+        </label>
+        <span class="print-status">${escapeHtml(card.status)}</span>
       </header>
       ${state.matchCardStorageError
         ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardStorageError)}</p>`
@@ -3002,41 +2487,35 @@ function renderMatchCardEditor() {
       ${state.matchCardError
         ? `<p class="match-card-alert" role="alert">${escapeHtml(state.matchCardError)}</p>`
         : ""}
-      <nav class="preparation-section-nav no-print" aria-label="Match preparation sections">
-        <a href="#prep-roster">Roster</a>
-        <a href="#prep-pairs">Pairs</a>
-        ${context.opponentAnalysis.doubles?.matchStacking?.length
-          ? '<a href="#prep-stacking">Stacking</a>'
-          : ""}
-        <a href="#prep-opponent-lineups">Opponent lineups</a>
-        <a href="#prep-our-lineup">Our lineup</a>
-        <a href="#prep-challenge">Challenge</a>
-        <a href="#prep-courts">Court analysis</a>
-      </nav>
-      ${opponentActiveRosterHtml(context)}
-      ${opponentPairsHtml(context)}
-      ${opponentStackingHtml(context)}
-      ${matchupReadinessHtml(context)}
-      <section class="opponent-prediction-picker no-print" id="prep-opponent-lineups">
+      ${tournamentEvidenceHtml(card, context)}
+      <section class="opponent-prediction-picker no-print">
         <div>
           <span class="step-label">Opponent</span>
-          <h2>Top lineup options</h2>
+          <h2>Onsite-informed lineup</h2>
           <p>${evidenceForCard(card).length
-            ? "Reviewed tournament evidence is weighted ahead of older scouting history."
-            : "Scenarios use gathered match history and observed pair usage."}</p>
+            ? "Recent tournament evidence is weighted ahead of older scouting history."
+            : "No onsite evidence yet; scenarios use scouting history only."}</p>
         </div>
-        <p class="scenario-primary-note">Scenario 1 drives the detailed court-by-court view because it is the most evidence-supported option. It is not necessarily the highest-rated possible lineup. The Lineup Challenge compares Our lineup against every option shown.</p>
-        ${topOpponentPredictionsHtml(card, predictions, context)}
+        <label class="prediction-select">Opponent scenario
+          <select data-card-field="prediction">
+            ${predictions.map(item => `
+              <option value="${item.rank}" ${item.rank === card.opponentPredictionRank ? "selected" : ""}>
+                ${item.source === "tournament" ? "Latest tournament lineup" : `Historical option ${item.historicalRank}`}
+                · ${item.onsiteConfirmed}/${item.onsiteTotal} confirmed onsite
+              </option>
+            `).join("")}
+          </select>
+        </label>
       </section>
-      <section class="our-lineup-builder" id="prep-our-lineup">
+      <section class="our-lineup-builder">
         <div class="match-card-section-heading">
           <div><span class="step-label">Team</span><h2>Set the lineup</h2></div>
           <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
             ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
-            : `${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligible roster`}</p>
+            : `${escapeHtml(eligibilityLabel)} eligible roster`}</p>
         </div>
         <div class="lineup-builder-grid">
-          ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => `
+          ${MATCH_CARD_COURTS.map(({ court, players }) => `
             <article>
               <strong>${court}</strong>
               <div>${Array.from({ length: players }, (_, index) =>
@@ -3046,11 +2525,10 @@ function renderMatchCardEditor() {
           `).join("")}
         </div>
         ${validation.unavailableNames.length
-          ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} target.</p>`
+          ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${escapeHtml(eligibilityLabel)} target.</p>`
           : ""}
       </section>
-      ${lineupChallengeHtml(card, context, predictions, validation)}
-      <section class="matchup-analysis" id="prep-courts">
+      <section class="matchup-analysis">
         <div class="match-card-section-heading">
           <div><span class="step-label">Matchup</span><h2>At a glance</h2></div>
         </div>
@@ -3077,23 +2555,18 @@ function renderMatchCardEditor() {
           : `${prediction?.onsiteConfirmed ?? 0}/${prediction?.onsiteTotal ?? 0} players confirmed onsite; weighted with Step 1 scouting history`}.
         This card is a planning aid, not a prediction of final match results.
       </footer>
-      <section class="match-card-notes">
-        <label for="matchCardNotes"><span class="step-label">Match notes</span>
-          <textarea id="matchCardNotes" data-card-field="notes" rows="3"
-            placeholder="Add preparation notes, availability, or match-day reminders.">${escapeHtml(card.notes ?? "")}</textarea>
-          <p class="print-match-notes">${escapeHtml(card.notes || "No match notes.")}</p>
-        </label>
-      </section>
     </div>`;
 }
 
 async function loadMatchCardContext(card) {
-  const eligibilityScope = card.eligibilityScope ?? "national";
+  const eligibilityScope = analysisScopes.has(card.eligibilityScope)
+    ? card.eligibilityScope
+    : "national";
   const [ourData, opponentData, ourAnalysis, opponentAnalysis] = await Promise.all([
     api(`/api/team-data?team=${encodeURIComponent(card.ourTeamId)}`),
     api(`/api/team-data?team=${encodeURIComponent(card.opponentTeamId)}`),
-    api(`/api/analysis?team=${encodeURIComponent(card.ourTeamId)}&eligibility=${encodeURIComponent(eligibilityScope)}`),
-    api(`/api/analysis?team=${encodeURIComponent(card.opponentTeamId)}&eligibility=${encodeURIComponent(eligibilityScope)}`)
+    api(`/api/analysis?team=${encodeURIComponent(card.ourTeamId)}&eligibility=${eligibilityScope}`),
+    api(`/api/analysis?team=${encodeURIComponent(card.opponentTeamId)}&eligibility=${eligibilityScope}`)
   ]);
   return {
     cardId: card.id,
@@ -3128,14 +2601,18 @@ async function openMatchCard(cardId) {
     const predictions = matchCardPredictions(card, state.matchCardContext);
     if (
       predictions.length &&
-      card.opponentPredictionRank !== predictions[0].rank
+      !predictions.some(item => item.rank === card.opponentPredictionRank)
     ) {
       card.opponentPredictionRank = predictions[0].rank;
       cardChanged = true;
     }
-    const initializedDraft = initializeBlankDraft(card);
-    if (initializedDraft.changed) {
-      Object.assign(card, initializedDraft.card);
+    if (!card.draftInitialized) {
+      const ourPrediction =
+        state.matchCardContext.ourAnalysis.lineupPredictions?.predictions?.[0];
+      if (ourPrediction && validateDraft(card.draft).selectedPlayers === 0) {
+        card.draft = draftFromPrediction(ourPrediction);
+      }
+      card.draftInitialized = true;
       cardChanged = true;
     }
     if (cardChanged) {
@@ -3158,460 +2635,11 @@ async function openMatchCard(cardId) {
   }
 }
 
-function scheduleDefaultScope(eventType) {
-  if (eventType === "sectionals") return "sectional";
-  if (eventType === "nationals") return "national";
-  return "local";
-}
-
-function schedulePreviewCounts(preview) {
-  return (preview.reconciliation ?? []).reduce((counts, row) => {
-    counts[row.change] = (counts[row.change] ?? 0) + 1;
-    return counts;
-  }, {});
-}
-
-function renderSchedulePreview() {
-  const preview = state.schedulePreview;
-  if (!preview) return;
-  $("#scheduleEventType").value = preview.eventType;
-  $("#scheduleEligibilityScope").value = preview.eligibilityScope;
-  $("#scheduleTimezone").value = preview.timezone ?? "";
-  const mapping = $("#scheduleColumnMapping");
-  if (preview.headers) {
-    const fields = {
-      matchId: "Match ID",
-      opponent: "Opponent",
-      date: "Date",
-      time: "Time",
-      location: "Location",
-      round: "Round",
-      designation: "Home / away",
-      status: "Status",
-      opponentUrl: "Opponent URL"
-    };
-    mapping.hidden = false;
-    mapping.innerHTML = Object.entries(fields).map(([field, label]) => `
-      <label>${label}
-        <select data-schedule-map="${field}">
-          <option value="-1">Not provided</option>
-          ${preview.headers.map((header, index) => `
-            <option value="${index}" ${preview.mapping[field] === index ? "selected" : ""}>
-              ${escapeHtml(header || `Column ${index + 1}`)}
-            </option>
-          `).join("")}
-        </select>
-      </label>
-    `).join("");
-  } else {
-    mapping.hidden = true;
-    mapping.innerHTML = "";
-  }
-  const counts = schedulePreviewCounts(preview);
-  const invalid = preview.matches.filter(match => match.errors?.length).length;
-  $("#schedulePreviewSummary").innerHTML = `
-    <span>${preview.matches.length} row${preview.matches.length === 1 ? "" : "s"}</span>
-    ${["added", "changed", "unchanged", "removed"].map(change =>
-      counts[change]
-        ? `<span class="${change}">${counts[change]} ${change}</span>`
-        : ""
-    ).join("")}
-    ${invalid ? `<span class="invalid">${invalid} invalid</span>` : ""}
-  `;
-  $("#schedulePreviewTable").innerHTML = `
-    <table>
-      <thead><tr>
-        <th>Use</th><th>Opponent</th><th>Date</th><th>Time</th>
-        <th>Location</th><th>Round</th><th>Side</th><th>Status</th><th>Issues</th>
-      </tr></thead>
-      <tbody>
-        ${preview.matches.map((match, index) => `
-          <tr class="${match.errors?.length ? "invalid" : ""}">
-            <td><input type="checkbox" data-schedule-index="${index}" data-schedule-field="included"
-              ${match.included !== false ? "checked" : ""} aria-label="Include row ${index + 1}"></td>
-            <td><input data-schedule-index="${index}" data-schedule-field="sourceOpponentName"
-              value="${escapeHtml(match.sourceOpponentName ?? "")}" aria-label="Opponent row ${index + 1}"></td>
-            <td><input type="date" data-schedule-index="${index}" data-schedule-field="date"
-              value="${escapeHtml(match.date ?? "")}" aria-label="Date row ${index + 1}"></td>
-            <td><input data-schedule-index="${index}" data-schedule-field="time"
-              value="${escapeHtml(match.time ?? "")}" aria-label="Time row ${index + 1}"></td>
-            <td><input data-schedule-index="${index}" data-schedule-field="site"
-              value="${escapeHtml(match.site ?? "")}" aria-label="Location row ${index + 1}"></td>
-            <td><input data-schedule-index="${index}" data-schedule-field="round"
-              value="${escapeHtml(match.round ?? "")}" aria-label="Round row ${index + 1}"></td>
-            <td><select data-schedule-index="${index}" data-schedule-field="designation">
-              ${["unknown", "home", "away", "neutral"].map(value =>
-                `<option value="${value}" ${match.designation === value ? "selected" : ""}>${value}</option>`
-              ).join("")}
-            </select></td>
-            <td><select data-schedule-index="${index}" data-schedule-field="status">
-              ${["scheduled", "postponed", "completed", "cancelled"].map(value =>
-                `<option value="${value}" ${match.status === value ? "selected" : ""}>${value}</option>`
-              ).join("")}
-            </select></td>
-            <td>${escapeHtml(match.errors?.join(" ") || "Ready")}</td>
-          </tr>
-        `).join("")}
-      </tbody>
-    </table>
-    ${(preview.reconciliation ?? []).some(row =>
-      ["changed", "removed"].includes(row.change)
-    ) ? `
-      <div class="schedule-change-details">
-        <strong>Existing schedule changes</strong>
-        <ul>${preview.reconciliation.filter(row =>
-          ["changed", "removed"].includes(row.change)
-        ).map(row => `
-          <li>
-            <b>${escapeHtml(row.change)}</b>
-            ${escapeHtml(row.current?.sourceOpponentName ?? row.proposed?.sourceOpponentName ?? "Match")}
-            · ${escapeHtml(row.current?.date ?? "Date TBD")}
-            ${row.change === "changed"
-              ? ` → ${escapeHtml(row.proposed?.date ?? "Date TBD")}`
-              : " · will remain as cancelled"}
-          </li>
-        `).join("")}</ul>
-      </div>` : ""}`;
-}
-
-function openSchedulePreview(preview) {
-  state.schedulePreview = {
-    eventType: preview.eventType ?? state.eventSchedule?.eventType ?? "local",
-    eligibilityScope: preview.eligibilityScope ??
-      state.eventSchedule?.eligibilityScope ?? "local",
-    timezone: preview.timezone ?? state.eventSchedule?.timezone ?? "",
-    source: preview.source ?? { type: "manual" },
-    matches: preview.matches.map((match, index) => ({
-      rowNumber: match.rowNumber ?? index + 1,
-      included: match.included !== false,
-      designation: match.designation ?? "unknown",
-      status: match.status ?? "scheduled",
-      errors: match.errors ?? [],
-      ...match
-    })),
-    reconciliation: preview.reconciliation ?? [],
-    headers: preview.headers ?? null,
-    rawRows: preview.rawRows ?? null,
-    mapping: preview.mapping ?? null
-  };
-  $("#scheduleError").textContent = "";
-  renderSchedulePreview();
-  $("#scheduleDialog").showModal();
-}
-
-async function previewScheduleMatches(matches) {
-  return api(
-    `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}/preview`,
-    {
-      method: "POST",
-      body: JSON.stringify({ matches })
-    }
-  );
-}
-
-async function refreshSchedulePreviewReconciliation() {
-  if (!state.schedulePreview) return;
-  const valid = state.schedulePreview.matches.filter(
-    match => match.included !== false && !match.errors?.length
-  );
-  try {
-    const result = await previewScheduleMatches(valid);
-    if (!state.schedulePreview) return;
-    state.schedulePreview.reconciliation = result.reconciliation;
-    $("#scheduleError").textContent = "";
-    renderSchedulePreview();
-  } catch (error) {
-    $("#scheduleError").textContent = error.message;
-  }
-}
-
-async function refreshLocalSchedulePreview() {
-  if (!state.activeCollectionId || !state.teamWorkspace.ourTeamId) return;
-  try {
-    const preview = await api(
-      `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}/local-preview`,
-      {
-        method: "POST",
-        body: JSON.stringify({ ourTeamId: state.teamWorkspace.ourTeamId })
-      }
-    );
-    openSchedulePreview(preview);
-  } catch (error) {
-    state.matchScheduleError =
-      `Couldn’t refresh the TennisRecord schedule. ${error.message}`;
-    renderReportsSchedule();
-    if (!views.matchCards.hidden) renderMatchCardsHome();
-  }
-}
-
-async function openCsvSchedulePreview(file) {
-  try {
-    const rawRows = parseCsv(await file.text());
-    const mapping = suggestScheduleColumns(rawRows[0]);
-    const matches = scheduleRowsFromCsv(rawRows, mapping);
-    const validMatches = matches.filter(match => !match.errors.length);
-    const normalized = await previewScheduleMatches(validMatches);
-    openSchedulePreview({
-      eventType: state.eventSchedule?.eventType === "local"
-        ? "other"
-        : state.eventSchedule?.eventType ?? "other",
-      eligibilityScope: state.eventSchedule?.eligibilityScope ?? "local",
-      timezone: state.eventSchedule?.timezone ?? "",
-      source: {
-        type: "csv",
-        fileName: file.name,
-        importedAt: new Date().toISOString()
-      },
-      matches,
-      reconciliation: normalized.reconciliation,
-      headers: rawRows[0],
-      rawRows,
-      mapping
-    });
-  } catch (error) {
-    state.matchScheduleError = `Couldn’t preview ${file.name}. ${error.message}`;
-    renderReportsSchedule();
-    if (!views.matchCards.hidden) renderMatchCardsHome();
-  }
-}
-
-function openManualSchedulePreview() {
-  openSchedulePreview({
-    eventType: state.eventSchedule?.eventType ?? "other",
-    eligibilityScope: state.eventSchedule?.eligibilityScope ?? "local",
-    timezone: state.eventSchedule?.timezone ?? "",
-    source: { type: "manual", importedAt: new Date().toISOString() },
-    matches: [...(state.matchSchedule ?? []).map(match => ({
-      ...match,
-      included: true,
-      errors: []
-    })), {
-      included: true,
-      sourceOpponentName: "",
-      sourceOpponentUrl: null,
-      date: null,
-      time: null,
-      round: null,
-      site: null,
-      designation: "unknown",
-      status: "scheduled",
-      sourceType: "manual",
-      errors: ["Opponent is required."]
-    }]
-  });
-  void refreshSchedulePreviewReconciliation();
-}
-
-function validateSchedulePreviewRow(match) {
-  const errors = [];
-  if (!match.sourceOpponentName?.trim()) errors.push("Opponent is required.");
-  if (match.date && !/^\d{4}-\d{2}-\d{2}$/.test(match.date)) {
-    errors.push("Date must use YYYY-MM-DD.");
-  }
-  match.errors = errors;
-  return match;
-}
-
-function handleScheduleAction(action) {
-  if (action === "refresh-local") {
-    void refreshLocalSchedulePreview();
-  } else if (action === "add-manual") {
-    openManualSchedulePreview();
-  }
-}
-
-async function loadMatchSchedule() {
-  const workspaceOurTeamId = state.teamWorkspace.ourTeamId;
-  state.matchSchedule = null;
-  state.matchScheduleError = null;
-  state.matchScheduleTeamId = workspaceOurTeamId;
-  state.eventSchedule = null;
-  if (!state.activeCollectionId) return;
-  try {
-    const stored = await api(
-      `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}`
-    );
-    const ourTeamId = stored.schedule?.ourTeamId ?? workspaceOurTeamId;
-    if (!ourTeamId) {
-      state.matchSchedule = [];
-      return;
-    }
-    state.matchScheduleTeamId = ourTeamId;
-    if (stored.schedule && workspaceOurTeamId !== ourTeamId) {
-      state.teamWorkspace = assignTeamRole(
-        state.teamWorkspace,
-        ourTeamId,
-        "our"
-      );
-      persistTeamWorkspace();
-      renderTeamList();
-      updateTeamWorkspaceActions();
-    }
-    const data = await api(
-      `/api/team-data?team=${encodeURIComponent(ourTeamId)}`
-    );
-    if (state.matchScheduleTeamId !== ourTeamId) return;
-    state.eventSchedule = stored.schedule ?? {
-      collectionId: state.activeCollectionId,
-      ourTeamId,
-      eventType: "local",
-      eligibilityScope: "local",
-      timezone: null,
-      source: {
-        type: "tennisrecord",
-        reference: data.sources?.find(source =>
-          source.type === "tennisrecord"
-        )?.url ?? null
-      },
-      matches: data.leagueSchedule ?? [],
-      lastSuccessfulSyncAt: data.leagueSchedule?.[0]?.sourceRetrievedAt ?? null
-    };
-    state.eventSchedule.persisted = Boolean(stored.schedule);
-    state.matchSchedule = state.eventSchedule.matches;
-    const migration = migrateLegacyMatchCards({
-      cards: state.matchCards,
-      matches: state.matchSchedule,
-      teams: activeCollectionTeams(),
-      ourTeamId,
-      collectionId: state.activeCollectionId
-    });
-    state.matchCards = migration.cards;
-    state.legacyCardMigration = migration;
-    if (migration.migrated) persistMatchCards();
-  } catch (error) {
-    state.matchSchedule = [];
-    state.matchScheduleError = `Couldn’t load Our team schedule. ${error.message}`;
-  }
-}
-
-async function openMatchCardsWorkspace(opponentId = null) {
+function openMatchCardsWorkspace(opponentId = null) {
   state.matchCardPrefillOpponentId =
     typeof opponentId === "string" ? opponentId : null;
   renderMatchCardsHome();
   showView("matchCards");
-  await loadMatchSchedule();
-  if (!views.matchCards.hidden && !state.activeMatchCardId) {
-    renderMatchCardsHome();
-  }
-}
-
-async function openScheduledMatch(matchId) {
-  const match = state.matchSchedule?.find(item => item.id === matchId);
-  if (!match) return;
-  const opponentTeam = resolveScheduledOpponent(match, activeCollectionTeams());
-  if (!opponentTeam) {
-    state.matchScheduleError =
-      `“${match.sourceOpponentName}” is not linked to one gathered team yet. Scout or resolve the opponent first.`;
-    renderMatchCardsHome();
-    return;
-  }
-  let card = scheduledMatchCard(match, opponentTeam);
-  if (!card) {
-    card = createMatchCard({
-      id: newMatchCardId(),
-      scheduledMatchId: match.id,
-      title: `vs ${match.sourceOpponentName}`,
-      date: match.date,
-      location: match.designation === "unknown"
-        ? match.site ?? "TBD"
-        : match.designation,
-      collectionId: state.activeCollectionId,
-      ourTeamId: state.teamWorkspace.ourTeamId,
-      opponentTeamId: opponentTeam.id,
-      leagueFormat: matchCardTeam(state.teamWorkspace.ourTeamId)
-        ?.team?.leagueFormat,
-      eligibilityScope: state.eventSchedule?.eligibilityScope ?? "local"
-    });
-    state.matchCards.push(card);
-  } else if (!card.scheduledMatchId) {
-    card.scheduledMatchId = match.id;
-  }
-  if (!persistMatchCards()) return;
-  await openMatchCard(card.id);
-}
-
-async function ensureEventScheduleStored() {
-  if (state.eventSchedule?.persisted) return state.eventSchedule;
-  const response = await api(
-    `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}`,
-    {
-      method: "PUT",
-      body: JSON.stringify({
-        ourTeamId: state.teamWorkspace.ourTeamId,
-        eventType: state.eventSchedule?.eventType ?? "local",
-        eligibilityScope: state.eventSchedule?.eligibilityScope ?? "local",
-        timezone: state.eventSchedule?.timezone ?? null,
-        source: state.eventSchedule?.source ?? { type: "tennisrecord" },
-        matches: state.matchSchedule ?? []
-      })
-    }
-  );
-  state.eventSchedule = { ...response.schedule, persisted: true };
-  state.matchSchedule = response.schedule.matches;
-  return state.eventSchedule;
-}
-
-async function linkScheduleOpponent(matchId, teamId) {
-  try {
-    await ensureEventScheduleStored();
-    const response = await api(
-      `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}/link`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ matchId, teamId })
-      }
-    );
-    state.eventSchedule = { ...response.schedule, persisted: true };
-    state.matchSchedule = response.schedule.matches;
-    state.matchScheduleError = null;
-    renderReportsSchedule();
-    if (!views.matchCards.hidden && !state.activeMatchCardId) {
-      renderMatchCardsHome();
-    }
-  } catch (error) {
-    state.matchScheduleError = `Couldn’t link the opponent. ${error.message}`;
-    renderReportsSchedule();
-    if (!views.matchCards.hidden) renderMatchCardsHome();
-  }
-}
-
-function scoutScheduledOpponent(matchId) {
-  const match = state.matchSchedule?.find(item => item.id === matchId);
-  if (!match) return;
-  localStorage.setItem(PENDING_SCHEDULE_MATCH_STORAGE_KEY, JSON.stringify({
-    collectionId: state.activeCollectionId,
-    matchId
-  }));
-  reset();
-  state.intakeEventCollectionId = state.activeCollectionId;
-  $('input[name="teamType"][value="opponent"]').checked = true;
-  $("#teamUrl").value = match.sourceOpponentUrl ?? "";
-  syncTeamType();
-  $("#formError").textContent = match.sourceOpponentUrl
-    ? `Scout ${match.sourceOpponentName}, then return to Match Day planning.`
-    : `Paste the TennisRecord team URL for ${match.sourceOpponentName}.`;
-}
-
-async function resumePendingScheduledMatch(teamId) {
-  const raw = localStorage.getItem(PENDING_SCHEDULE_MATCH_STORAGE_KEY);
-  if (!raw) return false;
-  let pending;
-  try {
-    pending = JSON.parse(raw);
-  } catch {
-    localStorage.removeItem(PENDING_SCHEDULE_MATCH_STORAGE_KEY);
-    return false;
-  }
-  if (!pending?.collectionId || !pending?.matchId) return false;
-  state.activeCollectionId = pending.collectionId;
-  localStorage.setItem(ACTIVE_COLLECTION_STORAGE_KEY, pending.collectionId);
-  loadStoredTeamWorkspace();
-  await loadMatchSchedule();
-  await linkScheduleOpponent(pending.matchId, teamId);
-  localStorage.removeItem(PENDING_SCHEDULE_MATCH_STORAGE_KEY);
-  await openMatchCardsWorkspace();
-  await openScheduledMatch(pending.matchId);
-  return true;
 }
 
 async function createMatchCardFromForm(form) {
@@ -3711,11 +2739,7 @@ async function reviewResultScreenshot(file) {
       imageDataUrl: previewDataUrl,
       ocrConfidence: ocr.confidence,
       observedPlayers: matchRosterNames(ocr.text, rosterNames),
-      lines: extractLineupFromText(
-        ocr.text,
-        rosterNames,
-        card.leagueFormat
-      ),
+      lines: extractLineupFromText(ocr.text, rosterNames),
       matchDate: card.date
     };
     renderMatchCardEditor();
@@ -3739,16 +2763,13 @@ function acceptTournamentEvidence(form) {
   }
   const values = new FormData(form);
   const observedPlayers = values.getAll("observedPlayers");
-  const lines = Object.fromEntries(matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => [
+  const lines = Object.fromEntries(MATCH_CARD_COURTS.map(({ court, players }) => [
     court,
     Array.from({ length: players }, (_, index) =>
       values.get(`${court}-${index}`) ?? ""
     )
   ]));
-  if (
-    !observedPlayers.length &&
-    !validateDraft(lines, null, card.leagueFormat).selectedPlayers
-  ) {
+  if (!observedPlayers.length && !validateDraft(lines).selectedPlayers) {
     $("#tournamentEvidenceError").textContent =
       "Confirm at least one observed player before accepting this result.";
     return;
@@ -3762,7 +2783,6 @@ function acceptTournamentEvidence(form) {
     matchDate: values.get("matchDate"),
     observedPlayers,
     lines,
-    leagueFormat: card.leagueFormat,
     extractionMethod: "browser-ocr"
   });
   state.tournamentEvidence.push(evidence);
@@ -3810,10 +2830,6 @@ function runWorkspaceAction(action) {
   }
   if (action === "build-matchup" && teamId) {
     openMatchCardsWorkspace(teamId);
-    return;
-  }
-  if (action === "open-match-day") {
-    void openMatchCardsWorkspace();
   }
 }
 
@@ -3823,7 +2839,6 @@ function reset() {
   state.jobId = null;
   state.jobKind = null;
   state.dataset = null;
-  clearIntakePreview();
   $("#formError").textContent = "";
   $("#tryAgain").hidden = true;
   $(".progress-copy .eyebrow").textContent = "Collection in progress";
@@ -3877,9 +2892,7 @@ $("#tryAgain").addEventListener("click", () => {
 $("#newCollection").addEventListener("click", () => reset());
 $("#gatherTeam").addEventListener("click", () => reset());
 $("#landingViewTeams").addEventListener("click", () => {
-  renderReportsTeamList();
-  showView("reports");
-  void loadReportsSchedule();
+  showReportsHome();
 });
 $("#closeTeamSidebar").addEventListener("click", () => {
   document.body.classList.remove("intake-teams-open");
@@ -3935,43 +2948,6 @@ $("#reportsCollectionList").addEventListener("click", event => {
 });
 $$("[data-back-to-collections]").forEach(button => {
   button.addEventListener("click", showReportsHome);
-});
-$("#reportsSchedule").addEventListener("click", event => {
-  const scheduleAction = event.target.closest("[data-schedule-action]");
-  if (scheduleAction) {
-    handleScheduleAction(scheduleAction.dataset.scheduleAction);
-    return;
-  }
-  if (event.target.closest("[data-open-match-day]")) {
-    void openMatchCardsWorkspace();
-    return;
-  }
-  const button = event.target.closest("[data-card-action]");
-  if (!button) return;
-  if (button.dataset.cardAction === "open-scheduled-match") {
-    showView("matchCards");
-    void openScheduledMatch(button.dataset.scheduledMatchId);
-    return;
-  }
-  if (button.dataset.cardAction === "scout-scheduled-opponent") {
-    scoutScheduledOpponent(button.dataset.scheduledMatchId);
-  }
-});
-$("#reportsSchedule").addEventListener("change", event => {
-  if (event.target.matches("[data-schedule-link-match]")) {
-    if (event.target.value) {
-      void linkScheduleOpponent(
-        event.target.dataset.scheduleLinkMatch,
-        event.target.value
-      );
-    }
-    return;
-  }
-  if (event.target.matches("[data-schedule-csv]")) {
-    const file = event.target.files?.[0];
-    if (file) void openCsvSchedulePreview(file);
-    event.target.value = "";
-  }
 });
 $$("[data-back-to-reports]").forEach(button => {
   button.addEventListener("click", () => {
@@ -4031,57 +3007,13 @@ function setActiveCollection(collectionId) {
   renderTeamList();
   renderReportsTeamList();
   updateTeamWorkspaceActions();
-  void restoreOurTeamFromEventSchedule()
-    .then(() => loadTeams())
-    .catch(error => {
-      $("#teamList").innerHTML =
-        `<p class="team-list-status error">${escapeHtml(error.message)}</p>`;
-    });
   if (!views.matchCards.hidden && !state.activeMatchCardId) {
     renderMatchCardsHome();
   }
-  const visibleView = Object.entries(views).find(([, element]) =>
-    !element.hidden
-  )?.[0] ?? "intake";
-  updateRouteState(visibleView);
 }
 
 $("#teamCollection").addEventListener("change", event => {
   setActiveCollection(event.target.value);
-});
-$("#reportsCollection").addEventListener("change", event => {
-  setActiveCollection(event.target.value);
-  void loadReportsSchedule();
-});
-$("#renameActiveCollection").addEventListener("click", async () => {
-  const collection = state.teamCollections.find(
-    item => item.id === state.activeCollectionId
-  );
-  if (!collection) return;
-  const name = window.prompt("Collection name", collection.name);
-  if (name == null || name.trim() === collection.name) return;
-  try {
-    const response = await api(
-      `/api/team-collections/${encodeURIComponent(collection.id)}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({ name })
-      }
-    );
-    state.teamCollections = response.collections;
-    renderCollectionControls();
-    renderReportsSchedule();
-  } catch (error) {
-    $("#teamList").innerHTML =
-      `<p class="team-list-status error">${escapeHtml(error.message)}</p>`;
-  }
-});
-$("#scoutCollectionTeam").addEventListener("click", () => {
-  const collectionId = state.activeCollectionId;
-  reset();
-  state.intakeEventCollectionId = collectionId;
-  $('input[name="teamType"][value="opponent"]').checked = true;
-  syncTeamType();
 });
 $("#teamEventCollection").addEventListener("change", async event => {
   const team = selectedTeam();
@@ -4180,122 +3112,6 @@ $("#collectionCreateForm").addEventListener("submit", async event => {
     submit.disabled = false;
   }
 });
-[$("#closeScheduleDialog"), $("#cancelSchedule")].forEach(button => {
-  button.addEventListener("click", () => {
-    state.schedulePreview = null;
-    $("#scheduleDialog").close();
-  });
-});
-$("#addManualScheduleRow").addEventListener("click", () => {
-  if (!state.schedulePreview) return;
-  state.schedulePreview.matches.push({
-    included: true,
-    sourceOpponentName: "",
-    sourceOpponentUrl: null,
-    date: null,
-    time: null,
-    round: null,
-    site: null,
-    designation: "unknown",
-    status: "scheduled",
-    sourceType: state.schedulePreview.source.type,
-    errors: ["Opponent is required."]
-  });
-  renderSchedulePreview();
-  void refreshSchedulePreviewReconciliation();
-});
-$("#scheduleEventType").addEventListener("change", event => {
-  if (!state.schedulePreview) return;
-  state.schedulePreview.eventType = event.target.value;
-  state.schedulePreview.eligibilityScope =
-    scheduleDefaultScope(event.target.value);
-  renderSchedulePreview();
-});
-$("#scheduleEligibilityScope").addEventListener("change", event => {
-  if (state.schedulePreview) {
-    state.schedulePreview.eligibilityScope = event.target.value;
-  }
-});
-$("#scheduleTimezone").addEventListener("input", event => {
-  if (state.schedulePreview) state.schedulePreview.timezone = event.target.value;
-});
-$("#scheduleColumnMapping").addEventListener("change", async event => {
-  const field = event.target.dataset.scheduleMap;
-  if (!field || !state.schedulePreview?.rawRows) return;
-  state.schedulePreview.mapping[field] = Number(event.target.value);
-  state.schedulePreview.matches = scheduleRowsFromCsv(
-    state.schedulePreview.rawRows,
-    state.schedulePreview.mapping
-  );
-  try {
-    const valid = state.schedulePreview.matches.filter(
-      match => !match.errors.length
-    );
-    const result = await previewScheduleMatches(valid);
-    state.schedulePreview.reconciliation = result.reconciliation;
-  } catch (error) {
-    $("#scheduleError").textContent = error.message;
-  }
-  renderSchedulePreview();
-});
-$("#schedulePreviewTable").addEventListener("change", event => {
-  const index = Number(event.target.dataset.scheduleIndex);
-  const field = event.target.dataset.scheduleField;
-  const match = state.schedulePreview?.matches[index];
-  if (!match || !field) return;
-  match[field] = event.target.type === "checkbox"
-    ? event.target.checked
-    : event.target.value || null;
-  validateSchedulePreviewRow(match);
-  renderSchedulePreview();
-  void refreshSchedulePreviewReconciliation();
-});
-$("#scheduleConfirmForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!state.schedulePreview) return;
-  const submit = event.currentTarget.querySelector('[type="submit"]');
-  submit.disabled = true;
-  $("#scheduleError").textContent = "";
-  const included = state.schedulePreview.matches
-    .filter(match => match.included !== false)
-    .map(validateSchedulePreviewRow);
-  if (included.some(match => match.errors.length)) {
-    $("#scheduleError").textContent =
-      "Fix or exclude every invalid schedule row before confirming.";
-    submit.disabled = false;
-    renderSchedulePreview();
-    return;
-  }
-  try {
-    const preview = await previewScheduleMatches(included);
-    const response = await api(
-      `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          ourTeamId: state.teamWorkspace.ourTeamId,
-          eventType: state.schedulePreview.eventType,
-          eligibilityScope: state.schedulePreview.eligibilityScope,
-          timezone: state.schedulePreview.timezone,
-          source: state.schedulePreview.source,
-          matches: preview.matches
-        })
-      }
-    );
-    state.eventSchedule = response.schedule;
-    state.matchSchedule = response.schedule.matches;
-    state.schedulePreview = null;
-    $("#scheduleDialog").close();
-    renderReportsSchedule();
-    if (!views.matchCards.hidden && !state.activeMatchCardId) {
-      renderMatchCardsHome();
-    }
-  } catch (error) {
-    $("#scheduleError").textContent = error.message;
-  } finally {
-    submit.disabled = false;
-  }
-});
 [$("#teamNextAction"), $("#analysisNextAction")].forEach(button => {
   button.addEventListener("click", () => {
     runWorkspaceAction(button.dataset.workspaceAction);
@@ -4309,15 +3125,17 @@ $("#rerunAnalysis").addEventListener("click", rerunAnalysis);
 bindTablist("[data-analysis-tab]", "analysisTab", button => {
   state.analysisTab = button.dataset.analysisTab;
   renderAnalysisContent();
-  updateRouteState("analysis");
+  updateBrowserRoute({
+    view: "analysis",
+    teamId: state.selectedTeamId,
+    tab: state.analysisTab
+  });
 });
 $("#scoutStage").addEventListener("click", () => {
   showView("intake");
 });
 $("#reportsStage").addEventListener("click", () => {
-  renderReportsTeamList();
-  showView("reports");
-  void loadReportsSchedule();
+  showReportsHome();
 });
 $("#matchCardsStage").addEventListener("click", () => {
   openMatchCardsWorkspace();
@@ -4335,21 +3153,6 @@ $("#matchCardsWorkspace").addEventListener("submit", event => {
 });
 $("#matchCardsWorkspace").addEventListener("change", event => {
   const target = event.target;
-  if (target.matches("[data-schedule-link-match]")) {
-    if (target.value) {
-      void linkScheduleOpponent(
-        target.dataset.scheduleLinkMatch,
-        target.value
-      );
-    }
-    return;
-  }
-  if (target.matches("[data-schedule-csv]")) {
-    const file = target.files?.[0];
-    if (file) void openCsvSchedulePreview(file);
-    target.value = "";
-    return;
-  }
   if (target.matches("[data-result-screenshot]")) {
     const file = target.files?.[0];
     if (file) void reviewResultScreenshot(file);
@@ -4357,7 +3160,8 @@ $("#matchCardsWorkspace").addEventListener("change", event => {
   }
   if (target.matches("[data-match-collection]")) {
     setActiveCollection(target.value);
-    void openMatchCardsWorkspace().then(() => {
+    renderMatchCardsHome();
+    requestAnimationFrame(() => {
       $("[data-match-collection]")?.focus({ preventScroll: true });
     });
     return;
@@ -4376,33 +3180,9 @@ $("#matchCardsWorkspace").addEventListener("change", event => {
     return;
   }
   if (target.matches("[data-card-field=status]")) {
-    const card = state.matchCards.find(
-      item => item.id === state.activeMatchCardId
-    );
-    if (target.value === "final" && card) {
-      const eligibleNames = new Set(
-        state.matchCardContext?.ourAnalysis?.eligibility?.players
-          ?.filter(player => player.status === "eligible")
-          .map(player => player.name) ?? []
-      );
-      const validation = validateCardFinalization(card, eligibleNames);
-      if (!validation.allowed) {
-        state.matchCardError = `Finalization blocked. ${validation.message}`;
-        renderMatchCardEditor();
-        return;
-      }
-    }
     updateActiveMatchCard(card => {
       card.status = target.value;
-      state.matchCardError = "";
     }, "[data-card-field=status]");
-    return;
-  }
-  if (target.matches("[data-card-field=notes]")) {
-    updateActiveMatchCard(card => {
-      card.notes = target.value;
-      if (card.status === "not_started") card.status = "draft";
-    }, "[data-card-field=notes]");
     return;
   }
   if (target.matches("[data-card-field=prediction]")) {
@@ -4420,41 +3200,16 @@ $("#matchCardsWorkspace").addEventListener("change", event => {
         () => ""
       );
       card.draft[court][index] = target.value;
-      if (card.status !== "archived") card.status = "draft";
       state.matchCardError = "";
     }, `.lineup-player-select[data-court="${court}"][data-player-index="${index}"]`);
   }
 });
 $("#matchCardsWorkspace").addEventListener("click", event => {
   const button = event.target.closest("[data-card-action]");
-  const scheduleAction = event.target.closest("[data-schedule-action]");
-  if (scheduleAction) {
-    handleScheduleAction(scheduleAction.dataset.scheduleAction);
-    return;
-  }
   if (!button) return;
   const action = button.dataset.cardAction;
   if (action === "open") {
     void openMatchCard(button.dataset.cardId);
-    return;
-  }
-  if (action === "open-scheduled-match") {
-    void openScheduledMatch(button.dataset.scheduledMatchId);
-    return;
-  }
-  if (action === "scout-scheduled-opponent") {
-    scoutScheduledOpponent(button.dataset.scheduledMatchId);
-    return;
-  }
-  if (action === "refresh-opponent") {
-    const card = state.matchCards.find(
-      item => item.id === state.activeMatchCardId
-    );
-    if (!card || !state.matchCardContext) return;
-    state.pendingMatchCardRefreshId = card.id;
-    state.selectedTeamId = card.opponentTeamId;
-    state.dataset = state.matchCardContext.opponentData;
-    $("#openRefreshData").click();
     return;
   }
   if (action === "back") {
@@ -4552,68 +3307,22 @@ $("#matchCardsWorkspace").addEventListener("click", event => {
   }
 });
 
-async function restoreRouteState() {
-  const stage = initialRoute.get("stage") ?? "scout";
-  const teamId = initialRoute.get("team");
-  const cardId = initialRoute.get("card");
-  const matchId = initialRoute.get("match");
-  const requestedTab = initialRoute.get("tab");
-  if (["roster", "opponents", "matches", "sources"].includes(requestedTab)) {
-    state.tab = requestedTab;
-  }
-  try {
-    if (stage === "match") {
-      await openMatchCardsWorkspace();
-      if (cardId && state.matchCards.some(card => card.id === cardId)) {
-        await openMatchCard(cardId);
-      } else if (matchId) {
-        await openScheduledMatch(matchId);
-      }
-      return;
-    }
-    if (stage === "reports") {
-      renderReportsTeamList();
-      showView("reports");
-      await loadReportsSchedule();
-      if (teamId && state.teams.some(team => team.id === teamId)) {
-        if (initialRoute.get("view") === "analysisSetup") {
-          openAnalysisSetup(teamId);
-        } else {
-          await openTeamData(teamId);
-        }
-      }
-      return;
-    }
-    showView("intake");
-  } finally {
-    routeInitializationPending = false;
-    const visibleView = Object.entries(views).find(([, element]) =>
-      !element.hidden
-    )?.[0] ?? "intake";
-    updateRouteState(visibleView);
-  }
-}
-
-window.addEventListener("popstate", () => {
-  window.location.reload();
-});
-
 loadStoredMatchCards();
 loadStoredTournamentEvidence();
 void loadTeamCollections()
   .then(async () => {
     await loadTeams();
     loadStoredTeamWorkspace();
-    return restoreOurTeamFromEventSchedule();
-  })
-  .then(() => loadTeams())
-  .then(() => loadMatchSchedule())
-  .then(() => loadServerMatchCards())
-  .then(() => {
     renderTeamList();
-    renderReportsSchedule();
     updateTeamWorkspaceActions();
-    if (!state.jobId) return restoreRouteState();
+    if (!views.matchCards.hidden && !state.activeMatchCardId) {
+      renderMatchCardsHome();
+    }
+  })
+  .then(() => {
+    if (state.jobId) return;
+    routeReady = true;
+    return applyBrowserRoute();
   })
   .catch(error => {
     const message = escapeHtml(error.message);
@@ -4622,7 +3331,6 @@ void loadTeamCollections()
     $("#reportsCollectionList").innerHTML =
       `<p class="empty-state">Report collections could not be loaded: ${message}</p>`;
   });
-syncTeamType();
 
 window.addEventListener("popstate", () => {
   if (routeReady && !state.jobId) void applyBrowserRoute();
