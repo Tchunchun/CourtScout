@@ -2378,9 +2378,11 @@ tbody tr:hover, tbody tr:focus-within { background: #f7f9fc; }
 .matchup-sides span { color: var(--green-bright); font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
 .matchup-sides strong { font-size: 14px; line-height: 1.4; }
 .matchup-sides small { color: var(--ink-soft); font-size: 12px; }
-.court-player-ratings { margin: 9px 0 0; padding: 0; display: grid; gap: 4px; list-style: none; }
-.court-player-ratings li { padding: 5px 6px; display: flex; justify-content: space-between; gap: 8px; background: rgba(255, 255, 255, .66); font-size: 9px; }
+.court-player-ratings { margin: 0; padding: 0; display: grid; gap: 4px; list-style: none; }
+.court-player-ratings li { padding: 6px 7px; display: flex; justify-content: space-between; align-items: center; gap: 8px; background: rgba(255, 255, 255, .66); font-size: 10px; }
 .court-player-ratings li span { color: var(--ink-soft); text-align: right; }
+.court-line-average { padding-top: 2px; font-size: 10px !important; }
+.court-line-empty { color: var(--ink-soft); font-size: 12px !important; font-weight: 650; }
 .matchup-court > footer { padding: 11px 16px; display: flex; justify-content: flex-end; gap: 20px; color: var(--ink); border-top: 1px solid var(--line); background: var(--surface-subtle); font: 600 13px var(--font-display); }
 .match-card-notes { padding: 20px 28px; border-top: 1px solid var(--line); background: var(--surface-subtle); }
 .match-card-notes label { display: grid; gap: 8px; }

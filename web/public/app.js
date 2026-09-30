@@ -2721,6 +2721,16 @@ function matchCardCourtHtml(comparison) {
   const disciplineLabel = comparison.discipline === "singles"
     ? "Singles UTR"
     : "Doubles UTR";
+  const sideHtml = (side, emptyMessage) => side.players.length
+    ? `
+      <ul class="court-player-ratings">${side.players.map(player => `
+        <li>
+          <b>${escapeHtml(player.name)}</b>
+          <span>DR ${metricDisplay(player.dr, 2)} · UTR ${escapeHtml(player.utrDisplay)}</span>
+        </li>
+      `).join("")}</ul>
+      <small class="court-line-average">Line average · DR ${metricDisplay(side.dr, 2)} · ${disciplineLabel} ${metricDisplay(side.utr, 2)}</small>`
+    : `<strong class="court-line-empty">${escapeHtml(emptyMessage)}</strong>`;
   return `
     <article class="matchup-court ${comparison.edge}">
       <header>
@@ -2730,19 +2740,11 @@ function matchCardCourtHtml(comparison) {
       <div class="matchup-sides">
         <div>
           <span>Our lineup</span>
-          <strong>${comparison.ourPlayers.map(escapeHtml).join(" + ") || "Not selected"}</strong>
-          <small>DR ${metricDisplay(comparison.ours.dr, 2)} · ${disciplineLabel} ${metricDisplay(comparison.ours.utr, 2)}</small>
-          <ul class="court-player-ratings">${comparison.ours.players.map(player => `
-            <li><b>${escapeHtml(player.name)}</b><span>DR ${metricDisplay(player.dr, 2)} · UTR ${escapeHtml(player.utrDisplay)}</span></li>
-          `).join("")}</ul>
+          ${sideHtml(comparison.ours, "Not selected")}
         </div>
         <div>
           <span>Opponent prediction</span>
-          <strong>${comparison.opponentPlayers.map(escapeHtml).join(" + ") || "Unavailable"}</strong>
-          <small>DR ${metricDisplay(comparison.opponent.dr, 2)} · ${disciplineLabel} ${metricDisplay(comparison.opponent.utr, 2)}</small>
-          <ul class="court-player-ratings">${comparison.opponent.players.map(player => `
-            <li><b>${escapeHtml(player.name)}</b><span>DR ${metricDisplay(player.dr, 2)} · UTR ${escapeHtml(player.utrDisplay)}</span></li>
-          `).join("")}</ul>
+          ${sideHtml(comparison.opponent, "Unavailable")}
         </div>
       </div>
       <footer>
