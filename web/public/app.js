@@ -2663,7 +2663,8 @@ function matchCardComparisons(card, context) {
       ourPlayers: (card.draft[court] ?? []).filter(Boolean),
       opponentPlayers: opponent.players,
       ourRoster: activeNationalRoster(context.ourData),
-      opponentRoster: activeNationalRoster(context.opponentData)
+      opponentRoster: activeNationalRoster(context.opponentData),
+      leagueFormat: card.leagueFormat
     });
   });
 }
@@ -2810,7 +2811,9 @@ function matchCardCourtHtml(comparison) {
     ? `
       <ul class="court-player-ratings">${side.players.map(player => `
         <li>
-          <b>${escapeHtml(player.name)}</b>
+          <b>${escapeHtml(player.name)}${comparison.leagueFormat === "mixed"
+            ? ` <i class="player-gender ${player.gender?.toLowerCase() ?? "unknown"}">${player.gender === "Men" ? "M" : player.gender === "Women" ? "F" : "?"}</i>`
+            : ""}</b>
           <span>DR ${metricDisplay(player.dr, 2)} · UTR ${escapeHtml(player.utrDisplay)}</span>
         </li>
       `).join("")}</ul>

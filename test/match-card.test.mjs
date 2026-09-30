@@ -484,17 +484,20 @@ test("court comparisons report rating edges without inventing missing UTR", () =
     ourPlayers: ["A", "B"],
     opponentPlayers: ["C", "D"],
     ourRoster: [
-      { name: "A", dr: 3.2, utr: { doubles: { value: 3.4 } } },
-      { name: "B", dr: 3.1, utr: { doubles: { value: 3.3 } } }
+      { name: "A", gender: "Men", dr: 3.2, utr: { doubles: { value: 3.4 } } },
+      { name: "B", gender: "Women", dr: 3.1, utr: { doubles: { value: 3.3 } } }
     ],
     opponentRoster: [
       { name: "C", dr: 3.0, utr: { doubles: { value: null, display: "3.xx" } } },
       { name: "D", dr: 3.0, utr: { doubles: { value: null, display: "3.xx" } } }
-    ]
+    ],
+    leagueFormat: "mixed"
   });
 
   assert.equal(comparison.ours.dr, 3.15);
   assert.deepEqual(comparison.ours.players.map(player => player.name), ["A", "B"]);
+  assert.deepEqual(comparison.ours.players.map(player => player.gender), ["Men", "Women"]);
+  assert.equal(comparison.leagueFormat, "mixed");
   assert.equal(comparison.ours.players[0].dr, 3.2);
   assert.equal(comparison.opponent.dr, 3);
   assert.equal(comparison.margins.utr, null);

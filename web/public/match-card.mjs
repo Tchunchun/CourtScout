@@ -944,6 +944,7 @@ function playerMetrics(players, roster, discipline) {
       const player = byName.get(name);
       return {
         name,
+        gender: normalizePlayerGender(player?.gender),
         dr: Number.isFinite(player?.dr) ? player.dr : null,
         utr: ratingValue(player?.utr?.[discipline]),
         utrDisplay: player?.utr?.[discipline]?.display ?? "NR"
@@ -957,7 +958,8 @@ export function compareCourtLine({
   ourPlayers,
   opponentPlayers,
   ourRoster,
-  opponentRoster
+  opponentRoster,
+  leagueFormat = "single_gender"
 }) {
   const discipline = court.startsWith("S") ? "singles" : "doubles";
   const ours = playerMetrics(ourPlayers, ourRoster, discipline);
@@ -982,6 +984,7 @@ export function compareCourtLine({
   return {
     court,
     discipline,
+    leagueFormat,
     ourPlayers,
     opponentPlayers,
     ours,
