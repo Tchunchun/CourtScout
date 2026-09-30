@@ -1,0 +1,5434 @@
+{
+  "analysisVersion": "1.1.0",
+  "generatedAt": "2026-09-30T23:07:14.125Z",
+  "dataset": {
+    "datasetId": "2027-aytc-jurassic-park",
+    "schemaVersion": "2.0.0",
+    "generatedAt": "2026-09-30T18:14:51.000Z",
+    "collectionStage": "step_1_complete",
+    "finalReportReady": true
+  },
+  "team": {
+    "name": "AYTC-Jurassic (Park)",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 0,
+      "teamLosses": 2,
+      "courtWins": 1,
+      "courtLosses": 5
+    }
+  },
+  "summary": {
+    "rosterSize": 17,
+    "matches": 2,
+    "teamRecord": {
+      "wins": 0,
+      "losses": 2,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 2,
+      "winRate": 0
+    },
+    "courtRecord": {
+      "wins": 1,
+      "losses": 5,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 6,
+      "winRate": 0.1667
+    },
+    "phases": {
+      "local": {
+        "matches": 2,
+        "teamRecord": {
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 0
+        },
+        "courtRecord": {
+          "wins": 1,
+          "losses": 5,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 6,
+          "winRate": 0.1667
+        }
+      }
+    }
+  },
+  "eligibility": {
+    "scope": "local",
+    "label": "Local",
+    "rules": {
+      "computerRatedMatches": 0,
+      "selfRatedOrAppealedMatches": 0,
+      "computerRatedDefaultReceivedMayCount": 1,
+      "selfRatedOrAppealedDefaultsCount": false,
+      "disqualifiedPlayersAvailable": false
+    },
+    "summary": {
+      "rosterSize": 17,
+      "eligible": 17,
+      "ineligible": 0,
+      "unavailable": 0,
+      "unknown": 0
+    },
+    "dataQualityIssues": [],
+    "players": [
+      {
+        "name": "Ha Yong Lee",
+        "ntrpLevel": "4.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.87,
+        "utr": {
+          "singles": {
+            "value": 6.18,
+            "exactValue": 6.18,
+            "display": "6.18",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 6.4,
+            "exactValue": 6.4,
+            "display": "6.40",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Seungyeon Huh",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Highest eligible DR (3.8700); Roster-high 1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Edward Park",
+        "ntrpLevel": "4.0",
+        "ntrpType": "unknown",
+        "ratingCategory": "unknown",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.51,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.8,
+            "exactValue": 4.8,
+            "display": "4.80",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Jiyoung Shin",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (1–0)."
+      },
+      {
+        "name": "Dongchul Lee",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.51,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.96,
+            "exactValue": 4.96,
+            "display": "4.96",
+            "status": "Projected",
+            "reliability": 4
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Elise Wong",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "Brian Ko",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.41,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 5.98,
+            "exactValue": 5.98,
+            "display": "5.98",
+            "status": "Projected",
+            "reliability": 72
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Elise Wong",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.38,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 1,
+            "exactValue": 1,
+            "display": "1.00",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Dongchul Lee",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "Joonhoon Kim",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.32,
+        "utr": {
+          "singles": {
+            "value": 4.38,
+            "exactValue": 4.38,
+            "display": "4.38",
+            "status": "Projected",
+            "reliability": 4
+          },
+          "doubles": {
+            "value": 5.16,
+            "exactValue": 5.16,
+            "display": "5.16",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Jiyoung Shin",
+        "ntrpLevel": "3.0",
+        "ntrpType": "unknown",
+        "ratingCategory": "unknown",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.26,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.76,
+            "exactValue": 4.76,
+            "display": "4.76",
+            "status": "Projected",
+            "reliability": 80
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Edward Park",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (1–0)."
+      },
+      {
+        "name": "Ryan Park",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.17,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "unresolved",
+            "reliability": null
+          },
+          "doubles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "unresolved",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Jennifer Jeon",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "eunseok lee",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.17,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 1,
+            "exactValue": 1,
+            "display": "1.00",
+            "status": "Projected",
+            "reliability": 4
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Jiyeong Oh",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Jiyeong Oh",
+        "ntrpLevel": "3.0",
+        "ntrpType": "unknown",
+        "ratingCategory": "unknown",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.17,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 1.58,
+            "exactValue": 1.58,
+            "display": "1.58",
+            "status": "Projected",
+            "reliability": 4
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "eunseok lee",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Jongwon Lee",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.16,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 3.14,
+            "exactValue": 3.14,
+            "display": "3.14",
+            "status": "Projected",
+            "reliability": 4
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Hyemin Jeon",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Lesley Yuasa",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.07,
+        "utr": {
+          "singles": {
+            "value": 3.18,
+            "exactValue": 3.18,
+            "display": "3.18",
+            "status": "Projected",
+            "reliability": 60
+          },
+          "doubles": {
+            "value": 3.57,
+            "exactValue": 3.57,
+            "display": "3.57",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Hyemin Jeon",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.07,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 2.3,
+            "exactValue": 2.3,
+            "display": "2.30",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Jongwon Lee",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Melody Teng",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.01,
+        "utr": {
+          "singles": {
+            "value": 2.7,
+            "exactValue": 2.7,
+            "display": "2.70",
+            "status": "Projected",
+            "reliability": 4
+          },
+          "doubles": {
+            "value": 2.71,
+            "exactValue": 2.71,
+            "display": "2.71",
+            "status": "Projected",
+            "reliability": 48
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Min Joon So",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.82,
+        "utr": {
+          "singles": {
+            "value": 4.15,
+            "exactValue": 4.15,
+            "display": "4.15",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 3.87,
+            "exactValue": 3.87,
+            "display": "3.87",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Jennifer Jeon",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.76,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 1,
+            "exactValue": 1,
+            "display": "1.00",
+            "status": "Projected",
+            "reliability": 4
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Ryan Park",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Seungyeon Huh",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.7,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 2.88,
+            "exactValue": 2.88,
+            "display": "2.88",
+            "status": "Projected",
+            "reliability": 4
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Ha Yong Lee",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (0–1)."
+      }
+    ]
+  },
+  "singles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "playersUsed": 0,
+      "matchesAnalyzed": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "players": [],
+    "matchStacking": []
+  },
+  "doubles": {
+    "summary": {
+      "record": {
+        "wins": 1,
+        "losses": 5,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 6,
+        "winRate": 0.1667
+      },
+      "uniquePairs": 6,
+      "matchesAnalyzed": 2,
+      "repeatedPairs": 0,
+      "oneOffPairs": 6,
+      "pairsWithIncompleteCurrentUtr": 1,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 2,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [
+      {
+        "court": "D1",
+        "record": {
+          "wins": 1,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 0.5
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Dongchul Lee + Elise Wong",
+            "appearances": 1
+          },
+          {
+            "name": "Edward Park + Jiyoung Shin",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D2",
+        "record": {
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Ha Yong Lee + Seungyeon Huh",
+            "appearances": 1
+          },
+          {
+            "name": "Hyemin Jeon + Jongwon Lee",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D3",
+        "record": {
+          "wins": 0,
+          "losses": 2,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "eunseok lee + Jiyeong Oh",
+            "appearances": 1
+          },
+          {
+            "name": "Jennifer Jeon + Ryan Park",
+            "appearances": 1
+          }
+        ]
+      }
+    ],
+    "repeatedPairs": [],
+    "oneOffPairs": [
+      {
+        "pair": "Edward Park + Jiyoung Shin",
+        "players": [
+          "Edward Park",
+          "Jiyoung Shin"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.385,
+          "doublesUtrAverage": 4.78,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Edward Park",
+              "dr": 3.51,
+              "doublesUtr": {
+                "value": 4.8,
+                "exactValue": 4.8,
+                "display": "4.80",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Jiyoung Shin",
+              "dr": 3.26,
+              "doublesUtr": {
+                "value": 4.76,
+                "exactValue": 4.76,
+                "display": "4.76",
+                "status": "Projected",
+                "reliability": 80
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D1",
+            "pair": "Edward Park + Jiyoung Shin",
+            "players": [
+              "Edward Park",
+              "Jiyoung Shin"
+            ],
+            "opponentPair": "Jonathan Poch + Maya Wong",
+            "opponentPlayers": [
+              "Jonathan Poch",
+              "Maya Wong"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-2 2-6 1-0",
+            "score": "6-2 2-6 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 2,
+                  "opponent": 6
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.51,
+                  "values": [
+                    {
+                      "name": "Jiyoung Shin",
+                      "value": 3.51,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Edward Park",
+                      "value": 3.51,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.78,
+                  "values": [
+                    {
+                      "name": "Jiyoung Shin",
+                      "value": 4.76,
+                      "sourceRating": {
+                        "value": 4.76,
+                        "exactValue": 4.76,
+                        "display": "4.76",
+                        "status": "Projected",
+                        "reliability": 80
+                      }
+                    },
+                    {
+                      "name": "Edward Park",
+                      "value": 4.8,
+                      "sourceRating": {
+                        "value": 4.8,
+                        "exactValue": 4.8,
+                        "display": "4.80",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.22,
+                  "values": [
+                    {
+                      "name": "Maya Wong",
+                      "value": 3.22,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 3.22,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.68,
+                  "values": [
+                    {
+                      "name": "Maya Wong",
+                      "value": 5.06,
+                      "sourceRating": {
+                        "value": 5.06,
+                        "exactValue": 5.06,
+                        "display": "5.06",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 4.3,
+                      "sourceRating": {
+                        "value": 4.3,
+                        "exactValue": 4.3,
+                        "display": "4.30",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.29,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Dongchul Lee + Elise Wong",
+        "players": [
+          "Dongchul Lee",
+          "Elise Wong"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.445,
+          "doublesUtrAverage": 2.98,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Dongchul Lee",
+              "dr": 3.51,
+              "doublesUtr": {
+                "value": 4.96,
+                "exactValue": 4.96,
+                "display": "4.96",
+                "status": "Projected",
+                "reliability": 4
+              }
+            },
+            {
+              "name": "Elise Wong",
+              "dr": 3.38,
+              "doublesUtr": {
+                "value": 1,
+                "exactValue": 1,
+                "display": "1.00",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D1",
+            "pair": "Dongchul Lee + Elise Wong",
+            "players": [
+              "Dongchul Lee",
+              "Elise Wong"
+            ],
+            "opponentPair": "Alex Tan + Yan Hong",
+            "opponentPlayers": [
+              "Alex Tan",
+              "Yan Hong"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 2-6 6-1 1-0",
+            "score": "2-6 6-1 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 2,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.32,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 2.98,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.26,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.985,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 4.29,
+                      "sourceRating": {
+                        "value": 4.29,
+                        "exactValue": 4.29,
+                        "display": "4.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.68,
+                      "sourceRating": {
+                        "value": 3.68,
+                        "exactValue": 3.68,
+                        "display": "3.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.005,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D1",
+            "pair": "Dongchul Lee + Elise Wong",
+            "players": [
+              "Dongchul Lee",
+              "Elise Wong"
+            ],
+            "opponentPair": "Alex Tan + Yan Hong",
+            "opponentPlayers": [
+              "Alex Tan",
+              "Yan Hong"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 2-6 6-1 1-0",
+            "score": "2-6 6-1 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 2,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.32,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 2.98,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.26,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.985,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 4.29,
+                      "sourceRating": {
+                        "value": 4.29,
+                        "exactValue": 4.29,
+                        "display": "4.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.68,
+                      "sourceRating": {
+                        "value": 3.68,
+                        "exactValue": 3.68,
+                        "display": "3.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.005,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "eunseok lee + Jiyeong Oh",
+        "players": [
+          "eunseok lee",
+          "Jiyeong Oh"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.17,
+          "doublesUtrAverage": 1.29,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "eunseok lee",
+              "dr": 3.17,
+              "doublesUtr": {
+                "value": 1,
+                "exactValue": 1,
+                "display": "1.00",
+                "status": "Projected",
+                "reliability": 4
+              }
+            },
+            {
+              "name": "Jiyeong Oh",
+              "dr": 3.17,
+              "doublesUtr": {
+                "value": 1.58,
+                "exactValue": 1.58,
+                "display": "1.58",
+                "status": "Projected",
+                "reliability": 4
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D3",
+            "pair": "eunseok lee + Jiyeong Oh",
+            "players": [
+              "eunseok lee",
+              "Jiyeong Oh"
+            ],
+            "opponentPair": "Bofan Hsu + Zeran Wang",
+            "opponentPlayers": [
+              "Bofan Hsu",
+              "Zeran Wang"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-1 6-4",
+            "score": "6-1 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.17,
+                  "values": [
+                    {
+                      "name": "Jiyeong Oh",
+                      "value": 3.17,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "eunseok lee",
+                      "value": 3.17,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 1.29,
+                  "values": [
+                    {
+                      "name": "Jiyeong Oh",
+                      "value": 1.58,
+                      "sourceRating": {
+                        "value": 1.58,
+                        "exactValue": 1.58,
+                        "display": "1.58",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "eunseok lee",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 4.01,
+                  "values": [
+                    {
+                      "name": "Bofan Hsu",
+                      "value": 4.01,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zeran Wang",
+                      "value": 4.01,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.75,
+                  "values": [
+                    {
+                      "name": "Bofan Hsu",
+                      "value": 6.27,
+                      "sourceRating": {
+                        "value": 6.27,
+                        "exactValue": 6.27,
+                        "display": "6.27",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zeran Wang",
+                      "value": 3.23,
+                      "sourceRating": {
+                        "value": 3.23,
+                        "exactValue": 3.23,
+                        "display": "3.23",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.84,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -3.46,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Ha Yong Lee + Seungyeon Huh",
+        "players": [
+          "Ha Yong Lee",
+          "Seungyeon Huh"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.285,
+          "doublesUtrAverage": 4.64,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Ha Yong Lee",
+              "dr": 3.87,
+              "doublesUtr": {
+                "value": 6.4,
+                "exactValue": 6.4,
+                "display": "6.40",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Seungyeon Huh",
+              "dr": 2.7,
+              "doublesUtr": {
+                "value": 2.88,
+                "exactValue": 2.88,
+                "display": "2.88",
+                "status": "Projected",
+                "reliability": 4
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Ha Yong Lee + Seungyeon Huh",
+            "players": [
+              "Ha Yong Lee",
+              "Seungyeon Huh"
+            ],
+            "opponentPair": "Elise Zabel + Vietlong Le",
+            "opponentPlayers": [
+              "Elise Zabel",
+              "Vietlong Le"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-2 7-5",
+            "score": "6-2 7-5",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 7,
+                  "opponent": 5
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.72,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.64,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 2.88,
+                      "sourceRating": {
+                        "value": 2.88,
+                        "exactValue": 2.88,
+                        "display": "2.88",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 6.4,
+                      "sourceRating": {
+                        "value": 6.4,
+                        "exactValue": 6.4,
+                        "display": "6.40",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.91,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.74,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 3.62,
+                      "sourceRating": {
+                        "value": 3.62,
+                        "exactValue": 3.62,
+                        "display": "3.62",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 7.86,
+                      "sourceRating": {
+                        "value": 7.86,
+                        "exactValue": 7.86,
+                        "display": "7.86",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.81,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Ha Yong Lee + Seungyeon Huh",
+            "players": [
+              "Ha Yong Lee",
+              "Seungyeon Huh"
+            ],
+            "opponentPair": "Elise Zabel + Vietlong Le",
+            "opponentPlayers": [
+              "Elise Zabel",
+              "Vietlong Le"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-2 7-5",
+            "score": "6-2 7-5",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 7,
+                  "opponent": 5
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.72,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.64,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 2.88,
+                      "sourceRating": {
+                        "value": 2.88,
+                        "exactValue": 2.88,
+                        "display": "2.88",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 6.4,
+                      "sourceRating": {
+                        "value": 6.4,
+                        "exactValue": 6.4,
+                        "display": "6.40",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.91,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.74,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 3.62,
+                      "sourceRating": {
+                        "value": 3.62,
+                        "exactValue": 3.62,
+                        "display": "3.62",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 7.86,
+                      "sourceRating": {
+                        "value": 7.86,
+                        "exactValue": 7.86,
+                        "display": "7.86",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.81,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Hyemin Jeon + Jongwon Lee",
+        "players": [
+          "Hyemin Jeon",
+          "Jongwon Lee"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.115,
+          "doublesUtrAverage": 2.72,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Hyemin Jeon",
+              "dr": 3.07,
+              "doublesUtr": {
+                "value": 2.3,
+                "exactValue": 2.3,
+                "display": "2.30",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Jongwon Lee",
+              "dr": 3.16,
+              "doublesUtr": {
+                "value": 3.14,
+                "exactValue": 3.14,
+                "display": "3.14",
+                "status": "Projected",
+                "reliability": 4
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D2",
+            "pair": "Hyemin Jeon + Jongwon Lee",
+            "players": [
+              "Hyemin Jeon",
+              "Jongwon Lee"
+            ],
+            "opponentPair": "Sid Nagendran + Yifei Sun",
+            "opponentPlayers": [
+              "Sid Nagendran",
+              "Yifei Sun"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-3",
+            "score": "6-0 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.95,
+                  "values": [
+                    {
+                      "name": "Hyemin Jeon",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jongwon Lee",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 2.72,
+                  "values": [
+                    {
+                      "name": "Hyemin Jeon",
+                      "value": 2.3,
+                      "sourceRating": {
+                        "value": 2.3,
+                        "exactValue": 2.3,
+                        "display": "2.30",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jongwon Lee",
+                      "value": 3.14,
+                      "sourceRating": {
+                        "value": 3.14,
+                        "exactValue": 3.14,
+                        "display": "3.14",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.52,
+                  "values": [
+                    {
+                      "name": "Sid Nagendran",
+                      "value": 3.52,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Yifei Sun",
+                      "value": 3.52,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.07,
+                  "values": [
+                    {
+                      "name": "Sid Nagendran",
+                      "value": 5.36,
+                      "sourceRating": {
+                        "value": 5.36,
+                        "exactValue": 5.36,
+                        "display": "5.36",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Yifei Sun",
+                      "value": 4.78,
+                      "sourceRating": {
+                        "value": 4.78,
+                        "exactValue": 4.78,
+                        "display": "4.78",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.57,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -2.35,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Jennifer Jeon + Ryan Park",
+        "players": [
+          "Jennifer Jeon",
+          "Ryan Park"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 2.965,
+          "doublesUtrAverage": null,
+          "doublesUtrComplete": false,
+          "players": [
+            {
+              "name": "Jennifer Jeon",
+              "dr": 2.76,
+              "doublesUtr": {
+                "value": 1,
+                "exactValue": 1,
+                "display": "1.00",
+                "status": "Projected",
+                "reliability": 4
+              }
+            },
+            {
+              "name": "Ryan Park",
+              "dr": 3.17,
+              "doublesUtr": {
+                "value": null,
+                "exactValue": null,
+                "display": "NR",
+                "status": "unresolved",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D3",
+            "pair": "Jennifer Jeon + Ryan Park",
+            "players": [
+              "Jennifer Jeon",
+              "Ryan Park"
+            ],
+            "opponentPair": "Abby Harrison + Jerel Navarrete",
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Jerel Navarrete"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-1",
+            "score": "6-0 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.23,
+                  "values": [
+                    {
+                      "name": "Jennifer Jeon",
+                      "value": 3.23,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ryan Park",
+                      "value": 3.23,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Jennifer Jeon",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "Ryan Park",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.75,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jerel Navarrete",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.38,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jerel Navarrete",
+                      "value": 3.65,
+                      "sourceRating": {
+                        "value": 3.65,
+                        "exactValue": 3.65,
+                        "display": "3.65",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.52,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "pair": "Edward Park + Jiyoung Shin",
+        "players": [
+          "Edward Park",
+          "Jiyoung Shin"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.385,
+          "doublesUtrAverage": 4.78,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Edward Park",
+              "dr": 3.51,
+              "doublesUtr": {
+                "value": 4.8,
+                "exactValue": 4.8,
+                "display": "4.80",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Jiyoung Shin",
+              "dr": 3.26,
+              "doublesUtr": {
+                "value": 4.76,
+                "exactValue": 4.76,
+                "display": "4.76",
+                "status": "Projected",
+                "reliability": 80
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D1",
+            "pair": "Edward Park + Jiyoung Shin",
+            "players": [
+              "Edward Park",
+              "Jiyoung Shin"
+            ],
+            "opponentPair": "Jonathan Poch + Maya Wong",
+            "opponentPlayers": [
+              "Jonathan Poch",
+              "Maya Wong"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-2 2-6 1-0",
+            "score": "6-2 2-6 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 2,
+                  "opponent": 6
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.51,
+                  "values": [
+                    {
+                      "name": "Jiyoung Shin",
+                      "value": 3.51,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Edward Park",
+                      "value": 3.51,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.78,
+                  "values": [
+                    {
+                      "name": "Jiyoung Shin",
+                      "value": 4.76,
+                      "sourceRating": {
+                        "value": 4.76,
+                        "exactValue": 4.76,
+                        "display": "4.76",
+                        "status": "Projected",
+                        "reliability": 80
+                      }
+                    },
+                    {
+                      "name": "Edward Park",
+                      "value": 4.8,
+                      "sourceRating": {
+                        "value": 4.8,
+                        "exactValue": 4.8,
+                        "display": "4.80",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.22,
+                  "values": [
+                    {
+                      "name": "Maya Wong",
+                      "value": 3.22,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 3.22,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.68,
+                  "values": [
+                    {
+                      "name": "Maya Wong",
+                      "value": 5.06,
+                      "sourceRating": {
+                        "value": 5.06,
+                        "exactValue": 5.06,
+                        "display": "5.06",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jonathan Poch",
+                      "value": 4.3,
+                      "sourceRating": {
+                        "value": 4.3,
+                        "exactValue": 4.3,
+                        "display": "4.30",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.29,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Dongchul Lee + Elise Wong",
+        "players": [
+          "Dongchul Lee",
+          "Elise Wong"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.445,
+          "doublesUtrAverage": 2.98,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Dongchul Lee",
+              "dr": 3.51,
+              "doublesUtr": {
+                "value": 4.96,
+                "exactValue": 4.96,
+                "display": "4.96",
+                "status": "Projected",
+                "reliability": 4
+              }
+            },
+            {
+              "name": "Elise Wong",
+              "dr": 3.38,
+              "doublesUtr": {
+                "value": 1,
+                "exactValue": 1,
+                "display": "1.00",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D1",
+            "pair": "Dongchul Lee + Elise Wong",
+            "players": [
+              "Dongchul Lee",
+              "Elise Wong"
+            ],
+            "opponentPair": "Alex Tan + Yan Hong",
+            "opponentPlayers": [
+              "Alex Tan",
+              "Yan Hong"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 2-6 6-1 1-0",
+            "score": "2-6 6-1 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 2,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.32,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 2.98,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.26,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.985,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 4.29,
+                      "sourceRating": {
+                        "value": 4.29,
+                        "exactValue": 4.29,
+                        "display": "4.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.68,
+                      "sourceRating": {
+                        "value": 3.68,
+                        "exactValue": 3.68,
+                        "display": "3.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.005,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D1",
+            "pair": "Dongchul Lee + Elise Wong",
+            "players": [
+              "Dongchul Lee",
+              "Elise Wong"
+            ],
+            "opponentPair": "Alex Tan + Yan Hong",
+            "opponentPlayers": [
+              "Alex Tan",
+              "Yan Hong"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 2-6 6-1 1-0",
+            "score": "2-6 6-1 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 2,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.32,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 3.32,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 2.98,
+                  "values": [
+                    {
+                      "name": "Elise Wong",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Dongchul Lee",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.26,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.26,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.985,
+                  "values": [
+                    {
+                      "name": "Yan Hong",
+                      "value": 4.29,
+                      "sourceRating": {
+                        "value": 4.29,
+                        "exactValue": 4.29,
+                        "display": "4.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Alex Tan",
+                      "value": 3.68,
+                      "sourceRating": {
+                        "value": 3.68,
+                        "exactValue": 3.68,
+                        "display": "3.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.005,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "eunseok lee + Jiyeong Oh",
+        "players": [
+          "eunseok lee",
+          "Jiyeong Oh"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.17,
+          "doublesUtrAverage": 1.29,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "eunseok lee",
+              "dr": 3.17,
+              "doublesUtr": {
+                "value": 1,
+                "exactValue": 1,
+                "display": "1.00",
+                "status": "Projected",
+                "reliability": 4
+              }
+            },
+            {
+              "name": "Jiyeong Oh",
+              "dr": 3.17,
+              "doublesUtr": {
+                "value": 1.58,
+                "exactValue": 1.58,
+                "display": "1.58",
+                "status": "Projected",
+                "reliability": 4
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D3",
+            "pair": "eunseok lee + Jiyeong Oh",
+            "players": [
+              "eunseok lee",
+              "Jiyeong Oh"
+            ],
+            "opponentPair": "Bofan Hsu + Zeran Wang",
+            "opponentPlayers": [
+              "Bofan Hsu",
+              "Zeran Wang"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-1 6-4",
+            "score": "6-1 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 1
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.17,
+                  "values": [
+                    {
+                      "name": "Jiyeong Oh",
+                      "value": 3.17,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "eunseok lee",
+                      "value": 3.17,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 1.29,
+                  "values": [
+                    {
+                      "name": "Jiyeong Oh",
+                      "value": 1.58,
+                      "sourceRating": {
+                        "value": 1.58,
+                        "exactValue": 1.58,
+                        "display": "1.58",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "eunseok lee",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 4.01,
+                  "values": [
+                    {
+                      "name": "Bofan Hsu",
+                      "value": 4.01,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Zeran Wang",
+                      "value": 4.01,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.75,
+                  "values": [
+                    {
+                      "name": "Bofan Hsu",
+                      "value": 6.27,
+                      "sourceRating": {
+                        "value": 6.27,
+                        "exactValue": 6.27,
+                        "display": "6.27",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Zeran Wang",
+                      "value": 3.23,
+                      "sourceRating": {
+                        "value": 3.23,
+                        "exactValue": 3.23,
+                        "display": "3.23",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.84,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -3.46,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Ha Yong Lee + Seungyeon Huh",
+        "players": [
+          "Ha Yong Lee",
+          "Seungyeon Huh"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.285,
+          "doublesUtrAverage": 4.64,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Ha Yong Lee",
+              "dr": 3.87,
+              "doublesUtr": {
+                "value": 6.4,
+                "exactValue": 6.4,
+                "display": "6.40",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Seungyeon Huh",
+              "dr": 2.7,
+              "doublesUtr": {
+                "value": 2.88,
+                "exactValue": 2.88,
+                "display": "2.88",
+                "status": "Projected",
+                "reliability": 4
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Ha Yong Lee + Seungyeon Huh",
+            "players": [
+              "Ha Yong Lee",
+              "Seungyeon Huh"
+            ],
+            "opponentPair": "Elise Zabel + Vietlong Le",
+            "opponentPlayers": [
+              "Elise Zabel",
+              "Vietlong Le"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-2 7-5",
+            "score": "6-2 7-5",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 7,
+                  "opponent": 5
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.72,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.64,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 2.88,
+                      "sourceRating": {
+                        "value": 2.88,
+                        "exactValue": 2.88,
+                        "display": "2.88",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 6.4,
+                      "sourceRating": {
+                        "value": 6.4,
+                        "exactValue": 6.4,
+                        "display": "6.40",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.91,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.74,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 3.62,
+                      "sourceRating": {
+                        "value": 3.62,
+                        "exactValue": 3.62,
+                        "display": "3.62",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 7.86,
+                      "sourceRating": {
+                        "value": 7.86,
+                        "exactValue": 7.86,
+                        "display": "7.86",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.81,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D2",
+            "pair": "Ha Yong Lee + Seungyeon Huh",
+            "players": [
+              "Ha Yong Lee",
+              "Seungyeon Huh"
+            ],
+            "opponentPair": "Elise Zabel + Vietlong Le",
+            "opponentPlayers": [
+              "Elise Zabel",
+              "Vietlong Le"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-2 7-5",
+            "score": "6-2 7-5",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 2
+                },
+                {
+                  "target": 7,
+                  "opponent": 5
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.72,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 3.72,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.64,
+                  "values": [
+                    {
+                      "name": "Seungyeon Huh",
+                      "value": 2.88,
+                      "sourceRating": {
+                        "value": 2.88,
+                        "exactValue": 2.88,
+                        "display": "2.88",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "Ha Yong Lee",
+                      "value": 6.4,
+                      "sourceRating": {
+                        "value": 6.4,
+                        "exactValue": 6.4,
+                        "display": "6.40",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.91,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 2.91,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.74,
+                  "values": [
+                    {
+                      "name": "Elise Zabel",
+                      "value": 3.62,
+                      "sourceRating": {
+                        "value": 3.62,
+                        "exactValue": 3.62,
+                        "display": "3.62",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Vietlong Le",
+                      "value": 7.86,
+                      "sourceRating": {
+                        "value": 7.86,
+                        "exactValue": 7.86,
+                        "display": "7.86",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.81,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -1.1,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Hyemin Jeon + Jongwon Lee",
+        "players": [
+          "Hyemin Jeon",
+          "Jongwon Lee"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.115,
+          "doublesUtrAverage": 2.72,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Hyemin Jeon",
+              "dr": 3.07,
+              "doublesUtr": {
+                "value": 2.3,
+                "exactValue": 2.3,
+                "display": "2.30",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Jongwon Lee",
+              "dr": 3.16,
+              "doublesUtr": {
+                "value": 3.14,
+                "exactValue": 3.14,
+                "display": "3.14",
+                "status": "Projected",
+                "reliability": 4
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17177",
+            "date": "2026-09-25",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "ETC-Double Trouble-Wang",
+            "court": "D2",
+            "pair": "Hyemin Jeon + Jongwon Lee",
+            "players": [
+              "Hyemin Jeon",
+              "Jongwon Lee"
+            ],
+            "opponentPair": "Sid Nagendran + Yifei Sun",
+            "opponentPlayers": [
+              "Sid Nagendran",
+              "Yifei Sun"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-3",
+            "score": "6-0 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.95,
+                  "values": [
+                    {
+                      "name": "Hyemin Jeon",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jongwon Lee",
+                      "value": 2.95,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 2.72,
+                  "values": [
+                    {
+                      "name": "Hyemin Jeon",
+                      "value": 2.3,
+                      "sourceRating": {
+                        "value": 2.3,
+                        "exactValue": 2.3,
+                        "display": "2.30",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jongwon Lee",
+                      "value": 3.14,
+                      "sourceRating": {
+                        "value": 3.14,
+                        "exactValue": 3.14,
+                        "display": "3.14",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.52,
+                  "values": [
+                    {
+                      "name": "Sid Nagendran",
+                      "value": 3.52,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Yifei Sun",
+                      "value": 3.52,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 5.07,
+                  "values": [
+                    {
+                      "name": "Sid Nagendran",
+                      "value": 5.36,
+                      "sourceRating": {
+                        "value": 5.36,
+                        "exactValue": 5.36,
+                        "display": "5.36",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Yifei Sun",
+                      "value": 4.78,
+                      "sourceRating": {
+                        "value": 4.78,
+                        "exactValue": 4.78,
+                        "display": "4.78",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.57,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -2.35,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Jennifer Jeon + Ryan Park",
+        "players": [
+          "Jennifer Jeon",
+          "Ryan Park"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 2.965,
+          "doublesUtrAverage": null,
+          "doublesUtrComplete": false,
+          "players": [
+            {
+              "name": "Jennifer Jeon",
+              "dr": 2.76,
+              "doublesUtr": {
+                "value": 1,
+                "exactValue": 1,
+                "display": "1.00",
+                "status": "Projected",
+                "reliability": 4
+              }
+            },
+            {
+              "name": "Ryan Park",
+              "dr": 3.17,
+              "doublesUtr": {
+                "value": null,
+                "exactValue": null,
+                "display": "NR",
+                "status": "unresolved",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17171",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "WSC-Yin Yang Masters v7.0",
+            "court": "D3",
+            "pair": "Jennifer Jeon + Ryan Park",
+            "players": [
+              "Jennifer Jeon",
+              "Ryan Park"
+            ],
+            "opponentPair": "Abby Harrison + Jerel Navarrete",
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Jerel Navarrete"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-1",
+            "score": "6-0 6-1",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 1
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.23,
+                  "values": [
+                    {
+                      "name": "Jennifer Jeon",
+                      "value": 3.23,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ryan Park",
+                      "value": 3.23,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Jennifer Jeon",
+                      "value": 1,
+                      "sourceRating": {
+                        "value": 1,
+                        "exactValue": 1,
+                        "display": "1.00",
+                        "status": "Projected",
+                        "reliability": 4
+                      }
+                    },
+                    {
+                      "name": "Ryan Park",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.75,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Jerel Navarrete",
+                      "value": 3.75,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.38,
+                  "values": [
+                    {
+                      "name": "Abby Harrison",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Jerel Navarrete",
+                      "value": 3.65,
+                      "sourceRating": {
+                        "value": 3.65,
+                        "exactValue": 3.65,
+                        "display": "3.65",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.52,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "matchStacking": [
+      {
+        "matchId": "17171",
+        "date": "2026-09-12",
+        "phase": "local",
+        "targetTeamName": "AYTC-Jurassic (Park)",
+        "opponentTeam": "WSC-Yin Yang Masters v7.0",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "W",
+            "score": "6-2 2-6 1-0",
+            "adjudication": null,
+            "targetPlayers": [
+              "Jiyoung Shin",
+              "Edward Park"
+            ],
+            "opponentPlayers": [
+              "Maya Wong",
+              "Jonathan Poch"
+            ],
+            "averageDr": 3.51,
+            "averageUtr": 4.78,
+            "opponentAverageDr": 3.22,
+            "opponentAverageUtr": 4.68
+          },
+          {
+            "court": "D2",
+            "result": "L",
+            "score": "6-2 7-5",
+            "adjudication": null,
+            "targetPlayers": [
+              "Seungyeon Huh",
+              "Ha Yong Lee"
+            ],
+            "opponentPlayers": [
+              "Elise Zabel",
+              "Vietlong Le"
+            ],
+            "averageDr": 3.72,
+            "averageUtr": 4.64,
+            "opponentAverageDr": 2.91,
+            "opponentAverageUtr": 5.74
+          },
+          {
+            "court": "D3",
+            "result": "L",
+            "score": "6-0 6-1",
+            "adjudication": null,
+            "targetPlayers": [
+              "Jennifer Jeon",
+              "Ryan Park"
+            ],
+            "opponentPlayers": [
+              "Abby Harrison",
+              "Jerel Navarrete"
+            ],
+            "averageDr": 3.23,
+            "averageUtr": null,
+            "opponentAverageDr": 3.75,
+            "opponentAverageUtr": 4.38
+          }
+        ],
+        "strongestCourtByDr": "D2",
+        "strongestCourtByUtr": "D1"
+      },
+      {
+        "matchId": "17177",
+        "date": "2026-09-25",
+        "phase": "local",
+        "targetTeamName": "AYTC-Jurassic (Park)",
+        "opponentTeam": "ETC-Double Trouble-Wang",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "L",
+            "score": "2-6 6-1 1-0",
+            "adjudication": null,
+            "targetPlayers": [
+              "Elise Wong",
+              "Dongchul Lee"
+            ],
+            "opponentPlayers": [
+              "Yan Hong",
+              "Alex Tan"
+            ],
+            "averageDr": 3.32,
+            "averageUtr": 2.98,
+            "opponentAverageDr": 3.26,
+            "opponentAverageUtr": 3.985
+          },
+          {
+            "court": "D2",
+            "result": "L",
+            "score": "6-0 6-3",
+            "adjudication": null,
+            "targetPlayers": [
+              "Hyemin Jeon",
+              "Jongwon Lee"
+            ],
+            "opponentPlayers": [
+              "Sid Nagendran",
+              "Yifei Sun"
+            ],
+            "averageDr": 2.95,
+            "averageUtr": 2.72,
+            "opponentAverageDr": 3.52,
+            "opponentAverageUtr": 5.07
+          },
+          {
+            "court": "D3",
+            "result": "L",
+            "score": "6-1 6-4",
+            "adjudication": null,
+            "targetPlayers": [
+              "Jiyeong Oh",
+              "eunseok lee"
+            ],
+            "opponentPlayers": [
+              "Bofan Hsu",
+              "Zeran Wang"
+            ],
+            "averageDr": null,
+            "averageUtr": 1.29,
+            "opponentAverageDr": 4.01,
+            "opponentAverageUtr": 4.75
+          }
+        ],
+        "strongestCourtByDr": "D1",
+        "strongestCourtByUtr": "D1"
+      }
+    ]
+  },
+  "lineupPredictions": {
+    "summary": {
+      "predictionsGenerated": 3,
+      "matchesAnalyzed": 2,
+      "courts": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "eligiblePlayers": 17,
+      "excludedPlayers": 0
+    },
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "predictions": [
+      {
+        "rank": 1,
+        "confidence": "high",
+        "historicalSupport": 60,
+        "observedTogether": 1,
+        "evidence": {
+          "totalCourtAppearances": 3,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "Dongchul Lee",
+              "Elise Wong"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-25",
+            "usageShare": 0.6
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Hyemin Jeon",
+              "Jongwon Lee"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-25",
+            "usageShare": 0.6
+          },
+          {
+            "court": "D3",
+            "players": [
+              "eunseok lee",
+              "Jiyeong Oh"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-25",
+            "usageShare": 0.6
+          }
+        ]
+      },
+      {
+        "rank": 2,
+        "confidence": "high",
+        "historicalSupport": 53,
+        "observedTogether": 0,
+        "evidence": {
+          "totalCourtAppearances": 3,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "Dongchul Lee",
+              "Elise Wong"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-25",
+            "usageShare": 0.6
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Ha Yong Lee",
+              "Seungyeon Huh"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 0.4
+          },
+          {
+            "court": "D3",
+            "players": [
+              "eunseok lee",
+              "Jiyeong Oh"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-25",
+            "usageShare": 0.6
+          }
+        ]
+      },
+      {
+        "rank": 3,
+        "confidence": "high",
+        "historicalSupport": 53,
+        "observedTogether": 0,
+        "evidence": {
+          "totalCourtAppearances": 3,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "Edward Park",
+              "Jiyoung Shin"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 0.4
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Hyemin Jeon",
+              "Jongwon Lee"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-25",
+            "usageShare": 0.6
+          },
+          {
+            "court": "D3",
+            "players": [
+              "eunseok lee",
+              "Jiyeong Oh"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-25",
+            "usageShare": 0.6
+          }
+        ]
+      }
+    ]
+  },
+  "disclosures": {
+    "warnings": [
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    ],
+    "sources": [
+      {
+        "type": "tennisrecord",
+        "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-Jurassic%20(Park)&year=2027",
+        "retrievedAt": "2026-09-30",
+        "authentication": "none",
+        "fields": [
+          "team identity",
+          "roster",
+          "player location",
+          "NTRP",
+          "DR",
+          "match schedule",
+          "lineups",
+          "scores",
+          "historical match DR"
+        ]
+      },
+      {
+        "type": "utr_sports_authenticated_profiles",
+        "url": "https://app.utrsports.net/profiles",
+        "retrievedAt": "2026-09-30",
+        "authentication": "user-authenticated",
+        "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+        "fields": [
+          "profile identity",
+          "location",
+          "exact singles UTR",
+          "exact doubles UTR",
+          "rating status",
+          "reliability"
+        ]
+      }
+    ],
+    "dataQuality": {
+      "sourcePrecedence": [
+        "USTA TennisLink official result",
+        "TennisRecord match detail",
+        "TennisRecord team aggregate",
+        "derived totals"
+      ],
+      "issues": [],
+      "unresolvedIdentities": [],
+      "coverage": {
+        "tennisRecordMatchesCollected": 2,
+        "officialUstaReconciled": false,
+        "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+      }
+    }
+  }
+}

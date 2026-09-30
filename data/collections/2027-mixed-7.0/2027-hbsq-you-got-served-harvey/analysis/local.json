@@ -1,0 +1,5126 @@
+{
+  "analysisVersion": "1.1.0",
+  "generatedAt": "2026-09-30T23:07:14.165Z",
+  "dataset": {
+    "datasetId": "2027-hbsq-you-got-served-harvey",
+    "schemaVersion": "2.0.0",
+    "generatedAt": "2026-09-30T18:14:51.000Z",
+    "collectionStage": "step_1_complete",
+    "finalReportReady": true
+  },
+  "team": {
+    "name": "HBSQ-You Got Served-Harvey",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 2,
+      "teamLosses": 0,
+      "courtWins": 4,
+      "courtLosses": 2
+    }
+  },
+  "summary": {
+    "rosterSize": 16,
+    "matches": 2,
+    "teamRecord": {
+      "wins": 2,
+      "losses": 0,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 2,
+      "winRate": 1
+    },
+    "courtRecord": {
+      "wins": 4,
+      "losses": 2,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 6,
+      "winRate": 0.6667
+    },
+    "phases": {
+      "local": {
+        "matches": 2,
+        "teamRecord": {
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 1
+        },
+        "courtRecord": {
+          "wins": 4,
+          "losses": 2,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 6,
+          "winRate": 0.6667
+        }
+      }
+    }
+  },
+  "eligibility": {
+    "scope": "local",
+    "label": "Local",
+    "rules": {
+      "computerRatedMatches": 0,
+      "selfRatedOrAppealedMatches": 0,
+      "computerRatedDefaultReceivedMayCount": 1,
+      "selfRatedOrAppealedDefaultsCount": false,
+      "disqualifiedPlayersAvailable": false
+    },
+    "summary": {
+      "rosterSize": 16,
+      "eligible": 16,
+      "ineligible": 0,
+      "unavailable": 0,
+      "unknown": 0
+    },
+    "dataQualityIssues": [],
+    "players": [
+      {
+        "name": "Carly Holtgraves",
+        "ntrpLevel": "4.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 2,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 2,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.68,
+        "utr": {
+          "singles": {
+            "value": 4.79,
+            "exactValue": 4.79,
+            "display": "4.79",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.15,
+            "exactValue": 4.15,
+            "display": "4.15",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 2,
+            "record": {
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 2,
+              "winRate": 1
+            }
+          },
+          "appearances": 2
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 2
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 2
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Elia Bishara",
+          "appearances": 2,
+          "record": {
+            "wins": 2,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 2,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Highest eligible DR (3.6800); Roster-high 2 local doubles appearances, mainly D3 (2–0); most-used partner Elia Bishara is 2–0 in 2 appearances."
+      },
+      {
+        "name": "Meagan Milca",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 2,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 2,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.25,
+        "utr": {
+          "singles": {
+            "value": 3.62,
+            "exactValue": 3.62,
+            "display": "3.62",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.32,
+            "exactValue": 4.32,
+            "display": "4.32",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 2,
+            "record": {
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 2,
+              "winRate": 1
+            }
+          },
+          "appearances": 2
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          },
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          },
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Andy Wang",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 2 local doubles appearances, mainly D1 (2–0)."
+      },
+      {
+        "name": "Keith Green",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.19,
+        "utr": {
+          "singles": {
+            "value": 5.85,
+            "exactValue": 5.85,
+            "display": "5.85",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.57,
+            "exactValue": 5.57,
+            "display": "5.57",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Khin Oo",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.15,
+        "utr": {
+          "singles": {
+            "value": 3.63,
+            "exactValue": 3.63,
+            "display": "3.63",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.13,
+            "exactValue": 4.13,
+            "display": "4.13",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Andy Wang",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.13,
+        "utr": {
+          "singles": {
+            "value": 4.55,
+            "exactValue": 4.55,
+            "display": "4.55",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.97,
+            "exactValue": 4.97,
+            "display": "4.97",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Meagan Milca",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "1 local doubles appearance, mainly D2 (1–0)."
+      },
+      {
+        "name": "Simon Swifter",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.11,
+        "utr": {
+          "singles": {
+            "value": 4.74,
+            "exactValue": 4.74,
+            "display": "4.74",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.03,
+            "exactValue": 5.03,
+            "display": "5.03",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Dinesh Parimi",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.07,
+        "utr": {
+          "singles": {
+            "value": 4.27,
+            "exactValue": 4.27,
+            "display": "4.27",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.03,
+            "exactValue": 5.03,
+            "display": "5.03",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Anthony Peterson",
+        "ntrpLevel": "4.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.06,
+        "utr": {
+          "singles": {
+            "value": 5.07,
+            "exactValue": 5.07,
+            "display": "5.07",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 5.11,
+            "exactValue": 5.11,
+            "display": "5.11",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Sarah Smith",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Alexis Gentry",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.03,
+        "utr": {
+          "singles": {
+            "value": 3.11,
+            "exactValue": 3.11,
+            "display": "3.11",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.13,
+            "exactValue": 3.13,
+            "display": "3.13",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Sarah Smith",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.02,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "unresolved",
+            "reliability": null
+          },
+          "doubles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "unresolved",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Anthony Peterson",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Elia Bishara",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 2,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 2,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.01,
+        "utr": {
+          "singles": {
+            "value": 4.7,
+            "exactValue": 4.7,
+            "display": "4.70",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.72,
+            "exactValue": 4.72,
+            "display": "4.72",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 2,
+            "record": {
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 2,
+              "winRate": 1
+            }
+          },
+          "appearances": 2
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 2
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 2
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Carly Holtgraves",
+          "appearances": 2,
+          "record": {
+            "wins": 2,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 2,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 2 local doubles appearances, mainly D3 (2–0); most-used partner Carly Holtgraves is 2–0 in 2 appearances."
+      },
+      {
+        "name": "Alexia Cosatto",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.95,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.45,
+            "exactValue": 3.45,
+            "display": "3.45",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "James Harvey",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.86,
+        "utr": {
+          "singles": {
+            "value": 4.03,
+            "exactValue": 4.03,
+            "display": "4.03",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.56,
+            "exactValue": 4.56,
+            "display": "4.56",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Stephanie Hughes",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "Stephanie Hughes",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.85,
+        "utr": {
+          "singles": {
+            "value": 3.32,
+            "exactValue": 3.32,
+            "display": "3.32",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 3.76,
+            "exactValue": 3.76,
+            "display": "3.76",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "James Harvey",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "Kurt Nikaitani",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.77,
+        "utr": {
+          "singles": {
+            "value": 4.01,
+            "exactValue": 4.01,
+            "display": "4.01",
+            "status": "Rated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": 4.13,
+            "exactValue": 4.13,
+            "display": "4.13",
+            "status": "Rated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Meagan Milca",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "1 local doubles appearance, mainly D1 (1–0)."
+      },
+      {
+        "name": "Divya Parimi",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": null,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": null
+          },
+          "doubles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      }
+    ]
+  },
+  "singles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "playersUsed": 0,
+      "matchesAnalyzed": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "players": [],
+    "matchStacking": []
+  },
+  "doubles": {
+    "summary": {
+      "record": {
+        "wins": 4,
+        "losses": 2,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 6,
+        "winRate": 0.6667
+      },
+      "uniquePairs": 5,
+      "matchesAnalyzed": 2,
+      "repeatedPairs": 1,
+      "oneOffPairs": 4,
+      "pairsWithIncompleteCurrentUtr": 1,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 1,
+      "favoriteUtrLosses": 1
+    },
+    "courts": [
+      {
+        "court": "D1",
+        "record": {
+          "wins": 1,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 0.5
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "James Harvey + Stephanie Hughes",
+            "appearances": 1
+          },
+          {
+            "name": "Kurt Nikaitani + Meagan Milca",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D2",
+        "record": {
+          "wins": 1,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 0.5
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Andy Wang + Meagan Milca",
+            "appearances": 1
+          },
+          {
+            "name": "Anthony Peterson + Sarah Smith",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D3",
+        "record": {
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Carly Holtgraves + Elia Bishara",
+            "appearances": 2
+          }
+        ]
+      }
+    ],
+    "repeatedPairs": [
+      {
+        "pair": "Carly Holtgraves + Elia Bishara",
+        "players": [
+          "Carly Holtgraves",
+          "Elia Bishara"
+        ],
+        "appearances": 2,
+        "repeatedPair": true,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 2
+          }
+        ],
+        "record": {
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.345,
+          "doublesUtrAverage": 4.435,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Carly Holtgraves",
+              "dr": 3.68,
+              "doublesUtr": {
+                "value": 4.15,
+                "exactValue": 4.15,
+                "display": "4.15",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Elia Bishara",
+              "dr": 3.01,
+              "doublesUtr": {
+                "value": 4.72,
+                "exactValue": 4.72,
+                "display": "4.72",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 2,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 2,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D3",
+            "pair": "Carly Holtgraves + Elia Bishara",
+            "players": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "opponentPair": "Aime Mitchell + Ian Davis",
+            "opponentPlayers": [
+              "Aime Mitchell",
+              "Ian Davis"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-2",
+            "score": "6-3 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.97,
+                  "values": [
+                    {
+                      "name": "Elia Bishara",
+                      "value": 2.97,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 2.97,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.435,
+                  "values": [
+                    {
+                      "name": "Elia Bishara",
+                      "value": 4.72,
+                      "sourceRating": {
+                        "value": 4.72,
+                        "exactValue": 4.72,
+                        "display": "4.72",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 4.15,
+                      "sourceRating": {
+                        "value": 4.15,
+                        "exactValue": 4.15,
+                        "display": "4.15",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Ian Davis",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Aime Mitchell",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.805,
+                  "values": [
+                    {
+                      "name": "Ian Davis",
+                      "value": 4.17,
+                      "sourceRating": {
+                        "value": 4.17,
+                        "exactValue": 4.17,
+                        "display": "4.17",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Aime Mitchell",
+                      "value": 3.44,
+                      "sourceRating": {
+                        "value": 3.44,
+                        "exactValue": 3.44,
+                        "display": "3.44",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.18,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.63,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D3",
+            "pair": "Carly Holtgraves + Elia Bishara",
+            "players": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "opponentPair": "chunchun tong + William Myers",
+            "opponentPlayers": [
+              "chunchun tong",
+              "William Myers"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-4",
+            "score": "6-3 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.68,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.435,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 4.15,
+                      "sourceRating": {
+                        "value": 4.15,
+                        "exactValue": 4.15,
+                        "display": "4.15",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 4.72,
+                      "sourceRating": {
+                        "value": 4.72,
+                        "exactValue": 4.72,
+                        "display": "4.72",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.67,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.7,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 3.27,
+                      "sourceRating": {
+                        "value": 3.27,
+                        "exactValue": 3.27,
+                        "display": "3.27",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 1.01,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.735,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "oneOffPairs": [
+      {
+        "pair": "Andy Wang + Meagan Milca",
+        "players": [
+          "Andy Wang",
+          "Meagan Milca"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.19,
+          "doublesUtrAverage": 4.645,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Andy Wang",
+              "dr": 3.13,
+              "doublesUtr": {
+                "value": 4.97,
+                "exactValue": 4.97,
+                "display": "4.97",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Meagan Milca",
+              "dr": 3.25,
+              "doublesUtr": {
+                "value": 4.32,
+                "exactValue": 4.32,
+                "display": "4.32",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D2",
+            "pair": "Andy Wang + Meagan Milca",
+            "players": [
+              "Andy Wang",
+              "Meagan Milca"
+            ],
+            "opponentPair": "Chris Jones + Kira Sorensen",
+            "opponentPlayers": [
+              "Chris Jones",
+              "Kira Sorensen"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.91,
+                  "values": [
+                    {
+                      "name": "Andy Wang",
+                      "value": 3.91,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.91,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.645,
+                  "values": [
+                    {
+                      "name": "Andy Wang",
+                      "value": 4.97,
+                      "sourceRating": {
+                        "value": 4.97,
+                        "exactValue": 4.97,
+                        "display": "4.97",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.6,
+                  "values": [
+                    {
+                      "name": "Kira Sorensen",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chris Jones",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Kira Sorensen",
+                      "value": 4.25,
+                      "sourceRating": {
+                        "value": 4.25,
+                        "exactValue": 4.25,
+                        "display": "4.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Chris Jones",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "drComparison": {
+                "margin": 0.31,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Kurt Nikaitani + Meagan Milca",
+        "players": [
+          "Kurt Nikaitani",
+          "Meagan Milca"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.01,
+          "doublesUtrAverage": 4.225,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Kurt Nikaitani",
+              "dr": 2.77,
+              "doublesUtr": {
+                "value": 4.13,
+                "exactValue": 4.13,
+                "display": "4.13",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Meagan Milca",
+              "dr": 3.25,
+              "doublesUtr": {
+                "value": 4.32,
+                "exactValue": 4.32,
+                "display": "4.32",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 1,
+          "largestLowerUtrWin": {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D1",
+            "pair": "Kurt Nikaitani + Meagan Milca",
+            "players": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "opponentPair": "Alexander Martin + Xiayi Li",
+            "opponentPlayers": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.1,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D1",
+            "pair": "Kurt Nikaitani + Meagan Milca",
+            "players": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "opponentPair": "Alexander Martin + Xiayi Li",
+            "opponentPlayers": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.1,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Anthony Peterson + Sarah Smith",
+        "players": [
+          "Anthony Peterson",
+          "Sarah Smith"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.04,
+          "doublesUtrAverage": null,
+          "doublesUtrComplete": false,
+          "players": [
+            {
+              "name": "Anthony Peterson",
+              "dr": 3.06,
+              "doublesUtr": {
+                "value": 5.11,
+                "exactValue": 5.11,
+                "display": "5.11",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Sarah Smith",
+              "dr": 3.02,
+              "doublesUtr": {
+                "value": null,
+                "exactValue": null,
+                "display": "NR",
+                "status": "unresolved",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D2",
+            "pair": "Anthony Peterson + Sarah Smith",
+            "players": [
+              "Anthony Peterson",
+              "Sarah Smith"
+            ],
+            "opponentPair": "Anant Jaitha + Chiqu Li",
+            "opponentPlayers": [
+              "Anant Jaitha",
+              "Chiqu Li"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.84,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.9,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.735,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 5.62,
+                      "sourceRating": {
+                        "value": 5.62,
+                        "exactValue": 5.62,
+                        "display": "5.62",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.85,
+                      "sourceRating": {
+                        "value": 3.85,
+                        "exactValue": 3.85,
+                        "display": "3.85",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -1.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "James Harvey + Stephanie Hughes",
+        "players": [
+          "James Harvey",
+          "Stephanie Hughes"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 2.855,
+          "doublesUtrAverage": 4.16,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "James Harvey",
+              "dr": 2.86,
+              "doublesUtr": {
+                "value": 4.56,
+                "exactValue": 4.56,
+                "display": "4.56",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Stephanie Hughes",
+              "dr": 2.85,
+              "doublesUtr": {
+                "value": 3.76,
+                "exactValue": 3.76,
+                "display": "3.76",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 1,
+          "largestFavoriteUtrLoss": {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D1",
+            "pair": "James Harvey + Stephanie Hughes",
+            "players": [
+              "James Harvey",
+              "Stephanie Hughes"
+            ],
+            "opponentPair": "Jamie Carr + PORTER STROBLE",
+            "opponentPlayers": [
+              "Jamie Carr",
+              "PORTER STROBLE"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-2",
+            "score": "6-0 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.8,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.16,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 4.56,
+                      "sourceRating": {
+                        "value": 4.56,
+                        "exactValue": 4.56,
+                        "display": "4.56",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 3.76,
+                      "sourceRating": {
+                        "value": 3.76,
+                        "exactValue": 3.76,
+                        "display": "3.76",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.5,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.105,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.25,
+                      "sourceRating": {
+                        "value": 3.25,
+                        "exactValue": 3.25,
+                        "display": "3.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.7,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.055,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        },
+        "matchHistory": [
+          {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D1",
+            "pair": "James Harvey + Stephanie Hughes",
+            "players": [
+              "James Harvey",
+              "Stephanie Hughes"
+            ],
+            "opponentPair": "Jamie Carr + PORTER STROBLE",
+            "opponentPlayers": [
+              "Jamie Carr",
+              "PORTER STROBLE"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-2",
+            "score": "6-0 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.8,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.16,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 4.56,
+                      "sourceRating": {
+                        "value": 4.56,
+                        "exactValue": 4.56,
+                        "display": "4.56",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 3.76,
+                      "sourceRating": {
+                        "value": 3.76,
+                        "exactValue": 3.76,
+                        "display": "3.76",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.5,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.105,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.25,
+                      "sourceRating": {
+                        "value": 3.25,
+                        "exactValue": 3.25,
+                        "display": "3.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.7,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.055,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "pair": "Carly Holtgraves + Elia Bishara",
+        "players": [
+          "Carly Holtgraves",
+          "Elia Bishara"
+        ],
+        "appearances": 2,
+        "repeatedPair": true,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 2
+          }
+        ],
+        "record": {
+          "wins": 2,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 2,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.345,
+          "doublesUtrAverage": 4.435,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Carly Holtgraves",
+              "dr": 3.68,
+              "doublesUtr": {
+                "value": 4.15,
+                "exactValue": 4.15,
+                "display": "4.15",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Elia Bishara",
+              "dr": 3.01,
+              "doublesUtr": {
+                "value": 4.72,
+                "exactValue": 4.72,
+                "display": "4.72",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 2,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 2,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D3",
+            "pair": "Carly Holtgraves + Elia Bishara",
+            "players": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "opponentPair": "Aime Mitchell + Ian Davis",
+            "opponentPlayers": [
+              "Aime Mitchell",
+              "Ian Davis"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-2",
+            "score": "6-3 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.97,
+                  "values": [
+                    {
+                      "name": "Elia Bishara",
+                      "value": 2.97,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 2.97,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.435,
+                  "values": [
+                    {
+                      "name": "Elia Bishara",
+                      "value": 4.72,
+                      "sourceRating": {
+                        "value": 4.72,
+                        "exactValue": 4.72,
+                        "display": "4.72",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 4.15,
+                      "sourceRating": {
+                        "value": 4.15,
+                        "exactValue": 4.15,
+                        "display": "4.15",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Ian Davis",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Aime Mitchell",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.805,
+                  "values": [
+                    {
+                      "name": "Ian Davis",
+                      "value": 4.17,
+                      "sourceRating": {
+                        "value": 4.17,
+                        "exactValue": 4.17,
+                        "display": "4.17",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Aime Mitchell",
+                      "value": 3.44,
+                      "sourceRating": {
+                        "value": 3.44,
+                        "exactValue": 3.44,
+                        "display": "3.44",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.18,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.63,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D3",
+            "pair": "Carly Holtgraves + Elia Bishara",
+            "players": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "opponentPair": "chunchun tong + William Myers",
+            "opponentPlayers": [
+              "chunchun tong",
+              "William Myers"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-4",
+            "score": "6-3 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.68,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 3.68,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.435,
+                  "values": [
+                    {
+                      "name": "Carly Holtgraves",
+                      "value": 4.15,
+                      "sourceRating": {
+                        "value": 4.15,
+                        "exactValue": 4.15,
+                        "display": "4.15",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Elia Bishara",
+                      "value": 4.72,
+                      "sourceRating": {
+                        "value": 4.72,
+                        "exactValue": 4.72,
+                        "display": "4.72",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.67,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 2.67,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.7,
+                  "values": [
+                    {
+                      "name": "William Myers",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "chunchun tong",
+                      "value": 3.27,
+                      "sourceRating": {
+                        "value": 3.27,
+                        "exactValue": 3.27,
+                        "display": "3.27",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 1.01,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.735,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Andy Wang + Meagan Milca",
+        "players": [
+          "Andy Wang",
+          "Meagan Milca"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.19,
+          "doublesUtrAverage": 4.645,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Andy Wang",
+              "dr": 3.13,
+              "doublesUtr": {
+                "value": 4.97,
+                "exactValue": 4.97,
+                "display": "4.97",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Meagan Milca",
+              "dr": 3.25,
+              "doublesUtr": {
+                "value": 4.32,
+                "exactValue": 4.32,
+                "display": "4.32",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D2",
+            "pair": "Andy Wang + Meagan Milca",
+            "players": [
+              "Andy Wang",
+              "Meagan Milca"
+            ],
+            "opponentPair": "Chris Jones + Kira Sorensen",
+            "opponentPlayers": [
+              "Chris Jones",
+              "Kira Sorensen"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.91,
+                  "values": [
+                    {
+                      "name": "Andy Wang",
+                      "value": 3.91,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.91,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.645,
+                  "values": [
+                    {
+                      "name": "Andy Wang",
+                      "value": 4.97,
+                      "sourceRating": {
+                        "value": 4.97,
+                        "exactValue": 4.97,
+                        "display": "4.97",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.6,
+                  "values": [
+                    {
+                      "name": "Kira Sorensen",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chris Jones",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Kira Sorensen",
+                      "value": 4.25,
+                      "sourceRating": {
+                        "value": 4.25,
+                        "exactValue": 4.25,
+                        "display": "4.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Chris Jones",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "drComparison": {
+                "margin": 0.31,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Kurt Nikaitani + Meagan Milca",
+        "players": [
+          "Kurt Nikaitani",
+          "Meagan Milca"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.01,
+          "doublesUtrAverage": 4.225,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Kurt Nikaitani",
+              "dr": 2.77,
+              "doublesUtr": {
+                "value": 4.13,
+                "exactValue": 4.13,
+                "display": "4.13",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Meagan Milca",
+              "dr": 3.25,
+              "doublesUtr": {
+                "value": 4.32,
+                "exactValue": 4.32,
+                "display": "4.32",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 1,
+          "largestLowerUtrWin": {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D1",
+            "pair": "Kurt Nikaitani + Meagan Milca",
+            "players": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "opponentPair": "Alexander Martin + Xiayi Li",
+            "opponentPlayers": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.1,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D1",
+            "pair": "Kurt Nikaitani + Meagan Milca",
+            "players": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "opponentPair": "Alexander Martin + Xiayi Li",
+            "opponentPlayers": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-3 6-3",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.06,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 3.06,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.225,
+                  "values": [
+                    {
+                      "name": "Meagan Milca",
+                      "value": 4.32,
+                      "sourceRating": {
+                        "value": 4.32,
+                        "exactValue": 4.32,
+                        "display": "4.32",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Kurt Nikaitani",
+                      "value": 4.13,
+                      "sourceRating": {
+                        "value": 4.13,
+                        "exactValue": 4.13,
+                        "display": "4.13",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 2.79,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.79,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.325,
+                  "values": [
+                    {
+                      "name": "Alexander Martin",
+                      "value": 5.92,
+                      "sourceRating": {
+                        "value": 5.92,
+                        "exactValue": 5.92,
+                        "display": "5.92",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Xiayi Li",
+                      "value": 2.73,
+                      "sourceRating": {
+                        "value": 2.73,
+                        "exactValue": 2.73,
+                        "display": "2.73",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.27,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.1,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Anthony Peterson + Sarah Smith",
+        "players": [
+          "Anthony Peterson",
+          "Sarah Smith"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.04,
+          "doublesUtrAverage": null,
+          "doublesUtrComplete": false,
+          "players": [
+            {
+              "name": "Anthony Peterson",
+              "dr": 3.06,
+              "doublesUtr": {
+                "value": 5.11,
+                "exactValue": 5.11,
+                "display": "5.11",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Sarah Smith",
+              "dr": 3.02,
+              "doublesUtr": {
+                "value": null,
+                "exactValue": null,
+                "display": "NR",
+                "status": "unresolved",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 0,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17175",
+            "date": "2026-09-20",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "AYTC-LevelUp-Tong",
+            "court": "D2",
+            "pair": "Anthony Peterson + Sarah Smith",
+            "players": [
+              "Anthony Peterson",
+              "Sarah Smith"
+            ],
+            "opponentPair": "Anant Jaitha + Chiqu Li",
+            "opponentPlayers": [
+              "Anant Jaitha",
+              "Chiqu Li"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-4",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 4
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.84,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 2.84,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": null,
+                  "values": [
+                    {
+                      "name": "Sarah Smith",
+                      "value": null,
+                      "sourceRating": {
+                        "value": null,
+                        "exactValue": null,
+                        "display": "NR",
+                        "status": "unresolved",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Anthony Peterson",
+                      "value": 5.11,
+                      "sourceRating": {
+                        "value": 5.11,
+                        "exactValue": 5.11,
+                        "display": "5.11",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": false
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.9,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.9,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.735,
+                  "values": [
+                    {
+                      "name": "Anant Jaitha",
+                      "value": 5.62,
+                      "sourceRating": {
+                        "value": 5.62,
+                        "exactValue": 5.62,
+                        "display": "5.62",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Chiqu Li",
+                      "value": 3.85,
+                      "sourceRating": {
+                        "value": 3.85,
+                        "exactValue": 3.85,
+                        "display": "3.85",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -1.06,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": null,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "James Harvey + Stephanie Hughes",
+        "players": [
+          "James Harvey",
+          "Stephanie Hughes"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 2.855,
+          "doublesUtrAverage": 4.16,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "James Harvey",
+              "dr": 2.86,
+              "doublesUtr": {
+                "value": 4.56,
+                "exactValue": 4.56,
+                "display": "4.56",
+                "status": "Rated",
+                "reliability": null
+              }
+            },
+            {
+              "name": "Stephanie Hughes",
+              "dr": 2.85,
+              "doublesUtr": {
+                "value": 3.76,
+                "exactValue": 3.76,
+                "display": "3.76",
+                "status": "Rated",
+                "reliability": null
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 1,
+          "largestFavoriteUtrLoss": {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D1",
+            "pair": "James Harvey + Stephanie Hughes",
+            "players": [
+              "James Harvey",
+              "Stephanie Hughes"
+            ],
+            "opponentPair": "Jamie Carr + PORTER STROBLE",
+            "opponentPlayers": [
+              "Jamie Carr",
+              "PORTER STROBLE"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-2",
+            "score": "6-0 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.8,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.16,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 4.56,
+                      "sourceRating": {
+                        "value": 4.56,
+                        "exactValue": 4.56,
+                        "display": "4.56",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 3.76,
+                      "sourceRating": {
+                        "value": 3.76,
+                        "exactValue": 3.76,
+                        "display": "3.76",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.5,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.105,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.25,
+                      "sourceRating": {
+                        "value": 3.25,
+                        "exactValue": 3.25,
+                        "display": "3.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.7,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.055,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        },
+        "matchHistory": [
+          {
+            "matchId": "17169",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "STC-Pirates-Coomer",
+            "court": "D1",
+            "pair": "James Harvey + Stephanie Hughes",
+            "players": [
+              "James Harvey",
+              "Stephanie Hughes"
+            ],
+            "opponentPair": "Jamie Carr + PORTER STROBLE",
+            "opponentPlayers": [
+              "Jamie Carr",
+              "PORTER STROBLE"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-0 6-2",
+            "score": "6-0 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 0
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 2.8,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 2.8,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.16,
+                  "values": [
+                    {
+                      "name": "James Harvey",
+                      "value": 4.56,
+                      "sourceRating": {
+                        "value": 4.56,
+                        "exactValue": 4.56,
+                        "display": "4.56",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    },
+                    {
+                      "name": "Stephanie Hughes",
+                      "value": 3.76,
+                      "sourceRating": {
+                        "value": 3.76,
+                        "exactValue": 3.76,
+                        "display": "3.76",
+                        "status": "Rated",
+                        "reliability": null
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.5,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 3.5,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.105,
+                  "values": [
+                    {
+                      "name": "Jamie Carr",
+                      "value": 3.25,
+                      "sourceRating": {
+                        "value": 3.25,
+                        "exactValue": 3.25,
+                        "display": "3.25",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "PORTER STROBLE",
+                      "value": 4.96,
+                      "sourceRating": {
+                        "value": 4.96,
+                        "exactValue": 4.96,
+                        "display": "4.96",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.7,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.055,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "matchStacking": [
+      {
+        "matchId": "17169",
+        "date": "2026-09-12",
+        "phase": "local",
+        "targetTeamName": "HBSQ-You Got Served-Harvey",
+        "opponentTeam": "STC-Pirates-Coomer",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "L",
+            "score": "6-0 6-2",
+            "adjudication": null,
+            "targetPlayers": [
+              "James Harvey",
+              "Stephanie Hughes"
+            ],
+            "opponentPlayers": [
+              "Jamie Carr",
+              "PORTER STROBLE"
+            ],
+            "averageDr": 2.8,
+            "averageUtr": 4.16,
+            "opponentAverageDr": 3.5,
+            "opponentAverageUtr": 4.105
+          },
+          {
+            "court": "D2",
+            "result": "W",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "targetPlayers": [
+              "Andy Wang",
+              "Meagan Milca"
+            ],
+            "opponentPlayers": [
+              "Kira Sorensen",
+              "Chris Jones"
+            ],
+            "averageDr": 3.91,
+            "averageUtr": 4.645,
+            "opponentAverageDr": 3.6,
+            "opponentAverageUtr": null
+          },
+          {
+            "court": "D3",
+            "result": "W",
+            "score": "6-3 6-2",
+            "adjudication": null,
+            "targetPlayers": [
+              "Elia Bishara",
+              "Carly Holtgraves"
+            ],
+            "opponentPlayers": [
+              "Ian Davis",
+              "Aime Mitchell"
+            ],
+            "averageDr": 2.97,
+            "averageUtr": 4.435,
+            "opponentAverageDr": 2.79,
+            "opponentAverageUtr": 3.805
+          }
+        ],
+        "strongestCourtByDr": "D2",
+        "strongestCourtByUtr": "D2"
+      },
+      {
+        "matchId": "17175",
+        "date": "2026-09-20",
+        "phase": "local",
+        "targetTeamName": "HBSQ-You Got Served-Harvey",
+        "opponentTeam": "AYTC-LevelUp-Tong",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "W",
+            "score": "6-3 6-3",
+            "adjudication": null,
+            "targetPlayers": [
+              "Meagan Milca",
+              "Kurt Nikaitani"
+            ],
+            "opponentPlayers": [
+              "Alexander Martin",
+              "Xiayi Li"
+            ],
+            "averageDr": 3.06,
+            "averageUtr": 4.225,
+            "opponentAverageDr": 2.79,
+            "opponentAverageUtr": 4.325
+          },
+          {
+            "court": "D2",
+            "result": "L",
+            "score": "6-4 6-4",
+            "adjudication": null,
+            "targetPlayers": [
+              "Sarah Smith",
+              "Anthony Peterson"
+            ],
+            "opponentPlayers": [
+              "Anant Jaitha",
+              "Chiqu Li"
+            ],
+            "averageDr": 2.84,
+            "averageUtr": null,
+            "opponentAverageDr": 3.9,
+            "opponentAverageUtr": 4.735
+          },
+          {
+            "court": "D3",
+            "result": "W",
+            "score": "6-3 6-4",
+            "adjudication": null,
+            "targetPlayers": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "opponentPlayers": [
+              "William Myers",
+              "chunchun tong"
+            ],
+            "averageDr": 3.68,
+            "averageUtr": 4.435,
+            "opponentAverageDr": 2.67,
+            "opponentAverageUtr": 3.7
+          }
+        ],
+        "strongestCourtByDr": "D3",
+        "strongestCourtByUtr": "D3"
+      }
+    ]
+  },
+  "lineupPredictions": {
+    "summary": {
+      "predictionsGenerated": 3,
+      "matchesAnalyzed": 2,
+      "courts": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "eligiblePlayers": 16,
+      "excludedPlayers": 0
+    },
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "predictions": [
+      {
+        "rank": 1,
+        "confidence": "high",
+        "historicalSupport": 73,
+        "observedTogether": 1,
+        "evidence": {
+          "totalCourtAppearances": 4,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "Kurt Nikaitani",
+              "Meagan Milca"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 0.6
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Anthony Peterson",
+              "Sarah Smith"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 0.6
+          },
+          {
+            "court": "D3",
+            "players": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "appearances": 2,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 2,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 1
+          }
+        ]
+      },
+      {
+        "rank": 2,
+        "confidence": "high",
+        "historicalSupport": 67,
+        "observedTogether": 0,
+        "evidence": {
+          "totalCourtAppearances": 4,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "James Harvey",
+              "Stephanie Hughes"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 0.4
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Anthony Peterson",
+              "Sarah Smith"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 0.6
+          },
+          {
+            "court": "D3",
+            "players": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "appearances": 2,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 2,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 1
+          }
+        ]
+      },
+      {
+        "rank": 3,
+        "confidence": "high",
+        "historicalSupport": 60,
+        "observedTogether": 1,
+        "evidence": {
+          "totalCourtAppearances": 4,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "James Harvey",
+              "Stephanie Hughes"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 0.4
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Andy Wang",
+              "Meagan Milca"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 0.4
+          },
+          {
+            "court": "D3",
+            "players": [
+              "Carly Holtgraves",
+              "Elia Bishara"
+            ],
+            "appearances": 2,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 2,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 2,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-20",
+            "usageShare": 1
+          }
+        ]
+      }
+    ]
+  },
+  "disclosures": {
+    "warnings": [
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    ],
+    "sources": [
+      {
+        "type": "tennisrecord",
+        "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=HBSQ-You%20Got%20Served-Harvey&year=2027",
+        "retrievedAt": "2026-09-30",
+        "authentication": "none",
+        "fields": [
+          "team identity",
+          "roster",
+          "player location",
+          "NTRP",
+          "DR",
+          "match schedule",
+          "lineups",
+          "scores",
+          "historical match DR"
+        ]
+      },
+      {
+        "type": "utr_sports_authenticated_profiles",
+        "url": "https://app.utrsports.net/profiles",
+        "retrievedAt": "2026-09-30",
+        "authentication": "user-authenticated",
+        "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+        "fields": [
+          "profile identity",
+          "location",
+          "exact singles UTR",
+          "exact doubles UTR",
+          "rating status",
+          "reliability"
+        ]
+      }
+    ],
+    "dataQuality": {
+      "sourcePrecedence": [
+        "USTA TennisLink official result",
+        "TennisRecord match detail",
+        "TennisRecord team aggregate",
+        "derived totals"
+      ],
+      "issues": [],
+      "unresolvedIdentities": [],
+      "coverage": {
+        "tennisRecordMatchesCollected": 2,
+        "officialUstaReconciled": false,
+        "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+      }
+    }
+  }
+}

@@ -1,0 +1,3619 @@
+{
+  "analysisVersion": "1.1.0",
+  "generatedAt": "2026-09-30T23:07:14.155Z",
+  "dataset": {
+    "datasetId": "2027-aytc-the-poaching-pandas-onghua",
+    "schemaVersion": "2.0.0",
+    "generatedAt": "2026-09-30T18:14:51.000Z",
+    "collectionStage": "step_1_complete",
+    "finalReportReady": true
+  },
+  "team": {
+    "name": "AYTC-The Poaching Pandas-Ong/Hua",
+    "section": "Mixed 18+ Pacific NW X 7.0",
+    "district": null,
+    "league": "2027 Mixed 18 & Over (A)",
+    "level": "7.0",
+    "gender": "Unknown",
+    "season": 2027,
+    "nationalsRepresentative": false,
+    "reportedTotals": {
+      "teamWins": 1,
+      "teamLosses": 0,
+      "courtWins": 3,
+      "courtLosses": 0
+    }
+  },
+  "summary": {
+    "rosterSize": 15,
+    "matches": 1,
+    "teamRecord": {
+      "wins": 1,
+      "losses": 0,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 1,
+      "winRate": 1
+    },
+    "courtRecord": {
+      "wins": 3,
+      "losses": 0,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 3,
+      "winRate": 1
+    },
+    "phases": {
+      "local": {
+        "matches": 1,
+        "teamRecord": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "courtRecord": {
+          "wins": 3,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 3,
+          "winRate": 1
+        }
+      }
+    }
+  },
+  "eligibility": {
+    "scope": "local",
+    "label": "Local",
+    "rules": {
+      "computerRatedMatches": 0,
+      "selfRatedOrAppealedMatches": 0,
+      "computerRatedDefaultReceivedMayCount": 1,
+      "selfRatedOrAppealedDefaultsCount": false,
+      "disqualifiedPlayersAvailable": false
+    },
+    "summary": {
+      "rosterSize": 15,
+      "eligible": 15,
+      "ineligible": 0,
+      "unavailable": 0,
+      "unknown": 0
+    },
+    "dataQualityIssues": [],
+    "players": [
+      {
+        "name": "Jeremy Ong",
+        "ntrpLevel": "4.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.84,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Amanda Lin",
+        "ntrpLevel": "4.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.68,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.21,
+            "exactValue": 4.21,
+            "display": "4.21",
+            "status": "Projected",
+            "reliability": 16
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "SarahJoan Salvador",
+        "ntrpLevel": "4.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.51,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.19,
+            "exactValue": 4.19,
+            "display": "4.19",
+            "status": "Projected",
+            "reliability": 84
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Andrew Shin",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D2 (1–0)."
+      },
+      {
+        "name": "Eva Lin",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.45,
+        "utr": {
+          "singles": {
+            "value": 2.36,
+            "exactValue": 2.36,
+            "display": "2.36",
+            "status": "Projected",
+            "reliability": 36
+          },
+          "doubles": {
+            "value": 2.93,
+            "exactValue": 2.93,
+            "display": "2.93",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Kai Deng",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.43,
+        "utr": {
+          "singles": {
+            "value": 4.21,
+            "exactValue": 4.21,
+            "display": "4.21",
+            "status": "Projected",
+            "reliability": 16
+          },
+          "doubles": {
+            "value": 5.14,
+            "exactValue": 5.14,
+            "display": "5.14",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Henry Hua",
+        "ntrpLevel": "4.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.42,
+        "utr": {
+          "singles": {
+            "value": 5.39,
+            "exactValue": 5.39,
+            "display": "5.39",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 5.29,
+            "exactValue": 5.29,
+            "display": "5.29",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Edie Mei",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Highest eligible singles UTR (5.39); Roster-high 1 local doubles appearance, mainly D1 (1–0)."
+      },
+      {
+        "name": "Ellen Acuario",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.37,
+        "utr": {
+          "singles": {
+            "value": 3.32,
+            "exactValue": 3.32,
+            "display": "3.32",
+            "status": "Projected",
+            "reliability": 36
+          },
+          "doubles": {
+            "value": 4.01,
+            "exactValue": 4.01,
+            "display": "4.01",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Jason Bak",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (1–0)."
+      },
+      {
+        "name": "Guo Feng",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.21,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 2.77,
+            "exactValue": 2.77,
+            "display": "2.77",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Jessie Drakulich",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.21,
+        "utr": {
+          "singles": {
+            "value": 3.2,
+            "exactValue": 3.2,
+            "display": "3.20",
+            "status": "Projected",
+            "reliability": 80
+          },
+          "doubles": {
+            "value": 3.21,
+            "exactValue": 3.21,
+            "display": "3.21",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Jason Bak",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.14,
+        "utr": {
+          "singles": {
+            "value": 4.17,
+            "exactValue": 4.17,
+            "display": "4.17",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 4.93,
+            "exactValue": 4.93,
+            "display": "4.93",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Ellen Acuario",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D3)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D3 (1–0)."
+      },
+      {
+        "name": "Andrew Shin",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 3.1,
+        "utr": {
+          "singles": {
+            "value": 5.1,
+            "exactValue": 5.1,
+            "display": "5.10",
+            "status": "Projected",
+            "reliability": 4
+          },
+          "doubles": {
+            "value": 5.59,
+            "exactValue": 5.59,
+            "display": "5.59",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "SarahJoan Salvador",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D2)",
+        "standoutNote": "Highest eligible doubles UTR (5.59); Roster-high 1 local doubles appearance, mainly D2 (1–0)."
+      },
+      {
+        "name": "Edie Mei",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": 2.9,
+        "utr": {
+          "singles": {
+            "value": 2.18,
+            "exactValue": 2.18,
+            "display": "2.18",
+            "status": "Projected",
+            "reliability": 36
+          },
+          "doubles": {
+            "value": 4.68,
+            "exactValue": 4.68,
+            "display": "4.68",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Henry Hua",
+          "appearances": 1,
+          "record": {
+            "wins": 1,
+            "losses": 0,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 1
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "Doubles Depth (D1)",
+        "standoutNote": "Roster-high 1 local doubles appearance, mainly D1 (1–0)."
+      },
+      {
+        "name": "Gene Chu",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": null,
+        "utr": {
+          "singles": {
+            "value": 4.59,
+            "exactValue": 4.59,
+            "display": "4.59",
+            "status": "Projected",
+            "reliability": 4
+          },
+          "doubles": {
+            "value": 3.18,
+            "exactValue": 3.18,
+            "display": "3.18",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Dylan Kan",
+        "ntrpLevel": "3.5",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": null,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "unresolved",
+            "reliability": null
+          },
+          "doubles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "unresolved",
+            "reliability": null
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Sarah Lu",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 0,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 0,
+        "matchesRequired": 0,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 0,
+        "dr": null,
+        "utr": {
+          "singles": {
+            "value": 2.13,
+            "exactValue": 2.13,
+            "display": "2.13",
+            "status": "Projected",
+            "reliability": 16
+          },
+          "doubles": {
+            "value": 2.99,
+            "exactValue": 2.99,
+            "display": "2.99",
+            "status": "Projected",
+            "reliability": 72
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the local target, but no collected court usage supports a projected role."
+      }
+    ]
+  },
+  "singles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "playersUsed": 0,
+      "matchesAnalyzed": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "players": [],
+    "matchStacking": []
+  },
+  "doubles": {
+    "summary": {
+      "record": {
+        "wins": 3,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 3,
+        "winRate": 1
+      },
+      "uniquePairs": 3,
+      "matchesAnalyzed": 1,
+      "repeatedPairs": 0,
+      "oneOffPairs": 3,
+      "pairsWithIncompleteCurrentUtr": 0,
+      "lowerDrWins": 2,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [
+      {
+        "court": "D1",
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Edie Mei + Henry Hua",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D2",
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Andrew Shin + SarahJoan Salvador",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D3",
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Ellen Acuario + Jason Bak",
+            "appearances": 1
+          }
+        ]
+      }
+    ],
+    "repeatedPairs": [],
+    "oneOffPairs": [
+      {
+        "pair": "Andrew Shin + SarahJoan Salvador",
+        "players": [
+          "Andrew Shin",
+          "SarahJoan Salvador"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.305,
+          "doublesUtrAverage": 4.89,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Andrew Shin",
+              "dr": 3.1,
+              "doublesUtr": {
+                "value": 5.59,
+                "exactValue": 5.59,
+                "display": "5.59",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "SarahJoan Salvador",
+              "dr": 3.51,
+              "doublesUtr": {
+                "value": 4.19,
+                "exactValue": 4.19,
+                "display": "4.19",
+                "status": "Projected",
+                "reliability": 84
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 1,
+          "largestLowerDrWin": {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D2",
+            "pair": "Andrew Shin + SarahJoan Salvador",
+            "players": [
+              "Andrew Shin",
+              "SarahJoan Salvador"
+            ],
+            "opponentPair": "Kristin Blasko + Troy Johnson",
+            "opponentPlayers": [
+              "Kristin Blasko",
+              "Troy Johnson"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.61,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D2",
+            "pair": "Andrew Shin + SarahJoan Salvador",
+            "players": [
+              "Andrew Shin",
+              "SarahJoan Salvador"
+            ],
+            "opponentPair": "Kristin Blasko + Troy Johnson",
+            "opponentPlayers": [
+              "Kristin Blasko",
+              "Troy Johnson"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.61,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Edie Mei + Henry Hua",
+        "players": [
+          "Edie Mei",
+          "Henry Hua"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.16,
+          "doublesUtrAverage": 4.985,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Edie Mei",
+              "dr": 2.9,
+              "doublesUtr": {
+                "value": 4.68,
+                "exactValue": 4.68,
+                "display": "4.68",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Henry Hua",
+              "dr": 3.42,
+              "doublesUtr": {
+                "value": 5.29,
+                "exactValue": 5.29,
+                "display": "5.29",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D1",
+            "pair": "Edie Mei + Henry Hua",
+            "players": [
+              "Edie Mei",
+              "Henry Hua"
+            ],
+            "opponentPair": "Tetyana Sych + Vikas Pabreja",
+            "opponentPlayers": [
+              "Tetyana Sych",
+              "Vikas Pabreja"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-4 6-3",
+            "score": "6-4 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.6,
+                  "values": [
+                    {
+                      "name": "Henry Hua",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Edie Mei",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.985,
+                  "values": [
+                    {
+                      "name": "Henry Hua",
+                      "value": 5.29,
+                      "sourceRating": {
+                        "value": 5.29,
+                        "exactValue": 5.29,
+                        "display": "5.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Edie Mei",
+                      "value": 4.68,
+                      "sourceRating": {
+                        "value": 4.68,
+                        "exactValue": 4.68,
+                        "display": "4.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.16,
+                  "values": [
+                    {
+                      "name": "Tetyana Sych",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Vikas Pabreja",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.655,
+                  "values": [
+                    {
+                      "name": "Tetyana Sych",
+                      "value": 3.9,
+                      "sourceRating": {
+                        "value": 3.9,
+                        "exactValue": 3.9,
+                        "display": "3.90",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Vikas Pabreja",
+                      "value": 5.41,
+                      "sourceRating": {
+                        "value": 5.41,
+                        "exactValue": 5.41,
+                        "display": "5.41",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.44,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.33,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Ellen Acuario + Jason Bak",
+        "players": [
+          "Ellen Acuario",
+          "Jason Bak"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.255,
+          "doublesUtrAverage": 4.47,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Ellen Acuario",
+              "dr": 3.37,
+              "doublesUtr": {
+                "value": 4.01,
+                "exactValue": 4.01,
+                "display": "4.01",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Jason Bak",
+              "dr": 3.14,
+              "doublesUtr": {
+                "value": 4.93,
+                "exactValue": 4.93,
+                "display": "4.93",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 1,
+          "largestLowerDrWin": {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D3",
+            "pair": "Ellen Acuario + Jason Bak",
+            "players": [
+              "Ellen Acuario",
+              "Jason Bak"
+            ],
+            "opponentPair": "Manivel Chandrasekaran + Renee Fletcher",
+            "opponentPlayers": [
+              "Manivel Chandrasekaran",
+              "Renee Fletcher"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.08,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D3",
+            "pair": "Ellen Acuario + Jason Bak",
+            "players": [
+              "Ellen Acuario",
+              "Jason Bak"
+            ],
+            "opponentPair": "Manivel Chandrasekaran + Renee Fletcher",
+            "opponentPlayers": [
+              "Manivel Chandrasekaran",
+              "Renee Fletcher"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.08,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "pair": "Andrew Shin + SarahJoan Salvador",
+        "players": [
+          "Andrew Shin",
+          "SarahJoan Salvador"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.305,
+          "doublesUtrAverage": 4.89,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Andrew Shin",
+              "dr": 3.1,
+              "doublesUtr": {
+                "value": 5.59,
+                "exactValue": 5.59,
+                "display": "5.59",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "SarahJoan Salvador",
+              "dr": 3.51,
+              "doublesUtr": {
+                "value": 4.19,
+                "exactValue": 4.19,
+                "display": "4.19",
+                "status": "Projected",
+                "reliability": 84
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 1,
+          "largestLowerDrWin": {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D2",
+            "pair": "Andrew Shin + SarahJoan Salvador",
+            "players": [
+              "Andrew Shin",
+              "SarahJoan Salvador"
+            ],
+            "opponentPair": "Kristin Blasko + Troy Johnson",
+            "opponentPlayers": [
+              "Kristin Blasko",
+              "Troy Johnson"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.61,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D2",
+            "pair": "Andrew Shin + SarahJoan Salvador",
+            "players": [
+              "Andrew Shin",
+              "SarahJoan Salvador"
+            ],
+            "opponentPair": "Kristin Blasko + Troy Johnson",
+            "opponentPlayers": [
+              "Kristin Blasko",
+              "Troy Johnson"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Andrew Shin",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "SarahJoan Salvador",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Kristin Blasko",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Troy Johnson",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.61,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Edie Mei + Henry Hua",
+        "players": [
+          "Edie Mei",
+          "Henry Hua"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.16,
+          "doublesUtrAverage": 4.985,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Edie Mei",
+              "dr": 2.9,
+              "doublesUtr": {
+                "value": 4.68,
+                "exactValue": 4.68,
+                "display": "4.68",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Henry Hua",
+              "dr": 3.42,
+              "doublesUtr": {
+                "value": 5.29,
+                "exactValue": 5.29,
+                "display": "5.29",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D1",
+            "pair": "Edie Mei + Henry Hua",
+            "players": [
+              "Edie Mei",
+              "Henry Hua"
+            ],
+            "opponentPair": "Tetyana Sych + Vikas Pabreja",
+            "opponentPlayers": [
+              "Tetyana Sych",
+              "Vikas Pabreja"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 6-4 6-3",
+            "score": "6-4 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.6,
+                  "values": [
+                    {
+                      "name": "Henry Hua",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Edie Mei",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.985,
+                  "values": [
+                    {
+                      "name": "Henry Hua",
+                      "value": 5.29,
+                      "sourceRating": {
+                        "value": 5.29,
+                        "exactValue": 5.29,
+                        "display": "5.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Edie Mei",
+                      "value": 4.68,
+                      "sourceRating": {
+                        "value": 4.68,
+                        "exactValue": 4.68,
+                        "display": "4.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.16,
+                  "values": [
+                    {
+                      "name": "Tetyana Sych",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Vikas Pabreja",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.655,
+                  "values": [
+                    {
+                      "name": "Tetyana Sych",
+                      "value": 3.9,
+                      "sourceRating": {
+                        "value": 3.9,
+                        "exactValue": 3.9,
+                        "display": "3.90",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Vikas Pabreja",
+                      "value": 5.41,
+                      "sourceRating": {
+                        "value": 5.41,
+                        "exactValue": 5.41,
+                        "display": "5.41",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.44,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.33,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Ellen Acuario + Jason Bak",
+        "players": [
+          "Ellen Acuario",
+          "Jason Bak"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 1,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 1
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.255,
+          "doublesUtrAverage": 4.47,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Ellen Acuario",
+              "dr": 3.37,
+              "doublesUtr": {
+                "value": 4.01,
+                "exactValue": 4.01,
+                "display": "4.01",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Jason Bak",
+              "dr": 3.14,
+              "doublesUtr": {
+                "value": 4.93,
+                "exactValue": 4.93,
+                "display": "4.93",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 1,
+          "largestLowerDrWin": {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D3",
+            "pair": "Ellen Acuario + Jason Bak",
+            "players": [
+              "Ellen Acuario",
+              "Jason Bak"
+            ],
+            "opponentPair": "Manivel Chandrasekaran + Renee Fletcher",
+            "opponentPlayers": [
+              "Manivel Chandrasekaran",
+              "Renee Fletcher"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.08,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "17170",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "PL-Sych",
+            "court": "D3",
+            "pair": "Ellen Acuario + Jason Bak",
+            "players": [
+              "Ellen Acuario",
+              "Jason Bak"
+            ],
+            "opponentPair": "Manivel Chandrasekaran + Renee Fletcher",
+            "opponentPlayers": [
+              "Manivel Chandrasekaran",
+              "Renee Fletcher"
+            ],
+            "result": "W",
+            "onCourtResult": "W",
+            "status": "W · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Jason Bak",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Ellen Acuario",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Renee Fletcher",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Manivel Chandrasekaran",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.08,
+                "lowerRatedWin": true,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": 0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "matchStacking": [
+      {
+        "matchId": "17170",
+        "date": "2026-09-12",
+        "phase": "local",
+        "targetTeamName": "AYTC-The Poaching Pandas-Ong/Hua",
+        "opponentTeam": "PL-Sych",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "W",
+            "score": "6-4 6-3",
+            "adjudication": null,
+            "targetPlayers": [
+              "Henry Hua",
+              "Edie Mei"
+            ],
+            "opponentPlayers": [
+              "Tetyana Sych",
+              "Vikas Pabreja"
+            ],
+            "averageDr": 3.6,
+            "averageUtr": 4.985,
+            "opponentAverageDr": 3.16,
+            "opponentAverageUtr": 4.655
+          },
+          {
+            "court": "D2",
+            "result": "W",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "targetPlayers": [
+              "Andrew Shin",
+              "SarahJoan Salvador"
+            ],
+            "opponentPlayers": [
+              "Kristin Blasko",
+              "Troy Johnson"
+            ],
+            "averageDr": 3.1,
+            "averageUtr": 4.89,
+            "opponentAverageDr": 3.71,
+            "opponentAverageUtr": 4.595
+          },
+          {
+            "court": "D3",
+            "result": "W",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "targetPlayers": [
+              "Jason Bak",
+              "Ellen Acuario"
+            ],
+            "opponentPlayers": [
+              "Renee Fletcher",
+              "Manivel Chandrasekaran"
+            ],
+            "averageDr": 3.31,
+            "averageUtr": 4.47,
+            "opponentAverageDr": 3.39,
+            "opponentAverageUtr": 3.845
+          }
+        ],
+        "strongestCourtByDr": "D1",
+        "strongestCourtByUtr": "D1"
+      }
+    ]
+  },
+  "lineupPredictions": {
+    "summary": {
+      "predictionsGenerated": 1,
+      "matchesAnalyzed": 1,
+      "courts": [
+        "D1",
+        "D2",
+        "D3"
+      ],
+      "eligiblePlayers": 15,
+      "excludedPlayers": 0
+    },
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "predictions": [
+      {
+        "rank": 1,
+        "confidence": "high",
+        "historicalSupport": 100,
+        "observedTogether": 1,
+        "evidence": {
+          "totalCourtAppearances": 3,
+          "postseasonCourtAppearances": 0
+        },
+        "lines": [
+          {
+            "court": "D1",
+            "players": [
+              "Edie Mei",
+              "Henry Hua"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 1
+          },
+          {
+            "court": "D2",
+            "players": [
+              "Andrew Shin",
+              "SarahJoan Salvador"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 1
+          },
+          {
+            "court": "D3",
+            "players": [
+              "Ellen Acuario",
+              "Jason Bak"
+            ],
+            "appearances": 1,
+            "postseasonAppearances": 0,
+            "record": {
+              "wins": 1,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 1
+            },
+            "lastUsedDate": "2026-09-12",
+            "usageShare": 1
+          }
+        ]
+      }
+    ]
+  },
+  "disclosures": {
+    "warnings": [
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+    ],
+    "sources": [
+      {
+        "type": "tennisrecord",
+        "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-The%20Poaching%20Pandas-Ong%2fHua&year=2027",
+        "retrievedAt": "2026-09-30",
+        "authentication": "none",
+        "fields": [
+          "team identity",
+          "roster",
+          "player location",
+          "NTRP",
+          "DR",
+          "match schedule",
+          "lineups",
+          "scores",
+          "historical match DR"
+        ]
+      },
+      {
+        "type": "utr_sports_authenticated_profiles",
+        "url": "https://app.utrsports.net/profiles",
+        "retrievedAt": "2026-09-30",
+        "authentication": "user-authenticated",
+        "requestPolicy": "sequential; 10000ms delay; persistent cross-team cache",
+        "fields": [
+          "profile identity",
+          "location",
+          "exact singles UTR",
+          "exact doubles UTR",
+          "rating status",
+          "reliability"
+        ]
+      }
+    ],
+    "dataQuality": {
+      "sourcePrecedence": [
+        "USTA TennisLink official result",
+        "TennisRecord match detail",
+        "TennisRecord team aggregate",
+        "derived totals"
+      ],
+      "issues": [],
+      "unresolvedIdentities": [],
+      "coverage": {
+        "tennisRecordMatchesCollected": 1,
+        "officialUstaReconciled": false,
+        "warning": "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
+      }
+    }
+  }
+}
