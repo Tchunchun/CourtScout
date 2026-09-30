@@ -3375,11 +3375,52 @@ function renderMatchCardEditor() {
           <p>Choose an opponent scenario, set every court, and review the matchup response immediately.</p>
         </div>
         ${tournamentEvidenceDisclosureHtml(card, context)}
-        <div class="lineup-decision-grid">
+        <nav class="lineup-test-mobile-nav no-print" aria-label="Lineup test panels">
+          <a href="#prep-our-lineup">Our lineup</a>
+          <a href="#prep-courts">Compare</a>
+          <a href="#prep-opponent-lineups">Opponent</a>
+        </nav>
+        <div class="lineup-test-grid">
+          <section class="our-lineup-builder lineup-test-column" id="prep-our-lineup">
+            <div class="match-card-section-heading">
+              <div><span class="step-label">1 · Our lineup</span><h2>Set every court</h2></div>
+              <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
+                ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
+                : `${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligible roster`}</p>
+            </div>
+            <div class="lineup-builder-grid">
+              ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => `
+                <article>
+                  <strong>${court}</strong>
+                  <div>${Array.from({ length: players }, (_, index) =>
+                    lineupSelectHtml(card, context, court, index, eligibleNames)
+                  ).join("")}</div>
+                </article>
+              `).join("")}
+            </div>
+            ${validation.unavailableNames.length
+              ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} target.</p>`
+              : ""}
+          </section>
+          <section class="matchup-analysis lineup-test-column" id="prep-courts">
+            <div class="match-card-section-heading">
+              <div><span class="step-label">2 · Live comparison</span><h2>How this lineup matches up</h2></div>
+            </div>
+            <div class="matchup-overview">
+              <strong>${escapeHtml(summary.read)}</strong>
+              <div>
+                <span><b>${summary.favorable}</b> favorable</span>
+                <span><b>${summary.swing}</b> swing</span>
+                <span><b>${summary.challenging}</b> challenging</span>
+                <span><b>${summary.limited}</b> limited data</span>
+              </div>
+            </div>
+            <div class="matchup-courts decision-matchup-courts">${comparisons.map(matchCardCourtHtml).join("")}</div>
+          </section>
           <section class="opponent-prediction-picker no-print" id="prep-opponent-lineups">
             <div>
-              <span class="step-label">1 · Opponent scenario</span>
-              <h2>Most likely lineups</h2>
+              <span class="step-label">3 · Opponent options</span>
+              <h2>Test a predicted lineup</h2>
               <p>${evidenceForCard(card).length
                 ? "Reviewed tournament evidence is weighted ahead of older scouting history."
                 : "Scenarios use gathered match history and observed pair usage."}</p>
@@ -3387,44 +3428,6 @@ function renderMatchCardEditor() {
             <p class="scenario-primary-note">Scenario 1 is the most evidence-supported option, not necessarily the highest-rated possible lineup.</p>
             ${topOpponentPredictionsHtml(card, predictions, context)}
           </section>
-          <div class="decision-lineup-results">
-            <section class="our-lineup-builder" id="prep-our-lineup">
-              <div class="match-card-section-heading">
-                <div><span class="step-label">2 · Our lineup</span><h2>Set every court</h2></div>
-                <p>${validation.selectedPlayers}/${validation.requiredPlayers} players selected · ${validation.unavailableNames.length
-                  ? `${validation.unavailableNames.length} eligibility warning${validation.unavailableNames.length === 1 ? "" : "s"}`
-                  : `${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} eligible roster`}</p>
-              </div>
-              <div class="lineup-builder-grid">
-                ${matchCardCourtDefinitions(card.leagueFormat).map(({ court, players }) => `
-                  <article>
-                    <strong>${court}</strong>
-                    <div>${Array.from({ length: players }, (_, index) =>
-                      lineupSelectHtml(card, context, court, index, eligibleNames)
-                    ).join("")}</div>
-                  </article>
-                `).join("")}
-              </div>
-              ${validation.unavailableNames.length
-                ? `<p class="lineup-eligibility-warning"><strong>Eligibility warning:</strong> ${validation.unavailableNames.map(escapeHtml).join(", ")} ${validation.unavailableNames.length === 1 ? "is" : "are"} not eligible for the selected ${eligibilityScopeLabels[card.eligibilityScope] ?? "National"} target.</p>`
-                : ""}
-            </section>
-            <section class="matchup-analysis" id="prep-courts">
-              <div class="match-card-section-heading">
-                <div><span class="step-label">3 · Live result</span><h2>How this lineup matches up</h2></div>
-              </div>
-              <div class="matchup-overview">
-                <strong>${escapeHtml(summary.read)}</strong>
-                <div>
-                  <span><b>${summary.favorable}</b> favorable</span>
-                  <span><b>${summary.swing}</b> swing</span>
-                  <span><b>${summary.challenging}</b> challenging</span>
-                  <span><b>${summary.limited}</b> limited data</span>
-                </div>
-              </div>
-              <div class="matchup-courts decision-matchup-courts">${comparisons.map(matchCardCourtHtml).join("")}</div>
-            </section>
-          </div>
         </div>
       </section>
       ${lineupChallengeHtml(card, context, predictions, validation)}

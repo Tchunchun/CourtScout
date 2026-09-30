@@ -2168,30 +2168,48 @@ tbody tr:hover, tbody tr:focus-within { background: #f7f9fc; }
   line-height: 1.5;
   text-align: right;
 }
-.lineup-decision-grid { display: grid; }
-.lineup-decision-workspace .opponent-prediction-picker {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: var(--paper);
-}
-.decision-lineup-results {
+.lineup-test-mobile-nav { display: none; }
+.lineup-test-grid {
   display: grid;
-  grid-template-columns: minmax(400px, .9fr) minmax(500px, 1.1fr);
+  grid-template-columns: minmax(0, 30fr) minmax(0, 42fr) minmax(0, 28fr);
   align-items: start;
+  border-top: 1px solid var(--line);
 }
-.decision-lineup-results > section {
+.lineup-test-grid > section {
   min-width: 0;
   height: 100%;
   border-top: 0;
-}
-.decision-lineup-results .our-lineup-builder {
   border-right: 1px solid var(--line);
+}
+.lineup-test-grid > section:last-child { border-right: 0; }
+.lineup-test-grid .our-lineup-builder {
   background: var(--paper);
 }
-.decision-lineup-results .lineup-builder-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.lineup-test-grid .lineup-builder-grid {
+  grid-template-columns: 1fr;
 }
-.decision-lineup-results .matchup-analysis { background: var(--surface-subtle); }
+.lineup-test-grid .matchup-analysis { background: var(--surface-subtle); }
+.lineup-test-grid .opponent-prediction-picker {
+  padding: 24px 20px 28px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 14px;
+  background: var(--paper);
+}
+.lineup-test-grid .opponent-prediction-picker .scenario-primary-note {
+  align-self: auto;
+}
+.lineup-test-grid .selected-opponent-prediction { padding: 12px; }
+.lineup-test-grid .prediction-court { padding: 7px; }
+.lineup-test-grid .prediction-court li {
+  grid-template-columns: 1fr;
+  gap: 5px;
+}
+.lineup-test-grid .prediction-court li small { white-space: normal; }
+.lineup-test-grid .opponent-scenario-switcher {
+  grid-template-columns: 1fr;
+}
 .decision-matchup-courts {
   padding: 0;
   display: grid;
@@ -2460,8 +2478,32 @@ footer span { color: var(--ink); font: 600 14px var(--font-display); }
   .match-card-create-panel, .opponent-prediction-picker, .match-readiness { grid-template-columns: 1fr; }
   .decision-workspace-heading { align-items: flex-start; flex-direction: column; }
   .decision-workspace-heading > p { text-align: left; }
-  .decision-lineup-results { grid-template-columns: 1fr; }
-  .decision-lineup-results .our-lineup-builder { border-right: 0; border-bottom: 1px solid var(--line); }
+  .lineup-test-grid { grid-template-columns: 1fr; }
+  .lineup-test-grid > section { height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  .lineup-test-grid > section:last-child { border-bottom: 0; }
+  .lineup-test-mobile-nav {
+    position: sticky;
+    top: 42px;
+    z-index: 6;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(255, 255, 255, .96);
+    backdrop-filter: blur(8px);
+  }
+  .lineup-test-mobile-nav a {
+    padding: 8px 5px;
+    color: var(--green);
+    border-radius: var(--radius-sm);
+    background: var(--surface-selected);
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 800;
+  }
   .decision-player-grid { grid-template-columns: 1fr 1fr; }
   .matchup-readiness-grid { grid-template-columns: 1fr; }
   .opponent-report-columns { grid-template-columns: 1fr; }
@@ -2630,9 +2672,9 @@ footer span { color: var(--ink); font: 600 14px var(--font-display); }
   .match-cards-view { padding: 38px 20px 65px; }
   .match-card-create-panel, .round-robin-schedule, .schedule-planning { padding: 20px; }
   .decision-workspace-heading, .decision-evidence { padding: 20px; }
-  .lineup-decision-workspace .opponent-prediction-picker,
-  .decision-lineup-results .our-lineup-builder,
-  .decision-lineup-results .matchup-analysis { padding-right: 18px; padding-left: 18px; }
+  .lineup-test-grid .opponent-prediction-picker,
+  .lineup-test-grid .our-lineup-builder,
+  .lineup-test-grid .matchup-analysis { padding-right: 18px; padding-left: 18px; }
   .decision-player-grid, .decision-strategy-grid { grid-template-columns: 1fr; }
   .decision-evidence-disclosure > summary,
   .opponent-reference-details > summary { align-items: flex-start; flex-direction: column; }

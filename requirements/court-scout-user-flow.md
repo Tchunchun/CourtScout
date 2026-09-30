@@ -139,8 +139,11 @@ Future Phase B enhancements should add:
    both teams are ready.
 3. Expand one evidence-backed opponent scenario, keep alternate scenarios
    compact, and allow the captain to switch the scenario being tested.
-4. Place Our lineup editor beside live court-by-court matchup results so every
-   lineup change immediately updates the decision view.
+4. Use a three-column desktop workspace: Our lineup on the left, live
+   court-by-court comparison in the middle, and three opponent options on the
+   right. Every lineup or scenario change immediately updates the middle.
+   On mobile, stack the same panels behind an Our lineup / Compare / Opponent
+   navigator.
 5. Challenge Our lineup against every predicted scenario and surface player
    performance, pair, and stacking evidence supporting the comparison.
 6. Keep the full opponent roster and history tables available as secondary
