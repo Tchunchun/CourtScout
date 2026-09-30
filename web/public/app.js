@@ -25,8 +25,10 @@ import {
   draftFromPrediction,
   extractLineupFromText,
   matchRosterNames,
+  orderScheduledMatches,
   parseStoredMatchCards,
   parseStoredTournamentEvidence,
+  resolveScheduledOpponent,
   summarizeMatchup,
   validateDraft
 } from "./match-card.mjs";
@@ -86,6 +88,10 @@ const state = {
   activeMatchCardId: null,
   matchCardContext: null,
   matchCardError: "",
+  eventSchedule: null,
+  eventScheduleCollectionId: null,
+  reportsScheduleLoading: false,
+  reportsScheduleError: null,
   teamWorkspace: emptyTeamWorkspace(),
   teamWorkspaceStorageError: null,
   matchCardPrefillOpponentId: null
@@ -731,7 +737,17 @@ function renderReportsTeamList() {
   );
   const collectionName = collection?.name ?? "Temp collection";
   const readyCount = teams.filter(team => team.reportAvailable !== false).length;
-  const rankedTeams = rankTeamsBySchedule(teams, state.teamWorkspace);
+  const scheduleTeamIds = reportScheduleMatches()
+    ?.map(match => resolveScheduledOpponent(match, teams)?.id)
+    .filter((teamId, index, teamIds) =>
+      teamId && teamIds.indexOf(teamId) === index
+    );
+  const rankedTeams = rankTeamsBySchedule(teams, {
+    ...state.teamWorkspace,
+    scheduledOpponentIds: scheduleTeamIds?.length
+      ? scheduleTeamIds
+      : state.teamWorkspace.scheduledOpponentIds
+  });
   const hasSchedule = rankedTeams.some(({ scheduleRank }) => scheduleRank != null);
   $("#reportsCollectionName").textContent = collectionName;
   $("#reportsCollectionLevel").textContent = collection
@@ -802,6 +818,235 @@ function renderReportsTeamList() {
         <button class="button-primary compact" type="button" data-scout-collection-team>Scout your first team</button>
       </div>
     `;
+  renderReportsSchedule();
+}
+
+function reportScheduleDateLabel(value) {
+  if (!value) return "Date TBD";
+  const [year, month, day] = value.split("-").map(Number);
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC"
+  }).format(new Date(Date.UTC(year, month - 1, day)));
+}
+
+function reportScheduleMatches() {
+  if (state.eventScheduleCollectionId !== state.activeCollectionId) return null;
+  return state.eventSchedule?.matches ?? [];
+}
+
+function renderReportsSchedule() {
+  const container = $("#reportsSchedule");
+  if (!container) return;
+  if (!state.activeCollectionId) {
+    container.hidden = true;
+    return;
+  }
+  container.hidden = false;
+  const ourTeam = matchCardTeam(
+    state.eventSchedule?.ourTeamId ?? state.teamWorkspace.ourTeamId
+  );
+  if (!ourTeam) {
+    container.innerHTML = `
+      <div class="reports-schedule-heading">
+        <div>
+          <span class="step-label">Match schedule</span>
+          <h2>Assign Our team to load the schedule</h2>
+        </div>
+      </div>
+      <p class="reports-schedule-empty">Open your team report and assign it as Our team for this collection.</p>`;
+    return;
+  }
+  const matches = reportScheduleMatches();
+  const updatedAt = state.eventSchedule?.lastSuccessfulSyncAt;
+  container.innerHTML = `
+    <div class="reports-schedule-heading">
+      <div>
+        <span class="step-label">Match schedule</span>
+        <h2>${escapeHtml(ourTeam.team?.name ?? ourTeam.datasetId)}</h2>
+        <p>${matches?.length
+          ? `${matches.length} ${matches.length === 1 ? "match" : "matches"}${updatedAt
+            ? ` · Updated ${escapeHtml(new Date(updatedAt).toLocaleString())}`
+            : ""}`
+          : state.reportsScheduleLoading ? "Loading schedule…" : "No schedule loaded yet."}</p>
+      </div>
+      <div class="reports-schedule-actions">
+        <button class="button-secondary compact" type="button" data-reports-schedule-refresh
+          ${state.reportsScheduleLoading ? "disabled" : ""}>
+          ${state.reportsScheduleLoading ? "Refreshing…" : "Refresh schedule"}
+        </button>
+        <button class="button-primary compact" type="button" data-reports-open-match-day>
+          Open Match Day
+        </button>
+      </div>
+    </div>
+    ${state.reportsScheduleError
+      ? `<p class="match-card-alert" role="alert">${escapeHtml(state.reportsScheduleError)}</p>`
+      : ""}
+    ${matches?.length ? `
+      <div class="reports-schedule-list">
+        ${orderScheduledMatches(matches).map((match, index) => {
+          const opponent = resolveScheduledOpponent(
+            match,
+            activeCollectionTeams()
+          );
+          const location = [
+            match.site ?? "Location TBD",
+            match.designation && match.designation !== "unknown"
+              ? match.designation
+              : null
+          ].filter(Boolean).join(" · ");
+          return `
+            <article class="reports-schedule-row ${escapeHtml(match.status ?? "scheduled")}">
+              <div class="reports-schedule-order">
+                <strong>${index + 1}</strong>
+                <small>Match</small>
+              </div>
+              <div class="reports-schedule-time">
+                <strong>${escapeHtml(reportScheduleDateLabel(match.date))}</strong>
+                <small>${escapeHtml(match.time ?? "Time TBD")}</small>
+              </div>
+              <div class="reports-schedule-opponent">
+                <span>Opponent</span>
+                <strong>${escapeHtml(match.sourceOpponentName)}</strong>
+                <small>${escapeHtml(location)}</small>
+              </div>
+              <div class="reports-schedule-status">
+                <span>${escapeHtml(match.status ?? "scheduled")}</span>
+                ${opponent
+                  ? `<button class="button-primary compact" type="button"
+                      data-reports-prepare-match="${escapeHtml(opponent.id)}">
+                      Prepare match
+                    </button>`
+                  : `<select data-reports-link-match="${escapeHtml(match.id)}"
+                      aria-label="Choose gathered team for ${escapeHtml(match.sourceOpponentName)}">
+                      <option value="">Link gathered team</option>
+                      ${activeCollectionTeams().filter(team =>
+                        team.id !== state.teamWorkspace.ourTeamId
+                      ).map(team => `
+                        <option value="${escapeHtml(team.id)}">${escapeHtml(team.team?.name ?? team.datasetId)}</option>
+                      `).join("")}
+                    </select>`}
+              </div>
+            </article>`;
+        }).join("")}
+      </div>
+    ` : `
+      <p class="reports-schedule-empty">
+        Refresh from the Our team TennisRecord profile to load the Mixed schedule.
+      </p>
+    `}`;
+}
+
+async function loadReportsSchedule() {
+  if (!state.activeCollectionId) {
+    state.eventSchedule = null;
+    state.eventScheduleCollectionId = null;
+    renderReportsSchedule();
+    return;
+  }
+  const collectionId = state.activeCollectionId;
+  state.reportsScheduleLoading = true;
+  state.reportsScheduleError = null;
+  state.eventScheduleCollectionId = collectionId;
+  renderReportsSchedule();
+  try {
+    const response = await api(
+      `/api/event-schedules/${encodeURIComponent(collectionId)}`
+    );
+    if (state.activeCollectionId !== collectionId) return;
+    const collection = state.teamCollections.find(item => item.id === collectionId);
+    const fallbackMatches = collectionMatchSchedule(collection, state.teams);
+    state.eventSchedule = response.schedule ?? (
+      fallbackMatches.length
+        ? {
+            collectionId,
+            ourTeamId: state.teamWorkspace.ourTeamId,
+            eventType: collection?.competitionLevel ?? "local",
+            matches: fallbackMatches.map((match, index) => ({
+              ...match,
+              id: `collection:${collectionId}:${index}`,
+              sourceOpponentName: matchCardTeamName(match.opponentTeamId),
+              linkedOpponentTeamId: match.opponentTeamId,
+              designation: "neutral",
+              status: "scheduled"
+            }))
+          }
+        : null
+    );
+  } catch (error) {
+    if (state.activeCollectionId === collectionId) {
+      state.reportsScheduleError = `Couldn’t load the schedule. ${error.message}`;
+    }
+  } finally {
+    if (state.activeCollectionId === collectionId) {
+      state.reportsScheduleLoading = false;
+      renderReportsTeamList();
+    }
+  }
+}
+
+async function refreshReportsSchedule() {
+  const collectionId = state.activeCollectionId;
+  const ourTeamId = state.teamWorkspace.ourTeamId;
+  if (!collectionId || !ourTeamId) return;
+  state.reportsScheduleLoading = true;
+  state.reportsScheduleError = null;
+  renderReportsSchedule();
+  try {
+    const preview = await api(
+      `/api/event-schedules/${encodeURIComponent(collectionId)}/local-preview`,
+      {
+        method: "POST",
+        body: JSON.stringify({ ourTeamId })
+      }
+    );
+    if (!preview.matches.length) {
+      throw new Error("TennisRecord did not return any scheduled matches.");
+    }
+    const response = await api(
+      `/api/event-schedules/${encodeURIComponent(collectionId)}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          ourTeamId,
+          eventType: preview.eventType ?? "local",
+          eligibilityScope: preview.eligibilityScope ?? "local",
+          timezone: preview.timezone ?? null,
+          source: preview.source,
+          matches: preview.matches
+        })
+      }
+    );
+    state.eventSchedule = response.schedule;
+    state.eventScheduleCollectionId = collectionId;
+  } catch (error) {
+    state.reportsScheduleError =
+      `Couldn’t refresh the schedule. ${error.message}`;
+  } finally {
+    state.reportsScheduleLoading = false;
+    renderReportsTeamList();
+  }
+}
+
+async function linkReportsScheduleOpponent(matchId, teamId) {
+  try {
+    const response = await api(
+      `/api/event-schedules/${encodeURIComponent(state.activeCollectionId)}/link`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ matchId, teamId })
+      }
+    );
+    state.eventSchedule = response.schedule;
+    state.eventScheduleCollectionId = state.activeCollectionId;
+    state.reportsScheduleError = null;
+  } catch (error) {
+    state.reportsScheduleError = `Couldn’t link the opponent. ${error.message}`;
+  }
+  renderReportsTeamList();
 }
 
 function renderReportsCollections() {
@@ -869,6 +1114,7 @@ function showReportsCollection(collectionId) {
   $("#reportsCollectionsPanel").hidden = true;
   $("#reportsTeamsPanel").hidden = false;
   showView("reports");
+  void loadReportsSchedule();
 }
 
 function showSelectedTeamCollection() {
@@ -2929,6 +3175,29 @@ $("#reportsTeamList").addEventListener("click", event => {
   const reportButton = event.target.closest("[data-report-team-id]");
   if (reportButton) void openTeamData(reportButton.dataset.reportTeamId);
 });
+$("#reportsSchedule").addEventListener("click", event => {
+  if (event.target.closest("[data-reports-schedule-refresh]")) {
+    void refreshReportsSchedule();
+    return;
+  }
+  if (event.target.closest("[data-reports-open-match-day]")) {
+    openMatchCardsWorkspace();
+    return;
+  }
+  const prepareButton = event.target.closest("[data-reports-prepare-match]");
+  if (prepareButton) {
+    openMatchCardsWorkspace(prepareButton.dataset.reportsPrepareMatch);
+  }
+});
+$("#reportsSchedule").addEventListener("change", event => {
+  const select = event.target.closest("[data-reports-link-match]");
+  if (select?.value) {
+    void linkReportsScheduleOpponent(
+      select.dataset.reportsLinkMatch,
+      select.value
+    );
+  }
+});
 $("#scoutCollectionTeam").addEventListener(
   "click",
   scoutTeamForActiveCollection
@@ -3001,6 +3270,9 @@ function setActiveCollection(collectionId) {
     localStorage.removeItem(ACTIVE_COLLECTION_STORAGE_KEY);
   }
   state.matchCardPrefillOpponentId = null;
+  state.eventSchedule = null;
+  state.eventScheduleCollectionId = null;
+  state.reportsScheduleError = null;
   loadStoredTeamWorkspace();
   $("#teamCollection").value = state.activeCollectionId ?? "";
   $("#gatherEventCollection").value = "";
