@@ -1,0 +1,1548 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nationals 2026 — Eastern · Friday, October 9 · 1:00 PM</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f0f2f5; color: #1a1f2b; font-size: 14px; }
+  .header { background: #1e5f74; color: white; padding: 12px 14px; }
+  .header h1 { font-size: 16px; }
+  .header p { font-size: 11px; opacity: 0.84; margin-top: 2px; }
+  .tab-bar { display: flex; overflow-x: auto; background: white; border-bottom: 2px solid #dde; scrollbar-width: none; position: sticky; top: 0; z-index: 50; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; padding: 10px 12px; font-size: 11px; font-weight: 650; color: #666; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; margin-bottom: -2px; }
+  .tab-btn.active { color: #1e5f74; border-bottom-color: #1e5f74; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .page { max-width: 980px; margin: 0 auto; padding: 10px 10px 50px; }
+  .card { background: white; border-radius: 10px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card-head { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: 14px; font-weight: 750; }
+  .card-meta { font-size: 11px; color: #666; margin-top: 2px; }
+  .site-badge { background: #e8eaf6; color: #3949ab; font-size: 10px; font-weight: 750; padding: 4px 9px; border-radius: 10px; white-space: nowrap; }
+  .site-badge.collegiate { background: #fde3d8; color: #8a3d1f; }
+  .court-row { display: grid; grid-template-columns: 30px minmax(170px, 1fr) minmax(105px, .55fr); gap: 9px; padding: 9px 14px; border-bottom: 1px solid #f5f5f5; align-items: start; }
+  .ct { font-size: 12px; font-weight: 750; color: #1e5f74; padding-top: 2px; }
+  .pn { font-size: 13px; font-weight: 650; line-height: 1.3; }
+  .dr { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.35; }
+  .support { font-size: 10px; color: #777; text-align: right; padding-top: 2px; }
+  .total { padding: 8px 14px; background: #f8f9fa; font-size: 11px; font-weight: 650; border-top: 1px solid #eee; }
+  .note { padding: 8px 14px; font-size: 11px; color: #777; font-style: italic; border-bottom: 1px solid #f5f5f5; }
+  .our-lineup { padding: 10px 14px; background: #f4fafb; border-bottom: 1px solid #dcecef; }
+  .our-lineup-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .our-lineup-head strong { font-size: 11px; text-transform: uppercase; letter-spacing: .35px; color: #1e5f74; }
+  .lineup-pending { color: #856404; background: #fff3cd; border-radius: 999px; padding: 3px 8px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .lineup-slots { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .lineup-slot { min-width: 0; border: 1px dashed #9bbbc4; border-radius: 7px; padding: 7px 8px; background: white; }
+  .lineup-slot strong { display: block; color: #1e5f74; font-size: 10px; margin-bottom: 2px; }
+  .lineup-slot span { display: block; color: #888; font-size: 10px; line-height: 1.25; }
+  .summary-note { background: white; color: #333; font-style: normal; border: 0; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .section-title { font-size: 11px; font-weight: 750; color: #555; padding: 11px 14px 5px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .intel-card { background: white; border-radius: 10px; margin-bottom: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid #dde; }
+  .intel-red { border-left-color: #b3413a; }
+  .intel-warn { border-left-color: #b8860b; }
+  .intel-blue { border-left-color: #3949ab; }
+  .table-scroll { overflow-x: auto; }
+  .roster { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
+  .roster th { text-align: left; padding: 7px 10px; background: #f5f7f9; font-size: 11px; color: #555; font-weight: 650; border-bottom: 1px solid #eee; }
+  .roster td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; line-height: 1.35; }
+  .roster tr:last-child td { border-bottom: none; }
+  .roster small { display: block; font-size: 10px; color: #888; margin-top: 1px; }
+  .elig-no { color: #b3413a; font-size: 11px; font-weight: 750; }
+  .elig-ok { color: #1e7a4c; font-size: 11px; }
+  .elig-unknown { color: #856404; font-size: 11px; font-weight: 700; }
+  .pair-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 9px 14px; border-bottom: 1px solid #f5f5f5; }
+  .pair-row:last-child { border-bottom: none; }
+  .pair-name { font-size: 13px; font-weight: 650; }
+  .pair-meta { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.35; }
+  .pair-dr { font-size: 12px; font-weight: 750; color: #1e5f74; white-space: nowrap; text-align: right; }
+  .pair-dr small { display: block; color: #777; font-weight: 500; margin-top: 2px; }
+  .banner { margin-bottom: 10px; background: white; border-left: 4px solid #1e5f74; border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .disclosure { color: #777; font-size: 10px; line-height: 1.45; padding: 8px 4px; }
+  .empty { padding: 14px; color: #777; font-size: 12px; }
+  @media (max-width: 540px) {
+    .court-row { grid-template-columns: 26px 1fr; }
+    .support { grid-column: 2; text-align: left; margin-top: -5px; }
+    .lineup-slots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media print {
+    body { background: white; }
+    .tab-bar { display: none; }
+    .tab-panel { display: block !important; break-before: page; }
+    .tab-panel:first-of-type { break-before: auto; }
+    .page { max-width: none; padding-bottom: 10px; }
+    .card, .intel-card, .summary-note { box-shadow: none; border: 1px solid #ddd; }
+  }
+
+  .section-nav { display: flex; gap: 6px; overflow-x: auto; margin: 0 0 10px; padding: 2px 0 4px; scrollbar-width: none; }
+  .section-nav::-webkit-scrollbar { display: none; }
+  .section-nav a { flex-shrink: 0; color: #1e5f74; background: white; border: 1px solid #d9e5e9; border-radius: 999px; padding: 6px 10px; font-size: 10px; font-weight: 700; text-decoration: none; }
+  .analysis-section { scroll-margin-top: 52px; }
+  .summary-grid, .court-summary-grid, .stack-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 9px; }
+  .summary-grid article, .court-summary-grid article, .stack-summary article { background: white; border-radius: 9px; padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border-top: 3px solid #1e5f74; }
+  .summary-grid span, .court-summary-grid span, .stack-summary span { display: block; color: #777; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .35px; }
+  .summary-grid strong, .court-summary-grid strong, .stack-summary strong { display: block; font-size: 15px; margin-top: 3px; }
+  .summary-grid small, .court-summary-grid small, .stack-summary small { display: block; color: #777; font-size: 10px; margin-top: 2px; line-height: 1.35; }
+  .court-summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .footnote { color: #666; font-size: 10px; line-height: 1.45; margin: 0 4px 8px; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 760px; }
+  .data-table th { background: #f5f7f9; color: #555; font-size: 10px; text-align: left; padding: 7px 9px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+  .data-table td { padding: 8px 9px; border-bottom: 1px solid #eee; vertical-align: top; line-height: 1.4; }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table td > small, .data-table td > span { display: block; color: #777; font-size: 10px; margin-top: 2px; }
+  .singles-table { min-width: 900px; }
+  .result-log { min-width: 360px; }
+  .result-log > strong { display: block; margin-bottom: 4px; }
+  .result-log > span { color: #555; margin: 2px 0; }
+  .win-text { color: #1e7a4c; }
+  .loss-text { color: #b3413a; }
+  .read-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .matchup-summary { background: #eef5f8; border-left: 4px solid #1e5f74; border-radius: 7px; color: #31434b; font-size: 11px; line-height: 1.5; padding: 9px 12px; margin-bottom: 10px; }
+  .pair-status { display: inline-block !important; color: #856404 !important; background: #fff3cd; border-radius: 6px; padding: 2px 6px; white-space: nowrap; }
+  .pair-status.established { color: #1e7a4c !important; background: #e0f0e8; }
+  .stacking-table { min-width: 1000px; }
+  .stacking-table td { min-width: 135px; }
+  .stacking-table td:first-child { min-width: 72px; white-space: nowrap; }
+  .stacked-cell { background: #eef7f3; box-shadow: inset 3px 0 #1e7a4c; }
+  .missing-cell { color: #999; font-style: italic; }
+  @media (max-width: 680px) {
+    .summary-grid, .court-summary-grid, .stack-summary, .read-grid { grid-template-columns: 1fr; }
+  }
+
+  .national-active-row { background: #f3faf6; }
+  .national-inactive-row { background: #fff4f2; box-shadow: inset 4px 0 #b3413a; }
+  .national-badge { display: inline-block !important; border-radius: 999px; padding: 3px 7px; font-size: 9px !important; font-weight: 750; white-space: nowrap; }
+  .national-badge.registered { color: #1e7a4c !important; background: #dff3e8; }
+  .national-badge.not-registered { color: #9f302b !important; background: #f9deda; }
+
+  .subsection-label { color: #47545a; font-size: 10px; font-weight: 750; letter-spacing: .4px; margin: 12px 4px 5px; text-transform: uppercase; }
+  .national-partial-row { background: #fffaf0; box-shadow: inset 4px 0 #b8860b; }
+  .national-badge.partial { color: #856404 !important; background: #fff0bf; }
+
+  .decision-guide { margin-bottom: 4px; }
+  .decision-link { background: #1e5f74 !important; color: white !important; border-color: #1e5f74 !important; }
+  .decision-banner { display: flex; justify-content: space-between; gap: 14px; align-items: center; background: linear-gradient(135deg, #174d60, #24758e); color: white; border-radius: 10px; padding: 12px 14px; margin-bottom: 9px; box-shadow: 0 2px 5px rgba(30,95,116,.22); }
+  .decision-banner span, .decision-banner small { display: block; font-size: 10px; opacity: .82; }
+  .decision-banner strong { display: block; margin: 2px 0; font-size: 15px; }
+  .decision-time { text-align: right; white-space: nowrap; }
+  .lineup-scorecard { min-width: 1000px; }
+  .lineup-scorecard .compact-lineup { min-width: 390px; line-height: 1.6; }
+  .recommended-row { background: #eef7f3; box-shadow: inset 4px 0 #1e7a4c; }
+  .recommended-badge { display: inline-block !important; background: #1e7a4c; color: white !important; border-radius: 999px; font-size: 8px !important; font-weight: 750; margin: 4px 0 2px !important; padding: 2px 6px; text-transform: uppercase; }
+  .edge-count { display: inline-block !important; border-radius: 999px; margin: 1px 2px 1px 0 !important; padding: 2px 6px; font-size: 9px !important; white-space: nowrap; }
+  .edge-count.favorable, .edge-cell.favorable .edge-label { background: #dff3e8; color: #1e7a4c !important; }
+  .edge-count.swing, .edge-cell.swing .edge-label { background: #fff0bf; color: #856404 !important; }
+  .edge-count.challenging, .edge-cell.challenging .edge-label { background: #f9deda; color: #9f302b !important; }
+  .edge-count.limited, .edge-cell.limited .edge-label { background: #eceff1; color: #657078 !important; }
+  .matchup-matrix { min-width: 1120px; }
+  .matchup-matrix td { min-width: 210px; }
+  .matchup-matrix td:first-child { min-width: 55px; }
+  .edge-cell { border-left: 3px solid #ccc; }
+  .edge-cell.favorable { background: #f3faf6; border-left-color: #1e7a4c; }
+  .edge-cell.swing { background: #fffaf0; border-left-color: #b8860b; }
+  .edge-cell.challenging { background: #fff4f2; border-left-color: #b3413a; }
+  .edge-label { display: inline-block !important; border-radius: 999px; font-size: 8px !important; font-weight: 750; margin: 0 0 4px !important; padding: 2px 6px; text-transform: uppercase; }
+  .edge-cell > strong { display: block; }
+  @media (max-width: 520px) {
+    .decision-banner { align-items: flex-start; flex-direction: column; }
+    .decision-time { text-align: left; }
+  }
+
+  .our-player-pool { background: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 9px; overflow: hidden; }
+  .pool-heading { align-items: center; background: #f5f7f9; border-bottom: 1px solid #e7ecef; display: flex; justify-content: space-between; gap: 12px; padding: 9px 12px; }
+  .pool-heading span { color: #667; display: block; font-size: 9px; font-weight: 750; letter-spacing: .35px; text-transform: uppercase; }
+  .pool-heading strong { display: block; font-size: 13px; margin-top: 2px; }
+  .pool-heading small { color: #667; font-size: 10px; text-align: right; }
+  .player-chip-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 9px; }
+  .player-chip { border: 1px solid #dce5e8; border-radius: 8px; min-width: 0; padding: 7px 8px; }
+  .player-chip.baseline-player { background: #f3faf6; border-color: #b9ddc8; }
+  .player-chip.rotation-player { background: #fffaf0; border-color: #ead18d; box-shadow: inset 3px 0 #b8860b; }
+  .player-chip strong, .player-chip span, .player-chip small { display: block; overflow-wrap: anywhere; }
+  .player-chip strong { font-size: 11px; }
+  .player-chip span { color: #555; font-size: 9px; margin-top: 2px; }
+  .player-chip small { color: #777; font-size: 9px; line-height: 1.3; margin-top: 3px; }
+  .our-player-pool > p { background: #fffaf0; border-top: 1px solid #f1dfac; color: #624f1f; font-size: 10px; line-height: 1.45; padding: 8px 11px; }
+  @media (max-width: 760px) {
+    .player-chip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 430px) {
+    .pool-heading { align-items: flex-start; flex-direction: column; }
+    .pool-heading small { text-align: left; }
+    .player-chip-grid { grid-template-columns: 1fr; }
+  }
+
+  .three-court-plan { background: #eef5f8; border: 1px solid #d4e4ea; border-radius: 10px; margin-bottom: 10px; overflow: hidden; padding: 10px; }
+  .plan-heading { align-items: center; display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .plan-heading div > span { color: #61737b; display: block; font-size: 9px; font-weight: 750; letter-spacing: .4px; text-transform: uppercase; }
+  .plan-heading div > strong { display: block; font-size: 15px; margin-top: 2px; }
+  .plan-risk { border-radius: 999px; font-size: 9px; font-weight: 750; padding: 4px 8px; text-transform: uppercase; white-space: nowrap; }
+  .plan-risk.low { background: #dff3e8; color: #1e7a4c; }
+  .plan-risk.moderate { background: #fff0bf; color: #856404; }
+  .plan-risk.high { background: #f9deda; color: #9f302b; }
+  .plan-summary-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-bottom: 8px; }
+  .plan-summary-grid article { background: white; border-radius: 8px; padding: 8px 10px; }
+  .plan-summary-grid span, .plan-summary-grid small { color: #68747a; display: block; font-size: 9px; line-height: 1.35; }
+  .plan-summary-grid span { font-weight: 750; text-transform: uppercase; }
+  .plan-summary-grid strong { display: block; font-size: 13px; margin: 3px 0; }
+  .three-court-table { min-width: 760px; }
+  .three-court-table .edge-label { display: inline-block !important; }
+  .edge-label.favorable { background: #dff3e8; color: #1e7a4c !important; }
+  .edge-label.swing { background: #fff0bf; color: #856404 !important; }
+  .edge-label.challenging { background: #f9deda; color: #9f302b !important; }
+  .low-priority-row { background: #fff4f2; box-shadow: inset 4px 0 #b3413a; }
+  .court-plan-badge { border-radius: 999px; display: inline-block; font-size: 9px; font-weight: 750; padding: 3px 7px; white-space: nowrap; }
+  .court-plan-badge.target { background: #dff3e8; color: #1e7a4c; }
+  .court-plan-badge.insurance { background: #fff0bf; color: #856404; }
+  .court-plan-badge.sacrifice { background: #f9deda; color: #9f302b; }
+  .plan-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .plan-notes p { background: white; border-radius: 7px; color: #46565d; font-size: 10px; line-height: 1.45; padding: 8px 10px; }
+  .workload-plan { margin: 4px 0 12px; }
+  .workload-table { min-width: 760px; text-align: center; }
+  .workload-table th:first-child, .workload-table td:first-child { text-align: left; }
+  .rest-cell { color: #777; font-style: italic; }
+  .rotation-workload-row { background: #fffaf0; box-shadow: inset 4px 0 #b8860b; }
+  @media (max-width: 680px) {
+    .plan-summary-grid, .plan-notes { grid-template-columns: 1fr; }
+  }
+
+  .field-ranking { margin: 4px 0 12px; }
+  .ranking-table { min-width: 1100px; }
+  .ranking-table td { line-height: 1.45; }
+  .ranking-table td:nth-child(1) { text-align: center; width: 54px; }
+  .ranking-table td:nth-child(2) { min-width: 170px; }
+  .ranking-table td:nth-child(3), .ranking-table td:nth-child(4) { min-width: 150px; }
+  .ranking-table td:nth-child(5), .ranking-table td:nth-child(6) { min-width: 260px; }
+  .rank-number { align-items: center; background: #e6eef1; border-radius: 50%; color: #1e5f74; display: inline-flex !important; font-size: 14px !important; font-weight: 800; height: 30px; justify-content: center; width: 30px; }
+  .rank-top { background: #f3faf6; }
+  .rank-high { background: #fffaf0; }
+  .rank-us { background: #eef5f8; box-shadow: inset 4px 0 #1e5f74; }
+  .priority-badge { border-radius: 999px; display: inline-block !important; font-size: 8px !important; font-weight: 800; margin-bottom: 3px; padding: 3px 7px; text-transform: uppercase; }
+  .priority-badge.maximum { background: #f9deda; color: #9f302b !important; }
+  .priority-badge.high { background: #fff0bf; color: #856404 !important; }
+  .priority-badge.us { background: #dcecf2; color: #1e5f74 !important; }
+  .priority-badge.rotation { background: #dff3e8; color: #1e7a4c !important; }
+  .priority-callout { align-items: center; background: #1e5f74; border-radius: 9px; color: white; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px; }
+  .priority-callout > strong { margin-right: 4px; }
+  .priority-callout > span { background: rgba(255,255,255,.15); border-radius: 999px; font-size: 10px; font-weight: 700; padding: 4px 8px; }
+  .priority-callout > small { flex-basis: 100%; font-size: 10px; line-height: 1.4; opacity: .83; }
+
+  .sectionals-proof { align-items: center; background: #174d60; border-radius: 8px; color: white; display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; padding: 9px 10px; }
+  .sectionals-proof > strong { margin-right: 3px; }
+  .sectionals-proof > span { background: rgba(255,255,255,.14); border-radius: 999px; font-size: 9px; font-weight: 700; padding: 3px 7px; }
+  .sectionals-proof > small { flex-basis: 100%; font-size: 9px; line-height: 1.4; opacity: .82; }
+  .protected-core-row { background: #f3faf6; box-shadow: inset 4px 0 #1e7a4c; }
+  .eligibility-row { background: #fffaf0; box-shadow: inset 4px 0 #b8860b; }
+
+  .sunday-header { align-items: center; background: linear-gradient(135deg,#174d60,#24758e); border-radius: 11px; color: white; display: flex; justify-content: space-between; gap: 16px; margin-bottom: 10px; padding: 14px 16px; }
+  .sunday-header div:first-child > span { font-size: 9px; font-weight: 750; letter-spacing: .5px; text-transform: uppercase; }
+  .sunday-header h1 { font-size: 18px; margin: 2px 0; }
+  .sunday-header p { font-size: 10px; line-height: 1.4; max-width: 620px; opacity: .83; }
+  .sunday-header div:last-child { display: grid; grid-template-columns: auto auto; gap: 4px 8px; font-size: 10px; white-space: nowrap; }
+  .sunday-header div:last-child span { opacity: .8; }
+  .sunday-ranking { min-width: 760px; }
+  .sunday-candidate { background: white; border: 1px solid #dde5e8; border-radius: 10px; margin-bottom: 9px; overflow: hidden; }
+  .sunday-candidate > summary { align-items: center; cursor: pointer; display: flex; gap: 10px; list-style: none; padding: 11px 13px; }
+  .sunday-candidate > summary::-webkit-details-marker { display: none; }
+  .sunday-candidate > summary > div { flex: 1; }
+  .sunday-candidate > summary strong, .sunday-candidate > summary small { display: block; }
+  .sunday-candidate > summary small { color: #777; font-size: 10px; margin-top: 2px; }
+  .sunday-rank { align-items: center; background: #1e5f74; border-radius: 50%; color: white; display: inline-flex; font-size: 12px; font-weight: 800; height: 30px; justify-content: center; width: 30px; }
+  .candidate-tier { background: #dff3e8; border-radius: 999px; color: #1e7a4c; font-size: 8px; font-weight: 800; padding: 3px 7px; text-transform: uppercase; }
+  .candidate-body { background: #f3f5f7; border-top: 1px solid #e4eaed; padding: 10px; }
+  .sunday-roster { min-width: 720px; }
+  .sunday-court-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 7px; margin-bottom: 9px; }
+  .sunday-court-grid article { background: white; border-radius: 8px; padding: 8px 9px; }
+  .sunday-court-grid span, .sunday-court-grid strong, .sunday-court-grid small { display: block; }
+  .sunday-court-grid span { color: #777; font-size: 9px; font-weight: 750; }
+  .sunday-court-grid strong { font-size: 14px; margin: 2px 0; }
+  .sunday-court-grid small { color: #777; font-size: 9px; line-height: 1.3; }
+  .sunday-lineups { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-bottom: 9px; }
+  .sunday-lineup { background: white; border-radius: 8px; padding: 9px 10px; }
+  .sunday-lineup > div { display: flex; justify-content: space-between; gap: 8px; }
+  .sunday-lineup > div strong { align-items: center; background: #1e5f74; border-radius: 50%; color: white; display: inline-flex; height: 22px; justify-content: center; width: 22px; }
+  .sunday-lineup > div span { color: #777; font-size: 9px; }
+  .sunday-lineup p { font-size: 10px; line-height: 1.5; margin-top: 6px; }
+  .sunday-scenario-summary { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-bottom: 8px; }
+  .sunday-scenario-summary article { background: white; border-radius: 8px; padding: 8px 9px; }
+  .sunday-scenario-summary strong { display: block; font-size: 10px; margin-bottom: 4px; }
+  .sunday-matchup { min-width: 1050px; }
+  .watch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .watch-candidate { background: white; border-radius: 10px; display: flex; gap: 10px; padding: 11px 12px; }
+  .watch-rank { align-items: center; background: #e6eef1; border-radius: 50%; color: #1e5f74; display: flex; flex-shrink: 0; font-weight: 800; height: 30px; justify-content: center; width: 30px; }
+  .watch-candidate div:last-child > strong, .watch-candidate div:last-child > span, .watch-candidate div:last-child > small { display: block; }
+  .watch-candidate div:last-child > span { font-size: 10px; margin-top: 2px; }
+  .watch-candidate div:last-child > small { color: #777; font-size: 9px; margin-top: 2px; }
+  .watch-candidate p { color: #555; font-size: 9px; line-height: 1.45; margin-top: 6px; }
+  @media (max-width: 720px) {
+    .sunday-header { align-items: flex-start; flex-direction: column; }
+    .sunday-court-grid, .sunday-lineups, .sunday-scenario-summary, .watch-grid { grid-template-columns: 1fr; }
+  }
+
+    .tab-bar a.tab-btn {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .tab-panel {
+      display: block !important;
+    }
+    @media (max-width: 600px) {
+      .header h1 { line-height: 1.3; }
+      .tab-btn { padding: 9px 10px; }
+    }
+
+    .tab-bar a.tab-btn {
+      align-items: flex-start;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .tab-bar a.tab-btn strong {
+      display: block;
+      font-size: 11px;
+    }
+    .tab-bar a.tab-btn small {
+      display: block;
+      font-size: 9px;
+      font-weight: 500;
+      margin-top: 2px;
+      opacity: .78;
+    }
+
+
+  .edge-legend { background: white; border-bottom: 1px solid #dce5e8; display: flex; flex-wrap: wrap; gap: 5px 10px; padding: 8px 12px; }
+  .edge-legend > strong { color: #1e5f74; font-size: 10px; text-transform: uppercase; }
+  .edge-legend > span { color: #555; font-size: 9px; line-height: 1.35; }
+  .edge-legend > small { color: #777; flex-basis: 100%; font-size: 9px; line-height: 1.35; }
+  .edge-legend b { border-radius: 999px; display: inline-block; font-size: 8px; padding: 2px 6px; text-transform: uppercase; }
+  .legend-favorable { background: #dff3e8; color: #1e7a4c; }
+  .legend-swing { background: #fff0bf; color: #856404; }
+  .legend-challenging { background: #f9deda; color: #9f302b; }
+  .court-move-option { background: #eef5f8; border: 1px solid #cfdee4; border-radius: 9px; margin-bottom: 9px; padding: 10px 11px; }
+  .court-move-option > div:first-child { align-items: center; display: flex; justify-content: space-between; gap: 8px; }
+  .court-move-option h3 { font-size: 13px; }
+  .court-move-option .option-badge { background: #dcecf2; border-radius: 999px; color: #1e5f74; font-size: 8px; font-weight: 800; padding: 3px 7px; text-transform: uppercase; }
+  .court-move-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 6px; margin: 8px 0; }
+  .court-move-grid article { background: white; border-radius: 7px; padding: 7px 8px; }
+  .court-move-grid span, .court-move-grid strong, .court-move-grid small { display: block; }
+  .court-move-grid span { color: #1e5f74; font-size: 9px; font-weight: 800; }
+  .court-move-grid strong { font-size: 10px; margin-top: 2px; }
+  .court-move-grid small { color: #777; font-size: 9px; line-height: 1.3; margin-top: 2px; }
+  .court-move-option p { color: #4c5d65; font-size: 10px; line-height: 1.45; margin-top: 5px; }
+  @media (max-width: 650px) {
+    .edge-legend { flex-direction: column; }
+    .court-move-grid { grid-template-columns: 1fr; }
+  }
+
+  .placement-grid, .placement-difference { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; margin-bottom: 8px; }
+  .placement-option { background: white; border: 1px solid #dce5e8; border-radius: 8px; padding: 9px 10px; }
+  .placement-option.selected-placement { background: #f3faf6; border-color: #a8d3b9; box-shadow: inset 4px 0 #1e7a4c; }
+  .placement-option > div { align-items: center; display: flex; justify-content: space-between; gap: 7px; }
+  .placement-option > div > strong { font-size: 11px; }
+  .placement-option > div > span { background: #e6eef1; border-radius: 999px; color: #1e5f74; font-size: 8px; font-weight: 800; padding: 3px 7px; text-transform: uppercase; }
+  .placement-option p, .placement-option li { font-size: 9px; line-height: 1.45; }
+  .placement-option p { margin-top: 6px; }
+  .placement-option ul { list-style: none; margin-top: 6px; }
+  .placement-difference { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .placement-difference article { background: #eef5f8; border-radius: 8px; padding: 8px 9px; }
+  .placement-difference strong { color: #1e5f74; display: block; font-size: 10px; }
+  .placement-difference p { color: #526269; font-size: 9px; line-height: 1.4; margin-top: 3px; }
+  @media (max-width: 680px) {
+    .placement-grid, .placement-difference { grid-template-columns: 1fr; }
+  }
+
+
+  .captain-lineup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .captain-lineup-card { background: white; border: 1px solid #dce5e8; border-radius: 9px; padding: 10px 11px; }
+  .captain-lineup-card.selected { background: #f3faf6; border-color: #a8d3b9; box-shadow: inset 4px 0 #1e7a4c; }
+  .captain-lineup-card > div:first-child { align-items: center; display: flex; justify-content: space-between; gap: 8px; }
+  .captain-lineup-card > div:first-child strong { font-size: 12px; }
+  .captain-lineup-card > div:first-child span { background: #e6eef1; border-radius: 999px; color: #1e5f74; font-size: 8px; font-weight: 800; padding: 3px 7px; text-transform: uppercase; }
+  .captain-lineup-card.selected > div:first-child span { background: #dff3e8; color: #1e7a4c; }
+  .captain-lineup-card > p { font-size: 10px; line-height: 1.55; margin-top: 7px; }
+  .lineup-difference-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-bottom: 8px; }
+  .lineup-difference-grid article { background: #eef5f8; border-radius: 8px; padding: 8px 9px; }
+  .lineup-difference-grid strong { color: #1e5f74; display: block; font-size: 10px; }
+  .lineup-difference-grid p { color: #526269; font-size: 9px; line-height: 1.4; margin-top: 3px; }
+  @media (max-width: 700px) {
+    .captain-lineup-grid, .lineup-difference-grid { grid-template-columns: 1fr; }
+  }
+
+  .captain-lineup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .captain-lineup-card { background: white; border: 1px solid #dce5e8; border-radius: 9px; padding: 10px 11px; }
+  .captain-lineup-card.selected { background: #f3faf6; border-color: #a8d3b9; box-shadow: inset 4px 0 #1e7a4c; }
+  .captain-lineup-card > div:first-child { align-items: center; display: flex; justify-content: space-between; gap: 8px; }
+  .captain-lineup-card > div:first-child strong { font-size: 12px; }
+  .captain-lineup-card > div:first-child span { background: #e6eef1; border-radius: 999px; color: #1e5f74; font-size: 8px; font-weight: 800; padding: 3px 7px; text-transform: uppercase; }
+  .captain-lineup-card.selected > div:first-child span { background: #dff3e8; color: #1e7a4c; }
+  .captain-lineup-card > p { font-size: 10px; line-height: 1.55; margin-top: 7px; }
+  .lineup-difference-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-bottom: 8px; }
+  .lineup-difference-grid article { background: #eef5f8; border-radius: 8px; padding: 8px 9px; }
+  .lineup-difference-grid strong { color: #1e5f74; display: block; font-size: 10px; }
+  .lineup-difference-grid p { color: #526269; font-size: 9px; line-height: 1.4; margin-top: 3px; }
+  @media (max-width: 700px) {
+    .captain-lineup-grid, .lineup-difference-grid { grid-template-columns: 1fr; }
+  }
+
+      .rating-total { color: #34464e !important; display: block !important; font-size: 10px !important; font-weight: 700; margin-top: 3px !important; white-space: nowrap; }
+      .rating-margin { border-top: 1px solid rgba(0,0,0,.08); margin-top: 5px !important; padding-top: 4px; }
+
+    .three-court-plan .plan-notes { margin-top: 8px; }
+
+    .three-court-plan .plan-notes { margin-top: 8px; }
+  </style>
+</head>
+<body>
+<header class="header">
+  <h1>🎾 NWW-AYTC-Tong · Eastern · Friday, October 9 · 1:00 PM</h1>
+  <p>18+ 3.0 Women’s · Pacific Northwest · static mobile report · use the links below to change pages</p>
+</header>
+<nav class="tab-bar" aria-label="Report sections">
+      <a class="tab-btn " href="index.html" aria-label="Schedule — Oct 9–11"><strong>Schedule</strong><small>Oct 9–11</small></a>
+      <a class="tab-btn " href="intermountain.html" aria-label="Intermountain — Fri Oct 9 · 8:00 AM"><strong>Intermountain</strong><small>Fri Oct 9 · 8:00 AM</small></a>
+      <a class="tab-btn active" href="eastern.html" aria-current="page" aria-label="Eastern — Fri Oct 9 · 1:00 PM"><strong>Eastern</strong><small>Fri Oct 9 · 1:00 PM</small></a>
+      <a class="tab-btn " href="hawaii.html" aria-label="Hawaii — Sat Oct 10 · 8:00 AM"><strong>Hawaii</strong><small>Sat Oct 10 · 8:00 AM</small></a>
+      <a class="tab-btn " href="southern.html" aria-label="Southern — Sat Oct 10 · 3:00 PM"><strong>Southern</strong><small>Sat Oct 10 · 3:00 PM</small></a>
+      <a class="tab-btn " href="sunday.html" aria-label="Sunday — Sun Oct 11 · Times TBD"><strong>Sunday</strong><small>Sun Oct 11 · Times TBD</small></a><a class="tab-btn" href="ratings-review.html" aria-label="Ratings review — Sep 27"><strong>Ratings</strong><small>Sep 27 review</small></a></nav>
+  <aside class="edge-legend" aria-label="Matchup label definitions">
+    <strong>Matchup labels</strong>
+    <span><b class="legend-favorable">Favorable</b> — our combined DR and discipline-specific UTR show a meaningful edge.</span>
+    <span><b class="legend-swing">Swing</b> — ratings are close or disagree; competitive, but not automatically 50/50.</span>
+    <span><b class="legend-challenging">Challenging</b> — the opponent has a meaningful combined rating edge.</span>
+    <small>Labels are not win probabilities. Partnership chemistry, court history, style, health, and onsite evidence can override the rating-only read.</small>
+  </aside>
+<main>
+
+
+
+  <section class="tab-panel active" id="tab-eastern">
+    <div class="page">
+    <div class="note summary-note">11 registered Nationals players · 13–1 overall · 59–11 courts · captain Jina Huh-Yoo</div>
+    <nav class="section-nav" aria-label="Eastern report sections"><a class="decision-link" href="#eastern-decision">Lineup guide</a>
+      <a href="#eastern-roster">Roster</a>
+      <a href="#eastern-singles">Singles</a><a href="#eastern-singles-stack">Singles stacking</a>
+      <a href="#eastern-doubles">Doubles</a>
+      <a href="#eastern-doubles-stack">Doubles stacking</a>
+    </nav>
+    <section class="analysis-section decision-guide" id="eastern-decision">
+      <div class="section-title">Lineup decision guide</div>
+
+
+
+
+
+
+
+
+
+
+
+  <section class="captain-two-lineups" id="eastern-two-lineups">
+    <div class="subsection-label">Two captain lineup options</div>
+    <div class="captain-lineup-grid">
+    <article class="captain-lineup-card selected">
+      <div><strong>Lineup 1</strong><span>Current selection</span></div>
+      <p><b>S1</b> Chiqu Li · <b>S2</b> Lexi · <b>D1</b> Zeran Wang / Olivia · <b>D2</b> Lillian / Katherine Xu · <b>D3</b> Yuchen Zhang / Sasha Tanji</p>
+    </article>
+    <article class="captain-lineup-card ">
+      <div><strong>Lineup 2</strong><span>Alternate</span></div>
+      <p><b>S1</b> Chiqu Li · <b>S2</b> Lexi · <b>D1</b> Zeran Wang / Chunchun · <b>D2</b> Lillian / Katherine Xu · <b>D3</b> Yuchen Zhang / Sasha Tanji</p>
+    </article></div>
+    <div class="lineup-difference-grid">
+      <article><strong>Same scenario categories</strong><p>Both options have the same favorable/swing/challenging counts. The decision is eligibility and where to concentrate doubles strength.</p></article>
+      <article><strong>Lineup 1 purpose</strong><p>Zeran/Olivia absorb D1 at DR 5.67 / UTR 5.24 so undefeated Lillian/Katherine and Yuchen/Sasha protect D2 and D3. This completes Olivia’s second appearance.</p></article>
+      <article><strong>Lineup 2 tradeoff</strong><p>Zeran/Chunchun raise D1 to DR 6.06 / UTR 6.55, but the court remains challenging in every scenario and Olivia loses her second match.</p></article>
+    </div>
+  </section>
+
+
+
+    <div class="subsection-label">Court-by-court read for selected lineup</div><p class="footnote total-rating-note"><strong>Doubles totals are the sum of both players’ current ratings.</strong> Individual player DR and doubles UTR values are also shown. Singles uses the individual DR and singles UTR. The total edge is useful for deciding whether to place a weaker pair against an opponent’s strongest pair, but partnership history should still be considered.</p>
+    <p class="footnote">Margins compare current DR and discipline-specific UTR. Favorable/challenging requires a meaningful combined rating edge; “swing” means the signals are close or mixed.</p>
+
+
+
+
+
+
+
+
+
+    <div class="card table-card"><div class="table-scroll"><table class="data-table matchup-matrix">
+      <thead><tr><th>Court</th><th>Our selected lineup + ratings</th><th>Eastern A</th><th>Eastern B</th><th>Eastern C</th></tr></thead>
+      <tbody>
+          <tr>
+            <td><strong>S1</strong></td>
+            <td><strong>Chiqu Li</strong><span class="rating-total">DR 3.24 · UTR 4.16</span></td>
+            <td class="edge-cell favorable">
+                <span class="edge-label favorable">favorable</span>
+                <strong>Karen Jang</strong>
+                <span class="rating-total">DR 2.99 · UTR 3.78</span>
+                <small class="rating-margin">Our DR total +0.25<br>Our UTR total +0.38</small>
+              </td><td class="edge-cell swing">
+                <span class="edge-label swing">swing</span>
+                <strong>Jing Li</strong>
+                <span class="rating-total">DR 3.17 · UTR 4.00</span>
+                <small class="rating-margin">Our DR total +0.07<br>Our UTR total +0.16</small>
+              </td><td class="edge-cell swing">
+                <span class="edge-label swing">swing</span>
+                <strong>Jing Li</strong>
+                <span class="rating-total">DR 3.17 · UTR 4.00</span>
+                <small class="rating-margin">Our DR total +0.07<br>Our UTR total +0.16</small>
+              </td>
+          </tr>
+          <tr>
+            <td><strong>S2</strong></td>
+            <td><strong>Lexi</strong><span class="rating-total">DR 2.93 · UTR 3.69</span></td>
+            <td class="edge-cell challenging">
+                <span class="edge-label challenging">challenging</span>
+                <strong>Jenna Hammond</strong>
+                <span class="rating-total">DR 3.31 · UTR 4.23</span>
+                <small class="rating-margin">Opp DR total +0.38<br>Opp UTR total +0.54</small>
+              </td><td class="edge-cell swing">
+                <span class="edge-label swing">swing</span>
+                <strong>Karen Jang</strong>
+                <span class="rating-total">DR 2.99 · UTR 3.78</span>
+                <small class="rating-margin">Opp DR total +0.06<br>Opp UTR total +0.09</small>
+              </td><td class="edge-cell favorable">
+                <span class="edge-label favorable">favorable</span>
+                <strong>Jina Huh-Yoo</strong>
+                <span class="rating-total">DR 3.05 · UTR 3.01</span>
+                <small class="rating-margin">Opp DR total +0.12<br>Our UTR total +0.68</small>
+              </td>
+          </tr>
+          <tr>
+            <td><strong>D1</strong></td>
+            <td><strong>Zeran Wang / Olivia</strong><span class="rating-total">DR total 5.67 · UTR total 5.24</span><small>Zeran: DR 3.02 · UTR 3.26<br>Olivia: DR 2.65 · UTR 1.98</small></td>
+            <td class="edge-cell challenging">
+                <span class="edge-label challenging">challenging</span>
+                <strong>Jing Li / MAIKO AMANO</strong>
+                <span class="rating-total">DR total 6.08 · UTR total 7.37</span><small>Jing: DR 3.17 · UTR 3.82<br>Maiko: DR 2.91 · UTR 3.55</small>
+                <small class="rating-margin">Opp DR total +0.41<br>Opp UTR total +2.13</small>
+              </td><td class="edge-cell challenging">
+                <span class="edge-label challenging">challenging</span>
+                <strong>Jenna Hammond / MAIKO AMANO</strong>
+                <span class="rating-total">DR total 6.22 · UTR total 7.46</span><small>Jenna: DR 3.31 · UTR 3.91<br>Maiko: DR 2.91 · UTR 3.55</small>
+                <small class="rating-margin">Opp DR total +0.55<br>Opp UTR total +2.22</small>
+              </td><td class="edge-cell challenging">
+                <span class="edge-label challenging">challenging</span>
+                <strong>Jenna Hammond / MAIKO AMANO</strong>
+                <span class="rating-total">DR total 6.22 · UTR total 7.46</span><small>Jenna: DR 3.31 · UTR 3.91<br>Maiko: DR 2.91 · UTR 3.55</small>
+                <small class="rating-margin">Opp DR total +0.55<br>Opp UTR total +2.22</small>
+              </td>
+          </tr>
+          <tr>
+            <td><strong>D2</strong></td>
+            <td><strong>Lillian / Katherine Xu</strong><span class="rating-total">DR total 5.96 · UTR total 6.94</span><small>Lillian: DR 3.05 · UTR 3.45<br>Katherine: DR 2.91 · UTR 3.49</small></td>
+            <td class="edge-cell challenging">
+                <span class="edge-label challenging">challenging</span>
+                <strong>Sharon Jacobson / Tara Gebbia</strong>
+                <span class="rating-total">DR total 6.19 · UTR total 7.39</span><small>Sharon: DR 3.19 · UTR 3.84<br>Tara: DR 3.00 · UTR 3.55</small>
+                <small class="rating-margin">Opp DR total +0.23<br>Opp UTR total +0.45</small>
+              </td><td class="edge-cell challenging">
+                <span class="edge-label challenging">challenging</span>
+                <strong>Sharon Jacobson / Tara Gebbia</strong>
+                <span class="rating-total">DR total 6.19 · UTR total 7.39</span><small>Sharon: DR 3.19 · UTR 3.84<br>Tara: DR 3.00 · UTR 3.55</small>
+                <small class="rating-margin">Opp DR total +0.23<br>Opp UTR total +0.45</small>
+              </td><td class="edge-cell challenging">
+                <span class="edge-label challenging">challenging</span>
+                <strong>Sharon Jacobson / Tara Gebbia</strong>
+                <span class="rating-total">DR total 6.19 · UTR total 7.39</span><small>Sharon: DR 3.19 · UTR 3.84<br>Tara: DR 3.00 · UTR 3.55</small>
+                <small class="rating-margin">Opp DR total +0.23<br>Opp UTR total +0.45</small>
+              </td>
+          </tr>
+          <tr>
+            <td><strong>D3</strong></td>
+            <td><strong>Yuchen Zhang / Sasha Tanji</strong><span class="rating-total">DR total 6.02 · UTR total 6.95</span><small>Yuchen: DR 2.94 · UTR 3.55<br>Sasha: DR 3.08 · UTR 3.40</small></td>
+            <td class="edge-cell swing">
+                <span class="edge-label swing">swing</span>
+                <strong>Christine Young / Jina Huh-Yoo</strong>
+                <span class="rating-total">DR total 5.94 · UTR total 6.60</span><small>Christine: DR 2.89 · UTR 3.35<br>Jina: DR 3.05 · UTR 3.25</small>
+                <small class="rating-margin">Our DR total +0.08<br>Our UTR total +0.35</small>
+              </td><td class="edge-cell swing">
+                <span class="edge-label swing">swing</span>
+                <strong>Christine Young / Jina Huh-Yoo</strong>
+                <span class="rating-total">DR total 5.94 · UTR total 6.60</span><small>Christine: DR 2.89 · UTR 3.35<br>Jina: DR 3.05 · UTR 3.25</small>
+                <small class="rating-margin">Our DR total +0.08<br>Our UTR total +0.35</small>
+              </td><td class="edge-cell swing">
+                <span class="edge-label swing">swing</span>
+                <strong>Karen Jang / Makiko Ishida</strong>
+                <span class="rating-total">DR total 5.98 · UTR total 7.39</span><small>Karen: DR 2.99 · UTR 3.84<br>Makiko: DR 2.99 · UTR 3.55</small>
+                <small class="rating-margin">Our DR total +0.04<br>Opp UTR total +0.44</small>
+              </td>
+          </tr></tbody>
+    </table></div></div>
+
+    <div class="intel-card intel-blue"><strong>Schedule and recovery.</strong> Second match Friday, five hours after the Intermountain start. Reassess anyone coming off a long singles match.</div>
+    <p class="matchup-summary"><strong>Decision read:</strong> Eastern is the toughest matchup. In A, target S1 and D3, then steal one challenging court. In B, win all three swing courts S1/S2/D3. In C, target S2 plus swing courts S1 and D3. D1 is the intentional Olivia eligibility court.</p>
+
+  </section>
+    <div class="intel-card intel-blue">📈 <strong>Historical split:</strong> singles 22–6 (79%); doubles 37–5 (88%).</div>
+    <div class="intel-card intel-warn">📋 <strong>Nationals roster:</strong> 11 registered as of 2026-09-21 · 11 eligible · 0 unavailable, ineligible, or unmatched.</div>
+
+    <section class="analysis-section" id="eastern-roster">
+      <div class="section-title">Active roster</div>
+
+    <div class="card table-card">
+      <div class="table-scroll"><table class="data-table roster">
+        <thead><tr><th>Name</th><th>NTRP</th><th>DR</th><th>UTR S / D</th><th>National status</th><th>Historical role</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Jenna Hammond</strong></td>
+            <td>3.0 C</td>
+            <td>3.31</td>
+            <td>4.23 / 3.91</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Singles / Doubles Flex (S2 / D1)</td>
+            <td>8 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Sharon Jacobson</strong></td>
+            <td>3.0 C</td>
+            <td>3.19</td>
+            <td>NR / 3.84</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Doubles Anchor (D1)</td>
+            <td>9 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Jing Li</strong></td>
+            <td>3.0 A</td>
+            <td>3.17</td>
+            <td>4.00 / 3.82</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Singles / Doubles Flex (S1 / D1)</td>
+            <td>8 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Chikayo Poston</strong></td>
+            <td>3.0 C</td>
+            <td>3.11</td>
+            <td>NR / 3.79</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Doubles Anchor (D2)</td>
+            <td>10 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Qitian He</strong></td>
+            <td>3.0 S</td>
+            <td>3.07</td>
+            <td>2.23 / 4.02</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Doubles Anchor (D1) / Singles Flex</td>
+            <td>5 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Jina Huh-Yoo</strong></td>
+            <td>3.0 S</td>
+            <td>3.05</td>
+            <td>3.01 / 3.25</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Singles / Doubles Flex (S2 / D3)</td>
+            <td>10 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Tara Gebbia</strong></td>
+            <td>3.0 S</td>
+            <td>3.00</td>
+            <td>2.32 / 3.55</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Doubles Anchor (D2)</td>
+            <td>9 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Karen Jang</strong></td>
+            <td>3.0 S</td>
+            <td>2.99</td>
+            <td>3.78 / 3.84</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Singles Anchor (S2) / Doubles Flex</td>
+            <td>8 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Makiko Ishida</strong></td>
+            <td>3.0 C</td>
+            <td>2.99</td>
+            <td>NR / 3.55</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Doubles Anchor (D1)</td>
+            <td>3 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>MAIKO AMANO</strong></td>
+            <td>3.0 C</td>
+            <td>2.91</td>
+            <td>NR / 3.55</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Doubles Anchor (D2)</td>
+            <td>7 actual · 0 postseason</td>
+          </tr>
+          <tr>
+            <td><strong>Christine Young</strong></td>
+            <td>3.0 S</td>
+            <td>2.89</td>
+            <td>NR / 3.35</td>
+            <td><span class="elig-ok">Eligible</span></td>
+            <td>Doubles Anchor (D3)</td>
+            <td>4 actual · 0 postseason</td>
+          </tr></tbody>
+      </table></div>
+    </div>
+    </section>
+
+    <section class="analysis-section" id="eastern-singles">
+      <div class="section-title">Singles analysis — historical matches</div>
+
+    <div class="summary-grid">
+      <article><span>Singles record</span><strong>22–6</strong><small>79% win rate</small></article>
+      <article><span>Players used</span><strong>7</strong><small>14 matches analyzed</small></article>
+      <article><span>Higher-DR wins</span><strong>1</strong><small>4 favorite-loss signals</small></article>
+    </div>
+    <p class="footnote">Green rows are registered for Nationals; red rows are historical singles players who are not on the registered Nationals roster. ⭐ marks a win over an opponent whose match-page DR was higher than the player’s current DR. <strong>🏆 marks a postseason match (playoff, district, or sectionals)—not necessarily a championship win.</strong></p>
+    <div class="card table-card"><div class="table-scroll"><table class="data-table singles-table">
+      <thead><tr><th>Player</th><th>Nationals</th><th>Current DR</th><th>Singles UTR</th><th>Likely role</th><th>Known singles results</th></tr></thead>
+      <tbody>
+        <tr class="national-active-row">
+          <td><strong>Karen Jang</strong><small>5–2 overall · 0–0 postseason</small></td>
+          <td>2.99</td>
+          <td>3.78</td>
+          <td>3.79</td>
+          <td>S2 primary / S1 option</td>
+          <td class="result-log">
+            <strong>⭐ 1 win over current DR</strong>
+            <span>06/11 · S2 vs Taylor Marson (DR 2.80): <b class="loss-text">L 4-6 6-2</b></span><span>06/18 · S2 vs Julia Munoz (DR 2.16): <b class="win-text">W 6-0 6-0</b></span><span>07/02 · S2 vs Ashley Chew (DR 2.94): <b class="win-text">W 6-3 6-4</b></span><span>07/09 · S2 vs Lorraine Davis (DR 2.82): <b class="win-text">W 6-4 6-3</b></span><span>07/16 · S1 vs Karen Hart (DR 2.78): <b class="win-text">W 6-2 6-3</b></span><span>⭐ 07/24 · S1 vs Izabela Raczkowska (DR 3.00): <b class="win-text">W 6-3 6-2</b></span><span>07/25 · S1 vs Nicole Inkrote (DR 3.10): <b class="loss-text">L 6-4 6-4</b></span>
+          </td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Jenna Hammond</strong><small>5–0 overall · 0–0 postseason</small></td>
+          <td>3.31</td>
+          <td>4.23</td>
+          <td>4.23</td>
+          <td>S2 primary / S1 option</td>
+          <td class="result-log">
+            <strong>⚪ 0 wins over current DR</strong>
+            <span>06/04 · S2 vs Bethany Rose (DR 2.51): <b class="win-text">W 6-0 6-0</b></span><span>06/25 · S1 vs Jessica Franklin (DR 2.88): <b class="win-text">W 6-0 6-2</b></span><span>07/24 · S2 vs Praxedes Molina (DR 3.02): <b class="win-text">W 6-1 6-1</b></span><span>07/25 · S1 vs Norma Stojanovski (DR 2.87): <b class="win-text">W 6-2 6-2</b></span><span>07/26 · S2 vs Diana Arce (DR 3.10): <b class="win-text">W 6-0 6-2</b></span>
+          </td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Jing Li</strong><small>5–0 overall · 0–0 postseason</small></td>
+          <td>3.17</td>
+          <td>4.00</td>
+          <td>3.96</td>
+          <td>S1 primary / S2 option</td>
+          <td class="result-log">
+            <strong>⚪ 0 wins over current DR</strong>
+            <span>05/28 · S2 vs Andrea Mayendia (DR 2.87): <b class="win-text">W 6-0 6-4</b></span><span>06/04 · S1 vs Jessica Franklin (DR 2.77): <b class="win-text">W 6-1 7-6</b></span><span>06/18 · S1 vs Fei Xie (DR 2.72): <b class="win-text">W 6-3 6-0</b></span><span>07/24 · S1 vs Shirley Zelaya (DR 2.81): <b class="win-text">W 6-2 6-1</b></span><span>07/25 · S2 vs Kathryn Hartigan (DR 3.13): <b class="win-text">W 7-6 6-2</b></span>
+          </td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Jina Huh-Yoo</strong><small>3–1 overall · 0–0 postseason</small></td>
+          <td>3.05</td>
+          <td>3.01</td>
+          <td>2.66</td>
+          <td>S2 primary / S1 option</td>
+          <td class="result-log">
+            <strong>⚪ 0 wins over current DR</strong>
+            <span>07/16 · S2 vs Marya Doerfel (DR 2.70): <b class="win-text">W 6-1 6-2</b></span><span>07/24 · S2 vs Oksoun Yee (DR 2.75): <b class="win-text">W 6-4 6-1</b></span><span>07/25 · S2 vs Gena Orlando (DR 3.12): <b class="loss-text">L 6-7 6-3 1-0</b></span><span>07/26 · S1 vs Yiyun Li (DR 2.79): <b class="win-text">W 6-1 7-5</b></span>
+          </td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Qitian He</strong><small>0–1 overall · 0–0 postseason</small></td>
+          <td>3.07</td>
+          <td>2.23</td>
+          <td>2.20</td>
+          <td>S1 option</td>
+          <td class="result-log">
+            <strong>⚪ 0 wins over current DR</strong>
+            <span>07/09 · S1 vs Diana Arce (DR 2.94): <b class="loss-text">L 6-3 6-3</b></span>
+          </td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Lulu Cheng</strong><small>4–1 overall · 0–0 postseason</small></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>3.23</td>
+          <td>4.43</td>
+          <td>S1 primary / S2 option</td>
+          <td class="result-log">
+            <strong>⚪ 0 wins over current DR</strong>
+            <span>05/28 · S1 vs Lorraine Davis (DR 2.85): <b class="win-text">W 6-0 6-0</b></span><span>06/11 · S1 vs Suzy Arku-Nyadia (DR 2.94): <b class="win-text">W 4-6 6-3 1-0</b> · grinder win</span><span>06/16 · S1 vs Suzy Arku-Nyadia (DR 3.00): <b class="loss-text">L 6-0 6-3</b></span><span>06/25 · S2 vs Inna Rozenberg (DR 2.68): <b class="win-text">W 6-1 6-0</b></span><span>07/02 · S1 vs Suzy Arku-Nyadia (DR 3.07): <b class="win-text">W 6-3 6-0</b></span>
+          </td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Mary Anne Carrillo</strong><small>0–1 overall · 0–0 postseason</small></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>3.18</td>
+          <td>3.81</td>
+          <td>S2 option</td>
+          <td class="result-log">
+            <strong>⚪ 0 wins over current DR</strong>
+            <span>06/16 · S2 vs Taylor Marson (DR 2.79): <b class="loss-text">L 7-5 4-5</b></span>
+          </td>
+        </tr></tbody>
+    </table></div></div>
+    <div class="read-grid">
+      <div class="intel-card intel-blue"><strong>S1 read.</strong> S1: 11–3 (79%); primary active options Jing Li ×3, Karen Jang ×3, Jenna Hammond ×2.</div>
+      <div class="intel-card intel-warn"><strong>S2 read.</strong> S2: 11–3 (79%); primary active options Karen Jang ×4, Jenna Hammond ×3, Jina Huh-Yoo ×3.</div>
+    </div>
+    <p class="matchup-summary"><strong>Singles bottom line:</strong> 22–6 (79%) compared with doubles at 37–5 (88%).</p>
+    </section><section class="analysis-section" id="eastern-singles-stack">
+      <div class="section-title">Singles stacking strategy</div>
+
+    <div class="stack-summary">
+      <article><span>Pattern verdict</span><strong>Consistent S1 stack</strong><small>S1 led by DR in 8 of 12 complete matches</small></article>
+      <article><span>Rating tendencies</span><strong>DR S1 · UTR S1</strong><small>8 of 14 complete singles UTR comparisons</small></article>
+      <article><span>Target court</span><strong>S1</strong><small>11–3 (79%) · 6 personnel configurations</small></article>
+    </div>
+    <p class="footnote">Every completed historical match is included. Bold values mark that match’s strongest court by historical match-page DR; 🏆 marks postseason.</p>
+    <div class="card table-card"><div class="table-scroll"><table class="data-table stacking-table">
+      <thead><tr><th>Date</th><th>Opponent / singles courts</th><th>S1</th><th>S2</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>05/28</td>
+          <td>Green and Mean<small>2-0 W on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.15</b><small>Lulu Cheng · W 6-0 6-0<br>UTR 4.43</small></td><td class=""><b>3.04</b><small>Jing Li · W 6-0 6-4<br>UTR 4.00</small></td>
+          <td><strong>DR S1</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>06/04</td>
+          <td>Sweeter Shots<small>2-0 W on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.22</b><small>Jing Li · W 6-1 7-6<br>UTR 4.00</small></td><td class=""><b>3.08</b><small>Jenna Hammond · W 6-0 6-0<br>UTR 4.23</small></td>
+          <td><strong>DR S1</strong><small>UTR S2</small></td>
+        </tr>
+        <tr>
+          <td>06/11</td>
+          <td>Lady Love<small>1-1 T on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.18</b><small>Lulu Cheng · W 4-6 6-3 1-0<br>UTR 4.43</small></td><td class=""><b>—</b><small>Karen Jang · L 4-6 6-2<br>UTR 3.78</small></td>
+          <td><strong>DR S1</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>06/16</td>
+          <td>Lady Love<small>0-2 L on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.13</b><small>Lulu Cheng · L 6-0 6-3<br>UTR 4.43</small></td><td class=""><b>2.93</b><small>Mary Anne Carrillo · L 7-5 4-5<br>UTR 3.81</small></td>
+          <td><strong>DR S1</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>06/18</td>
+          <td>Green and Mean<small>2-0 W on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.25</b><small>Jing Li · W 6-3 6-0<br>UTR 4.00</small></td><td class=""><b>2.78</b><small>Karen Jang · W 6-0 6-0<br>UTR 3.78</small></td>
+          <td><strong>DR S1</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>06/25</td>
+          <td>Sweeter Shots<small>2-0 W on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.21</b><small>Jenna Hammond · W 6-0 6-2<br>UTR 4.23</small></td><td class=""><b>3.12</b><small>Lulu Cheng · W 6-1 6-0<br>UTR 4.43</small></td>
+          <td><strong>DR S1</strong><small>UTR S2</small></td>
+        </tr>
+        <tr>
+          <td>07/02</td>
+          <td>Lady Love<small>2-0 W on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.28</b><small>Lulu Cheng · W 6-3 6-0<br>UTR 4.43</small></td><td class=""><b>2.97</b><small>Karen Jang · W 6-3 6-4<br>UTR 3.78</small></td>
+          <td><strong>DR S1</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>07/09</td>
+          <td>Green and Mean<small>1-1 T on listed singles courts</small></td>
+          <td class=""><b>—</b><small>Qitian He · L 6-3 6-3<br>UTR 2.23</small></td><td class="stacked-cell"><b>2.98</b><small>Karen Jang · W 6-4 6-3<br>UTR 3.78</small></td>
+          <td><strong>DR S2</strong><small>UTR S2</small></td>
+        </tr>
+        <tr>
+          <td>07/16</td>
+          <td>Sweeter Shots<small>2-0 W on listed singles courts</small></td>
+          <td class=""><b>2.95</b><small>Karen Jang · W 6-2 6-3<br>UTR 3.78</small></td><td class="stacked-cell"><b>3.07</b><small>Jina Huh-Yoo · W 6-1 6-2<br>UTR 3.01</small></td>
+          <td><strong>DR S2</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>07/24</td>
+          <td>MSU: ACES<small>2-0 W on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.13</b><small>Jing Li · W 6-2 6-1<br>UTR 4.00</small></td><td class=""><b>3.04</b><small>Jina Huh-Yoo · W 6-4 6-1<br>UTR 3.01</small></td>
+          <td><strong>DR S1</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>07/24</td>
+          <td>NJD: Glam Slam<small>2-0 W on listed singles courts</small></td>
+          <td class=""><b>2.99</b><small>Karen Jang · W 6-3 6-2<br>UTR 3.78</small></td><td class="stacked-cell"><b>3.23</b><small>Jenna Hammond · W 6-1 6-1<br>UTR 4.23</small></td>
+          <td><strong>DR S2</strong><small>UTR S2</small></td>
+        </tr>
+        <tr>
+          <td>07/25</td>
+          <td>Monmouth: Rally Girls Fall 2025<small>1-1 T on listed singles courts</small></td>
+          <td class="stacked-cell"><b>3.29</b><small>Jenna Hammond · W 6-2 6-2<br>UTR 4.23</small></td><td class=""><b>3.11</b><small>Jina Huh-Yoo · L 6-7 6-3 1-0<br>UTR 3.01</small></td>
+          <td><strong>DR S1</strong><small>UTR S1</small></td>
+        </tr>
+        <tr>
+          <td>07/25</td>
+          <td>Monmouth: 40-Love<small>1-1 T on listed singles courts</small></td>
+          <td class=""><b>3.06</b><small>Karen Jang · L 6-4 6-4<br>UTR 3.78</small></td><td class="stacked-cell"><b>3.15</b><small>Jing Li · W 7-6 6-2<br>UTR 4.00</small></td>
+          <td><strong>DR S2</strong><small>UTR S2</small></td>
+        </tr>
+        <tr>
+          <td>07/26</td>
+          <td>PEM: NJ Rockstars<small>2-0 W on listed singles courts</small></td>
+          <td class=""><b>3.06</b><small>Jina Huh-Yoo · W 6-1 7-5<br>UTR 3.01</small></td><td class="stacked-cell"><b>3.25</b><small>Jenna Hammond · W 6-0 6-2<br>UTR 4.23</small></td>
+          <td><strong>DR S2</strong><small>UTR S2</small></td>
+        </tr></tbody>
+    </table></div></div>
+    <p class="matchup-summary"><strong>Singles stacking bottom line:</strong> Consistent S1 stack. S1 went 7–1 when it carried the strongest complete DR line. Target court: S1.</p>
+    </section>
+
+    <section class="analysis-section" id="eastern-doubles">
+      <div class="section-title">Doubles analysis — historical matches</div>
+
+    <div class="summary-grid">
+      <article><span>Doubles record</span><strong>37–5</strong><small>88% win rate</small></article>
+      <article><span>Known pairs</span><strong>28</strong><small>9 repeated · 19 one-off</small></article>
+      <article><span>Lower-DR wins</span><strong>9</strong><small>2 favorite-loss signals</small></article>
+    </div>
+    <div class="court-summary-grid">
+      <article>
+        <span>D1</span>
+        <strong>10–4</strong>
+        <small>71% overall · 0–0 postseason · 12 pair configurations</small>
+      </article>
+      <article>
+        <span>D2</span>
+        <strong>13–1</strong>
+        <small>93% overall · 0–0 postseason · 12 pair configurations</small>
+      </article>
+      <article>
+        <span>D3</span>
+        <strong>14–0</strong>
+        <small>100% overall · 0–0 postseason · 13 pair configurations</small>
+      </article></div>
+    <div class="subsection-label">Historical doubles players</div>
+    <p class="footnote">Green rows are registered for Nationals; red rows appeared in historical doubles but are not on the registered Nationals roster.</p>
+    <div class="card table-card"><div class="table-scroll"><table class="data-table doubles-player-table">
+      <thead><tr><th>Player</th><th>Nationals</th><th>Uses</th><th>Courts</th><th>Record</th><th>Current DR</th><th>Doubles UTR</th><th>Historical role</th></tr></thead>
+      <tbody>
+        <tr class="national-active-row">
+          <td><strong>Chikayo Poston</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>10</td>
+          <td>D1 ×1, D2 ×6, D3 ×3</td>
+          <td>9–1</td>
+          <td>3.11</td>
+          <td>3.79</td>
+          <td>Doubles Anchor (D2)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Sharon Jacobson</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>9</td>
+          <td>D1 ×4, D2 ×4, D3 ×1</td>
+          <td>8–1</td>
+          <td>3.19</td>
+          <td>3.84</td>
+          <td>Doubles Anchor (D1)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Tara Gebbia</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>9</td>
+          <td>D1 ×2, D2 ×4, D3 ×3</td>
+          <td>7–2</td>
+          <td>3.00</td>
+          <td>3.55</td>
+          <td>Doubles Anchor (D2)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>MAIKO AMANO</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>7</td>
+          <td>D1 ×2, D2 ×3, D3 ×2</td>
+          <td>6–1</td>
+          <td>2.91</td>
+          <td>3.55</td>
+          <td>Doubles Anchor (D2)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Jina Huh-Yoo</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>6</td>
+          <td>D1 ×1, D2 ×2, D3 ×3</td>
+          <td>5–1</td>
+          <td>3.05</td>
+          <td>3.25</td>
+          <td>Singles / Doubles Flex (S2 / D3)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Christine Young</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>4</td>
+          <td>D3 ×4</td>
+          <td>4–0</td>
+          <td>2.89</td>
+          <td>3.35</td>
+          <td>Doubles Anchor (D3)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Qitian He</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>4</td>
+          <td>D1 ×2, D2 ×1, D3 ×1</td>
+          <td>4–0</td>
+          <td>3.07</td>
+          <td>4.02</td>
+          <td>Doubles Anchor (D1) / Singles Flex</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Jenna Hammond</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>3</td>
+          <td>D1 ×1, D2 ×1, D3 ×1</td>
+          <td>3–0</td>
+          <td>3.31</td>
+          <td>3.91</td>
+          <td>Singles / Doubles Flex (S2 / D1)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Jing Li</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>3</td>
+          <td>D1 ×1, D2 ×1, D3 ×1</td>
+          <td>2–1</td>
+          <td>3.17</td>
+          <td>3.82</td>
+          <td>Singles / Doubles Flex (S1 / D1)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Makiko Ishida</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>3</td>
+          <td>D1 ×1, D2 ×1, D3 ×1</td>
+          <td>2–1</td>
+          <td>2.99</td>
+          <td>3.55</td>
+          <td>Doubles Anchor (D1)</td>
+        </tr>
+        <tr class="national-active-row">
+          <td><strong>Karen Jang</strong></td>
+          <td><span class="national-badge registered">Registered</span></td>
+          <td>1</td>
+          <td>D3 ×1</td>
+          <td>1–0</td>
+          <td>2.99</td>
+          <td>3.84</td>
+          <td>Singles Anchor (S2) / Doubles Flex</td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Sayaka Sung</strong></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>10</td>
+          <td>D1 ×5, D2 ×3, D3 ×2</td>
+          <td>8–2</td>
+          <td>3.24</td>
+          <td>4.17</td>
+          <td>Doubles Anchor (D1)</td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Adriana Levine</strong></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>7</td>
+          <td>D1 ×6, D2 ×1</td>
+          <td>7–0</td>
+          <td>3.25</td>
+          <td>4.09</td>
+          <td>Doubles Anchor (D1)</td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Ayumi Lai</strong></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>2</td>
+          <td>D1 ×1, D2 ×1</td>
+          <td>2–0</td>
+          <td>3.06</td>
+          <td>4.57</td>
+          <td>Ineligible — 2 matches needed · Doubles Depth (D1)</td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Lia Friedman</strong></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>2</td>
+          <td>D3 ×2</td>
+          <td>2–0</td>
+          <td>2.93</td>
+          <td>3.34</td>
+          <td>Ineligible — 2 matches needed · Doubles Depth (D3)</td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Maria Velazquez</strong></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>2</td>
+          <td>D3 ×2</td>
+          <td>2–0</td>
+          <td>3.04</td>
+          <td>1.31</td>
+          <td>Ineligible — 1 match needed · Doubles Depth (D3)</td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Lulu Cheng</strong></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>1</td>
+          <td>D1 ×1</td>
+          <td>1–0</td>
+          <td>3.23</td>
+          <td>4.34</td>
+          <td>Singles Anchor (S1) / Doubles Flex</td>
+        </tr>
+        <tr class="national-inactive-row">
+          <td><strong>Mary Anne Carrillo</strong></td>
+          <td><span class="national-badge not-registered">Not registered</span></td>
+          <td>1</td>
+          <td>D3 ×1</td>
+          <td>1–0</td>
+          <td>3.18</td>
+          <td>4.13</td>
+          <td>Eligibility unresolved · Singles / Doubles Flex (S2 / D3)</td>
+        </tr></tbody>
+    </table></div></div>
+    <p class="footnote">Pair rows are green when both players are registered, amber when only one is registered, and red when neither is registered. Three or more uses are treated as established; one or two are unproven.</p>
+    <div class="card table-card"><div class="table-scroll"><table class="data-table">
+      <thead><tr><th>Pair</th><th>Nationals</th><th>Uses</th><th>Courts</th><th>Record</th><th>Postseason</th><th>Avg DR</th><th>Doubles UTR</th><th>Higher-DR wins</th><th>Read</th></tr></thead>
+      <tbody>
+      <tr class="national-partial-row">
+        <td><strong>Chikayo Poston + Sayaka Sung</strong></td>
+        <td><span class="national-badge partial">Sayaka Sung not registered</span></td>
+        <td>4</td>
+        <td>D2 ×2, D1 ×1, D3 ×1</td>
+        <td>3–1</td>
+        <td>0–0</td>
+        <td>3.17</td>
+        <td>4.13</td>
+        <td>0</td>
+        <td><span class="pair-status established">Established partnership</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Adriana Levine + Sharon Jacobson</strong></td>
+        <td><span class="national-badge partial">Adriana Levine not registered</span></td>
+        <td>3</td>
+        <td>D1 ×3</td>
+        <td>3–0</td>
+        <td>0–0</td>
+        <td>3.22</td>
+        <td>3.27</td>
+        <td>1</td>
+        <td><span class="pair-status established">Established partnership</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Jina Huh-Yoo + Tara Gebbia</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>3</td>
+        <td>D1 ×1, D2 ×1, D3 ×1</td>
+        <td>2–1</td>
+        <td>0–0</td>
+        <td>3.02</td>
+        <td>3.40</td>
+        <td>0</td>
+        <td><span class="pair-status established">Established partnership</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Sharon Jacobson + Tara Gebbia</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>3</td>
+        <td>D2 ×2, D1 ×1</td>
+        <td>2–1</td>
+        <td>0–0</td>
+        <td>3.10</td>
+        <td>3.69</td>
+        <td>2</td>
+        <td><span class="pair-status established">Established partnership</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Chikayo Poston + MAIKO AMANO</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>2</td>
+        <td>D2 ×1, D3 ×1</td>
+        <td>2–0</td>
+        <td>0–0</td>
+        <td>3.01</td>
+        <td>3.67</td>
+        <td>1</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Chikayo Poston + Tara Gebbia</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>2</td>
+        <td>D2 ×1, D3 ×1</td>
+        <td>2–0</td>
+        <td>0–0</td>
+        <td>3.06</td>
+        <td>3.67</td>
+        <td>1</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Christine Young + Lia Friedman</strong></td>
+        <td><span class="national-badge partial">Lia Friedman not registered</span></td>
+        <td>2</td>
+        <td>D3 ×2</td>
+        <td>2–0</td>
+        <td>0–0</td>
+        <td>2.91</td>
+        <td>3.25</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Jing Li + Sharon Jacobson</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>2</td>
+        <td>D2 ×1, D3 ×1</td>
+        <td>2–0</td>
+        <td>0–0</td>
+        <td>3.18</td>
+        <td>3.83</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Qitian He + Sayaka Sung</strong></td>
+        <td><span class="national-badge partial">Sayaka Sung not registered</span></td>
+        <td>2</td>
+        <td>D1 ×1, D3 ×1</td>
+        <td>2–0</td>
+        <td>0–0</td>
+        <td>3.15</td>
+        <td>4.21</td>
+        <td>1</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Adriana Levine + Jenna Hammond</strong></td>
+        <td><span class="national-badge partial">Adriana Levine not registered</span></td>
+        <td>1</td>
+        <td>D2 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.28</td>
+        <td>4.18</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-inactive-row">
+        <td><strong>Adriana Levine + Lulu Cheng</strong></td>
+        <td><span class="national-badge not-registered">Neither registered</span></td>
+        <td>1</td>
+        <td>D1 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.24</td>
+        <td>4.21</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Adriana Levine + Qitian He</strong></td>
+        <td><span class="national-badge partial">Adriana Levine not registered</span></td>
+        <td>1</td>
+        <td>D1 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.16</td>
+        <td>4.17</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-inactive-row">
+        <td><strong>Adriana Levine + Sayaka Sung</strong></td>
+        <td><span class="national-badge not-registered">Neither registered</span></td>
+        <td>1</td>
+        <td>D1 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.25</td>
+        <td>4.13</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Ayumi Lai + Chikayo Poston</strong></td>
+        <td><span class="national-badge partial">Ayumi Lai not registered</span></td>
+        <td>1</td>
+        <td>D2 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.08</td>
+        <td>4.33</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-inactive-row">
+        <td><strong>Ayumi Lai + Sayaka Sung</strong></td>
+        <td><span class="national-badge not-registered">Neither registered</span></td>
+        <td>1</td>
+        <td>D1 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.15</td>
+        <td>4.37</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Chikayo Poston + Makiko Ishida</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D2 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.05</td>
+        <td>3.67</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Christine Young + Jina Huh-Yoo</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D3 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>2.97</td>
+        <td>3.30</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Christine Young + Maria Velazquez</strong></td>
+        <td><span class="national-badge partial">Maria Velazquez not registered</span></td>
+        <td>1</td>
+        <td>D3 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>2.96</td>
+        <td>2.24</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Jenna Hammond + MAIKO AMANO</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D1 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.11</td>
+        <td>3.73</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Jenna Hammond + Tara Gebbia</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D3 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.15</td>
+        <td>3.73</td>
+        <td>1</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Jina Huh-Yoo + MAIKO AMANO</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D3 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>2.98</td>
+        <td>3.40</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Jina Huh-Yoo + Sharon Jacobson</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D2 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.12</td>
+        <td>3.54</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Karen Jang + Makiko Ishida</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D3 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>2.99</td>
+        <td>3.69</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>MAIKO AMANO + Qitian He</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D2 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>2.99</td>
+        <td>3.79</td>
+        <td>1</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>MAIKO AMANO + Sayaka Sung</strong></td>
+        <td><span class="national-badge partial">Sayaka Sung not registered</span></td>
+        <td>1</td>
+        <td>D2 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.08</td>
+        <td>4.09</td>
+        <td>1</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-inactive-row">
+        <td><strong>Maria Velazquez + Mary Anne Carrillo</strong></td>
+        <td><span class="national-badge not-registered">Neither registered</span></td>
+        <td>1</td>
+        <td>D3 ×1</td>
+        <td>1–0</td>
+        <td>0–0</td>
+        <td>3.11</td>
+        <td>2.72</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-active-row">
+        <td><strong>Jing Li + MAIKO AMANO</strong></td>
+        <td><span class="national-badge registered">Both registered</span></td>
+        <td>1</td>
+        <td>D1 ×1</td>
+        <td>0–1</td>
+        <td>0–0</td>
+        <td>3.04</td>
+        <td>3.69</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr>
+      <tr class="national-partial-row">
+        <td><strong>Makiko Ishida + Sayaka Sung</strong></td>
+        <td><span class="national-badge partial">Sayaka Sung not registered</span></td>
+        <td>1</td>
+        <td>D1 ×1</td>
+        <td>0–1</td>
+        <td>0–0</td>
+        <td>3.12</td>
+        <td>4.05</td>
+        <td>0</td>
+        <td><span class="pair-status ">One-off / unproven</span></td>
+      </tr></tbody>
+    </table></div></div>
+    </section>
+
+    <section class="analysis-section" id="eastern-doubles-stack">
+      <div class="section-title">Doubles stacking strategy</div>
+
+    <div class="stack-summary">
+      <article><span>Pattern verdict</span><strong>Variable stack leaning D1</strong><small>D1 led by DR in 6 of 13 complete matches</small></article>
+      <article><span>Rating tendencies</span><strong>DR D1 · UTR D1</strong><small>7 of 14 complete doubles UTR comparisons</small></article>
+      <article><span>Target court</span><strong>D1</strong><small>10–4 (71%) · 12 personnel configurations</small></article>
+    </div>
+    <p class="footnote">Every completed historical match is included. Bold values mark that match’s strongest court by historical match-page DR; 🏆 marks postseason.</p>
+    <div class="card table-card"><div class="table-scroll"><table class="data-table stacking-table">
+      <thead><tr><th>Date</th><th>Opponent / doubles courts</th><th>D1</th><th>D2</th><th>D3</th><th>Read</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>05/28</td>
+          <td>Green and Mean<small>3-0 W on listed doubles courts</small></td>
+          <td class="stacked-cell"><b>3.18</b><small>Adriana Levine + Sayaka Sung · W 6-1 6-1<br>UTR 4.13</small></td><td class=""><b>2.90</b><small>Makiko Ishida + Chikayo Poston · W 6-2 6-0<br>UTR 3.67</small></td><td class=""><b>—</b><small>Lia Friedman + Christine Young · W 6-3 6-2<br>UTR 3.25</small></td>
+          <td><strong>DR D1</strong><small>UTR D1</small></td>
+        </tr>
+        <tr>
+          <td>06/04</td>
+          <td>Sweeter Shots<small>3-0 W on listed doubles courts</small></td>
+          <td class="stacked-cell"><b>3.23</b><small>Adriana Levine + Sharon Jacobson · W 6-1 6-0<br>UTR 3.27</small></td><td class=""><b>2.70</b><small>MAIKO AMANO + Sayaka Sung · W 6-1 6-1<br>UTR 4.09</small></td><td class=""><b>2.83</b><small>Lia Friedman + Christine Young · W 6-4 6-2<br>UTR 3.25</small></td>
+          <td><strong>DR D1</strong><small>UTR D2</small></td>
+        </tr>
+        <tr>
+          <td>06/11</td>
+          <td>Lady Love<small>3-0 W on listed doubles courts</small></td>
+          <td class=""><b>2.73</b><small>MAIKO AMANO + Jenna Hammond · W 6-0 6-2<br>UTR 3.73</small></td><td class="stacked-cell"><b>3.08</b><small>Sharon Jacobson + Jing Li · W 6-0 6-2<br>UTR 3.83</small></td><td class=""><b>2.93</b><small>Christine Young + Jina Huh-Yoo · W 6-4 7-5<br>UTR 3.30</small></td>
+          <td><strong>DR D2</strong><small>UTR D1</small></td>
+        </tr>
+        <tr>
+          <td>06/16</td>
+          <td>Lady Love<small>2-1 W on listed doubles courts</small></td>
+          <td class=""><b>2.90</b><small>Makiko Ishida + Sayaka Sung · L 7-6 6-4<br>UTR 4.05</small></td><td class=""><b>2.85</b><small>Chikayo Poston + Ayumi Lai · W 6-1 6-2<br>UTR 4.33</small></td><td class="stacked-cell"><b>3.03</b><small>Jina Huh-Yoo + MAIKO AMANO · W 7-5 6-2<br>UTR 3.40</small></td>
+          <td><strong>DR D3</strong><small>UTR D2</small></td>
+        </tr>
+        <tr>
+          <td>06/18</td>
+          <td>Green and Mean<small>3-0 W on listed doubles courts</small></td>
+          <td class=""><b>3.02</b><small>Ayumi Lai + Sayaka Sung · W 6-1 6-2<br>UTR 4.37</small></td><td class=""><b>3.08</b><small>Jina Huh-Yoo + Sharon Jacobson · W 6-3 6-0<br>UTR 3.54</small></td><td class="stacked-cell"><b>3.19</b><small>Mary Anne Carrillo + Maria Velazquez · W 6-2 6-0<br>UTR 2.72</small></td>
+          <td><strong>DR D3</strong><small>UTR D1</small></td>
+        </tr>
+        <tr>
+          <td>06/25</td>
+          <td>Sweeter Shots<small>2-1 W on listed doubles courts</small></td>
+          <td class="stacked-cell"><b>3.09</b><small>Jina Huh-Yoo + Tara Gebbia · L 6-4 6-1<br>UTR 3.40</small></td><td class=""><b>2.75</b><small>MAIKO AMANO + Chikayo Poston · W 6-2 6-0<br>UTR 3.67</small></td><td class=""><b>2.78</b><small>Karen Jang + Makiko Ishida · W 6-0 6-4<br>UTR 3.69</small></td>
+          <td><strong>DR D1</strong><small>UTR D2</small></td>
+        </tr>
+        <tr>
+          <td>07/02</td>
+          <td>Lady Love<small>2-1 W on listed doubles courts</small></td>
+          <td class=""><b>2.84</b><small>MAIKO AMANO + Jing Li · L 7-5 6-3<br>UTR 3.69</small></td><td class="stacked-cell"><b>3.37</b><small>Sayaka Sung + Chikayo Poston · W 6-4 6-1<br>UTR 4.13</small></td><td class=""><b>2.71</b><small>Tara Gebbia + Jina Huh-Yoo · W 6-0 6-3<br>UTR 3.40</small></td>
+          <td><strong>DR D2</strong><small>UTR D2</small></td>
+        </tr>
+        <tr>
+          <td>07/09</td>
+          <td>Green and Mean<small>3-0 W on listed doubles courts</small></td>
+          <td class="stacked-cell"><b>3.04</b><small>Chikayo Poston + Sayaka Sung · W 6-2 6-2<br>UTR 4.13</small></td><td class=""><b>2.78</b><small>Tara Gebbia + Sharon Jacobson · W 6-2 6-2<br>UTR 3.69</small></td><td class=""><b>2.89</b><small>Christine Young + Maria Velazquez · W 6-2 6-4<br>UTR 2.24</small></td>
+          <td><strong>DR D1</strong><small>UTR D1</small></td>
+        </tr>
+        <tr>
+          <td>07/16</td>
+          <td>Sweeter Shots<small>3-0 W on listed doubles courts</small></td>
+          <td class=""><b>2.74</b><small>Qitian He + Sayaka Sung · W 6-2 6-1<br>UTR 4.21</small></td><td class=""><b>2.81</b><small>Tara Gebbia + Chikayo Poston · W 4-6 7-5 1-0<br>UTR 3.67</small></td><td class="stacked-cell"><b>3.13</b><small>Jing Li + Sharon Jacobson · W 6-4 6-7 1-0<br>UTR 3.83</small></td>
+          <td><strong>DR D3</strong><small>UTR D1</small></td>
+        </tr>
+        <tr>
+          <td>07/24</td>
+          <td>MSU: ACES<small>2-1 W on listed doubles courts</small></td>
+          <td class="stacked-cell"><b>3.26</b><small>Lulu Cheng + Adriana Levine · W 6-1 6-0<br>UTR 4.21</small></td><td class=""><b>3.01</b><small>Chikayo Poston + Sayaka Sung · L 7-5 6-2<br>UTR 4.13</small></td><td class=""><b>2.81</b><small>Tara Gebbia + Jenna Hammond · W 6-3 6-3<br>UTR 3.73</small></td>
+          <td><strong>DR D1</strong><small>UTR D1</small></td>
+        </tr>
+        <tr>
+          <td>07/24</td>
+          <td>NJD: Glam Slam<small>3-0 W on listed doubles courts</small></td>
+          <td class=""><b>3.06</b><small>Sharon Jacobson + Adriana Levine · W 6-3 6-4<br>UTR 3.27</small></td><td class=""><b>3.04</b><small>Jina Huh-Yoo + Tara Gebbia · W 7-6 6-0<br>UTR 3.40</small></td><td class="stacked-cell"><b>3.27</b><small>Sayaka Sung + Chikayo Poston · W 6-1 6-3<br>UTR 4.13</small></td>
+          <td><strong>DR D3</strong><small>UTR D3</small></td>
+        </tr>
+        <tr>
+          <td>07/25</td>
+          <td>Monmouth: Rally Girls Fall 2025<small>3-0 W on listed doubles courts</small></td>
+          <td class="stacked-cell"><b>3.24</b><small>Adriana Levine + Qitian He · W 6-2 6-1<br>UTR 4.17</small></td><td class=""><b>2.87</b><small>Tara Gebbia + Sharon Jacobson · W 6-2 6-1<br>UTR 3.69</small></td><td class=""><b>3.00</b><small>Chikayo Poston + MAIKO AMANO · W 6-0 6-4<br>UTR 3.67</small></td>
+          <td><strong>DR D1</strong><small>UTR D1</small></td>
+        </tr>
+        <tr>
+          <td>07/25</td>
+          <td>Monmouth: 40-Love<small>2-1 W on listed doubles courts</small></td>
+          <td class=""><b>2.93</b><small>Tara Gebbia + Sharon Jacobson · L 6-2 6-4<br>UTR 3.69</small></td><td class=""><b>3.24</b><small>Jenna Hammond + Adriana Levine · W 6-1 6-4<br>UTR 4.18</small></td><td class="stacked-cell"><b>3.28</b><small>Sayaka Sung + Qitian He · W 6-0 6-1<br>UTR 4.21</small></td>
+          <td><strong>DR D3</strong><small>UTR D3</small></td>
+        </tr>
+        <tr>
+          <td>07/26</td>
+          <td>PEM: NJ Rockstars<small>3-0 W on listed doubles courts</small></td>
+          <td class="stacked-cell"><b>3.22</b><small>Adriana Levine + Sharon Jacobson · W 6-3 4-6 1-0<br>UTR 3.27</small></td><td class=""><b>3.02</b><small>Qitian He + MAIKO AMANO · W 6-4 7-5<br>UTR 3.79</small></td><td class=""><b>2.85</b><small>Tara Gebbia + Chikayo Poston · W 6-0 6-1<br>UTR 3.67</small></td>
+          <td><strong>DR D1</strong><small>UTR D2</small></td>
+        </tr></tbody>
+    </table></div></div>
+    <p class="matchup-summary"><strong>Doubles stacking bottom line:</strong> Variable stack leaning D1. D1 went 5–1 when it carried the strongest complete DR line. Target court: D1.</p>
+    </section>
+    <div class="disclosure">Registered roster source: Tournament Info.pdf - USTA National Tournament registered teams roster. Historical data refreshed 2026-09-01. Predictions summarize observed usage, recency, and postseason evidence; they are not submitted lineups.</div></div>
+  </section>
+
+
+
+  </main>
+
+
+
+</body></html>

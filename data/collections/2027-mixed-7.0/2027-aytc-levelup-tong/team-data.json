@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "datasetId": "2027-aytc-levelup-tong",
-  "generatedAt": "2026-09-30T18:14:51.000Z",
+  "generatedAt": "2026-09-30T23:24:35.859Z",
   "collectionStage": "step_1_complete",
   "team": {
     "name": "AYTC-LevelUp-Tong",
@@ -9,6 +9,7 @@
     "district": null,
     "league": "2027 Mixed 18 & Over (A)",
     "level": "7.0",
+    "leagueFormat": "mixed",
     "gender": "Mixed",
     "season": 2027,
     "nationalsRepresentative": false,
@@ -17,8 +18,7 @@
       "teamLosses": 1,
       "courtWins": 1,
       "courtLosses": 2
-    },
-    "leagueFormat": "mixed"
+    }
   },
   "eligibilityRule": {
     "regulation": "USTA League Regulation 2.03A(4)",
@@ -42,6 +42,7 @@
         "team identity",
         "roster",
         "player location",
+        "player gender",
         "NTRP",
         "DR",
         "match schedule",
@@ -134,7 +135,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Iris Xin",
@@ -203,7 +205,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Anant Jaitha",
@@ -272,7 +275,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Alexander Martin",
@@ -341,7 +345,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Nicole Evans",
@@ -410,7 +415,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Jessica Bethune",
@@ -479,7 +485,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "CAHILL CARUSOS",
@@ -548,7 +555,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Chiqu Li",
@@ -617,7 +625,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Greg Brown",
@@ -686,7 +695,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Kun Qian",
@@ -755,7 +765,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Toru Mino",
@@ -824,7 +835,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Chen Xie",
@@ -893,7 +905,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "chunchun tong",
@@ -962,7 +975,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Jiaxing Zheng",
@@ -1031,7 +1045,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Xiayi Li",
@@ -1100,7 +1115,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "William Myers",
@@ -1169,7 +1185,242 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
+    }
+  ],
+  "leagueSchedule": [
+    {
+      "id": "tennisrecord:17175",
+      "sourceOpponentName": "HBSQ-You Got Served-Harvey",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=HBSQ-You%20Got%20Served-Harvey&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-09-20",
+      "time": "2:00 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Harbor Square Athletic Club",
+      "designation": "unknown",
+      "status": "completed",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17175",
+      "sourceMatchId": "17175",
+      "sourceResult": "1-2",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17179",
+      "sourceOpponentName": "PSC-2026 18+ Mix-Zhou",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=PSC-2026%2018%2b%20Mix-Zhou&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-09-26",
+      "time": "8:30 PM",
+      "timezone": null,
+      "round": null,
+      "site": "PRO Club",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17179",
+      "sourceMatchId": "17179",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17183",
+      "sourceOpponentName": "BC-Happy Mixed Nuts18-Park",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=BC-Happy%20Mixed%20Nuts18-Park&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-10-04",
+      "time": "6:00 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Bellevue Club",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17183",
+      "sourceMatchId": "17183",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17185",
+      "sourceOpponentName": "TCSP-Racket scientists-Casimo",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=TCSP-Racket%20scientists-Casimo&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-10-09",
+      "time": "6:15 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Tennis Center Sand Point",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17185",
+      "sourceMatchId": "17185",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17193",
+      "sourceOpponentName": "AYTC-The Poaching Pandas-Ong/Hua",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-The%20Poaching%20Pandas-Ong%2fHua&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-10-18",
+      "time": "4:45 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Amy Yee Tennis Center",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17193",
+      "sourceMatchId": "17193",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17201",
+      "sourceOpponentName": "PL-Sych",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=PL-Sych&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-10-30",
+      "time": "7:45 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Amy Yee Tennis Center",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17201",
+      "sourceMatchId": "17201",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17202",
+      "sourceOpponentName": "ETC-Double Trouble-Wang",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=ETC-Double%20Trouble-Wang&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-10-31",
+      "time": "11:30 AM",
+      "timezone": null,
+      "round": null,
+      "site": "Amy Yee Tennis Center",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17202",
+      "sourceMatchId": "17202",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17207",
+      "sourceOpponentName": "STC-Pirates-Coomer",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=STC-Pirates-Coomer&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-11-07",
+      "time": "3:00 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Amy Yee Tennis Center",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17207",
+      "sourceMatchId": "17207",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17214",
+      "sourceOpponentName": "AYTC-Jurassic (Park)",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-Jurassic%20(Park)&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-11-14",
+      "time": "8:00 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Amy Yee Tennis Center",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17214",
+      "sourceMatchId": "17214",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    },
+    {
+      "id": "tennisrecord:17221",
+      "sourceOpponentName": "WSC-Yin Yang Masters v7.0",
+      "sourceOpponentUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=WSC-Yin%20Yang%20Masters%20v7.0&year=2027",
+      "linkedOpponentTeamId": null,
+      "date": "2026-11-20",
+      "time": "8:30 PM",
+      "timezone": null,
+      "round": null,
+      "site": "Woodinville Sports Club",
+      "designation": "unknown",
+      "status": "scheduled",
+      "sourceType": "tennisrecord",
+      "sourceReference": "https://www.tennisrecord.com/adult/matchresults.aspx?year=2027&mid=17221",
+      "sourceMatchId": "17221",
+      "sourceResult": "0-0",
+      "sourceRetrievedAt": "2026-09-30T23:24:35.850Z",
+      "updatedAt": "2026-09-30T23:24:35.850Z"
+    }
+  ],
+  "leagueTeams": [
+    {
+      "name": "HBSQ-You Got Served-Harvey",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=HBSQ-You%20Got%20Served-Harvey&year=2027"
+    },
+    {
+      "name": "PSC-2026 18+ Mix-Zhou",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=PSC-2026%2018%2b%20Mix-Zhou&year=2027"
+    },
+    {
+      "name": "BC-Happy Mixed Nuts18-Park",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=BC-Happy%20Mixed%20Nuts18-Park&year=2027"
+    },
+    {
+      "name": "TCSP-Racket scientists-Casimo",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=TCSP-Racket%20scientists-Casimo&year=2027"
+    },
+    {
+      "name": "AYTC-The Poaching Pandas-Ong/Hua",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-The%20Poaching%20Pandas-Ong%2fHua&year=2027"
+    },
+    {
+      "name": "PL-Sych",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=PL-Sych&year=2027"
+    },
+    {
+      "name": "ETC-Double Trouble-Wang",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=ETC-Double%20Trouble-Wang&year=2027"
+    },
+    {
+      "name": "STC-Pirates-Coomer",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=STC-Pirates-Coomer&year=2027"
+    },
+    {
+      "name": "AYTC-Jurassic (Park)",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-Jurassic%20(Park)&year=2027"
+    },
+    {
+      "name": "WSC-Yin Yang Masters v7.0",
+      "url": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=WSC-Yin%20Yang%20Masters%20v7.0&year=2027"
     }
   ],
   "opponents": [

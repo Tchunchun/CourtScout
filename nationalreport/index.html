@@ -1,0 +1,725 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nationals 2026 — Schedule</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f0f2f5; color: #1a1f2b; font-size: 14px; }
+  .header { background: #1e5f74; color: white; padding: 12px 14px; }
+  .header h1 { font-size: 16px; }
+  .header p { font-size: 11px; opacity: 0.84; margin-top: 2px; }
+  .tab-bar { display: flex; overflow-x: auto; background: white; border-bottom: 2px solid #dde; scrollbar-width: none; position: sticky; top: 0; z-index: 50; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; padding: 10px 12px; font-size: 11px; font-weight: 650; color: #666; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; margin-bottom: -2px; }
+  .tab-btn.active { color: #1e5f74; border-bottom-color: #1e5f74; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .page { max-width: 980px; margin: 0 auto; padding: 10px 10px 50px; }
+  .card { background: white; border-radius: 10px; margin-bottom: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card-head { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: 14px; font-weight: 750; }
+  .card-meta { font-size: 11px; color: #666; margin-top: 2px; }
+  .site-badge { background: #e8eaf6; color: #3949ab; font-size: 10px; font-weight: 750; padding: 4px 9px; border-radius: 10px; white-space: nowrap; }
+  .site-badge.collegiate { background: #fde3d8; color: #8a3d1f; }
+  .court-row { display: grid; grid-template-columns: 30px minmax(170px, 1fr) minmax(105px, .55fr); gap: 9px; padding: 9px 14px; border-bottom: 1px solid #f5f5f5; align-items: start; }
+  .ct { font-size: 12px; font-weight: 750; color: #1e5f74; padding-top: 2px; }
+  .pn { font-size: 13px; font-weight: 650; line-height: 1.3; }
+  .dr { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.35; }
+  .support { font-size: 10px; color: #777; text-align: right; padding-top: 2px; }
+  .total { padding: 8px 14px; background: #f8f9fa; font-size: 11px; font-weight: 650; border-top: 1px solid #eee; }
+  .note { padding: 8px 14px; font-size: 11px; color: #777; font-style: italic; border-bottom: 1px solid #f5f5f5; }
+  .our-lineup { padding: 10px 14px; background: #f4fafb; border-bottom: 1px solid #dcecef; }
+  .our-lineup-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .our-lineup-head strong { font-size: 11px; text-transform: uppercase; letter-spacing: .35px; color: #1e5f74; }
+  .lineup-pending { color: #856404; background: #fff3cd; border-radius: 999px; padding: 3px 8px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+  .lineup-slots { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .lineup-slot { min-width: 0; border: 1px dashed #9bbbc4; border-radius: 7px; padding: 7px 8px; background: white; }
+  .lineup-slot strong { display: block; color: #1e5f74; font-size: 10px; margin-bottom: 2px; }
+  .lineup-slot span { display: block; color: #888; font-size: 10px; line-height: 1.25; }
+  .summary-note { background: white; color: #333; font-style: normal; border: 0; border-radius: 8px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .section-title { font-size: 11px; font-weight: 750; color: #555; padding: 11px 14px 5px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .intel-card { background: white; border-radius: 10px; margin-bottom: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border-left: 4px solid #dde; }
+  .intel-red { border-left-color: #b3413a; }
+  .intel-warn { border-left-color: #b8860b; }
+  .intel-blue { border-left-color: #3949ab; }
+  .table-scroll { overflow-x: auto; }
+  .roster { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
+  .roster th { text-align: left; padding: 7px 10px; background: #f5f7f9; font-size: 11px; color: #555; font-weight: 650; border-bottom: 1px solid #eee; }
+  .roster td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; line-height: 1.35; }
+  .roster tr:last-child td { border-bottom: none; }
+  .roster small { display: block; font-size: 10px; color: #888; margin-top: 1px; }
+  .elig-no { color: #b3413a; font-size: 11px; font-weight: 750; }
+  .elig-ok { color: #1e7a4c; font-size: 11px; }
+  .elig-unknown { color: #856404; font-size: 11px; font-weight: 700; }
+  .pair-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 9px 14px; border-bottom: 1px solid #f5f5f5; }
+  .pair-row:last-child { border-bottom: none; }
+  .pair-name { font-size: 13px; font-weight: 650; }
+  .pair-meta { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.35; }
+  .pair-dr { font-size: 12px; font-weight: 750; color: #1e5f74; white-space: nowrap; text-align: right; }
+  .pair-dr small { display: block; color: #777; font-weight: 500; margin-top: 2px; }
+  .banner { margin-bottom: 10px; background: white; border-left: 4px solid #1e5f74; border-radius: 8px; padding: 10px 14px; font-size: 12px; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .disclosure { color: #777; font-size: 10px; line-height: 1.45; padding: 8px 4px; }
+  .empty { padding: 14px; color: #777; font-size: 12px; }
+  @media (max-width: 540px) {
+    .court-row { grid-template-columns: 26px 1fr; }
+    .support { grid-column: 2; text-align: left; margin-top: -5px; }
+    .lineup-slots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media print {
+    body { background: white; }
+    .tab-bar { display: none; }
+    .tab-panel { display: block !important; break-before: page; }
+    .tab-panel:first-of-type { break-before: auto; }
+    .page { max-width: none; padding-bottom: 10px; }
+    .card, .intel-card, .summary-note { box-shadow: none; border: 1px solid #ddd; }
+  }
+
+  .section-nav { display: flex; gap: 6px; overflow-x: auto; margin: 0 0 10px; padding: 2px 0 4px; scrollbar-width: none; }
+  .section-nav::-webkit-scrollbar { display: none; }
+  .section-nav a { flex-shrink: 0; color: #1e5f74; background: white; border: 1px solid #d9e5e9; border-radius: 999px; padding: 6px 10px; font-size: 10px; font-weight: 700; text-decoration: none; }
+  .analysis-section { scroll-margin-top: 52px; }
+  .summary-grid, .court-summary-grid, .stack-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 9px; }
+  .summary-grid article, .court-summary-grid article, .stack-summary article { background: white; border-radius: 9px; padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); border-top: 3px solid #1e5f74; }
+  .summary-grid span, .court-summary-grid span, .stack-summary span { display: block; color: #777; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .35px; }
+  .summary-grid strong, .court-summary-grid strong, .stack-summary strong { display: block; font-size: 15px; margin-top: 3px; }
+  .summary-grid small, .court-summary-grid small, .stack-summary small { display: block; color: #777; font-size: 10px; margin-top: 2px; line-height: 1.35; }
+  .court-summary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .footnote { color: #666; font-size: 10px; line-height: 1.45; margin: 0 4px 8px; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 760px; }
+  .data-table th { background: #f5f7f9; color: #555; font-size: 10px; text-align: left; padding: 7px 9px; border-bottom: 1px solid #ddd; white-space: nowrap; }
+  .data-table td { padding: 8px 9px; border-bottom: 1px solid #eee; vertical-align: top; line-height: 1.4; }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table td > small, .data-table td > span { display: block; color: #777; font-size: 10px; margin-top: 2px; }
+  .singles-table { min-width: 900px; }
+  .result-log { min-width: 360px; }
+  .result-log > strong { display: block; margin-bottom: 4px; }
+  .result-log > span { color: #555; margin: 2px 0; }
+  .win-text { color: #1e7a4c; }
+  .loss-text { color: #b3413a; }
+  .read-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .matchup-summary { background: #eef5f8; border-left: 4px solid #1e5f74; border-radius: 7px; color: #31434b; font-size: 11px; line-height: 1.5; padding: 9px 12px; margin-bottom: 10px; }
+  .pair-status { display: inline-block !important; color: #856404 !important; background: #fff3cd; border-radius: 6px; padding: 2px 6px; white-space: nowrap; }
+  .pair-status.established { color: #1e7a4c !important; background: #e0f0e8; }
+  .stacking-table { min-width: 1000px; }
+  .stacking-table td { min-width: 135px; }
+  .stacking-table td:first-child { min-width: 72px; white-space: nowrap; }
+  .stacked-cell { background: #eef7f3; box-shadow: inset 3px 0 #1e7a4c; }
+  .missing-cell { color: #999; font-style: italic; }
+  .scenario-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .scenario-card { margin-bottom: 0; }
+  .scenario-head { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 10px 14px; background: #f8fafb; border-bottom: 1px solid #eee; }
+  .scenario-head div > span { display: block; color: #777; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .scenario-head div > strong { display: block; font-size: 14px; margin-top: 2px; }
+  .confidence { border-radius: 999px; padding: 4px 8px; font-size: 10px; font-weight: 750; white-space: nowrap; background: #fff3cd; color: #856404; }
+  .confidence.high { background: #e0f0e8; color: #1e7a4c; }
+  @media (max-width: 680px) {
+    .summary-grid, .court-summary-grid, .stack-summary, .read-grid { grid-template-columns: 1fr; }
+  }
+
+  .national-active-row { background: #f3faf6; }
+  .national-inactive-row { background: #fff4f2; box-shadow: inset 4px 0 #b3413a; }
+  .national-badge { display: inline-block !important; border-radius: 999px; padding: 3px 7px; font-size: 9px !important; font-weight: 750; white-space: nowrap; }
+  .national-badge.registered { color: #1e7a4c !important; background: #dff3e8; }
+  .national-badge.not-registered { color: #9f302b !important; background: #f9deda; }
+
+  .subsection-label { color: #47545a; font-size: 10px; font-weight: 750; letter-spacing: .4px; margin: 12px 4px 5px; text-transform: uppercase; }
+  .national-partial-row { background: #fffaf0; box-shadow: inset 4px 0 #b8860b; }
+  .national-badge.partial { color: #856404 !important; background: #fff0bf; }
+
+  .decision-guide { margin-bottom: 4px; }
+  .decision-link { background: #1e5f74 !important; color: white !important; border-color: #1e5f74 !important; }
+  .decision-banner { display: flex; justify-content: space-between; gap: 14px; align-items: center; background: linear-gradient(135deg, #174d60, #24758e); color: white; border-radius: 10px; padding: 12px 14px; margin-bottom: 9px; box-shadow: 0 2px 5px rgba(30,95,116,.22); }
+  .decision-banner span, .decision-banner small { display: block; font-size: 10px; opacity: .82; }
+  .decision-banner strong { display: block; margin: 2px 0; font-size: 15px; }
+  .decision-time { text-align: right; white-space: nowrap; }
+  .decision-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+  .decision-grid article { background: white; border-radius: 9px; padding: 10px 12px; border-top: 3px solid #1e5f74; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .decision-grid span { color: #777; display: block; font-size: 9px; font-weight: 750; letter-spacing: .3px; text-transform: uppercase; }
+  .decision-grid strong { display: block; font-size: 16px; margin: 3px 0; text-transform: capitalize; }
+  .decision-grid small { color: #666; display: block; font-size: 10px; line-height: 1.35; }
+  .lineup-scorecard { min-width: 1000px; }
+  .lineup-scorecard .compact-lineup { min-width: 390px; line-height: 1.6; }
+  .recommended-row { background: #eef7f3; box-shadow: inset 4px 0 #1e7a4c; }
+  .recommended-badge { display: inline-block !important; background: #1e7a4c; color: white !important; border-radius: 999px; font-size: 8px !important; font-weight: 750; margin: 4px 0 2px !important; padding: 2px 6px; text-transform: uppercase; }
+  .edge-count { display: inline-block !important; border-radius: 999px; margin: 1px 2px 1px 0 !important; padding: 2px 6px; font-size: 9px !important; white-space: nowrap; }
+  .edge-count.favorable, .edge-cell.favorable .edge-label { background: #dff3e8; color: #1e7a4c !important; }
+  .edge-count.swing, .edge-cell.swing .edge-label { background: #fff0bf; color: #856404 !important; }
+  .edge-count.challenging, .edge-cell.challenging .edge-label { background: #f9deda; color: #9f302b !important; }
+  .edge-count.limited, .edge-cell.limited .edge-label { background: #eceff1; color: #657078 !important; }
+  .matchup-matrix { min-width: 1120px; }
+  .matchup-matrix td { min-width: 210px; }
+  .matchup-matrix td:first-child { min-width: 55px; }
+  .edge-cell { border-left: 3px solid #ccc; }
+  .edge-cell.favorable { background: #f3faf6; border-left-color: #1e7a4c; }
+  .edge-cell.swing { background: #fffaf0; border-left-color: #b8860b; }
+  .edge-cell.challenging { background: #fff4f2; border-left-color: #b3413a; }
+  .edge-label { display: inline-block !important; border-radius: 999px; font-size: 8px !important; font-weight: 750; margin: 0 0 4px !important; padding: 2px 6px; text-transform: uppercase; }
+  .edge-cell > strong { display: block; }
+  .coach-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  @media (max-width: 800px) {
+    .decision-grid { grid-template-columns: 1fr 1fr; }
+    .coach-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .decision-banner { align-items: flex-start; flex-direction: column; }
+    .decision-time { text-align: left; }
+    .decision-grid { grid-template-columns: 1fr; }
+  }
+
+  .our-player-pool { background: white; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 9px; overflow: hidden; }
+  .pool-heading { align-items: center; background: #f5f7f9; border-bottom: 1px solid #e7ecef; display: flex; justify-content: space-between; gap: 12px; padding: 9px 12px; }
+  .pool-heading span { color: #667; display: block; font-size: 9px; font-weight: 750; letter-spacing: .35px; text-transform: uppercase; }
+  .pool-heading strong { display: block; font-size: 13px; margin-top: 2px; }
+  .pool-heading small { color: #667; font-size: 10px; text-align: right; }
+  .player-chip-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; padding: 9px; }
+  .player-chip { border: 1px solid #dce5e8; border-radius: 8px; min-width: 0; padding: 7px 8px; }
+  .player-chip.baseline-player { background: #f3faf6; border-color: #b9ddc8; }
+  .player-chip.rotation-player { background: #fffaf0; border-color: #ead18d; box-shadow: inset 3px 0 #b8860b; }
+  .player-chip strong, .player-chip span, .player-chip small { display: block; overflow-wrap: anywhere; }
+  .player-chip strong { font-size: 11px; }
+  .player-chip span { color: #555; font-size: 9px; margin-top: 2px; }
+  .player-chip small { color: #777; font-size: 9px; line-height: 1.3; margin-top: 3px; }
+  .our-player-pool > p { background: #fffaf0; border-top: 1px solid #f1dfac; color: #624f1f; font-size: 10px; line-height: 1.45; padding: 8px 11px; }
+  @media (max-width: 760px) {
+    .player-chip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 430px) {
+    .pool-heading { align-items: flex-start; flex-direction: column; }
+    .pool-heading small { text-align: left; }
+    .player-chip-grid { grid-template-columns: 1fr; }
+  }
+
+  .three-court-plan { background: #eef5f8; border: 1px solid #d4e4ea; border-radius: 10px; margin-bottom: 10px; overflow: hidden; padding: 10px; }
+  .plan-heading { align-items: center; display: flex; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .plan-heading div > span { color: #61737b; display: block; font-size: 9px; font-weight: 750; letter-spacing: .4px; text-transform: uppercase; }
+  .plan-heading div > strong { display: block; font-size: 15px; margin-top: 2px; }
+  .plan-risk { border-radius: 999px; font-size: 9px; font-weight: 750; padding: 4px 8px; text-transform: uppercase; white-space: nowrap; }
+  .plan-risk.low { background: #dff3e8; color: #1e7a4c; }
+  .plan-risk.moderate { background: #fff0bf; color: #856404; }
+  .plan-risk.high { background: #f9deda; color: #9f302b; }
+  .plan-summary-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin-bottom: 8px; }
+  .plan-summary-grid article { background: white; border-radius: 8px; padding: 8px 10px; }
+  .plan-summary-grid span, .plan-summary-grid small { color: #68747a; display: block; font-size: 9px; line-height: 1.35; }
+  .plan-summary-grid span { font-weight: 750; text-transform: uppercase; }
+  .plan-summary-grid strong { display: block; font-size: 13px; margin: 3px 0; }
+  .three-court-table { min-width: 760px; }
+  .three-court-table .edge-label { display: inline-block !important; }
+  .edge-label.favorable { background: #dff3e8; color: #1e7a4c !important; }
+  .edge-label.swing { background: #fff0bf; color: #856404 !important; }
+  .edge-label.challenging { background: #f9deda; color: #9f302b !important; }
+  .low-priority-row { background: #fff4f2; box-shadow: inset 4px 0 #b3413a; }
+  .court-plan-badge { border-radius: 999px; display: inline-block; font-size: 9px; font-weight: 750; padding: 3px 7px; white-space: nowrap; }
+  .court-plan-badge.target { background: #dff3e8; color: #1e7a4c; }
+  .court-plan-badge.insurance { background: #fff0bf; color: #856404; }
+  .court-plan-badge.sacrifice { background: #f9deda; color: #9f302b; }
+  .plan-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .plan-notes p { background: white; border-radius: 7px; color: #46565d; font-size: 10px; line-height: 1.45; padding: 8px 10px; }
+  @media (max-width: 680px) {
+    .plan-summary-grid, .plan-notes { grid-template-columns: 1fr; }
+  }
+
+  .field-ranking { margin: 4px 0 12px; }
+  .ranking-table { min-width: 1100px; }
+  .ranking-table td { line-height: 1.45; }
+  .ranking-table td:nth-child(1) { text-align: center; width: 54px; }
+  .ranking-table td:nth-child(2) { min-width: 170px; }
+  .ranking-table td:nth-child(3), .ranking-table td:nth-child(4) { min-width: 150px; }
+  .ranking-table td:nth-child(5), .ranking-table td:nth-child(6) { min-width: 260px; }
+  .rank-number { align-items: center; background: #e6eef1; border-radius: 50%; color: #1e5f74; display: inline-flex !important; font-size: 14px !important; font-weight: 800; height: 30px; justify-content: center; width: 30px; }
+  .rank-top { background: #f3faf6; }
+  .rank-high { background: #fffaf0; }
+  .rank-us { background: #eef5f8; box-shadow: inset 4px 0 #1e5f74; }
+  .priority-badge { border-radius: 999px; display: inline-block !important; font-size: 8px !important; font-weight: 800; margin-bottom: 3px; padding: 3px 7px; text-transform: uppercase; }
+  .priority-badge.maximum { background: #f9deda; color: #9f302b !important; }
+  .priority-badge.high { background: #fff0bf; color: #856404 !important; }
+  .priority-badge.us { background: #dcecf2; color: #1e5f74 !important; }
+  .priority-badge.rotation { background: #dff3e8; color: #1e7a4c !important; }
+  .priority-callout { align-items: center; background: #1e5f74; border-radius: 9px; color: white; display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px; }
+  .priority-callout > strong { margin-right: 4px; }
+  .priority-callout > span { background: rgba(255,255,255,.15); border-radius: 999px; font-size: 10px; font-weight: 700; padding: 4px 8px; }
+  .priority-callout > small { flex-basis: 100%; font-size: 10px; line-height: 1.4; opacity: .83; }
+
+  .sectionals-proof { align-items: center; background: #174d60; border-radius: 8px; color: white; display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; padding: 9px 10px; }
+  .sectionals-proof > strong { margin-right: 3px; }
+  .sectionals-proof > span { background: rgba(255,255,255,.14); border-radius: 999px; font-size: 9px; font-weight: 700; padding: 3px 7px; }
+  .sectionals-proof > small { flex-basis: 100%; font-size: 9px; line-height: 1.4; opacity: .82; }
+  .protected-core-row { background: #f3faf6; box-shadow: inset 4px 0 #1e7a4c; }
+  .eligibility-row { background: #fffaf0; box-shadow: inset 4px 0 #b8860b; }
+
+  .sunday-header { align-items: center; background: linear-gradient(135deg,#174d60,#24758e); border-radius: 11px; color: white; display: flex; justify-content: space-between; gap: 16px; margin-bottom: 10px; padding: 14px 16px; }
+  .sunday-header div:first-child > span { font-size: 9px; font-weight: 750; letter-spacing: .5px; text-transform: uppercase; }
+  .sunday-header h1 { font-size: 18px; margin: 2px 0; }
+  .sunday-header p { font-size: 10px; line-height: 1.4; max-width: 620px; opacity: .83; }
+  .sunday-header div:last-child { display: grid; grid-template-columns: auto auto; gap: 4px 8px; font-size: 10px; white-space: nowrap; }
+  .sunday-header div:last-child span { opacity: .8; }
+  .sunday-ranking { min-width: 760px; }
+  .sunday-candidate { background: white; border: 1px solid #dde5e8; border-radius: 10px; margin-bottom: 9px; overflow: hidden; }
+  .sunday-candidate > summary { align-items: center; cursor: pointer; display: flex; gap: 10px; list-style: none; padding: 11px 13px; }
+  .sunday-candidate > summary::-webkit-details-marker { display: none; }
+  .sunday-candidate > summary > div { flex: 1; }
+  .sunday-candidate > summary strong, .sunday-candidate > summary small { display: block; }
+  .sunday-candidate > summary small { color: #777; font-size: 10px; margin-top: 2px; }
+  .sunday-rank { align-items: center; background: #1e5f74; border-radius: 50%; color: white; display: inline-flex; font-size: 12px; font-weight: 800; height: 30px; justify-content: center; width: 30px; }
+  .candidate-tier { background: #dff3e8; border-radius: 999px; color: #1e7a4c; font-size: 8px; font-weight: 800; padding: 3px 7px; text-transform: uppercase; }
+  .candidate-body { background: #f3f5f7; border-top: 1px solid #e4eaed; padding: 10px; }
+  .sunday-roster { min-width: 720px; }
+  .sunday-court-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 7px; margin-bottom: 9px; }
+  .sunday-court-grid article { background: white; border-radius: 8px; padding: 8px 9px; }
+  .sunday-court-grid span, .sunday-court-grid strong, .sunday-court-grid small { display: block; }
+  .sunday-court-grid span { color: #777; font-size: 9px; font-weight: 750; }
+  .sunday-court-grid strong { font-size: 14px; margin: 2px 0; }
+  .sunday-court-grid small { color: #777; font-size: 9px; line-height: 1.3; }
+  .sunday-lineups { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-bottom: 9px; }
+  .sunday-lineup { background: white; border-radius: 8px; padding: 9px 10px; }
+  .sunday-lineup > div { display: flex; justify-content: space-between; gap: 8px; }
+  .sunday-lineup > div strong { align-items: center; background: #1e5f74; border-radius: 50%; color: white; display: inline-flex; height: 22px; justify-content: center; width: 22px; }
+  .sunday-lineup > div span { color: #777; font-size: 9px; }
+  .sunday-lineup p { font-size: 10px; line-height: 1.5; margin-top: 6px; }
+  .sunday-scenario-summary { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-bottom: 8px; }
+  .sunday-scenario-summary article { background: white; border-radius: 8px; padding: 8px 9px; }
+  .sunday-scenario-summary strong { display: block; font-size: 10px; margin-bottom: 4px; }
+  .sunday-matchup { min-width: 1050px; }
+  .watch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .watch-candidate { background: white; border-radius: 10px; display: flex; gap: 10px; padding: 11px 12px; }
+  .watch-rank { align-items: center; background: #e6eef1; border-radius: 50%; color: #1e5f74; display: flex; flex-shrink: 0; font-weight: 800; height: 30px; justify-content: center; width: 30px; }
+  .watch-candidate div:last-child > strong, .watch-candidate div:last-child > span, .watch-candidate div:last-child > small { display: block; }
+  .watch-candidate div:last-child > span { font-size: 10px; margin-top: 2px; }
+  .watch-candidate div:last-child > small { color: #777; font-size: 9px; margin-top: 2px; }
+  .watch-candidate p { color: #555; font-size: 9px; line-height: 1.45; margin-top: 6px; }
+  @media (max-width: 720px) {
+    .sunday-header { align-items: flex-start; flex-direction: column; }
+    .sunday-court-grid, .sunday-lineups, .sunday-scenario-summary, .watch-grid { grid-template-columns: 1fr; }
+  }
+
+    .tab-bar a.tab-btn {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .tab-panel {
+      display: block !important;
+    }
+    @media (max-width: 600px) {
+      .header h1 { line-height: 1.3; }
+      .tab-btn { padding: 9px 10px; }
+    }
+
+    .tab-bar a.tab-btn {
+      align-items: flex-start;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .tab-bar a.tab-btn strong {
+      display: block;
+      font-size: 11px;
+    }
+    .tab-bar a.tab-btn small {
+      display: block;
+      font-size: 9px;
+      font-weight: 500;
+      margin-top: 2px;
+      opacity: .78;
+    }
+
+  .edge-legend { background: white; border-bottom: 1px solid #dce5e8; display: flex; flex-wrap: wrap; gap: 5px 10px; padding: 8px 12px; }
+  .edge-legend > strong { color: #1e5f74; font-size: 10px; text-transform: uppercase; }
+  .edge-legend > span { color: #555; font-size: 9px; line-height: 1.35; }
+  .edge-legend > small { color: #777; flex-basis: 100%; font-size: 9px; line-height: 1.35; }
+  .edge-legend b { border-radius: 999px; display: inline-block; font-size: 8px; padding: 2px 6px; text-transform: uppercase; }
+  .legend-favorable { background: #dff3e8; color: #1e7a4c; }
+  .legend-swing { background: #fff0bf; color: #856404; }
+  .legend-challenging { background: #f9deda; color: #9f302b; }
+  .court-move-option { background: #eef5f8; border: 1px solid #cfdee4; border-radius: 9px; margin-bottom: 9px; padding: 10px 11px; }
+  .court-move-option > div:first-child { align-items: center; display: flex; justify-content: space-between; gap: 8px; }
+  .court-move-option h3 { font-size: 13px; }
+  .court-move-option .option-badge { background: #dcecf2; border-radius: 999px; color: #1e5f74; font-size: 8px; font-weight: 800; padding: 3px 7px; text-transform: uppercase; }
+  .court-move-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 6px; margin: 8px 0; }
+  .court-move-grid article { background: white; border-radius: 7px; padding: 7px 8px; }
+  .court-move-grid span, .court-move-grid strong, .court-move-grid small { display: block; }
+  .court-move-grid span { color: #1e5f74; font-size: 9px; font-weight: 800; }
+  .court-move-grid strong { font-size: 10px; margin-top: 2px; }
+  .court-move-grid small { color: #777; font-size: 9px; line-height: 1.3; margin-top: 2px; }
+  .court-move-option p { color: #4c5d65; font-size: 10px; line-height: 1.45; margin-top: 5px; }
+  @media (max-width: 650px) {
+    .edge-legend { flex-direction: column; }
+    .court-move-grid { grid-template-columns: 1fr; }
+  }
+
+    .rating-anomaly { color: #9f302b !important; font-size: 9px !important; font-weight: 700; line-height: 1.35; }
+  </style>
+</head>
+<body>
+<header class="header">
+  <h1>🎾 NWW-AYTC-Tong · Schedule</h1>
+  <p>18+ 3.0 Women’s · Pacific Northwest · static mobile report · use the links below to change pages</p>
+</header>
+<nav class="tab-bar" aria-label="Report sections">
+      <a class="tab-btn active" href="index.html" aria-current="page" aria-label="Schedule — Oct 9–11"><strong>Schedule</strong><small>Oct 9–11</small></a>
+      <a class="tab-btn " href="intermountain.html" aria-label="Intermountain — Fri Oct 9 · 8:00 AM"><strong>Intermountain</strong><small>Fri Oct 9 · 8:00 AM</small></a>
+      <a class="tab-btn " href="eastern.html" aria-label="Eastern — Fri Oct 9 · 1:00 PM"><strong>Eastern</strong><small>Fri Oct 9 · 1:00 PM</small></a>
+      <a class="tab-btn " href="hawaii.html" aria-label="Hawaii — Sat Oct 10 · 8:00 AM"><strong>Hawaii</strong><small>Sat Oct 10 · 8:00 AM</small></a>
+      <a class="tab-btn " href="southern.html" aria-label="Southern — Sat Oct 10 · 3:00 PM"><strong>Southern</strong><small>Sat Oct 10 · 3:00 PM</small></a>
+      <a class="tab-btn " href="sunday.html" aria-label="Sunday — Sun Oct 11 · Times TBD"><strong>Sunday</strong><small>Sun Oct 11 · Times TBD</small></a><a class="tab-btn" href="ratings-review.html" aria-label="Ratings review — Sep 27"><strong>Ratings</strong><small>Sep 27 review</small></a></nav>
+  <aside class="edge-legend" aria-label="Matchup label definitions">
+    <strong>Matchup labels</strong>
+    <span><b class="legend-favorable">Favorable</b> — our combined DR and discipline-specific UTR show a meaningful edge.</span>
+    <span><b class="legend-swing">Swing</b> — ratings are close or disagree; competitive, but not automatically 50/50.</span>
+    <span><b class="legend-challenging">Challenging</b> — the opponent has a meaningful combined rating edge.</span>
+    <small>Labels are not win probabilities. Partnership chemistry, court history, style, health, and onsite evidence can override the rating-only read.</small>
+  </aside>
+<main>
+  <section class="tab-panel active" id="tab-schedule">
+    <div class="page">
+      <div class="banner"><strong>How to read this report:</strong> each schedule card reserves space for our lineup and shows an active-roster-only opponent projection. Open an opponent tab for roster status, strengths, court history, and known doubles pairs. Projections are evidence-led scouting estimates—not submitted lineups.</div>
+
+  <section class="field-ranking">
+    <div class="section-title">Five-team competitive ranking</div>
+    <div class="banner"><strong>Ranking method:</strong> combined read of historical team/court results, active-roster predicted-lineup DR, discipline-specific UTR, roster attrition, and Pacific Northwest’s modeled court matchups. It is a planning tier—not a forecast or probability. <strong>UTR refreshed:</strong> September 27, 2026. DR uses the dated TennisRecord values shown in the Ratings review.</div>
+    <div class="card table-card"><div class="table-scroll"><table class="data-table ranking-table">
+      <thead><tr><th>Rank</th><th>Team</th><th>Active-lineup ratings</th><th>Historical results</th><th>Why here</th><th>Our deployment priority</th></tr></thead>
+      <tbody>
+        <tr class="rank-top">
+          <td><span class="rank-number">1</span></td>
+          <td><strong>Eastern</strong><small>Strongest balanced active-roster opponent</small></td>
+          <td>Avg DR 3.06<small>Singles UTR 4.01 · Doubles UTR 3.56</small></td>
+          <td>13–1 teams<small>59–11 courts · doubles 37–5</small></td>
+          <td>Best active doubles UTR, excellent results, and our hardest modeled matchup. Lineup scenarios are uncertain because several historical stars are absent.</td>
+          <td><span class="priority-badge maximum">Maximum</span><small>Use the full-strength eight. Preserve Chiqu at S1 and all three core doubles pairs.</small></td>
+        </tr>
+        <tr class="rank-top">
+          <td><span class="rank-number">2</span></td>
+          <td><strong>Southern</strong><small>Strongest active singles ceiling</small></td>
+          <td>Avg DR 3.12<small>Singles UTR 4.21 · Doubles UTR 3.49</small></td>
+          <td>21–2 teams<small>87–28 courts · singles 38–8</small></td>
+          <td>Highest predicted-lineup DR and strongest singles ratings. Only nine registered players creates less depth; D3 remains exploitable.</td>
+          <td><span class="priority-badge maximum">Maximum</span><small>Return the rested core after Hawaii. Protect D3 and compete for D2 plus D1/S1.</small></td>
+        </tr>
+        <tr class="rank-high">
+          <td><span class="rank-number">3</span></td>
+          <td><strong>Intermountain</strong><small>Best historical resume</small></td>
+          <td>Avg DR 3.03<small>Singles UTR 3.32 · Doubles UTR 3.04</small></td>
+          <td>16–0 teams<small>69–11 courts · singles 29–2</small></td>
+          <td>Undefeated and extremely consistent, but Kelli Hall and Laura Espinosa are not registered, lowering the proven active doubles ceiling.</td>
+          <td><span class="priority-badge high">High</span><small>Keep best players on S1, D1, and D2. The Olivia/Tammy D3 eligibility rotation is high risk.</small></td>
+        </tr>
+        <tr class="rank-us">
+          <td><span class="rank-number">4</span></td>
+          <td><strong>Pacific Northwest</strong><small>Us</small></td>
+          <td>Avg DR 3.03<small>Singles UTR 3.93 · Doubles UTR 3.41</small></td>
+          <td>13–3 teams<small>56–24 courts · singles 25–7</small></td>
+          <td>Our active ratings are competitive—especially doubles UTR—but the historical court win rate trails the top three teams.</td>
+          <td><span class="priority-badge us">Allocation rule</span><small>Spend the strongest full lineup on Eastern and Southern; rotate only on concentrated low-priority courts.</small></td>
+        </tr>
+        <tr>
+          <td><span class="rank-number">5</span></td>
+          <td><strong>Hawaii</strong><small>Best rotation opportunity</small></td>
+          <td>Avg DR 2.91<small>Singles UTR 1.88 · Doubles UTR 3.14</small></td>
+          <td>11–3 teams<small>47–23 courts · singles 16–12</small></td>
+          <td>Strong doubles but the weakest active singles profile and lowest overall court rate in this five-team comparison.</td>
+          <td><span class="priority-badge rotation">Rotate</span><small>Use Olivia/Tammy at D3; protect S1, S2, and the stronger doubles target.</small></td>
+        </tr>
+      </tbody>
+    </table></div></div>
+
+  </section>
+
+        <div class="section-title">Friday · October 9</div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">vs Intermountain</div>
+          <div class="card-meta">8:00 AM · Team USA Site</div>
+        </div>
+        <span class="site-badge ">Team USA Site</span>
+      </div>
+      <div class="our-lineup">
+        <div class="our-lineup-head">
+          <strong>Our lineup</strong>
+          <span class="lineup-pending">Not provided yet</span>
+        </div>
+        <div class="lineup-slots">
+          <div class="lineup-slot"><strong>S1</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>S2</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>D1</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D2</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D3</strong><span>Reserved for pair</span></div>
+        </div>
+      </div>
+      <div class="note">OPPONENT TOP ACTIVE-ROSTER PREDICTION · weighted by frequency, recency, and postseason use · not an official lineup</div>
+      <div class="court-row">
+        <div class="ct">S1</div>
+        <div class="pb">
+          <div class="pn">Kari Bennett</div>
+          <div class="dr">DR 3.17<br>UTR 3.43</div>
+        </div>
+        <div class="support">9 historical uses · 8–1 · 6 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">S2</div>
+        <div class="pb">
+          <div class="pn">Jamie Sorensen</div>
+          <div class="dr">DR 3.19<br>UTR 3.21</div>
+        </div>
+        <div class="support">7 historical uses · 7–0 · 7 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D1</div>
+        <div class="pb">
+          <div class="pn">Annie Lindsley / Carina Lambert</div>
+          <div class="dr">DR 3.07 / 3.11 = 6.18<br>UTR 3.38 / 2.92 = 6.30</div>
+        </div>
+        <div class="support">2 historical uses · 1–1 · 2 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D2</div>
+        <div class="pb">
+          <div class="pn">Jen Solomon / Tiffany VandenAkker</div>
+          <div class="dr">DR 2.77 / 2.96 = 5.73<br>UTR 2.69 / 2.91 = 5.60</div>
+        </div>
+        <div class="support">1 historical use · 1–0</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D3</div>
+        <div class="pb">
+          <div class="pn">Katie Murphy / Wendy Hopkins</div>
+          <div class="dr">DR 2.82 / 3.17 = 5.99<br>UTR 3.06 / 3.27 = 6.33</div>
+        </div>
+        <div class="support">3 historical uses · 3–0 · 1 postseason</div>
+      </div>
+
+
+
+
+
+
+      <div class="total">Intermountain - Nebeker/18&amp;Over3.0W · 16–0 overall · 69–11 courts</div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">vs Eastern</div>
+          <div class="card-meta">1:00 PM · Team USA Site</div>
+        </div>
+        <span class="site-badge ">Team USA Site</span>
+      </div>
+      <div class="our-lineup">
+        <div class="our-lineup-head">
+          <strong>Our lineup</strong>
+          <span class="lineup-pending">Not provided yet</span>
+        </div>
+        <div class="lineup-slots">
+          <div class="lineup-slot"><strong>S1</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>S2</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>D1</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D2</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D3</strong><span>Reserved for pair</span></div>
+        </div>
+      </div>
+      <div class="note">OPPONENT TOP ACTIVE-ROSTER PREDICTION · weighted by frequency, recency, and postseason use · not an official lineup</div>
+      <div class="court-row">
+        <div class="ct">S1</div>
+        <div class="pb">
+          <div class="pn">Karen Jang</div>
+          <div class="dr">DR 2.99<br>UTR 3.78</div>
+        </div>
+        <div class="support">3 historical uses · 2–1</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">S2</div>
+        <div class="pb">
+          <div class="pn">Jenna Hammond</div>
+          <div class="dr">DR 3.31<br>UTR 4.23</div>
+        </div>
+        <div class="support">3 historical uses · 3–0</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D1</div>
+        <div class="pb">
+          <div class="pn">Jing Li / MAIKO AMANO</div>
+          <div class="dr">DR 3.17 / 2.91 = 6.08<br>UTR 3.82 / 3.55 = 7.37</div>
+        </div>
+        <div class="support">1 historical use · 0–1</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D2</div>
+        <div class="pb">
+          <div class="pn">Sharon Jacobson / Tara Gebbia</div>
+          <div class="dr">DR 3.19 / 3.00 = 6.19<br>UTR 3.84 / 3.55 = 7.39</div>
+        </div>
+        <div class="support">2 historical uses · 2–0</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D3</div>
+        <div class="pb">
+          <div class="pn">Christine Young / Jina Huh-Yoo</div>
+          <div class="dr">DR 2.89 / 3.05 = 5.94<br>UTR 3.35 / 3.25 = 6.60</div>
+        </div>
+        <div class="support">1 historical use · 1–0</div>
+      </div>
+
+
+
+
+
+
+      <div class="total">Eastern - Huh-Yoo/18&amp;Over3.0W · 13–1 overall · 59–11 courts</div>
+    </div>
+
+        <div class="section-title">Saturday · October 10</div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">vs Hawaii</div>
+          <div class="card-meta">8:00 AM · Team USA Site</div>
+        </div>
+        <span class="site-badge ">Team USA Site</span>
+      </div>
+      <div class="our-lineup">
+        <div class="our-lineup-head">
+          <strong>Our lineup</strong>
+          <span class="lineup-pending">Not provided yet</span>
+        </div>
+        <div class="lineup-slots">
+          <div class="lineup-slot"><strong>S1</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>S2</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>D1</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D2</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D3</strong><span>Reserved for pair</span></div>
+        </div>
+      </div>
+      <div class="note">OPPONENT TOP ACTIVE-ROSTER PREDICTION · weighted by frequency, recency, and postseason use · not an official lineup</div>
+      <div class="court-row">
+        <div class="ct">S1</div>
+        <div class="pb">
+          <div class="pn">Christina Mello</div>
+          <div class="dr">DR 2.96<br>UTR 1.96</div>
+        </div>
+        <div class="support">8 historical uses · 5–3 · 3 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">S2</div>
+        <div class="pb">
+          <div class="pn">Susan Locquiao</div>
+          <div class="dr">DR 2.95<br>UTR 1.80</div>
+        </div>
+        <div class="support">3 historical uses · 2–1 · 2 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D1</div>
+        <div class="pb">
+          <div class="pn">Lea Taniguchi / Li Xuan He</div>
+          <div class="dr">DR 3.27 / 2.97 = 6.24<br>UTR 4.00 / 4.03 = 8.03</div>
+        </div>
+        <div class="support">5 historical uses · 5–0 · 2 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D2</div>
+        <div class="pb">
+          <div class="pn">Jin Smith / Staci Ah Quin</div>
+          <div class="dr">DR 2.81 / 2.73 = 5.54<br>UTR 2.87 / 2.66 = 5.53</div>
+        </div>
+        <div class="support">1 historical use · 0–1</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D3</div>
+        <div class="pb">
+          <div class="pn">Chanelle Labanon / Kumiko Kida</div>
+          <div class="dr">DR 2.68 / 2.87 = 5.55<br>UTR 2.80 / 2.46 = 5.26</div>
+        </div>
+        <div class="support">2 historical uses · 2–0</div>
+      </div>
+
+
+
+
+
+
+      <div class="total">Hawaii - Uratsuka/18&amp;Over3.0W · 11–3 overall · 47–23 courts</div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">vs Southern</div>
+          <div class="card-meta">3:00 PM · Collegiate Site</div>
+        </div>
+        <span class="site-badge collegiate">Collegiate Site</span>
+      </div>
+      <div class="our-lineup">
+        <div class="our-lineup-head">
+          <strong>Our lineup</strong>
+          <span class="lineup-pending">Not provided yet</span>
+        </div>
+        <div class="lineup-slots">
+          <div class="lineup-slot"><strong>S1</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>S2</strong><span>Reserved</span></div>
+          <div class="lineup-slot"><strong>D1</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D2</strong><span>Reserved for pair</span></div>
+          <div class="lineup-slot"><strong>D3</strong><span>Reserved for pair</span></div>
+        </div>
+      </div>
+      <div class="note">OPPONENT TOP ACTIVE-ROSTER PREDICTION · weighted by frequency, recency, and postseason use · not an official lineup</div>
+      <div class="court-row">
+        <div class="ct">S1</div>
+        <div class="pb">
+          <div class="pn">Devon Fuller</div>
+          <div class="dr">DR 3.30<br>UTR 4.05</div>
+        </div>
+        <div class="support">16 historical uses · 15–1 · 7 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">S2</div>
+        <div class="pb">
+          <div class="pn">Daniella James</div>
+          <div class="dr">DR 3.32<br>UTR 4.36</div>
+        </div>
+        <div class="support">7 historical uses · 7–0 · 3 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D1</div>
+        <div class="pb">
+          <div class="pn">Alison Milas / Leah Hackworth</div>
+          <div class="dr">DR 3.11 / 3.06 = 6.17<br>UTR 3.75 / 3.71 = 7.46</div>
+        </div>
+        <div class="support">5 historical uses · 4–1 · 3 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D2</div>
+        <div class="pb">
+          <div class="pn">Amber Filingeri / Emilia Anderson</div>
+          <div class="dr">DR 2.95 / 3.26 = 6.21<br>UTR 3.34 / 3.73 = 7.07</div>
+        </div>
+        <div class="support">5 historical uses · 4–1 · 5 postseason</div>
+      </div>
+      <div class="court-row">
+        <div class="ct">D3</div>
+        <div class="pb">
+          <div class="pn">Emma SEGAL / Lindsay Lillibridge</div>
+          <div class="dr">DR 3.26 / 2.71 = 5.97<br>UTR 3.68 / 2.75 = 6.43</div>
+        </div>
+        <div class="support">2 historical uses · 0–2 · 2 postseason</div>
+      </div>
+
+
+
+
+
+
+      <div class="total">Southern - Anderson/18&amp;Over3.0W · 21–2 overall · 87–28 courts</div>
+    </div>
+
+      <div class="disclosure">Registered Nationals rosters are dated 2026-09-21. Generated September 27, 2026 from the current Court Scout datasets.</div>
+    </div>
+  </section>
+
+
+
+
+
+
+  </main>
+
+
+
+</body></html>
