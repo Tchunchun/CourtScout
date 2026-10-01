@@ -3150,11 +3150,24 @@ function topOpponentPredictionsHtml(card, predictions, context) {
       ? `${prediction.ratingCoverage?.ratedPlayers ?? 0}/${prediction.ratingCoverage?.totalPlayers ?? 0} rated · ${prediction.unplayedPlayers?.length ?? 0} unplayed`
       : `${prediction.historicalSupport ?? 0}% support`;
   return `
+    ${visiblePredictions.length > 1 ? `
+      <div class="opponent-scenario-switcher">
+        ${visiblePredictions.map((prediction, index) => `
+          <button type="button" data-card-action="prediction"
+            data-prediction-rank="${prediction.rank}"
+            aria-pressed="${prediction.rank === selectedPrediction.rank}"
+            ${prediction.rank === selectedPrediction.rank ? "disabled" : ""}>
+            <span>Scenario ${index + 1}</span>
+            <strong>${escapeHtml(scenarioTitle(prediction))}</strong>
+            <small>${escapeHtml(prediction.confidence ?? "emerging")} · ${escapeHtml(scenarioSupport(prediction))}</small>
+          </button>
+        `).join("")}
+      </div>` : ""}
     <p class="opponent-scenario-coverage">
       Testing scenario ${selectedIndex + 1} of ${visiblePredictions.length}.
       ${predictions.length < 3
         ? "More scenarios will appear when additional distinct lineup history or reviewed tournament evidence is available."
-        : "Choose an alternate below to retest Our lineup."}
+        : "Choose an option above to retest Our lineup."}
     </p>
     <article class="selected-opponent-prediction">
       <header>
@@ -3198,19 +3211,6 @@ function topOpponentPredictionsHtml(card, predictions, context) {
       </footer>
       ${predictionRationaleHtml(selectedPrediction)}
     </article>
-    ${visiblePredictions.length > 1 ? `
-      <div class="opponent-scenario-switcher">
-        ${visiblePredictions.map((prediction, index) => `
-          <button type="button" data-card-action="prediction"
-            data-prediction-rank="${prediction.rank}"
-            aria-pressed="${prediction.rank === selectedPrediction.rank}"
-            ${prediction.rank === selectedPrediction.rank ? "disabled" : ""}>
-            <span>Scenario ${index + 1}</span>
-            <strong>${escapeHtml(scenarioTitle(prediction))}</strong>
-            <small>${escapeHtml(prediction.confidence ?? "emerging")} · ${escapeHtml(scenarioSupport(prediction))}</small>
-          </button>
-        `).join("")}
-      </div>` : ""}
     <details class="unused-roster-watch">
       <summary>
         <strong>Roster watch</strong>

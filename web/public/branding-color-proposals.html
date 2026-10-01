@@ -12,19 +12,22 @@
       --page-ink: #172033;
       --page-muted: #647083;
       --page-line: #d7dde6;
-      --brand: #1f4b99;
-      --brand-strong: #173c7d;
-      --accent: #dfff3f;
-      --ink: #172033;
+      --brand: #075daa;
+      --brand-strong: #064984;
+      --accent: #12a594;
+      --ink: #142b45;
       --muted: #5f6b7a;
-      --background: #f6f7f2;
+      --background: #f8fafc;
       --surface: #ffffff;
-      --line: #dde2e8;
-      --success: #187a55;
-      --warning: #b95f35;
+      --line: #d8e2ec;
+      --success: #16815f;
+      --warning: #d05f3b;
       --on-brand: #ffffff;
-      --on-accent: #172033;
+      --on-accent: #ffffff;
       --shadow: 0 24px 70px rgba(27, 40, 64, .13);
+      --weight-medium: 550;
+      --weight-semibold: 650;
+      --weight-bold: 720;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
@@ -41,11 +44,12 @@
     button { font: inherit; }
     button:focus-visible {
       outline: 3px solid var(--accent);
-      outline-offset: 3px;
+      outline-offset: 2px;
+      box-shadow: 0 0 0 6px var(--ink);
     }
     .page-shell { width: min(1460px, calc(100% - 48px)); margin: 0 auto; }
     .page-header {
-      padding: 56px 0 34px;
+      padding: 48px 0 32px;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -54,25 +58,25 @@
     .eyebrow {
       margin: 0 0 10px;
       color: #526075;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .14em;
+      font-size: 11px;
+      font-weight: var(--weight-bold);
+      letter-spacing: .13em;
       text-transform: uppercase;
     }
     h1 {
       max-width: 850px;
       margin: 0;
-      font-size: clamp(38px, 5vw, 72px);
-      font-weight: 680;
-      letter-spacing: -.055em;
-      line-height: .98;
+      font-size: clamp(34px, 4.25vw, 58px);
+      font-weight: var(--weight-semibold);
+      letter-spacing: -.04em;
+      line-height: 1.03;
     }
     .intro {
       max-width: 540px;
-      margin: 20px 0 0;
+      margin: 18px 0 0;
       color: var(--page-muted);
-      font-size: 17px;
-      line-height: 1.65;
+      font-size: 16px;
+      line-height: 1.6;
     }
     .recommendation {
       max-width: 330px;
@@ -86,12 +90,12 @@
       display: block;
       margin-bottom: 6px;
       color: #627087;
-      font-size: 11px;
-      font-weight: 800;
+      font-size: 10px;
+      font-weight: var(--weight-bold);
       letter-spacing: .11em;
       text-transform: uppercase;
     }
-    .recommendation strong { display: block; font-size: 18px; }
+    .recommendation strong { display: block; font-size: 17px; font-weight: var(--weight-semibold); }
     .recommendation p { margin: 7px 0 0; color: var(--page-muted); font-size: 13px; line-height: 1.5; }
 
     .palette-picker {
@@ -129,7 +133,7 @@
       background: var(--option-accent);
       box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
     }
-    .palette-option strong { display: block; overflow: hidden; font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }
+    .palette-option strong { display: block; overflow: hidden; font-size: 13px; font-weight: var(--weight-semibold); text-overflow: ellipsis; white-space: nowrap; }
     .palette-option small { display: block; margin-top: 3px; color: var(--page-muted); font-size: 12px; }
     .recommended-tag {
       padding: 4px 6px;
@@ -137,7 +141,7 @@
       background: #263349;
       border-radius: 4px;
       font-size: 9px;
-      font-weight: 800;
+      font-weight: var(--weight-bold);
       letter-spacing: .08em;
       text-transform: uppercase;
     }
@@ -167,16 +171,32 @@
       background: color-mix(in srgb, var(--surface), var(--background) 26%);
       border-bottom: 1px solid var(--line);
     }
-    .brand-lockup { display: flex; align-items: center; gap: 11px; font-size: 17px; font-weight: 750; }
+    .brand-lockup { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: var(--weight-semibold); }
     .brand-mark {
-      width: 38px;
-      height: 38px;
+      position: relative;
+      width: 34px;
+      height: 34px;
       display: grid;
       place-items: center;
-      color: var(--on-brand);
       background: var(--brand);
+      border-radius: 10px;
+    }
+    .brand-mark::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
       border-radius: 50%;
-      font-size: 18px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
+    }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 7px;
+      height: 14px;
+      border-left: 1.5px solid var(--on-accent);
+      border-radius: 50%;
+      transform: rotate(-24deg);
     }
     .app-steps { display: flex; align-self: stretch; gap: 30px; }
     .app-steps span {
@@ -185,10 +205,10 @@
       border-bottom: 3px solid transparent;
       color: var(--muted);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: var(--weight-medium);
     }
     .app-steps .active { color: var(--ink); border-color: var(--brand); }
-    .app-status { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .app-status { color: var(--muted); font-size: 12px; font-weight: var(--weight-medium); }
     .app-status::before { content: ""; width: 8px; height: 8px; margin-right: 7px; display: inline-block; background: var(--success); border-radius: 50%; }
 
     .app-layout { display: grid; grid-template-columns: 245px minmax(0, 1fr); }
@@ -199,12 +219,12 @@
     }
     .sidebar-label, .content-label {
       color: var(--brand);
-      font-size: 10px;
-      font-weight: 850;
-      letter-spacing: .15em;
+      font-size: 9px;
+      font-weight: var(--weight-bold);
+      letter-spacing: .13em;
       text-transform: uppercase;
     }
-    .sidebar h2 { margin: 8px 0 4px; color: var(--ink); font-size: 20px; }
+    .sidebar h2 { margin: 8px 0 4px; color: var(--ink); font-size: 18px; font-weight: var(--weight-semibold); }
     .sidebar > p { margin: 0 0 20px; color: var(--muted); font-size: 12px; line-height: 1.5; }
     .team-item {
       margin-bottom: 8px;
@@ -213,7 +233,7 @@
       border-left: 3px solid transparent;
       border-radius: 6px;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: var(--weight-medium);
       line-height: 1.4;
     }
     .team-item.active {
@@ -229,10 +249,10 @@
       max-width: 650px;
       margin: 9px 0 0;
       color: var(--ink);
-      font-size: clamp(30px, 4vw, 48px);
-      font-weight: 680;
-      letter-spacing: -.045em;
-      line-height: 1.02;
+      font-size: clamp(28px, 3.3vw, 40px);
+      font-weight: var(--weight-semibold);
+      letter-spacing: -.035em;
+      line-height: 1.08;
     }
     .content-top p { margin: 12px 0 0; color: var(--muted); font-size: 13px; }
     .primary-button {
@@ -244,7 +264,7 @@
       border: 0;
       border-radius: 6px;
       font-size: 13px;
-      font-weight: 750;
+      font-weight: var(--weight-semibold);
     }
     .notice {
       margin-top: 28px;
@@ -266,12 +286,13 @@
       color: #fff;
       background: var(--success);
       border-radius: 50%;
-      font-weight: 800;
+      font-weight: var(--weight-bold);
     }
+    .notice strong { font-weight: var(--weight-semibold); }
     .metrics { margin: 14px 0 18px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
     .metric { padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; }
-    .metric span { display: block; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
-    .metric strong { margin-top: 5px; display: block; color: var(--ink); font-size: 24px; line-height: 1; }
+    .metric span { display: block; color: var(--muted); font-size: 9px; font-weight: var(--weight-bold); letter-spacing: .08em; text-transform: uppercase; }
+    .metric strong { margin-top: 6px; display: block; color: var(--ink); font-size: 21px; font-weight: var(--weight-semibold); line-height: 1; }
 
     .table-card { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
     .table-toolbar {
@@ -283,14 +304,14 @@
       border-bottom: 1px solid var(--line);
     }
     .tabs { display: flex; align-self: stretch; gap: 24px; }
-    .tabs span { display: flex; align-items: center; color: var(--muted); border-bottom: 2px solid transparent; font-size: 12px; font-weight: 750; }
+    .tabs span { display: flex; align-items: center; color: var(--muted); border-bottom: 2px solid transparent; font-size: 12px; font-weight: var(--weight-medium); }
     .tabs .active { color: var(--ink); border-color: var(--brand); }
     .search { padding: 8px 12px; color: var(--muted); background: var(--background); border: 1px solid var(--line); border-radius: 5px; font-size: 11px; }
     .table-scroll { overflow-x: auto; }
     table { width: 100%; min-width: 720px; border-collapse: collapse; color: var(--ink); font-size: 11px; }
-    th { padding: 11px 13px; color: var(--muted); background: var(--background); text-align: left; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+    th { padding: 11px 13px; color: var(--muted); background: var(--background); text-align: left; font-size: 9px; font-weight: var(--weight-semibold); letter-spacing: .08em; text-transform: uppercase; }
     td { padding: 12px 13px; border-top: 1px solid var(--line); vertical-align: top; }
-    td strong { display: block; font-size: 11px; }
+    td strong { display: block; font-size: 11px; font-weight: var(--weight-medium); }
     td small { margin-top: 3px; display: block; color: var(--muted); font-size: 9px; }
     .result-pill {
       padding: 4px 7px;
@@ -298,9 +319,9 @@
       color: var(--success);
       background: color-mix(in srgb, var(--success), var(--surface) 88%);
       border-radius: 20px;
-      font-weight: 800;
+      font-weight: var(--weight-bold);
     }
-    .court { color: var(--brand); font-weight: 850; }
+    .court { color: var(--brand); font-weight: var(--weight-bold); }
 
     .palette-details { display: grid; gap: 16px; }
     .detail-card {
@@ -309,7 +330,7 @@
       border: 1px solid var(--page-line);
       border-radius: 14px;
     }
-    .detail-card h2 { margin: 0; font-size: 22px; letter-spacing: -.025em; }
+    .detail-card h2 { margin: 0; font-size: 20px; font-weight: var(--weight-semibold); letter-spacing: -.02em; }
     .detail-card > p { margin: 8px 0 0; color: var(--page-muted); font-size: 13px; line-height: 1.55; }
     .color-list { margin-top: 20px; display: grid; gap: 9px; }
     .color-row {
@@ -324,10 +345,10 @@
     .color-row code { color: #344056; font: 600 11px "SFMono-Regular", Consolas, monospace; }
     .usage-list { margin: 16px 0 0; padding: 0; list-style: none; }
     .usage-list li { padding: 10px 0; color: var(--page-muted); border-top: 1px solid #edf0f4; font-size: 12px; line-height: 1.45; }
-    .usage-list strong { color: var(--page-ink); }
+    .usage-list strong { color: var(--page-ink); font-weight: var(--weight-semibold); }
 
     .all-palettes { padding: 54px 0 70px; border-top: 1px solid var(--page-line); }
-    .all-palettes h2 { margin: 0; font-size: 30px; letter-spacing: -.035em; }
+    .all-palettes h2 { margin: 0; font-size: 26px; font-weight: var(--weight-semibold); letter-spacing: -.025em; }
     .all-palettes > p { margin: 8px 0 24px; color: var(--page-muted); }
     .palette-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .palette-card {
@@ -339,7 +360,7 @@
     .palette-strip { height: 70px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; }
     .palette-strip span { background: var(--strip); }
     .palette-copy { padding: 18px; }
-    .palette-copy strong { display: block; font-size: 16px; }
+    .palette-copy strong { display: block; font-size: 15px; font-weight: var(--weight-semibold); }
     .palette-copy p { min-height: 54px; margin: 7px 0 14px; color: var(--page-muted); font-size: 12px; line-height: 1.5; }
     .palette-copy button {
       padding: 8px 11px;
@@ -349,7 +370,7 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 11px;
-      font-weight: 750;
+      font-weight: var(--weight-semibold);
     }
     footer { padding: 20px 0 36px; color: var(--page-muted); border-top: 1px solid var(--page-line); font-size: 12px; }
 
@@ -366,7 +387,7 @@
     @media (max-width: 720px) {
       .page-shell { width: min(100% - 28px, 1460px); }
       .page-header { padding-top: 34px; }
-      h1 { font-size: 42px; }
+      h1 { font-size: 36px; }
       .palette-picker, .palette-cards, .palette-details { grid-template-columns: 1fr; }
       .palette-option { padding: 13px; }
       .app-nav { padding: 0 16px; }
@@ -378,7 +399,7 @@
       .sidebar { display: none; }
       .app-content { padding: 26px 18px 34px; }
       .content-top { align-items: flex-start; flex-direction: column; }
-      .content-top h2 { font-size: 31px; }
+      .content-top h2 { font-size: 27px; }
       .primary-button { width: 100%; }
       .metrics { grid-template-columns: repeat(2, 1fr); }
       .table-toolbar { padding: 0 12px; align-items: stretch; flex-direction: column; }
@@ -397,26 +418,26 @@
     </div>
     <aside class="recommendation">
       <span>Recommended direction</span>
-      <strong>Night Court</strong>
-      <p>Court blue creates a confident product identity while tennis-ball yellow remains a distinctive, disciplined accent.</p>
+      <strong>Modern Hard Court</strong>
+      <p>Cobalt and fresh turquoise create an energetic sports identity that remains clear across dense match data.</p>
     </aside>
   </header>
 
   <main>
     <section class="page-shell" aria-labelledby="preview-title">
       <div class="palette-picker" role="group" aria-label="Choose a branding palette">
-        <button class="palette-option" type="button" data-theme="night" aria-pressed="true" style="--option-primary:#1f4b99;--option-accent:#dfff3f">
+        <button class="palette-option" type="button" data-theme="night" aria-pressed="false" style="--option-primary:#1f4b99;--option-accent:#dfff3f">
           <span class="palette-orb" aria-hidden="true"></span>
           <span><strong>Night Court</strong><small>Premium · clear · focused</small></span>
-          <span class="recommended-tag">Recommended</span>
         </button>
         <button class="palette-option" type="button" data-theme="heritage" aria-pressed="false" style="--option-primary:#4b234c;--option-accent:#e4f43a">
           <span class="palette-orb" aria-hidden="true"></span>
           <span><strong>Wimbledon Heritage</strong><small>Classic · editorial · warm</small></span>
         </button>
-        <button class="palette-option" type="button" data-theme="hardcourt" aria-pressed="false" style="--option-primary:#075daa;--option-accent:#12a594">
+        <button class="palette-option" type="button" data-theme="hardcourt" aria-pressed="true" style="--option-primary:#075daa;--option-accent:#12a594">
           <span class="palette-orb" aria-hidden="true"></span>
           <span><strong>Modern Hard Court</strong><small>Energetic · digital · fresh</small></span>
+          <span class="recommended-tag">Recommended</span>
         </button>
         <button class="palette-option" type="button" data-theme="clay" aria-pressed="false" style="--option-primary:#a84f32;--option-accent:#55755c">
           <span class="palette-orb" aria-hidden="true"></span>
@@ -427,7 +448,7 @@
       <div class="comparison-grid">
         <article class="preview-frame" id="themePreview" aria-labelledby="preview-title">
           <nav class="app-nav" aria-label="Tennis Court Scout preview navigation">
-            <div class="brand-lockup"><span class="brand-mark" aria-hidden="true">◯</span><span>Tennis Court Scout</span></div>
+            <div class="brand-lockup"><span class="brand-mark" aria-hidden="true"></span><span>Tennis Court Scout</span></div>
             <div class="app-steps"><span class="active">Scout teams</span><span>Match cards</span></div>
             <span class="app-status">Data collection</span>
           </nav>
@@ -649,7 +670,7 @@
       button.addEventListener("click", () => selectTheme(button.dataset.choose, true));
     });
 
-    selectTheme("night");
+    selectTheme("hardcourt");
   </script>
 </body>
 </html>
