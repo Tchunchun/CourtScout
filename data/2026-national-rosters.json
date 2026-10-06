@@ -1,0 +1,335 @@
+{
+  "version": 1,
+  "event": "2026 USTA National Championship - Adult 18 & Over 3.0 Women",
+  "activeAsOf": "2026-09-21",
+  "source": "Tournament Info.pdf - USTA National Tournament registered teams roster",
+  "teams": [
+    {
+      "datasetId": "2026-caribbean-society",
+      "name": "Caribbean - Dumont/18&Over3.0W",
+      "section": "Caribbean",
+      "captain": "Charlotte Dumont",
+      "roster": [
+        { "name": "Charlotte Dumont", "ntrp": "3.0", "gender": "F" },
+        { "name": "Sofia Arroyo", "ntrp": "2.5", "gender": "F" },
+        { "name": "Patricia Cabrera", "ntrp": "3.0", "gender": "F" },
+        { "name": "Indhira Nunez", "ntrp": "3.0", "gender": "F" },
+        { "name": "Yerielis Crespo Gines", "ntrp": "3.0", "gender": "F" },
+        { "name": "Maria del Mar Monroig", "ntrp": "3.0", "gender": "F" },
+        { "name": "Paola Ortiz", "ntrp": "3.0", "gender": "F" },
+        { "name": "Vanessa Méndez", "ntrp": "3.0", "gender": "F" },
+        { "name": "Frances Quinones", "ntrp": "3.0", "gender": "F" },
+        { "name": "Alondra Vargas", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-eastern-huh-yoo-18-over-3-0w",
+      "name": "Eastern - Huh-Yoo/18&Over3.0W",
+      "section": "Eastern",
+      "captain": "Jina Huh-Yoo",
+      "roster": [
+        { "name": "Jina Huh-Yoo", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jenna Hammond", "ntrp": "3.0", "gender": "F" },
+        { "name": "Tara Gebbia", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jing Li", "ntrp": "3.0", "gender": "F" },
+        { "name": "Makiko Ishida", "ntrp": "3.0", "gender": "F" },
+        { "name": "Karen Jang", "ntrp": "3.0", "gender": "F" },
+        { "name": "Chikayo Poston", "ntrp": "3.0", "gender": "F" },
+        { "name": "Sharon Jacobson", "ntrp": "3.0", "gender": "F" },
+        { "name": "Qitian He", "ntrp": "3.0", "gender": "F" },
+        { "name": "MAIKO AMANO", "ntrp": "3.0", "gender": "F" },
+        { "name": "Christine Young", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-florida-broward-contreras",
+      "name": "Florida - Contreras/18&Over3.0W",
+      "section": "Florida",
+      "captain": "Sara Contreras",
+      "roster": [
+        { "name": "Sara Contreras", "ntrp": "3.0", "gender": "F" },
+        { "name": "Roselin Barrena", "ntrp": "3.0", "gender": "F" },
+        { "name": "CAROLINA SANABRIA", "ntrp": "3.0", "gender": "F" },
+        { "name": "Alexandra Navas", "ntrp": "3.0", "gender": "F" },
+        { "name": "Alicia lopez", "ntrp": "3.0", "gender": "F" },
+        { "name": "Georgina Friend", "ntrp": "3.0", "gender": "F" },
+        { "name": "Natalia Smyth", "ntrp": "3.0", "gender": "F" },
+        { "name": "Geraldine Blakely", "ntrp": "3.0", "gender": "F" },
+        { "name": "Liliana Arbelaez", "ntrp": "3.0", "gender": "F" },
+        { "name": "Carolina Santamarina", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-hawaii-game-set-matcha",
+      "name": "Hawaii - Uratsuka/18&Over3.0W",
+      "section": "Hawaii",
+      "captain": "Jin Smith",
+      "roster": [
+        { "name": "Staci Ah Quin", "ntrp": "3.0", "gender": "F" },
+        { "name": "Christina Mello", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lovely Lacbay", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jin Smith", "ntrp": "3.0", "gender": "F" },
+        { "name": "Li Xuan He", "ntrp": "3.0", "gender": "F" },
+        { "name": "Susan Locquiao", "ntrp": "3.0", "gender": "F" },
+        { "name": "Alexandra Balgos", "ntrp": "3.0", "gender": "F" },
+        { "name": "Chanelle Labanon", "ntrp": "2.5", "gender": "F" },
+        { "name": "Minako Taniguchi", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kumiko Kida", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lea Taniguchi", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kody Uratsuka", "ntrp": "3.0", "gender": "M" }
+      ]
+    },
+    {
+      "datasetId": "2026-intermountain-utah-nebeker-18-over-3-0w",
+      "name": "Intermountain - Nebeker/18&Over3.0W",
+      "section": "Intermountain",
+      "captain": "Cortney Nebeker",
+      "roster": [
+        { "name": "Cortney Nebeker", "ntrp": "3.0", "gender": "F" },
+        { "name": "Carina Lambert", "ntrp": "3.0", "gender": "F" },
+        { "name": "Linda Lasater", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jamie Sorensen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jen Solomon", "ntrp": "2.5", "gender": "F" },
+        { "name": "Kari Bennett", "ntrp": "3.0", "gender": "F" },
+        { "name": "Annie Lindsley", "ntrp": "3.0", "gender": "M" },
+        { "name": "Tiffany VandenAkker", "ntrp": "3.0", "gender": "F" },
+        { "name": "Wendy Hopkins", "ntrp": "3.0", "gender": "F" },
+        { "name": "Katie Murphy", "ntrp": "3.0", "gender": "F" },
+        { "name": "Brooke Iverson", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-mid-atlantic-munden-serve-ority-sisters-2-0",
+      "name": "Mid-Atlantic - Munden/18&Over3.0W",
+      "section": "Mid-Atlantic",
+      "captain": "Candace Munden",
+      "roster": [
+        { "name": "Candace Munden", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kelsey O'Hanlon", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kara Pepe", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kelly Blessing", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jennifer Moore", "ntrp": "3.0", "gender": "F" },
+        { "name": "Katie Kubichan", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lisa Hall", "ntrp": "3.0", "gender": "F" },
+        { "name": "Cori Damuth", "ntrp": "3.0", "gender": "F" },
+        { "name": "Ashley Holmes", "ntrp": "3.0", "gender": "F" },
+        { "name": "Alexis Davis", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-middle-states-mchugh-18-over-3-0w",
+      "name": "Middle States - McHugh/18&Over3.0W",
+      "section": "Middle States",
+      "captain": "Lucinda McHugh",
+      "roster": [
+        { "name": "Lucinda McHugh", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jennifer Buehner", "ntrp": "3.0", "gender": "F" },
+        { "name": "Raheeq Darweesh", "ntrp": "3.0", "gender": "F" },
+        { "name": "Dori Pitzner", "ntrp": "3.0", "gender": "F" },
+        { "name": "Greta Chavey", "ntrp": "2.5", "gender": "F" },
+        { "name": "Susan Kadel", "ntrp": "3.0", "gender": "F" },
+        { "name": "Veronica Merelo", "ntrp": "3.0", "gender": "F" },
+        { "name": "Erica Jolly", "ntrp": "2.5", "gender": "F" },
+        { "name": "Amy Lewis", "ntrp": "3.0", "gender": "F" },
+        { "name": "Katherine Prough", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lesley Rollins", "ntrp": "3.0", "gender": "F" },
+        { "name": "Sarah Rowland", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-midwest-team-ryan-central-indiana",
+      "name": "Midwest - Ryan/18&Over3.0W",
+      "section": "Midwest",
+      "captain": "Kathy Ryan",
+      "roster": [
+        { "name": "Kathy Ryan", "ntrp": "3.0", "gender": "F" },
+        { "name": "Carrie Grass", "ntrp": "3.0", "gender": "F" },
+        { "name": "Katelyn Marciniak", "ntrp": "3.0", "gender": "F" },
+        { "name": "Melissa Patterson", "ntrp": "3.0", "gender": "F" },
+        { "name": "Keenan Copeland", "ntrp": "3.0", "gender": "F" },
+        { "name": "Andrea Hoffman", "ntrp": "3.0", "gender": "F" },
+        { "name": "Tamara Kafka", "ntrp": "3.0", "gender": "F" },
+        { "name": "Olivia Goldblatt", "ntrp": "3.0", "gender": "F" },
+        { "name": "Melody Gierbolini", "ntrp": "3.0", "gender": "F" },
+        { "name": "Ally Hedrick", "ntrp": "3.0", "gender": "F" },
+        { "name": "Nicole Mathenge", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-missouri-valley-hoa-mikel-18-over3-0w",
+      "name": "Missouri Valley - Mikel/18&over3.0W",
+      "section": "Missouri Valley",
+      "captain": "Megan Mikel",
+      "roster": [
+        { "name": "Megan Mikel", "ntrp": "3.0", "gender": "F" },
+        { "name": "Taylor Hines", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lisa Korte", "ntrp": "3.5", "gender": "F" },
+        { "name": "Katie Stevens", "ntrp": "3.0", "gender": "F" },
+        { "name": "Mary Kathryn Pynes", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kylie Acosta", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kristen Ashner", "ntrp": "3.0", "gender": "F" },
+        { "name": "Hannah Harbour", "ntrp": "3.0", "gender": "F" },
+        { "name": "Olena Reid", "ntrp": "3.0", "gender": "F" },
+        { "name": "Meredith Davidson", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-new-england-fv-ace-angels",
+      "name": "New England - Castrogiovanni/18&Over3.0W",
+      "section": "New England",
+      "captain": "Morgan Castrogiovanni",
+      "roster": [
+        { "name": "Makenna Nakib", "ntrp": "3.0", "gender": "F" },
+        { "name": "Morgan Castrogiovanni", "ntrp": "3.0", "gender": "F" },
+        { "name": "Elizabeth Hennessy", "ntrp": "3.0", "gender": "F" },
+        { "name": "Maria Tcherni-Buzzeo", "ntrp": "3.0", "gender": "F" },
+        { "name": "Terrylynn Pearlman", "ntrp": "3.0", "gender": "F" },
+        { "name": "Julie Puzzo", "ntrp": "3.0", "gender": "F" },
+        { "name": "Michelle Andersen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kristen Renehan", "ntrp": "3.0", "gender": "F" },
+        { "name": "Amanda Dyal", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-sunnyvale-mtc-18aw3-0d",
+      "name": "Northern California - Chen/18&Over3.0W",
+      "section": "Northern California",
+      "captain": "Chengyu Chen",
+      "roster": [
+        { "name": "Chengyu Chen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Yuling Liu", "ntrp": "3.0", "gender": "F" },
+        { "name": "Hanshan Ye", "ntrp": "3.0", "gender": "F" },
+        { "name": "Xiaocen Shan", "ntrp": "3.0", "gender": "F" },
+        { "name": "Nanxi Li", "ntrp": "3.0", "gender": "F" },
+        { "name": "Xinyi Liu", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jiamin Chen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Stacey Wang", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lacy Zhu", "ntrp": "3.0", "gender": "F" },
+        { "name": "Gwendolyn Chee", "ntrp": "3.0", "gender": "F" },
+        { "name": "Seojin Park", "ntrp": "3.0", "gender": "F" },
+        { "name": "Keryun Dukellis", "ntrp": "3.0", "gender": "F" },
+        { "name": "Xiaodan Kang", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jingwei Xu", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-northern-wickstrom-18-over3-0w",
+      "name": "Northern - Wickstrom/18&Over3.0W",
+      "section": "Northern",
+      "captain": "Eleanor Wickstrom",
+      "roster": [
+        { "name": "Eleanor Wickstrom", "ntrp": "3.0", "gender": "F" },
+        { "name": "Maren Franzen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Maya Khaira", "ntrp": "3.0", "gender": "F" },
+        { "name": "Laurie Walsh", "ntrp": "3.0", "gender": "F" },
+        { "name": "Rachel Hardeman", "ntrp": "3.0", "gender": "F" },
+        { "name": "TERESA HENRIKSEN", "ntrp": "3.0", "gender": "F" },
+        { "name": "Shannon Murphy", "ntrp": "3.0", "gender": "F" },
+        { "name": "Ilana Fromer", "ntrp": "3.0", "gender": "F" },
+        { "name": "Marie Plourde", "ntrp": "3.0", "gender": "F" },
+        { "name": "Loren Turner", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lisa Kent", "ntrp": "3.0", "gender": "F" },
+        { "name": "Murphy Anderson", "ntrp": "3.0", "gender": "F" },
+        { "name": "Elena Zupfer", "ntrp": "3.0", "gender": "F" },
+        { "name": "Wendy Nguyen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Melissa Khaira", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-nww-aytc-tong",
+      "name": "Pacific Northwest - Tong/18&Over3.0W",
+      "section": "Pacific Northwest",
+      "captain": "chunchun tong",
+      "roster": [
+        { "name": "chunchun tong", "ntrp": "3.0", "gender": "F" },
+        { "name": "Chiqu Li", "ntrp": "3.0", "gender": "F" },
+        { "name": "Sasha Tanji", "ntrp": "3.0", "gender": "F" },
+        { "name": "Huan Chen", "ntrp": "2.5", "gender": "F" },
+        { "name": "Tammy Holliday", "ntrp": "3.0", "gender": "F" },
+        { "name": "Katherine Xu", "ntrp": "3.0", "gender": "F" },
+        { "name": "Yuchen Zhang", "ntrp": "3.0", "gender": "F" },
+        { "name": "Zeran Wang", "ntrp": "3.0", "gender": "F" },
+        { "name": "Xiayi Li", "ntrp": "3.0", "gender": "F" },
+        { "name": "Chen Xie", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-southern-california-olsen-18-over-3-0w",
+      "name": "Southern California - Olsen/18&Over3.0W",
+      "section": "Southern California",
+      "captain": "Trina Olsen",
+      "roster": [
+        { "name": "Trina Olsen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jennifer Jerhoff", "ntrp": "3.0", "gender": "F" },
+        { "name": "Raleigh Wilson", "ntrp": "3.0", "gender": "F" },
+        { "name": "Sheena Scott", "ntrp": "3.0", "gender": "F" },
+        { "name": "Laurie Mellott", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jeanine Campbell", "ntrp": "3.0", "gender": "F" },
+        { "name": "Christy Swearingen", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lacy Alyn", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lori Albright", "ntrp": "3.0", "gender": "F" },
+        { "name": "Renee Gershenson", "ntrp": "3.0", "gender": "F" },
+        { "name": "Shirin Hellmold", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-southern-eanderson-queens",
+      "name": "Southern - Anderson/18&Over3.0W",
+      "section": "Southern",
+      "captain": "Emilia Anderson",
+      "roster": [
+        { "name": "Emilia Anderson", "ntrp": "3.0", "gender": "F" },
+        { "name": "Devon Fuller", "ntrp": "3.0", "gender": "F" },
+        { "name": "Daniella James", "ntrp": "3.0", "gender": "F" },
+        { "name": "Emma Segal", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lindsay Lillibridge", "ntrp": "3.0", "gender": "F" },
+        { "name": "RACHEL Patterson", "ntrp": "3.0", "gender": "F" },
+        { "name": "Amber Filingeri", "ntrp": "3.0", "gender": "F" },
+        { "name": "Leah Hackworth", "ntrp": "3.0", "gender": "F" },
+        { "name": "Alison Milas", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-southwest-delgado-adult-18-over-3-0w",
+      "name": "Southwest - Delgado/18&Over/3.0W",
+      "section": "Southwest",
+      "captain": "Zaira Delgado",
+      "roster": [
+        { "name": "Zaira Delgado", "ntrp": "3.0", "gender": "F" },
+        { "name": "Lilian Quinones", "ntrp": "3.0", "gender": "F" },
+        { "name": "Laura Akemi Aizawa", "ntrp": "2.5", "gender": "F" },
+        { "name": "Mara Culebro", "ntrp": "3.0", "gender": "F" },
+        { "name": "CARMEN LEMUS", "ntrp": "2.5", "gender": "F" },
+        { "name": "Daniela Baylon", "ntrp": "3.0", "gender": "F" },
+        { "name": "Sandra Castaneda", "ntrp": "3.0", "gender": "F" },
+        { "name": "Maria De Lourdes Martinez Garcia", "ntrp": "3.0", "gender": "F" },
+        { "name": "CYNTHIA PERUSQUIA", "ntrp": "3.0", "gender": "F" },
+        { "name": "Rocio Veronica P Cortes", "ntrp": "3.0", "gender": "F" },
+        { "name": "Camila Olmos", "ntrp": "3.0", "gender": "F" },
+        { "name": "Sofia de Santiago", "ntrp": "3.0", "gender": "F" }
+      ]
+    },
+    {
+      "datasetId": "2026-texas-cooper-fc-martin-w3-0t",
+      "name": "Texas - Martin/18&Over3.0W",
+      "section": "Texas",
+      "captain": "Shannon Martin",
+      "roster": [
+        { "name": "Shannon Martin", "ntrp": "3.0", "gender": "F" },
+        { "name": "Elvia Jordan", "ntrp": "3.0", "gender": "F" },
+        { "name": "Debra Shapira", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jaclyn Friedman", "ntrp": "3.0", "gender": "F" },
+        { "name": "Abbey Maus", "ntrp": "3.0", "gender": "F" },
+        { "name": "Megan Trimble", "ntrp": "3.0", "gender": "F" },
+        { "name": "Elizabeth Nabholtz", "ntrp": "3.0", "gender": "F" },
+        { "name": "Laurel Stone", "ntrp": "3.0", "gender": "F" },
+        { "name": "Chelsea Bailey", "ntrp": "3.0", "gender": "F" },
+        { "name": "Chillon Joersz", "ntrp": "3.0", "gender": "F" },
+        { "name": "Jennie Hornbaker", "ntrp": "3.0", "gender": "F" },
+        { "name": "Samantha Orer", "ntrp": "3.0", "gender": "F" },
+        { "name": "Kendra Aichele", "ntrp": "3.0", "gender": "F" },
+        { "name": "Mariana Villalba", "ntrp": "3.0", "gender": "F" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "teams": [
+    {
+      "datasetId": "2026-caribbean-society",
+      "name": "Caribbean - Dumont/18&Over3.0W",
+      "section": "Caribbean",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Society"
+    },
+    {
+      "datasetId": "2026-eastern-huh-yoo-18-over-3-0w",
+      "name": "Eastern - Huh-Yoo/18&Over3.0W",
+      "section": "Eastern",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=NJ%3aInfinity"
+    },
+    {
+      "datasetId": "2026-florida-broward-contreras",
+      "name": "Florida - Contreras/18&Over3.0W",
+      "section": "Florida",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Broward%2fContreras&s=2"
+    },
+    {
+      "datasetId": "2026-hawaii-game-set-matcha",
+      "name": "Hawaii - Uratsuka/18&Over3.0W",
+      "section": "Hawaii",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Game%20Set%20Matcha"
+    },
+    {
+      "datasetId": "2026-intermountain-utah-nebeker-18-over-3-0w",
+      "name": "Intermountain - Nebeker/18&Over3.0W",
+      "section": "Intermountain",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Utah%2fNebeker%2f18%26Over%2f3.0W"
+    },
+    {
+      "datasetId": "2026-mid-atlantic-munden-serve-ority-sisters-2-0",
+      "name": "Mid-Atlantic - Munden/18&Over3.0W",
+      "section": "Mid-Atlantic",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Munden%20-%20Serve-ority%20Sisters%202.0"
+    },
+    {
+      "datasetId": "2026-middle-states-mchugh-18-over-3-0w",
+      "name": "Middle States - McHugh/18&Over3.0W",
+      "section": "Middle States",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=%28CPD%29%20Hershey%20Topspin%20-%20McHugh"
+    },
+    {
+      "datasetId": "2026-midwest-team-ryan-central-indiana",
+      "name": "Midwest - Ryan/18&Over3.0W",
+      "section": "Midwest",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Indy%20A18%203.0W%20IRCD%20Ryan&s=2"
+    },
+    {
+      "datasetId": "2026-missouri-valley-hoa-mikel-18-over3-0w",
+      "name": "Missouri Valley - Mikel/18&over3.0W",
+      "section": "Missouri Valley",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=HOA%2fMikel%2f18%26over3.0W"
+    },
+    {
+      "datasetId": "2026-new-england-fv-ace-angels",
+      "name": "New England - Castrogiovanni/18&Over3.0W",
+      "section": "New England",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=FV%3aAce%20Angels%3aCastrogiovanni%2fTcherni-Buzzeo"
+    },
+    {
+      "datasetId": "2026-sunnyvale-mtc-18aw3-0d",
+      "name": "Northern California - Chen/18&Over3.0W",
+      "section": "Northern California",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=SUNNYVALE%20MTC%2018AW3.0D"
+    },
+    {
+      "datasetId": "2026-northern-wickstrom-18-over3-0w",
+      "name": "Northern - Wickstrom/18&Over3.0W",
+      "section": "Northern",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Northern%2fWickstrom%2f18%26Over3.0W"
+    },
+    {
+      "datasetId": "2026-nww-aytc-tong",
+      "name": "Pacific Northwest - Tong/18&Over3.0W",
+      "section": "Pacific Northwest",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=NWW-AYTC-Tong&year=2026&s=2"
+    },
+    {
+      "datasetId": "2026-southern-california-olsen-18-over-3-0w",
+      "name": "Southern California - Olsen/18&Over3.0W",
+      "section": "Southern California",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=SoCal%2fOlsen%2f18%26Over3.0W"
+    },
+    {
+      "datasetId": "2026-southern-eanderson-queens",
+      "name": "Southern - Anderson/18&Over3.0W",
+      "section": "Southern",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=EAnderson%20(Queens)"
+    },
+    {
+      "datasetId": "2026-southwest-delgado-adult-18-over-3-0w",
+      "name": "Southwest - Delgado/18&Over/3.0W",
+      "section": "Southwest",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=GEPTA%2fDelgado%2fAdult%2018%20%26%20over%2f3.0W"
+    },
+    {
+      "datasetId": "2026-texas-cooper-fc-martin-w3-0t",
+      "name": "Texas - Martin/18&Over3.0W",
+      "section": "Texas",
+      "sourceUrl": "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2026&teamname=Cooper%20FC%2fMartin%20W3.0T"
+    }
+  ]
+}
