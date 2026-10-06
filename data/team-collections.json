@@ -29,6 +29,31 @@
         "roundRobinMatches": []
       },
       "createdAt": "2026-09-01T16:57:48.467Z"
+    },
+    {
+      "id": "846f2cfa",
+      "name": "2026 Adult 18+ 3.0 Women Nationals",
+      "competitionLevel": "national",
+      "teamDatasetIds": [
+        "2026-caribbean-society",
+        "2026-eastern-huh-yoo-18-over-3-0w",
+        "2026-florida-broward-contreras",
+        "2026-hawaii-game-set-matcha",
+        "2026-intermountain-utah-nebeker-18-over-3-0w",
+        "2026-mid-atlantic-munden-serve-ority-sisters-2-0",
+        "2026-middle-states-mchugh-18-over-3-0w",
+        "2026-midwest-team-ryan-central-indiana",
+        "2026-missouri-valley-hoa-mikel-18-over3-0w",
+        "2026-new-england-fv-ace-angels",
+        "2026-sunnyvale-mtc-18aw3-0d",
+        "2026-northern-wickstrom-18-over3-0w",
+        "2026-nww-aytc-tong",
+        "2026-southern-california-olsen-18-over-3-0w",
+        "2026-southern-eanderson-queens",
+        "2026-southwest-delgado-adult-18-over-3-0w",
+        "2026-texas-cooper-fc-martin-w3-0t"
+      ],
+      "createdAt": "2026-10-01T16:55:44.877Z"
     }
   ]
 }
