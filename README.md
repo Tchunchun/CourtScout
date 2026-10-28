@@ -83,6 +83,15 @@ Refresh runs against a temporary copy, validates the result, and only then
 replaces the existing dataset; a failed refresh leaves the previous data
 available.
 
+## UTR screenshot proposals (prototype)
+
+`npm run utr:screenshot -- --dataset <team-data.json> --image <screenshot.png>`
+reads a UTR profile or team-roster screenshot with OCR and prints proposed
+singles/doubles UTR matches for the dataset's players, each with a status
+(`proposed`, `needs_review`, `ambiguous`, `duplicate_match`, `no_match`) and a
+confidence. It never writes ratings into the dataset; masked displays such as
+`3.xx` stay masked. Use `--text <file>` to parse OCR text you already have.
+
 ## Validation
 
 ```bash
