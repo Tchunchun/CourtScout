@@ -2,9 +2,9 @@
 
 Date: 2026-10-28
 
-Status: Proposal. The owner has not yet chosen an architecture; this document
-records the recommended path so the decision can be made against concrete
-phases.
+Status: Phase 2 (read-only native app) started on 2026-10-28 with a SwiftUI
+client on the recommended architecture, against the local server. Phase 1
+(hosting and auth) is not done yet. See `ios/README.md`.
 
 ## Goal
 
@@ -150,7 +150,7 @@ prepared beforehand; the port is only needed to recompute analysis offline.
 |---|---|---|
 | 0. Screenshot prototype | `scripts/utr-screenshot-ocr.mjs` and tests (done); try it on real UTR profile and roster screenshots | Real screenshots parse with the expected pairs, or parser fixes are captured as fixtures |
 | 1. Hosted backend | Pre-work items 2–4, auth, Azure deployment, home-screen web app | Owner uses the hosted web app from an iPhone for a real match |
-| 2. Read-only native app | SwiftUI shell, `Codable` types generated from the schema, teams, rosters, analysis views, offline cache | App shows cached team reports in airplane mode |
+| 2. Read-only native app | SwiftUI shell, `Codable` types generated from the schema, teams, rosters, analysis views, offline cache (in progress: `ios/CourtScoutKit`; checked on macOS, not yet on an iPhone or the Simulator) | App shows cached team reports in airplane mode |
 | 3. Native Match Day | Match Day Cards with sync and conflict handling, lineup scoring on-device or from cached snapshots | A full Match Day runs offline and syncs afterward |
 | 4. Vision OCR | Result screenshots and UTR screenshots through Vision, confirmation UI, contract update for screenshot provenance | A user confirms exact UTR from screenshots and the ratings appear in reports with the right provenance |
 | 5. TestFlight and App Store | Privacy policy, account deletion, review notes, terms review | Approved TestFlight build; App Store submission when the terms review is clear |

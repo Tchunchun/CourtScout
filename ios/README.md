@@ -1,10 +1,76 @@
 # Court Scout iOS
 
-`CourtScoutModels` is a Swift package with `Codable` types for the canonical
-dataset in `contracts/team-data.schema.json` (contract `2.0.0`). It is the
-first piece of Phase 2 in `requirements/ios-app-plan.md`.
+The native iPhone app from Phase 2 of `requirements/ios-app-plan.md`: a
+read-only app for team reports that works offline. It reads from the existing
+Court Scout server (`npm start`), so the server has to be running.
 
-## Regenerating
+| Folder | What it is | Builds without Xcode |
+|---|---|---|
+| `CourtScoutModels` | `Codable` types generated from `contracts/team-data.schema.json` | Yes |
+| `CourtScoutKit` | All app code: API client, offline cache, SwiftUI screens. Builds for iOS and macOS. | Yes (macOS) |
+| `CourtScout.swiftpm` | The iPhone app itself, a thin wrapper around `CourtScoutKit` | No — open in Xcode |
+
+## Run on iPhone or the iOS Simulator (needs Xcode)
+
+1. Start the server: `npm start`.
+2. In Xcode, choose File > Open… and pick `ios/CourtScout.swiftpm`.
+3. Pick an iPhone simulator and press Run.
+
+The Simulator reaches the server at `http://localhost:4173`, the default. On a
+real iPhone, open Settings (gear icon) in the app and enter
+`http://<this Mac's IP>:4173`; both devices must be on the same network. To
+install on your own iPhone, choose your Apple ID team under Signing &
+Capabilities first.
+
+## Preview on a Mac (no Xcode needed)
+
+```bash
+ios/CourtScoutKit/scripts/run-mac-preview.sh
+```
+
+This opens the same SwiftUI screens in an iPhone-sized Mac window. iOS-only
+details (navigation bar style, keyboard type) differ slightly.
+
+## What the app does
+
+- **Teams:** every gathered team, grouped by event collection, with search and
+  pull to refresh.
+- **Team report:** Overview (record, eligibility counts, data notes, sources),
+  Roster (DR, UTR, NTRP, eligibility, role), Lineups (up to three likely
+  lineups with court history), and Matches (results with court-by-court
+  scores).
+- **Eligibility level:** defaults to the team's own level from its event
+  collection, like the web app, and can be switched per report.
+- **Offline:** every report opened is saved on the device. When the server is
+  unreachable the app shows the saved copy with an "Offline" banner. Server
+  errors, such as a removed team, are shown instead of stale data.
+
+## Checks
+
+Run these from the repository root.
+
+```bash
+swift run --package-path ios/CourtScoutModels verify-models
+```
+
+Decodes every checked-in `data/collections/**/team-data.json` and checks that
+encoding it again gives identical JSON.
+
+```bash
+swift run --package-path ios/CourtScoutKit verify-kit
+```
+
+With the server running, decodes every team's catalog entry, dataset, and
+analysis through the app's API client, and checks the offline fallback.
+
+With Xcode installed and selected (`xcode-select -p` points into `Xcode.app`),
+the Swift Testing suite for the models also runs:
+
+```bash
+swift test --package-path ios/CourtScoutModels
+```
+
+## Regenerating the models
 
 `TeamData.generated.swift` is generated. After changing the schema, run:
 
@@ -14,25 +80,7 @@ npm run generate:swift
 
 `npm test` fails when the checked-in Swift file is out of date.
 
-## Testing
-
-Without Xcode, run the same checks with:
-
-```bash
-swift run --package-path ios/CourtScoutModels verify-models
-```
-
-With Xcode installed and selected (`xcode-select -p` points into `Xcode.app`):
-
-```bash
-swift test --package-path ios/CourtScoutModels
-```
-
-This needs a full Xcode install; the Command Line Tools alone do not ship a
-usable Swift Testing module. The tests decode every checked-in `data/collections/**/team-data.json` and
-check that encoding it again gives the same JSON.
-
-## Mapping rules
+### Mapping rules
 
 - Schema objects become structs. Objects nested inside a property become
   nested types, such as `RosterPlayer.UTR` and `Match.TeamResult`.
@@ -47,3 +95,15 @@ check that encoding it again gives the same JSON.
 - Objects without declared properties, such as `dataQuality`, are `JSONValue`.
 - Dates and date-times stay as `String`, the same as in the JSON. Parse them
   where they are displayed.
+
+## Not done yet
+
+- Hosting and sign-in (Phase 1). The app has no authentication and expects a
+  trusted local server.
+- Match Day Cards, schedules, and editing (Phase 3).
+- Running on the Simulator or an iPhone has not been tested, because this
+  machine has no Xcode. The wrapper's app code compiles; the wrapper's
+  `Package.swift` is only checked by Xcode.
+- A real iPhone reaches the Mac over plain HTTP. iOS App Transport Security
+  may block that; if it does, the fix is the HTTPS hosting in Phase 1 rather
+  than an exception in the app.
