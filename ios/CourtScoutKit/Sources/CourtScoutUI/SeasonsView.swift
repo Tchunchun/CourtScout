@@ -4,6 +4,7 @@ import SwiftUI
 enum Route: Hashable {
     case season(TeamCollection)
     case team(TeamSummary)
+    case matchup(ourTeam: TeamSummary, opponent: TeamSummary, scope: String?)
     case allTeams
 }
 
@@ -23,6 +24,8 @@ struct SeasonsView: View {
                         SeasonView(collection: collection, seasons: model)
                     case .team(let summary):
                         TeamDetailView(summary: summary, scopes: model.catalog?.eligibilityScopes ?? [:])
+                    case .matchup(let ourTeam, let opponent, let scope):
+                        MatchupView(ourTeam: ourTeam, opponent: opponent, scope: scope)
                     case .allTeams:
                         AllTeamsView(catalog: model.catalog, collections: model.collections)
                     }
@@ -178,17 +181,23 @@ struct SeasonView: View {
 
             if let next = season.nextMatch {
                 Section("Next match") {
-                    NextMatchCard(entry: next)
+                    NextMatchCard(entry: next, destination: prepare(next, in: season))
+                    if let opponent = next.opponent {
+                        NavigationLink(value: Route.team(opponent)) {
+                            Label("Scout \(opponent.team.name)", systemImage: "doc.text.magnifyingglass")
+                                .font(.subheadline)
+                        }
+                    }
                 }
             }
             if season.upcoming.count > 1 {
                 Section("Upcoming") {
-                    ForEach(season.upcoming.dropFirst()) { MatchRow(entry: $0) }
+                    ForEach(season.upcoming.dropFirst()) { MatchRow(entry: $0, destination: prepare($0, in: season)) }
                 }
             }
             if !season.awaitingResult.isEmpty {
                 Section {
-                    ForEach(season.awaitingResult) { MatchRow(entry: $0) }
+                    ForEach(season.awaitingResult) { MatchRow(entry: $0, destination: prepare($0, in: season)) }
                 } header: {
                     Text("Result not collected yet")
                 } footer: {
@@ -197,20 +206,33 @@ struct SeasonView: View {
             }
             if !season.completed.isEmpty {
                 Section("Completed") {
-                    ForEach(season.completed.reversed()) { MatchRow(entry: $0) }
+                    ForEach(season.completed.reversed()) { entry in
+                        MatchRow(entry: entry, destination: entry.opponent.map { Route.team($0) })
+                    }
                 }
             }
             scheduleNote(season)
 
             if !season.scoutingPool.isEmpty {
+                // Without a schedule, any team in the event may be next, so
+                // each one opens lineup preparation once Our team is known.
+                let prepareAny = season.matches.isEmpty && season.ourTeam != nil
                 Section {
                     ForEach(season.scoutingPool) { summary in
-                        NavigationLink(value: Route.team(summary)) { TeamRow(summary: summary) }
+                        NavigationLink(value: prepareAny
+                            ? Route.matchup(ourTeam: season.ourTeam!, opponent: summary, scope: season.collection.competitionLevel)
+                            : Route.team(summary)) {
+                            TeamRow(summary: summary)
+                        }
                     }
                 } header: {
                     Text(season.matches.isEmpty
                          ? "Teams in this event (\(season.scoutingPool.count))"
                          : "Scouting pool (\(season.scoutingPool.count))")
+                } footer: {
+                    if prepareAny {
+                        Text("Tap a team to prepare your lineup against it.")
+                    }
                 }
             }
         }
@@ -265,6 +287,14 @@ struct SeasonView: View {
         }
     }
 
+    /// Upcoming matches open lineup preparation when both teams are known.
+    private func prepare(_ entry: SeasonMatch, in season: Season) -> Route? {
+        guard let ourTeam = season.ourTeam, let opponent = entry.opponent else {
+            return entry.opponent.map { Route.team($0) }
+        }
+        return .matchup(ourTeam: ourTeam, opponent: opponent, scope: season.collection.competitionLevel)
+    }
+
     private func choose(_ teamId: String?) {
         seasons.setDeviceOurTeam(teamId, for: model.collection.id)
         Task { await model.load(app.repository, seasons: seasons) }
@@ -273,6 +303,7 @@ struct SeasonView: View {
 
 struct NextMatchCard: View {
     var entry: SeasonMatch
+    var destination: Route?
 
     var body: some View {
         let content = VStack(alignment: .leading, spacing: 6) {
@@ -287,11 +318,16 @@ struct NextMatchCard: View {
             }
             if entry.opponent == nil {
                 Text("Opponent not gathered yet").font(.footnote).foregroundStyle(Palette.warning)
+            } else if case .matchup = destination {
+                Label("Prepare lineup", systemImage: "rectangle.split.2x1")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Palette.brand)
+                    .padding(.top, 2)
             }
         }
         .padding(.vertical, 4)
-        if let opponent = entry.opponent {
-            NavigationLink(value: Route.team(opponent)) { content }
+        if let destination {
+            NavigationLink(value: destination) { content }
         } else {
             content
         }
@@ -300,6 +336,7 @@ struct NextMatchCard: View {
 
 struct MatchRow: View {
     var entry: SeasonMatch
+    var destination: Route?
 
     var body: some View {
         let content = HStack {
@@ -318,8 +355,8 @@ struct MatchRow: View {
                     .monospacedDigit()
             }
         }
-        if let opponent = entry.opponent {
-            NavigationLink(value: Route.team(opponent)) { content }
+        if let destination {
+            NavigationLink(value: destination) { content }
         } else {
             content
         }

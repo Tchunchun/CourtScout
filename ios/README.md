@@ -61,6 +61,20 @@ The app follows a captain's season, not a list of every gathered team.
     default, then a choice saved on this device.
   - The schedule is the season's confirmed schedule. Without one, the app
     falls back to Our team's TennisRecord schedule and says it is unconfirmed.
+- **Prepare lineup:** tap an upcoming match (or, with no schedule, any team
+  in the event) to test Our lineup against the opponent's three scenarios:
+  most likely, strongest by ratings (unconfirmed), and alternate.
+  - Each court shows Our players, theirs, DR and UTR averages, our margin,
+    and an edge: favorable, swing, challenging, or limited data.
+  - Tap a player to change them; eligible players are listed first, and a
+    player already on another court swaps places. The server re-checks the
+    lineup (complete, no repeats, eligibility, mixed pairs and NTRP) after
+    every change.
+  - The lineup starts from Our team's own most likely lineup and is saved on
+    the device per opponent. The score per scenario and the worst case show
+    how well the lineup holds up if the opponent does something else.
+  - The comparison comes from `POST /api/matchup`, which reuses
+    `web/public/match-card.mjs`, so the phone and the web Match Day Card agree.
 - **Team report:** Overview (record, eligibility counts, data notes, sources),
   Roster (DR, UTR, NTRP, eligibility, role), Lineups (up to three likely
   lineups with court history), and Matches (results with court-by-court
@@ -124,8 +138,8 @@ npm run generate:swift
 
 - Hosting and sign-in (Phase 1). The app has no authentication and expects a
   trusted local server.
-- The matchup screen (Our lineup against the opponent's predicted lineups),
-  next in Phase 2.
+- Saving a phone lineup as a web Match Day Card, and on-site evidence in the
+  phone matchup.
 - Saving Our team to the server from the phone. The existing server route also
   rewrites the confirmed schedule from TennisRecord, which is wrong for
   imported Nationals schedules, so the phone keeps its choice locally.

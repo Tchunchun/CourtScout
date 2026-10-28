@@ -18,6 +18,7 @@ public enum APIError: LocalizedError, Equatable {
 /// can be checked against a stub without a network.
 public protocol HTTPTransport: Sendable {
     func get(_ path: String, query: [URLQueryItem]) async throws -> Data
+    func post(_ path: String, body: Data) async throws -> Data
 }
 
 public struct URLSessionTransport: HTTPTransport {
@@ -45,7 +46,19 @@ public struct URLSessionTransport: HTTPTransport {
             resolvingAgainstBaseURL: false
         )!
         if !query.isEmpty { components.queryItems = query }
-        var request = URLRequest(url: components.url!, timeoutInterval: 20)
+        return try await send(URLRequest(url: components.url!, timeoutInterval: 20))
+    }
+
+    public func post(_ path: String, body: Data) async throws -> Data {
+        var request = URLRequest(url: baseURL.appending(path: path), timeoutInterval: 20)
+        request.httpMethod = "POST"
+        request.httpBody = body
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        return try await send(request)
+    }
+
+    private func send(_ request: URLRequest) async throws -> Data {
+        var request = request
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         let (data, response) = try await session.data(for: request)
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0

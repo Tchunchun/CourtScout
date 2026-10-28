@@ -17,8 +17,7 @@ import {
   topDoublesPairsTable
 } from "./render.mjs";
 import {
-  buildRatingCeilingPrediction,
-  buildOnsitePredictions,
+  buildOpponentScenarios,
   challengeLineupAgainstPredictions,
   cloneMatchCard,
   compareCourtLine,
@@ -2469,62 +2468,13 @@ function evidenceForCard(card) {
 }
 
 function matchCardPredictions(card, context) {
-  const activeRoster = activeNationalRoster(context.opponentData);
-  const genderByName = new Map(
-    activeRoster.map(player => [player.name, player.gender])
-  );
-  const ntrpByName = new Map(
-    activeRoster.map(player => [player.name, player.ntrp?.level])
-  );
-  const maxCombinedNtrp = Number(context.opponentData.team?.level);
-  const evidencePredictions = buildOnsitePredictions(
-    context.opponentAnalysis.lineupPredictions?.predictions ?? [],
-    evidenceForCard(card)
-  ).map(prediction => ({
-    ...prediction,
-    lines: prediction.lines.map(line => ({
-      ...line,
-      players: line.players.flatMap(name => {
-        const activePlayer = activeRoster.find(player =>
-          player.name.localeCompare(name, undefined, {
-            sensitivity: "base"
-          }) === 0
-        );
-        return activePlayer ? [activePlayer.name] : [];
-      })
-    }))
-  })).filter(prediction =>
-    card.leagueFormat !== "mixed" ||
-    prediction.lines.every(line =>
-      validateMixedPair(
-        line.players ?? [],
-        genderByName,
-        ntrpByName,
-        maxCombinedNtrp
-      ).valid
-    )
-  );
-  const ratingCeiling = buildRatingCeilingPrediction({
-    roster: activeRoster,
-    eligibilityPlayers:
-      context.opponentAnalysis.eligibility?.players ?? [],
-    pairs: context.opponentAnalysis.doubles?.pairs ?? [],
-    matches: context.opponentData.matches ?? [],
+  return buildOpponentScenarios({
+    opponentData: context.opponentData,
+    opponentAnalysis: context.opponentAnalysis,
+    activeRoster: activeNationalRoster(context.opponentData),
     leagueFormat: card.leagueFormat,
-    maxCombinedNtrp
+    evidence: evidenceForCard(card)
   });
-  const mostLikely = evidencePredictions[0]
-    ? { ...evidencePredictions[0], scenarioType: "most_likely" }
-    : null;
-  const alternate = evidencePredictions[1]
-    ? { ...evidencePredictions[1], scenarioType: "alternate" }
-    : null;
-  return [mostLikely, ratingCeiling, alternate]
-    .filter(Boolean)
-    .map((prediction, index) => ({
-      ...prediction,
-      rank: index + 1
-    }));
 }
 
 function opponentPrediction(card, context, rank) {

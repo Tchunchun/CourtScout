@@ -13,6 +13,7 @@ import {
   ELIGIBILITY_SCOPES
 } from "../scripts/lib/analysis.mjs";
 import { readJson, writeJsonAtomic } from "../scripts/lib/io.mjs";
+import { buildMatchup } from "../scripts/lib/matchup.mjs";
 import {
   listTeamCatalog,
   readCatalogTeam
@@ -1323,6 +1324,34 @@ export function createAppServer(options = {}) {
             requestUrl.searchParams.get("refresh") === "true"
           )
         );
+        return;
+      }
+
+      if (request.method === "POST" && pathname === "/api/matchup") {
+        const body = await readBody(request);
+        if (typeof body.ourTeamId !== "string" || typeof body.opponentTeamId !== "string") {
+          throw new Error("Choose Our team and an opponent.");
+        }
+        if (body.ourTeamId === body.opponentTeamId) {
+          throw new Error("Our team and the opponent must be different teams.");
+        }
+        const eligibilityScope =
+          body.eligibility ??
+          await eligibilityScopeForTeam(dataDirectory, body.ourTeamId);
+        const [ourData, opponentData, ourAnalysis, opponentAnalysis] =
+          await Promise.all([
+            readCatalogTeam(dataDirectory, body.ourTeamId),
+            readCatalogTeam(dataDirectory, body.opponentTeamId),
+            getTeamAnalysis(dataDirectory, body.ourTeamId, eligibilityScope),
+            getTeamAnalysis(dataDirectory, body.opponentTeamId, eligibilityScope)
+          ]);
+        json(response, 200, buildMatchup({
+          ourData,
+          ourAnalysis,
+          opponentData,
+          opponentAnalysis,
+          draft: body.draft ?? null
+        }));
         return;
       }
 

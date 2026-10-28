@@ -10,6 +10,10 @@ struct UnreachableTransport: HTTPTransport {
     func get(_ path: String, query: [URLQueryItem]) async throws -> Data {
         throw URLError(.notConnectedToInternet)
     }
+
+    func post(_ path: String, body: Data) async throws -> Data {
+        throw URLError(.notConnectedToInternet)
+    }
 }
 
 let address = CommandLine.arguments.dropFirst().first ?? "http://localhost:4173"
@@ -83,6 +87,62 @@ do {
             "\(season.matches.count) scheduled, \(season.scoutingPool.count) in scouting pool")
     }
 
+    // Matchups: every scheduled opponent in seasons with a confirmed schedule,
+    // plus one single-gender Nationals pairing with history on both sides.
+    // Opponents are resolved the way the season screen does it, since a
+    // confirmed schedule can link to a dataset folder that was replaced.
+    var matchupPairs: [(String, String)] = []
+    for collection in collections.value.collections {
+        guard let schedule = try await live.eventSchedule(collection.id).value.schedule else { continue }
+        let season = buildSeason(
+            collection: collection, teams: catalog.value.teams, schedule: schedule,
+            ourTeamData: nil, deviceChoice: nil, today: today
+        )
+        if let ours = season.ourTeam {
+            matchupPairs += Set(season.matches.compactMap { $0.opponent?.id }).sorted().map { (ours.id, $0) }
+        }
+    }
+    let nationals = catalog.value.teams.filter { $0.id.contains("3.0-women-nationals") }
+    if let ours = nationals.first(where: { $0.datasetId.contains("sunnyvale") }),
+       let theirs = nationals.first(where: { $0.datasetId.contains("eastern") }) {
+        matchupPairs.append((ours.id, theirs.id))
+        let matchup = try await live.matchup(ourTeamId: ours.id, opponentTeamId: theirs.id).value
+        check(matchup.scenarios.map(\.scenarioType) == ["most_likely", "rating_ceiling", "alternate"],
+              "Nationals matchup scenarios: \(matchup.scenarios.map(\.scenarioType))")
+        check(matchup.validation.valid, "Suggested Nationals lineup is not valid")
+        check(matchup.challenges.allSatisfy { $0.comparisons.count == 5 }, "Nationals courts missing")
+
+        // Swapping S1 and S2 keeps every player listed once and is re-checked.
+        let s1 = matchup.player(court: "S1", slot: 0)!, s2 = matchup.player(court: "S2", slot: 0)!
+        let swapped = assigning(s2, to: "S1", slot: 0, in: matchup.draft)
+        check(swapped["S1"] == [s2] && swapped["S2"] == [s1], "Swap did not exchange S1 and S2")
+        let rechecked = try await live.matchup(ourTeamId: ours.id, opponentTeamId: theirs.id, draft: swapped).value
+        check(rechecked.draft == swapped && rechecked.validation.valid, "Server did not keep the swapped lineup")
+        let cleared = assigning(nil, to: "D1", slot: 1, in: swapped)
+        let incomplete = try await live.matchup(ourTeamId: ours.id, opponentTeamId: theirs.id, draft: cleared).value
+        check(!incomplete.validation.complete, "An open slot was not reported")
+
+        // Offline, the last comparison for the pair comes back from the cache.
+        let offlineMatchup = try await TeamRepository(transport: UnreachableTransport(), cache: cache)
+            .matchup(ourTeamId: ours.id, opponentTeamId: theirs.id)
+        check(offlineMatchup.source == .offline && offlineMatchup.value.draft == cleared,
+              "Offline matchup is not the last one fetched")
+    } else {
+        failures.append("Nationals teams for the matchup check not found")
+    }
+    for (ourId, opponentId) in matchupPairs {
+        do {
+            let matchup = try await live.matchup(ourTeamId: ourId, opponentTeamId: opponentId).value
+            check(matchup.challenges.count == matchup.scenarios.count, "\(opponentId): challenge per scenario")
+        } catch {
+            failures.append("matchup \(opponentId): \(error)")
+        }
+    }
+    do {
+        _ = try await live.matchup(ourTeamId: matchupPairs[0].0, opponentTeamId: "collections/missing")
+        failures.append("Matchup with an unknown opponent did not fail")
+    } catch APIError.http {}
+
     // An explicit scope is honored.
     let local = try await live.analysis(catalog.value.teams[0].id, scope: "local")
     check(local.value.eligibility.scope == "local", "Explicit eligibility scope ignored")
@@ -111,6 +171,7 @@ do {
 
     if failures.isEmpty {
         seasonLines.forEach { print("  \($0)") }
+        print("  \(matchupPairs.count) matchups decoded")
         print("verify-kit: \(catalog.value.teams.count) teams and \(analyses) analyses decoded from \(address); offline cache checks passed")
     }
 } catch {

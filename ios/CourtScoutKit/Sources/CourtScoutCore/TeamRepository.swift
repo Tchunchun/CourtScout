@@ -94,15 +94,45 @@ public struct TeamRepository: Sendable {
         )
     }
 
+    /// Our lineup against the opponent's predicted lineups. Without a draft,
+    /// the server starts from Our team's most likely lineup. Offline, the
+    /// last comparison for this pair is shown.
+    public func matchup(
+        ourTeamId: String,
+        opponentTeamId: String,
+        eligibility: String? = nil,
+        draft: [String: [String]]? = nil
+    ) async throws -> Loaded<Matchup> {
+        let body = try JSONEncoder().encode(MatchupRequest(
+            ourTeamId: ourTeamId,
+            opponentTeamId: opponentTeamId,
+            eligibility: eligibility,
+            draft: draft
+        ))
+        return try await load(Matchup.self, key: "matchup-\(ourTeamId)-\(opponentTeamId)") {
+            try await transport.post("api/matchup", body: body)
+        }
+    }
+
     private func load<Value: Decodable & Sendable>(
         _ type: Value.Type,
         key: String,
         path: String,
         query: [URLQueryItem] = []
     ) async throws -> Loaded<Value> {
+        try await load(type, key: key) {
+            try await transport.get(path, query: query)
+        }
+    }
+
+    private func load<Value: Decodable & Sendable>(
+        _ type: Value.Type,
+        key: String,
+        fetch: () async throws -> Data
+    ) async throws -> Loaded<Value> {
         let data: Data
         do {
-            data = try await transport.get(path, query: query)
+            data = try await fetch()
         } catch {
             // Server errors (such as an unknown team) are real answers; only
             // unreachable servers fall back to the saved copy.

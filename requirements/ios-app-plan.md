@@ -4,7 +4,9 @@ Date: 2026-10-28
 
 Status: Phase 2 (read-only native app) started on 2026-10-28 with a SwiftUI
 client on the recommended architecture, against the local server. Phase 1
-(hosting and auth) is not done yet. See `ios/README.md`.
+(hosting and auth) is not done yet. See `ios/README.md`. Running Phase 2 ahead
+of Phase 1 is temporary: until Phase 1 ships, the app has no sign-in and only
+reaches a trusted local server.
 
 ## Goal
 
@@ -62,9 +64,28 @@ The SwiftUI client depends on a formal, versioned API rather than on what
 4. Excluded from the phone: `/api/utr/connect` and `/api/utr/status`. They
    drive a local signed-in browser and do not make sense for a hosted server.
 5. Every response carries `contractVersion`; the app refuses to write data with
-   a newer major version than it understands.
-6. Add bearer-token auth (Sign in with Apple to start) before hosting. The
+   a newer major version than it understands. No response sends it today, so
+   adding it is part of pre-work item 2.
+6. The server also returns a minimum supported app version. Older builds show
+   an "update required" screen instead of writing data, so a breaking server
+   change cannot corrupt data from a stale TestFlight build.
+7. Add bearer-token auth (Sign in with Apple to start) before hosting. The
    current server assumes a trusted localhost user.
+8. Collection jobs (`POST /api/v1/jobs`, `POST /api/v1/refresh-jobs`) get a
+   per-user rate limit and a shared server-side queue, so hosted users cannot
+   overload TennisRecord or run up hosting costs.
+9. Add `POST /api/v1/client-errors` (or use MetricKit) so builds in the field
+   report crashes and decode or sync failures.
+
+### Accounts and sharing
+
+Decide these in Phase 1, because they shape the store's schema:
+
+- Who can sign up: the owner only, invited captains, or anyone.
+- Who owns data: user-owned state (Match Day Cards, notes, confirmed
+  screenshot ratings) belongs to a team workspace, not to one person.
+- How a co-captain or teammate is invited to a workspace, and which roles can
+  edit cards versus only read them.
 
 ## Phone user flow
 
@@ -86,15 +107,16 @@ phone therefore starts from seasons, not from a list of every gathered team.
 4. **Prepare lineup / matchup:** Our lineup built from eligible, available
    players; court-by-court edges against each predicted scenario; expected
    courts won per scenario; and the lineup that holds up across scenarios.
-   P0, next. The comparison should be a server route that reuses
-   `web/public/match-card.mjs` so there is one implementation.
+   **Done** as `POST /api/matchup`, which reuses `web/public/match-card.mjs`
+   (the scenario assembly moved there from `app.js`, so web and phone share
+   it).
 5. **Day of match:** availability, posted-lineup photo, final lineup sharing,
    results. P2.
 
 | Priority | Scope | Status |
 |---|---|---|
 | P0 | Seasons home, season screen, Our team | Done (Our team saved on device when the server has none) |
-| P0 | Matchup screen | Next |
+| P0 | Matchup screen | Done (lineup saved on device; not yet a web Match Day Card) |
 | P1 | Threat board, scenario differences, coverage warnings, start a season | Not started |
 | P2 | Day-of availability, lineup photo, sharing, results | Not started |
 
@@ -118,6 +140,10 @@ checking in a spike before committing to a Swift port:
 
 The cached-snapshot option is enough for offline Match Day if lineups are
 prepared beforehand; the port is only needed to recompute analysis offline.
+
+Cached snapshots are the fallback for this season. A JavaScriptCore spike at
+the start of Phase 3, limited to running `analyzeTeam` against the golden
+files, decides whether Phase 3 recomputes analysis on-device.
 
 ## Exact UTR on iPhone
 
@@ -144,6 +170,16 @@ prepared beforehand; the port is only needed to recompute analysis offline.
   Storage for `team-data.json` and analysis snapshots).
 - The phone keeps an offline cache: SwiftData or SQLite for collections, cards,
   and schedules; cached `team-data.json` and analysis snapshots as files.
+- The offline cache lives in Application Support, not Caches: iOS can purge
+  the Caches directory under storage pressure, which would lose a report right
+  before a match. Match Day data is never evicted automatically; the user
+  removes it. (Today `OfflineCache` uses Caches; move it in Phase 2.)
+- "Prepare for match day" downloads an event in one step: every opponent's
+  `team-data.json`, analysis snapshots for the needed eligibility scope, the
+  event schedule, and the Match Day Cards. Only opening a report is not enough
+  to cache it.
+- Every cached report shows its age ("saved 2 days ago") and the dataset's
+  retrieval date, so the user knows how stale it is.
 - Canonical datasets are read-only on the phone. Only the server collects or
   refreshes them, matching the contract rule that analysis never rewrites
   source data.
@@ -154,6 +190,11 @@ prepared beforehand; the port is only needed to recompute analysis offline.
   per-device UI preferences.
 - Match Day Cards keep working offline and queue writes until the phone is
   back online.
+- Server pre-work for this: `PUT /api/match-cards` replaces the whole card list
+  today. Phase 3 needs per-card routes (`PUT /api/v1/match-cards/:id`) with a
+  card ID, revision, and `409` on stale writes, and each queued write carries
+  an idempotency key so a retry after a dropped connection is not applied
+  twice.
 
 ## App Store and terms-of-use risks
 
@@ -165,31 +206,48 @@ prepared beforehand; the port is only needed to recompute analysis offline.
 | Guideline 5.1 (privacy) | Player names and ratings are personal data. Publish a privacy policy, add an account deletion flow (required when sign-in exists), and fill in the privacy nutrition labels. |
 | Unofficial UTR login fallback | Off by default, clearly labeled, credentials only in the Keychain. Drop it if UTR objects or a partner API becomes available. |
 | Screenshot OCR misreads a rating | Every match needs user confirmation; masked bands stay masked; low OCR confidence forces review. |
+| Hosted collection jobs overload source sites or run up costs | Per-user rate limits and a shared job queue on the server (API contract item 8). |
+
+## Match Day usability
+
+Match Day happens courtside, often in sunlight and in a hurry. Match Day views
+support Dynamic Type and high-contrast colors, use large tap targets, and keep
+the lineup and score entry reachable with one hand. Check these with
+Accessibility Inspector before Phase 3 is done.
 
 ## Pre-work (before Swift)
 
 1. Split `web/public/app.js` into modules by view so the API calls the UI
    depends on are visible.
-2. Version and document `/api/*` (see API contract).
+2. Version and document `/api/*` (see API contract), including
+   `contractVersion` and the minimum app version in every response.
 3. Turn test fixtures into golden files: a small set of `team-data.json`
    inputs with checked-in `analysis/<scope>.json` outputs, validated against
    the schema in `npm test`. The Swift port must reproduce them.
 4. Move `team-collections.json` and `match-cards.json` into the shared store.
+5. Replace whole-list `PUT /api/match-cards` with per-card routes that carry a
+   revision and accept an idempotency key (see Data sync).
+6. Add rate limits and a queue for collection jobs.
 
 ## Milestones
 
 | Phase | Scope | Done when |
 |---|---|---|
 | 0. Screenshot prototype | `scripts/utr-screenshot-ocr.mjs` and tests (done); try it on real UTR profile and roster screenshots | Real screenshots parse with the expected pairs, or parser fixes are captured as fixtures |
-| 1. Hosted backend | Pre-work items 2–4, auth, Azure deployment, home-screen web app | Owner uses the hosted web app from an iPhone for a real match |
-| 2. Read-only native app | SwiftUI shell, `Codable` types generated from the schema, teams, rosters, analysis views, offline cache (in progress: `ios/CourtScoutKit`; runs on the iOS Simulator, not yet tested on a physical iPhone) | App shows cached team reports in airplane mode |
-| 3. Native Match Day | Match Day Cards with sync and conflict handling, lineup scoring on-device or from cached snapshots | A full Match Day runs offline and syncs afterward |
+| 1. Hosted backend | Pre-work items 2–6, auth and the accounts-and-sharing decisions, Azure deployment over HTTPS, home-screen web app | Owner uses the hosted web app from an iPhone for a real match, and the native app runs on a physical iPhone against the hosted server over HTTPS |
+| 2. Read-only native app | SwiftUI shell, `Codable` types generated from the schema, teams, rosters, analysis views, offline cache in Application Support, "prepare for match day" download, cache age display (in progress: `ios/CourtScoutKit`; runs on the iOS Simulator, not yet tested on a physical iPhone) | After preparing an event and switching to airplane mode, every opponent's report opens with its saved age shown |
+| 3. Native Match Day | JavaScriptCore spike decides on-device analysis; Match Day Cards with per-card sync, conflict handling, and idempotent retries; lineup scoring on-device or from cached snapshots; Match Day usability checks; client error reporting | A full Match Day runs offline and syncs afterward, with no duplicated or lost card edits |
 | 4. Vision OCR | Result screenshots and UTR screenshots through Vision, confirmation UI, contract update for screenshot provenance | A user confirms exact UTR from screenshots and the ratings appear in reports with the right provenance |
 | 5. TestFlight and App Store | Privacy policy, account deletion, review notes, terms review | Approved TestFlight build; App Store submission when the terms review is clear |
 
 ## Open decisions for the owner
 
-1. Native SwiftUI client vs. hosted web app only for this season.
+1. Whether the native app reaches TestFlight this season, or the hosted web
+   app is enough until next season. (Native work has started in Phase 2.)
 2. Swift port of `analysis.mjs` vs. JavaScriptCore vs. cached snapshots.
+   Cached snapshots are the default for this season; the Phase 3 spike decides
+   the rest.
 3. Whether to contact UTR about partner API access now.
 4. ~~Whether to generate Swift `Codable` types now.~~ Done: `ios/CourtScoutModels`.
+5. Who can sign up and how team workspaces are shared (see Accounts and
+   sharing).

@@ -921,6 +921,75 @@ export function buildRatingCeilingPrediction({
   };
 }
 
+/**
+ * The three opponent scenarios a Match Day Card tests Our lineup against:
+ * most likely and alternate (history plus onsite evidence) and the rating
+ * ceiling. `activeRoster` is the opponent's active roster (national roster
+ * when one was imported); history-based lines drop players not on it.
+ */
+export function buildOpponentScenarios({
+  opponentData,
+  opponentAnalysis,
+  activeRoster,
+  leagueFormat = "single_gender",
+  evidence = []
+}) {
+  const genderByName = new Map(
+    activeRoster.map(player => [player.name, player.gender])
+  );
+  const ntrpByName = new Map(
+    activeRoster.map(player => [player.name, player.ntrp?.level])
+  );
+  const maxCombinedNtrp = Number(opponentData.team?.level);
+  const evidencePredictions = buildOnsitePredictions(
+    opponentAnalysis.lineupPredictions?.predictions ?? [],
+    evidence
+  ).map(prediction => ({
+    ...prediction,
+    lines: prediction.lines.map(line => ({
+      ...line,
+      players: line.players.flatMap(name => {
+        const activePlayer = activeRoster.find(player =>
+          player.name.localeCompare(name, undefined, {
+            sensitivity: "base"
+          }) === 0
+        );
+        return activePlayer ? [activePlayer.name] : [];
+      })
+    }))
+  })).filter(prediction =>
+    leagueFormat !== "mixed" ||
+    prediction.lines.every(line =>
+      validateMixedPair(
+        line.players ?? [],
+        genderByName,
+        ntrpByName,
+        maxCombinedNtrp
+      ).valid
+    )
+  );
+  const ratingCeiling = buildRatingCeilingPrediction({
+    roster: activeRoster,
+    eligibilityPlayers: opponentAnalysis.eligibility?.players ?? [],
+    pairs: opponentAnalysis.doubles?.pairs ?? [],
+    matches: opponentData.matches ?? [],
+    leagueFormat,
+    maxCombinedNtrp
+  });
+  const mostLikely = evidencePredictions[0]
+    ? { ...evidencePredictions[0], scenarioType: "most_likely" }
+    : null;
+  const alternate = evidencePredictions[1]
+    ? { ...evidencePredictions[1], scenarioType: "alternate" }
+    : null;
+  return [mostLikely, ratingCeiling, alternate]
+    .filter(Boolean)
+    .map((prediction, index) => ({
+      ...prediction,
+      rank: index + 1
+    }));
+}
+
 export function cloneMatchCard(card, input) {
   const now = input.now ?? new Date().toISOString();
   return {
