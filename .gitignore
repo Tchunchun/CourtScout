@@ -23,3 +23,7 @@ data/collections/*
 # Generated scouting reports.
 /*_ScoutingReport_*.html
 /Example/
+
+# Swift Package Manager build output.
+.build/
+.swiftpm/

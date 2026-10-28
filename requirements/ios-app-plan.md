@@ -160,4 +160,4 @@ prepared beforehand; the port is only needed to recompute analysis offline.
 1. Native SwiftUI client vs. hosted web app only for this season.
 2. Swift port of `analysis.mjs` vs. JavaScriptCore vs. cached snapshots.
 3. Whether to contact UTR about partner API access now.
-4. Whether to generate Swift `Codable` types into `ios/` now or at Phase 2.
+4. ~~Whether to generate Swift `Codable` types now.~~ Done: `ios/CourtScoutModels`.
