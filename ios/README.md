@@ -16,6 +16,14 @@ npm run generate:swift
 
 ## Testing
 
+Without Xcode, run the same checks with:
+
+```bash
+swift run --package-path ios/CourtScoutModels verify-models
+```
+
+With Xcode installed and selected (`xcode-select -p` points into `Xcode.app`):
+
 ```bash
 swift test --package-path ios/CourtScoutModels
 ```
