@@ -221,7 +221,8 @@ struct PlayerCard: View {
             if let note = player.standoutNote {
                 Text(note).font(.footnote).foregroundStyle(.secondary)
             }
-            if let needed = player.matchesNeeded, needed > 0 {
+            // The server's note usually explains eligibility already.
+            if player.standoutNote == nil, let needed = player.matchesNeeded, needed > 0 {
                 Text("Needs \(needed) more match\(needed == 1 ? "" : "es") to qualify")
                     .font(.footnote.weight(.medium))
                     .foregroundStyle(Palette.warning)
@@ -248,7 +249,7 @@ struct LineupsTab: View {
                         HStack {
                             SectionLabel(text: "Likely lineup \(prediction.rank)")
                             Spacer()
-                            Badge(text: prediction.confidence.capitalized, color: Palette.accent)
+                            Badge(text: "\(prediction.confidence.capitalized) confidence", color: Palette.accent)
                         }
                         ForEach(prediction.lines) { line in
                             HStack(alignment: .firstTextBaseline, spacing: 10) {

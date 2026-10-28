@@ -16,6 +16,22 @@ Court Scout server (`npm start`), so the server has to be running.
 2. In Xcode, choose File > Open… and pick `ios/CourtScout.swiftpm`.
 3. Pick an iPhone simulator and press Run.
 
+From the command line instead:
+
+```bash
+cd ios/CourtScout.swiftpm
+xcodebuild -scheme CourtScout -destination 'generic/platform=iOS Simulator' -derivedDataPath ../.build/DerivedData build
+xcrun simctl install booted "../.build/DerivedData/Build/Products/Debug-iphonesimulator/Court Scout.app"
+xcrun simctl launch booted com.courtscout.app
+```
+
+Xcode only offers generic destinations for this package, so build for "Any
+iOS Simulator" and install on a booted device as above. If the build fails
+with "No available simulator runtimes", the installed Simulator runtime does
+not match Xcode's iOS SDK: list both with `xcrun simctl runtime match list`
+and point the SDK at the installed runtime, e.g.
+`xcrun simctl runtime match set iphoneos26.2 23D8133`.
+
 The Simulator reaches the server at `http://localhost:4173`, the default. On a
 real iPhone, open Settings (gear icon) in the app and enter
 `http://<this Mac's IP>:4173`; both devices must be on the same network. To
@@ -101,9 +117,8 @@ npm run generate:swift
 - Hosting and sign-in (Phase 1). The app has no authentication and expects a
   trusted local server.
 - Match Day Cards, schedules, and editing (Phase 3).
-- Running on the Simulator or an iPhone has not been tested, because this
-  machine has no Xcode. The wrapper's app code compiles; the wrapper's
-  `Package.swift` is only checked by Xcode.
+- Tested on the iOS 26.3 Simulator (iPhone 17 Pro); not yet on a physical
+  iPhone.
 - A real iPhone reaches the Mac over plain HTTP. iOS App Transport Security
   may block that; if it does, the fix is the HTTPS hosting in Phase 1 rather
   than an exception in the app.
