@@ -49,6 +49,40 @@ do {
         }
     }
 
+    // Seasons: Our team, schedule, and opponent links.
+    let today = ISO8601DateFormatter.string(from: .now, timeZone: .current, formatOptions: [.withFullDate])
+    var seasonLines: [String] = []
+    for collection in orderedSeasons(collections.value.collections) {
+        let schedule = try await live.eventSchedule(collection.id).value.schedule
+        let season = buildSeason(
+            collection: collection, teams: catalog.value.teams, schedule: schedule,
+            ourTeamData: nil, deviceChoice: nil, today: today
+        )
+        check(season.teams.count == collection.teamDatasetIds.count, "\(collection.name): season lost teams")
+        let pooled = season.scoutingPool.count + Set(season.matches.compactMap { $0.opponent?.id }).count +
+            (season.ourTeam == nil ? 0 : 1)
+        check(pooled == season.teams.count, "\(collection.name): teams missing from schedule and pool")
+        if let schedule {
+            check(season.ourTeam?.id == schedule.ourTeamId, "\(collection.name): Our team not from schedule")
+            check(season.matches.count == schedule.matches.count, "\(collection.name): schedule rows lost")
+            check(season.matches.allSatisfy { $0.opponent != nil }, "\(collection.name): unlinked opponent")
+
+            // Without the confirmed schedule, Our team's TennisRecord schedule
+            // must still find the same opponents by profile link.
+            let ours = try await live.teamData(schedule.ourTeamId).value
+            let fallback = buildSeason(
+                collection: collection, teams: catalog.value.teams, schedule: nil,
+                ourTeamData: ours, deviceChoice: schedule.ourTeamId, today: today
+            )
+            check(fallback.scheduleSource == .tennisRecord, "\(collection.name): fallback schedule unused")
+            check(fallback.matches.compactMap { $0.opponent?.id }.sorted() ==
+                  season.matches.compactMap { $0.opponent?.id }.sorted(),
+                  "\(collection.name): fallback linked different opponents")
+        }
+        seasonLines.append("\(collection.name): our team \(season.ourTeam?.team.name ?? "not set"), " +
+            "\(season.matches.count) scheduled, \(season.scoutingPool.count) in scouting pool")
+    }
+
     // An explicit scope is honored.
     let local = try await live.analysis(catalog.value.teams[0].id, scope: "local")
     check(local.value.eligibility.scope == "local", "Explicit eligibility scope ignored")
@@ -76,6 +110,7 @@ do {
     }
 
     if failures.isEmpty {
+        seasonLines.forEach { print("  \($0)") }
         print("verify-kit: \(catalog.value.teams.count) teams and \(analyses) analyses decoded from \(address); offline cache checks passed")
     }
 } catch {

@@ -34,6 +34,14 @@ enum Format {
         value.map { "\(Int(($0 * 100).rounded()))%" } ?? "—"
     }
 
+    /// Today as "yyyy-MM-dd" in the device's time zone, for comparing with schedule dates.
+    static func today() -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: .now)
+    }
+
     static func count(_ value: Int, _ singular: String, plural: String? = nil) -> String {
         "\(value) \(value == 1 ? singular : plural ?? singular + "s")"
     }

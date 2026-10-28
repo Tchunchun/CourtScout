@@ -7,74 +7,38 @@ public struct CourtScoutRootView: View {
     public init() {}
 
     public var body: some View {
-        TeamsView()
+        SeasonsView()
             .environment(app)
             .tint(Palette.brand)
     }
 }
 
-struct TeamsView: View {
-    @Environment(AppModel.self) private var app
-    @State private var model = TeamsModel()
+/// Every gathered team across seasons, for the occasional "where is that
+/// team?" lookup. Reached from the search button on the Seasons screen.
+struct AllTeamsView: View {
+    var catalog: TeamCatalog?
+    var collections: [TeamCollection]
     @State private var search = ""
-    @State private var showingSettings = false
 
     var body: some View {
-        NavigationStack {
-            content
-                .navigationTitle("Court Scout")
-                .navigationDestination(for: TeamSummary.self) { summary in
-                    TeamDetailView(summary: summary, scopes: model.catalog?.eligibilityScopes ?? [:])
-                }
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            showingSettings = true
-                        } label: {
-                            Label("Settings", systemImage: "gearshape")
-                        }
-                    }
-                }
-                .sheet(isPresented: $showingSettings) {
-                    SettingsView()
-                }
-        }
-        .task(id: app.generation) {
-            await model.load(app.repository)
-        }
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        if let error = app.configurationError {
-            LoadFailedView(message: error) { showingSettings = true }
-        } else if case .failed(let message) = model.phase, model.catalog == nil {
-            LoadFailedView(message: message) { Task { await model.load(app.repository) } }
-        } else if let catalog = model.catalog {
-            List {
-                if let offlineSince = model.offlineSince {
-                    OfflineBanner(savedAt: offlineSince)
-                        .listRowSeparator(.hidden)
-                }
-                ForEach(groupTeams(catalog.teams, collections: model.collections, matching: search)) { section in
-                    Section(section.title) {
-                        ForEach(section.teams) { summary in
-                            NavigationLink(value: summary) {
-                                TeamRow(summary: summary)
-                            }
+        let sections = groupTeams(catalog?.teams ?? [], collections: collections, matching: search)
+        List {
+            ForEach(sections) { section in
+                Section(section.title) {
+                    ForEach(section.teams) { summary in
+                        NavigationLink(value: Route.team(summary)) {
+                            TeamRow(summary: summary)
                         }
                     }
                 }
             }
-            .searchable(text: $search, prompt: "Team or section")
-            .refreshable { await model.load(app.repository) }
-            .overlay {
-                if !search.isEmpty && groupTeams(catalog.teams, collections: model.collections, matching: search).isEmpty {
-                    ContentUnavailableView.search(text: search)
-                }
+        }
+        .navigationTitle("Find a team")
+        .searchable(text: $search, prompt: "Team or section")
+        .overlay {
+            if !search.isEmpty && sections.isEmpty {
+                ContentUnavailableView.search(text: search)
             }
-        } else {
-            ProgressView("Loading teams…")
         }
     }
 }

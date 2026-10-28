@@ -66,6 +66,38 @@ The SwiftUI client depends on a formal, versioned API rather than on what
 6. Add bearer-token auth (Sign in with Apple to start) before hosting. The
    current server assumes a trusted localhost user.
 
+## Phone user flow
+
+Revised on 2026-10-28 after reviewing the flow against the captain's job:
+scout opponents, predict their lineup, and test Our lineup against it.
+
+A season starts when the captain looks up their own team: the home-team run
+gathers Our team and every league opponent into one event collection. The
+phone therefore starts from seasons, not from a list of every gathered team.
+
+1. **Seasons (home):** event collections, newest first, with Our team and the
+   next match. Starting a new season from the phone is P1; it uses the
+   existing preview and job routes.
+2. **Season:** Our team, the schedule in date order (upcoming, result not
+   collected, completed), and the scouting pool. **Done.**
+3. **Opponent threat board:** available players first, usual roles, rating
+   freshness and source (exact or public band), regular partners, stacking
+   patterns, and postseason coverage gaps shown next to predictions. P1.
+4. **Prepare lineup / matchup:** Our lineup built from eligible, available
+   players; court-by-court edges against each predicted scenario; expected
+   courts won per scenario; and the lineup that holds up across scenarios.
+   P0, next. The comparison should be a server route that reuses
+   `web/public/match-card.mjs` so there is one implementation.
+5. **Day of match:** availability, posted-lineup photo, final lineup sharing,
+   results. P2.
+
+| Priority | Scope | Status |
+|---|---|---|
+| P0 | Seasons home, season screen, Our team | Done (Our team saved on device when the server has none) |
+| P0 | Matchup screen | Next |
+| P1 | Threat board, scenario differences, coverage warnings, start a season | Not started |
+| P2 | Day-of availability, lineup photo, sharing, results | Not started |
+
 ## Logic that moves on-device
 
 | Logic | Source today | On-device plan |

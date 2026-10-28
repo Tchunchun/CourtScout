@@ -65,6 +65,14 @@ public struct TeamRepository: Sendable {
         try await load(TeamCollectionList.self, key: "team-collections", path: "api/team-collections")
     }
 
+    public func eventSchedule(_ collectionId: String) async throws -> Loaded<EventScheduleResponse> {
+        try await load(
+            EventScheduleResponse.self,
+            key: "event-schedule-\(collectionId)",
+            path: "api/event-schedules/\(collectionId)"
+        )
+    }
+
     public func teamData(_ teamId: String) async throws -> Loaded<TeamData> {
         try await load(
             TeamData.self,

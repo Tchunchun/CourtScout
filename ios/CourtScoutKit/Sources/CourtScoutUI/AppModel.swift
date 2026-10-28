@@ -53,30 +53,6 @@ enum LoadPhase: Equatable {
 
 @MainActor
 @Observable
-final class TeamsModel {
-    var catalog: TeamCatalog?
-    var collections: [TeamCollection] = []
-    var offlineSince: Date?
-    var phase: LoadPhase = .idle
-
-    func load(_ repository: TeamRepository?) async {
-        guard let repository else { return }
-        if catalog == nil { phase = .loading }
-        do {
-            let catalog = try await repository.catalog()
-            let collections = try? await repository.collections()
-            self.catalog = catalog.value
-            self.collections = collections?.value.collections ?? []
-            offlineSince = catalog.source == .offline ? catalog.savedAt : nil
-            phase = .loaded
-        } catch {
-            phase = .failed(error.localizedDescription)
-        }
-    }
-}
-
-@MainActor
-@Observable
 final class TeamDetailModel {
     let summary: TeamSummary
     /// nil until the user picks one: the server then uses the team's own level.
@@ -85,6 +61,7 @@ final class TeamDetailModel {
     var analysis: TeamAnalysis?
     var offlineSince: Date?
     var analysisError: String?
+    var analysisLoading = false
     var phase: LoadPhase = .idle
 
     init(summary: TeamSummary) {
@@ -97,6 +74,8 @@ final class TeamDetailModel {
     func load(_ repository: TeamRepository?) async {
         guard let repository else { return }
         if teamData == nil { phase = .loading }
+        analysisLoading = true
+        defer { analysisLoading = false }
         async let dataResult = repository.teamData(summary.id)
         async let analysisResult = repository.analysis(summary.id, scope: scope)
         do {

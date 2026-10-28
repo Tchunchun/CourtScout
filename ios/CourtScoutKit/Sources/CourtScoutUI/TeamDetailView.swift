@@ -33,6 +33,7 @@ struct TeamDetailView: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
                 tabContent
+                    .environment(model)
             }
             .padding(16)
         }
@@ -104,9 +105,20 @@ struct TeamDetailView: View {
 }
 
 private struct AnalysisUnavailable: View {
+    @Environment(TeamDetailModel.self) private var model
     var message: String?
 
     var body: some View {
+        if model.analysisLoading {
+            Card {
+                ProgressView("Loading analysis…").frame(maxWidth: .infinity)
+            }
+        } else {
+            unavailable
+        }
+    }
+
+    private var unavailable: some View {
         Card {
             Label("Analysis unavailable", systemImage: "chart.bar.xaxis")
                 .font(.headline)

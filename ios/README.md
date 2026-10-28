@@ -49,15 +49,23 @@ details (navigation bar style, keyboard type) differ slightly.
 
 ## What the app does
 
-- **Teams:** every gathered team, grouped by event collection, with search and
-  pull to refresh.
+The app follows a captain's season, not a list of every gathered team.
+
+- **Seasons (home):** one card per event collection, newest first, with its
+  level, Our team, and next match. The search button finds any gathered team
+  across seasons.
+- **Season:** Our team, the next match, upcoming matches, past matches whose
+  result has not been gathered yet, completed matches, and the scouting pool
+  (other gathered teams that are not on the schedule).
+  - Our team comes from the confirmed schedule, then the web app's Match Day
+    default, then a choice saved on this device.
+  - The schedule is the season's confirmed schedule. Without one, the app
+    falls back to Our team's TennisRecord schedule and says it is unconfirmed.
 - **Team report:** Overview (record, eligibility counts, data notes, sources),
   Roster (DR, UTR, NTRP, eligibility, role), Lineups (up to three likely
   lineups with court history), and Matches (results with court-by-court
-  scores).
-- **Eligibility level:** defaults to the team's own level from its event
-  collection, like the web app, and can be switched per report.
-- **Offline:** every report opened is saved on the device. When the server is
+  scores). Eligibility defaults to the team's own level and can be switched.
+- **Offline:** every screen opened is saved on the device. When the server is
   unreachable the app shows the saved copy with an "Offline" banner. Server
   errors, such as a removed team, are shown instead of stale data.
 
@@ -116,7 +124,12 @@ npm run generate:swift
 
 - Hosting and sign-in (Phase 1). The app has no authentication and expects a
   trusted local server.
-- Match Day Cards, schedules, and editing (Phase 3).
+- The matchup screen (Our lineup against the opponent's predicted lineups),
+  next in Phase 2.
+- Saving Our team to the server from the phone. The existing server route also
+  rewrites the confirmed schedule from TennisRecord, which is wrong for
+  imported Nationals schedules, so the phone keeps its choice locally.
+- Match Day Cards, availability, and editing (Phase 3).
 - Tested on the iOS 26.3 Simulator (iPhone 17 Pro); not yet on a physical
   iPhone.
 - A real iPhone reaches the Mac over plain HTTP. iOS App Transport Security

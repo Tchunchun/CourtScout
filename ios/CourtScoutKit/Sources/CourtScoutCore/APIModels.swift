@@ -29,6 +29,7 @@ public struct TeamSummary: Codable, Hashable, Identifiable, Sendable {
     public var collectionStage: String
     public var rosterSize: Int
     public var matchCount: Int
+    public var sourceUrl: String?
     public var finalReportReady: Bool?
     public var reportAvailable: Bool?
 }
@@ -43,6 +44,27 @@ public struct TeamCollection: Codable, Hashable, Identifiable, Sendable {
     public var name: String
     public var competitionLevel: String?
     public var teamDatasetIds: [String]
+    public var matchDayDefaults: MatchDayDefaults?
+    public var createdAt: String?
+
+    public struct MatchDayDefaults: Codable, Hashable, Sendable {
+        public var ourTeamDatasetId: String?
+    }
+}
+
+/// `GET /api/event-schedules/:collectionId`
+public struct EventScheduleResponse: Codable, Hashable, Sendable {
+    public var schedule: EventSchedule?
+}
+
+/// A season's confirmed schedule, as confirmed in the web app.
+public struct EventSchedule: Codable, Hashable, Sendable {
+    public var collectionId: String
+    /// Catalog id of Our team.
+    public var ourTeamId: String
+    public var eventType: String?
+    public var eligibilityScope: String?
+    public var matches: [ScheduledMatch]
 }
 
 /// `GET /api/analysis?team=&eligibility=`
