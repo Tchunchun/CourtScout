@@ -17,6 +17,8 @@ final class SeasonsModel {
 
     init(defaults: UserDefaults = SharedStore.defaults) {
         self.defaults = defaults
+        prepared = defaults.data(forKey: Self.preparedKey)
+            .flatMap { try? JSONDecoder().decode([String: PreparedRecord].self, from: $0) } ?? [:]
     }
 
     var seasons: [TeamCollection] { orderedSeasons(collections) }
@@ -98,6 +100,57 @@ final class SeasonsModel {
             }
             return "Can’t reach the Court Scout server, so Our team was not cleared."
         }
+    }
+
+    // MARK: Match day
+
+    /// What was saved for offline use, per collection id.
+    struct PreparedRecord: Codable, Equatable {
+        var savedAt: Date
+        var teamIds: [String]
+        /// Teams that could not be saved, so their copies may be old or missing.
+        var failedTeamIds: [String]
+    }
+
+    struct PrepareProgress: Equatable {
+        var done: Int
+        var total: Int
+    }
+
+    private static let preparedKey = "matchDayPrepared"
+
+    /// Read from defaults at start, then kept in memory so the screen updates.
+    private(set) var prepared: [String: PreparedRecord] = [:]
+
+    /// Downloads in progress, per collection id.
+    var preparing: [String: PrepareProgress] = [:]
+
+    /// Saves Our team and the chosen opponents for offline use at the venue.
+    /// The seasons list, schedules, and roles are refreshed first, since the
+    /// season screen reads them too.
+    func prepare(_ season: Season, teamIds: [String], repository: TeamRepository?) async {
+        guard let repository else { return }
+        let collectionId = season.collection.id
+        let ourTeamId = season.ourTeam?.id
+        let all = (ourTeamId.map { [$0] } ?? []) + teamIds.filter { $0 != ourTeamId }
+        preparing[collectionId] = PrepareProgress(done: 0, total: all.count)
+        await load(repository)
+        var failed: [String] = []
+        for (index, teamId) in all.enumerated() {
+            do {
+                try await repository.prepareTeam(
+                    teamId,
+                    ourTeamId: teamId == ourTeamId ? nil : ourTeamId,
+                    eligibility: season.collection.competitionLevel
+                )
+            } catch {
+                failed.append(teamId)
+            }
+            preparing[collectionId] = PrepareProgress(done: index + 1, total: all.count)
+        }
+        prepared[collectionId] = PreparedRecord(savedAt: .now, teamIds: all, failedTeamIds: failed)
+        defaults.set(try? JSONEncoder().encode(prepared), forKey: Self.preparedKey)
+        preparing[collectionId] = nil
     }
 
     // MARK: Seasons being gathered

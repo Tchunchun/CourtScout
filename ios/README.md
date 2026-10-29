@@ -127,9 +127,17 @@ The app follows a captain's season, not a list of every gathered team.
   Roster (DR, UTR, NTRP, eligibility, role), Lineups (up to three likely
   lineups with court history), and Matches (results with court-by-court
   scores). Eligibility defaults to the team's own level and can be switched.
-- **Offline:** every screen opened is saved on the device. When the server is
-  unreachable the app shows the saved copy with an "Offline" banner. Server
-  errors, such as a removed team, are shown instead of stale data.
+- **Offline:** every screen opened is saved on the device, in Application
+  Support so iOS does not clear it under storage pressure. When the server is
+  unreachable the app shows the saved copy with an "Offline" banner and its
+  age. Server errors, such as a removed team, are shown instead of stale data.
+- **Match day:** a season's "Prepare for match day" saves Our team and the
+  chosen opponents ahead of time: each one's dataset, report, threat board,
+  and matchup against Our team. It starts with the opponents from the next
+  match date through three days after it (an event weekend), plus playoff
+  opponents; a season without a schedule starts with all its teams. The
+  season then shows "Ready offline" with when it was saved, and names any
+  team that could not be saved. Only copies fetched from the server count.
 
 ## Checks
 

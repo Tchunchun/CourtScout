@@ -108,6 +108,27 @@ do {
                   season.matches.compactMap { $0.opponent?.id }.sorted(),
                   "\(collection.name): fallback linked different opponents")
         }
+        // Match day: never Our team; a season without a schedule saves all.
+        let chosen = matchDayTeams(season, today: today)
+        check(!chosen.contains { $0.id == season.ourTeam?.id }, "\(collection.name): match day chose Our team")
+        if season.matches.isEmpty {
+            check(chosen.count == season.teams.count - (season.ourTeam == nil ? 0 : 1),
+                  "\(collection.name): match day without a schedule missed teams")
+        } else if let next = season.nextMatch?.opponent {
+            check(chosen.contains { $0.id == next.id }, "\(collection.name): match day missed the next opponent")
+        }
+        if let ours = season.ourTeam, let first = chosen.first {
+            do {
+                try await live.prepareTeam(first.id, ourTeamId: ours.id, eligibility: collection.competitionLevel)
+                let offline = TeamRepository(transport: UnreachableTransport(), cache: cache)
+                let board = try await offline.threatBoard(first.id).source
+                let matchup = try await offline.matchup(ourTeamId: ours.id, opponentTeamId: first.id).source
+                check(board == .offline && matchup == .offline,
+                      "\(collection.name): prepared opponent does not open offline")
+            } catch {
+                failures.append("\(collection.name): prepare \(first.team.name): \(error)")
+            }
+        }
         seasonLines.append("\(collection.name): our team \(season.ourTeam?.team.name ?? "not set"), " +
             "\(season.matches.count) scheduled, \(season.scoutingPool.count) in scouting pool")
     }

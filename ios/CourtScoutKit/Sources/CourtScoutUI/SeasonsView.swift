@@ -211,6 +211,7 @@ struct SeasonView: View {
     @State private var ourTeamNote: String?
     @State private var gatherError: String?
     @State private var addingPlayoffOpponent = false
+    @State private var preparingMatchDay = false
     private var seasons: SeasonsModel
 
     init(collection: TeamCollection, seasons: SeasonsModel) {
@@ -233,6 +234,11 @@ struct SeasonView: View {
         // Reload as gathered teams arrive or playoff opponents change.
         .task(id: "\(app.generation)-\(seasons.catalog?.teams.count ?? 0)-\(playoffCount)") {
             await model.load(app.repository, seasons: seasons)
+        }
+        .sheet(isPresented: $preparingMatchDay) {
+            if let season = model.season {
+                PrepareMatchDayView(season: season, seasons: seasons)
+            }
         }
         .sheet(isPresented: $addingPlayoffOpponent) {
             PlayoffOpponentView(seasons: seasons, collection: model.collection)
@@ -263,6 +269,7 @@ struct SeasonView: View {
             missingOpponentsSection(season)
 
             ourTeamSection(season)
+            matchDaySection(season)
 
             if let next = season.nextMatch {
                 Section("Next match") {
@@ -323,6 +330,52 @@ struct SeasonView: View {
 
             // Playoffs follow the regular season, so they come last.
             playoffSection(season)
+        }
+    }
+
+    /// Saving the coming match day's reports on the phone, for venues with
+    /// poor signal. Hidden once a season is over and has no playoffs.
+    @ViewBuilder
+    private func matchDaySection(_ season: Season) -> some View {
+        let collectionId = season.collection.id
+        if !season.isCompleted || !season.playoffOpponents.isEmpty {
+            Section {
+                if let progress = seasons.preparing[collectionId] {
+                    VStack(alignment: .leading, spacing: 4) {
+                        ProgressView(value: Double(progress.done), total: Double(max(progress.total, 1)))
+                        Text("Saving \(progress.done) of \(Format.count(progress.total, "team"))")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                } else {
+                    if let record = seasons.prepared[collectionId] {
+                        let saved = record.teamIds.count - record.failedTeamIds.count
+                        Label(
+                            "Ready offline: \(Format.count(saved, "team")), saved \(record.savedAt.formatted(.relative(presentation: .named)))",
+                            systemImage: record.failedTeamIds.isEmpty ? "checkmark.circle" : "exclamationmark.triangle"
+                        )
+                        .font(.subheadline)
+                        .foregroundStyle(record.failedTeamIds.isEmpty ? Palette.success : Palette.warning)
+                        if !record.failedTeamIds.isEmpty {
+                            let names = record.failedTeamIds.compactMap { id in season.teams.first { $0.id == id }?.team.name }
+                            Text("Not saved: \(names.joined(separator: ", ")). Prepare again with a connection.")
+                                .font(.caption)
+                                .foregroundStyle(Palette.warning)
+                        }
+                    }
+                    Button {
+                        preparingMatchDay = true
+                    } label: {
+                        Label(seasons.prepared[collectionId] == nil ? "Prepare for match day" : "Prepare again",
+                              systemImage: "arrow.down.circle")
+                    }
+                    .disabled(seasons.offlineSince != nil)
+                }
+            } header: {
+                Text("Match day")
+            } footer: {
+                Text("Saves Our team and the opponents’ reports, threat boards, and lineup matchups on this phone, so they open without signal at the venue.")
+            }
         }
     }
 
