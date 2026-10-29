@@ -1,6 +1,7 @@
 import {
   activeNationalRoster,
   buildReportCollections,
+  isCompletedSeason,
   collectionWorkspaceHeaderHtml,
   collectionWorkspaceListRowHtml,
   escapeHtml,
@@ -37,6 +38,7 @@ import {
   parseStoredMatchCards,
   parseStoredTournamentEvidence,
   resolveScheduledOpponent,
+  scenarioReferenceLabel,
   summarizeMatchup,
   summarizeRosterUsage,
   summarizeStackingStrategy,
@@ -109,6 +111,7 @@ const state = {
   matchSchedule: null,
   matchScheduleError: null,
   matchScheduleTeamId: null,
+  collectionSchedules: {},
   eventSchedule: null,
   eventScheduleCollectionId: null,
   reportsScheduleLoading: false,
@@ -366,6 +369,15 @@ function renderCollectionControls() {
 async function loadTeamCollections() {
   const response = await api("/api/team-collections");
   state.teamCollections = response.collections;
+  const schedules = await Promise.all(state.teamCollections.map(async collection => {
+    try {
+      const result = await api(`/api/event-schedules/${encodeURIComponent(collection.id)}`);
+      return [collection.id, result.schedule];
+    } catch {
+      return [collection.id, null];
+    }
+  }));
+  state.collectionSchedules = Object.fromEntries(schedules);
   if (!state.activeCollectionId && state.teamCollections.length) {
     state.activeCollectionId = state.teamCollections[0].id;
     localStorage.setItem(ACTIVE_COLLECTION_STORAGE_KEY, state.activeCollectionId);
@@ -1131,6 +1143,15 @@ async function linkReportsScheduleOpponent(matchId, teamId) {
 
 function renderReportsCollections() {
   const cards = buildReportCollections(state.teamCollections, state.teams);
+  const previous = card => isCompletedSeason(
+    state.eventScheduleCollectionId === card.id
+      ? state.eventSchedule
+      : state.collectionSchedules[card.id]
+  );
+  const groups = [
+    { title: "Current seasons", cards: cards.filter(card => !previous(card)) },
+    { title: "Previous season", cards: cards.filter(previous) }
+  ].filter(group => group.cards.length);
 
   const reportCount = state.teams.filter(
     team => team.reportAvailable !== false
@@ -1139,7 +1160,8 @@ function renderReportsCollections() {
     ? `${cards.length} ${cards.length === 1 ? "collection" : "collections"} · ${reportCount} ${reportCount === 1 ? "report" : "reports"} ready`
     : "Collections keep reports for the same event together.";
   $("#reportsCollectionList").innerHTML = cards.length
-    ? cards.map(({ id, name, competitionLevel, temporary, teams }) => {
+    ? groups.map(group => `<h3 class="reports-season-heading">${group.title}</h3>` +
+      group.cards.map(({ id, name, competitionLevel, temporary, teams }) => {
       const readyCount = teams.filter(team =>
         team.reportAvailable !== false
       ).length;
@@ -1161,7 +1183,7 @@ function renderReportsCollections() {
           <span class="report-collection-action">View team reports <b aria-hidden="true">→</b></span>
         </button>
       `;
-    }).join("")
+    }).join("")).join("")
     : `
       <div class="reports-empty-state">
         <strong>No report collections yet</strong>
@@ -3183,14 +3205,14 @@ function topOpponentPredictionsHtml(card, predictions, context) {
             data-prediction-rank="${prediction.rank}"
             aria-pressed="${prediction.rank === selectedPrediction.rank}"
             ${prediction.rank === selectedPrediction.rank ? "disabled" : ""}>
-            <span>Scenario ${index + 1}</span>
+            <span>${escapeHtml(scenarioReferenceLabel(prediction))}</span>
             <strong>${escapeHtml(scenarioTitle(prediction))}</strong>
             <small>${escapeHtml(prediction.confidence ?? "emerging")} · ${escapeHtml(scenarioSupport(prediction))}</small>
           </button>
         `).join("")}
       </div>` : ""}
     <p class="opponent-scenario-coverage">
-      Testing scenario ${selectedIndex + 1} of ${visiblePredictions.length}.
+      Testing ${escapeHtml(scenarioReferenceLabel(selectedPrediction))} · option ${selectedIndex + 1} of ${visiblePredictions.length}.
       ${predictions.length < 3
         ? "More scenarios will appear when additional distinct lineup history or reviewed tournament evidence is available."
         : "Choose an option above to retest Our lineup."}
@@ -3198,7 +3220,7 @@ function topOpponentPredictionsHtml(card, predictions, context) {
     <article class="selected-opponent-prediction">
       <header>
         <div>
-          <span>Scenario ${selectedIndex + 1}</span>
+          <span>${escapeHtml(scenarioReferenceLabel(selectedPrediction))}</span>
           <strong>${scenarioTitle(selectedPrediction)}</strong>
         </div>
         <b>${escapeHtml(selectedPrediction.confidence ?? "emerging")}</b>
@@ -3283,8 +3305,8 @@ function lineupChallengeHtml(card, context, predictions, validation) {
             <article>
               <header>
                 <div>
-                  <span>Opponent scenario ${index + 1}</span>
-                  <h3>${scenario.source === "tournament" ? "Tournament evidence" : `Historical option ${scenario.rank}`}</h3>
+                  <span>${escapeHtml(scenarioReferenceLabel(scenario))}</span>
+                  <h3>${scenario.source === "tournament" ? "Tournament evidence" : scenario.scenarioType === "rating_ceiling" ? "Strongest known ratings" : "Historical evidence"}</h3>
                 </div>
                 <div class="challenge-score">
                   <strong>${scenario.score}/${scenario.maxScore}</strong>

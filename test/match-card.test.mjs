@@ -24,6 +24,7 @@ import {
   parseStoredMatchCards,
   parseStoredTournamentEvidence,
   resolveScheduledOpponent,
+  scenarioReferenceLabel,
   summarizeMatchup,
   summarizeRosterUsage,
   summarizeStackingStrategy,
@@ -31,6 +32,17 @@ import {
   scenarioDifferences,
   validateDraft
 } from "../web/public/match-card.mjs";
+
+test("scenario labels preserve the source likely-lineup rank", () => {
+  assert.equal(
+    scenarioReferenceLabel({ scenarioType: "alternate", historicalRank: 2 }),
+    "Likely lineup 2"
+  );
+  assert.equal(
+    scenarioReferenceLabel({ scenarioType: "rating_ceiling", historicalRank: null }),
+    "Ratings scenario"
+  );
+});
 
 test("match card drafts cover every court and prevent duplicate players", () => {
   const draft = emptyDraft();

@@ -26,6 +26,10 @@ public struct Season: Sendable {
     }
     public var awaitingResult: [SeasonMatch] { matches.filter { $0.state == .awaitingResult } }
     public var completed: [SeasonMatch] { matches.filter { $0.state == .completed } }
+    public var isCompleted: Bool {
+        matches.contains { $0.state == .completed } &&
+            matches.allSatisfy { $0.state == .completed || $0.state == .cancelled }
+    }
     public var nextMatch: SeasonMatch? { upcoming.first }
 }
 

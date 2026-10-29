@@ -86,17 +86,26 @@ struct SeasonsView: View {
                     OfflineBanner(savedAt: offlineSince)
                         .listRowSeparator(.hidden)
                 }
-                ForEach(model.seasons) { collection in
-                    NavigationLink(value: Route.season(collection)) {
-                        SeasonRow(
-                            collection: collection,
-                            season: model.summary(for: collection),
-                            job: model.jobs[collection.id]
-                        )
+                ForEach([false, true], id: \.self) { previous in
+                    let collections = model.seasons.filter {
+                        (model.summary(for: $0)?.isCompleted == true) == previous
                     }
-                    .swipeActions {
-                        if model.jobs[collection.id]?.isFinished == true {
-                            Button("Dismiss") { model.dismissJob(for: collection.id) }
+                    if !collections.isEmpty {
+                        Section(previous ? "Previous season" : "Current seasons") {
+                            ForEach(collections) { collection in
+                                NavigationLink(value: Route.season(collection)) {
+                                    SeasonRow(
+                                        collection: collection,
+                                        season: model.summary(for: collection),
+                                        job: model.jobs[collection.id]
+                                    )
+                                }
+                                .swipeActions {
+                                    if model.jobs[collection.id]?.isFinished == true {
+                                        Button("Dismiss") { model.dismissJob(for: collection.id) }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

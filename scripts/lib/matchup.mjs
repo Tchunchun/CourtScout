@@ -139,6 +139,9 @@ export function buildMatchup({
     scenarios: scenarios.map(scenario => ({
       rank: scenario.rank,
       scenarioType: scenario.scenarioType ?? null,
+      historicalRank: Number.isInteger(scenario.historicalRank)
+        ? scenario.historicalRank
+        : null,
       confidence: scenario.confidence ?? null,
       historicalSupport: scenario.historicalSupport ?? 0,
       observedTogether: scenario.observedTogether ?? 0,

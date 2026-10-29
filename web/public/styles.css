@@ -2740,3 +2740,10 @@ footer span { color: var(--ink); font: 600 14px var(--font-display); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+.reports-season-heading {
+  grid-column: 1 / -1;
+  margin: 12px 0 0;
+  font-size: 16px;
+  color: var(--ink-soft);
+}

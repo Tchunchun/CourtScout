@@ -70,6 +70,9 @@ public struct Matchup: Codable, Hashable, Sendable {
     public struct Scenario: Codable, Hashable, Identifiable, Sendable {
         public var rank: Int
         public var scenarioType: String?
+        /// Rank on the team report's Likely lineups tab. Nil for ratings and
+        /// reviewed tournament scenarios.
+        public var historicalRank: Int?
         public var confidence: String?
         public var historicalSupport: Int
         public var observedTogether: Int

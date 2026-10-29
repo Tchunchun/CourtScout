@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   activeNationalRoster,
   buildReportCollections,
+  isCompletedSeason,
   collectionWorkspaceHeaderHtml,
   collectionWorkspaceListRowHtml,
   matchCourtRows,
@@ -367,4 +368,15 @@ test("singlesPlayersTable renders likely roles and every known result", () => {
   assert.match(html, /UTR 3\.45 \/ 3\.40/);
   assert.match(html, /4-6 6-3 1-0/);
   assert.match(html, /★/);
+});
+
+test("previous seasons require completed matches and no outstanding results", () => {
+  const schedule = (...statuses) => ({ matches: statuses.map(status => ({ status })) });
+  assert.equal(isCompletedSeason(schedule("completed", "completed")), true);
+  assert.equal(isCompletedSeason(schedule("completed", "cancelled")), true);
+  assert.equal(isCompletedSeason(schedule("completed", "scheduled")), false);
+  assert.equal(isCompletedSeason(schedule("completed", "unknown")), false);
+  assert.equal(isCompletedSeason(schedule("cancelled")), false);
+  assert.equal(isCompletedSeason(schedule()), false);
+  assert.equal(isCompletedSeason(null), false);
 });

@@ -990,6 +990,21 @@ export function buildOpponentScenarios({
     }));
 }
 
+/** A scenario's report-facing identity, without confusing its display order
+ * with the source prediction rank. */
+export function scenarioReferenceLabel(scenario) {
+  if (
+    scenario?.scenarioType === "rating_ceiling" ||
+    scenario?.source === "rating_ceiling"
+  ) return "Ratings scenario";
+  if (Number.isInteger(scenario?.historicalRank)) {
+    return `Likely lineup ${scenario.historicalRank}`;
+  }
+  if (scenario?.scenarioType === "most_likely") return "Most likely lineup";
+  if (scenario?.scenarioType === "alternate") return "Alternate likely lineup";
+  return "Opponent scenario";
+}
+
 export function cloneMatchCard(card, input) {
   const now = input.now ?? new Date().toISOString();
   return {
@@ -1145,6 +1160,10 @@ export function challengeLineupAgainstPredictions({
     return {
       rank: prediction.rank ?? index + 1,
       source: prediction.source ?? "historical",
+      scenarioType: prediction.scenarioType ?? null,
+      historicalRank: Number.isInteger(prediction.historicalRank)
+        ? prediction.historicalRank
+        : null,
       confidence: prediction.confidence ?? "emerging",
       historicalSupport: prediction.historicalSupport ?? 0,
       comparisons,
