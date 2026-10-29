@@ -1,7 +1,7 @@
 ---
 id: "028"
 title: Let the captain manage their doubles pairs on the phone
-status: in-progress
+status: review
 priority: P0
 phase: phase-1
 area: ios
@@ -23,7 +23,7 @@ touches:
   - ios/CourtScoutKit/Sources/CourtScoutUI/RootView.swift
   - ios/CourtScoutKit/Sources/VerifyKit/main.swift
 branch: codex/028-captain-doubles-pairs
-pr:
+pr: https://github.com/Tchunchun/CourtScout/pull/6
 updated: 2026-10-29
 ---
 
@@ -80,5 +80,6 @@ Phase 1 core: prove the value of scouting-informed lineup preparation. See featu
   datasets, the Swift package and iOS Simulator app build. `verify-kit`
   exercised the pairs endpoint for every team, then failed only when the
   existing external TennisRecord preview request timed out.
+- 2026-10-29: Opened PR #6 for review.
 
 - 2026-10-29: Owner prioritized phase 1 at P0; lineup preparation precedes team management.
