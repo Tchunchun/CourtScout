@@ -1,12 +1,12 @@
 ---
 id: "029"
 title: Propose our lineups from pairs and who is available
-status: idea
+status: blocked
 priority: P0
 phase: phase-1
 area: ios
 source: Owner request, planning session 2026-10-29
-depends_on: ["028"]
+depends_on: ["028", "032"]
 touches:
   - scripts/lib/lineup-proposals.mjs
   - scripts/lib/matchup.mjs
@@ -43,9 +43,8 @@ and "best vs this opponent", pick one, and adjust it in the matchup.
       Each proposal has a one-line reason.
 - [ ] Unavailable players never appear. When too few players are available,
       the response names the courts that cannot be filled.
-- [ ] On the iPhone matchup, the captain explicitly selects the roster
-      players available for this match before proposing. This works without
-      player accounts, invitations, or availability responses from 032.
+- [ ] On the iPhone matchup, the captain sees the availability collected for
+      this match through 032 and can correct it before proposing a lineup.
 - [ ] The captain toggles the mode and sees the proposals. Choosing one makes
       it the draft; it stays editable, and the scenario comparison updates.
 - [ ] Tests cover the proposer with fixtures (pairs used, preferred court
@@ -64,9 +63,8 @@ Phase 1 core: prove the value of scouting-informed lineup preparation. See featu
   Reuse them rather than copying them.
 - Keep the search small: build lineups from pairs first, then fill. The court
   count per format is small enough to enumerate.
-- Phase 1 availability is captain-entered for lineup preparation; the
-  captain can consult Breakpoint or WhatsApp outside Court Scout. Feature
-  032 can supply player responses in Phase 2, but is not a dependency.
+- Availability comes from feature 032. The captain may correct a response for
+  lineup planning, but 029 does not introduce a separate availability store.
 - Exact UTR access is an optional licensed enhancement, not a prerequisite
   for proposals. Missing ratings must remain visible rather than invented.
 
@@ -77,3 +75,6 @@ Phase 1 core: prove the value of scouting-informed lineup preparation. See featu
 
 - 2026-10-29: Owner prioritized phase 1 at P0; lineup preparation precedes team management.
 - 2026-10-29: Removed dependency on 032; captain selects available players manually. Remains idea pending approval to mark ready.
+- 2026-10-29: Owner confirmed the app needs a dependable way to collect and
+  manage availability before lineup proposals. Restored dependency on 032 and
+  marked this feature blocked.

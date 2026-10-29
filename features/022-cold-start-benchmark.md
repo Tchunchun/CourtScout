@@ -1,7 +1,7 @@
 ---
 id: "022"
 title: Benchmark lineup prediction on early-season data
-status: ready
+status: in-progress
 priority: P0
 phase: phase-1
 area: analysis
@@ -10,7 +10,7 @@ depends_on: []
 touches:
   - scripts/benchmark-lineups.mjs
   - test/
-branch:
+branch: codex/022-lineup-benchmark
 pr:
 updated: 2026-10-29
 ---
@@ -39,3 +39,4 @@ Read-only against `scripts/lib/analysis.mjs`: no ranking changes in this feature
 - 2026-10-29: Raised to Phase 1 P0 as the baseline required for the prediction
   feedback loop in 035. Expanded metrics to cover players, pairs, courts,
   top-three scenarios and complete lineups.
+- 2026-10-29: Claimed for implementation on `codex/022-lineup-benchmark`.
