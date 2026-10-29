@@ -96,17 +96,23 @@ do {
             check(season.matches.count == schedule.matches.count, "\(collection.name): schedule rows lost")
             check(season.matches.allSatisfy { $0.opponent != nil }, "\(collection.name): unlinked opponent")
 
-            // Without the confirmed schedule, Our team's TennisRecord schedule
-            // must still find the same opponents by profile link.
-            let ours = try await live.teamData(schedule.ourTeamId).value
-            let fallback = buildSeason(
-                collection: collection, teams: catalog.value.teams, schedule: nil,
-                ourTeamData: ours, deviceChoice: schedule.ourTeamId, today: today
-            )
-            check(fallback.scheduleSource == .tennisRecord, "\(collection.name): fallback schedule unused")
-            check(fallback.matches.compactMap { $0.opponent?.id }.sorted() ==
-                  season.matches.compactMap { $0.opponent?.id }.sorted(),
-                  "\(collection.name): fallback linked different opponents")
+            // A schedule taken from TennisRecord: without it, Our team's own
+            // TennisRecord schedule must still find the same opponents by
+            // profile link. Hand-entered or imported event schedules (such as
+            // a Nationals round robin) are not on that page.
+            if schedule.matches.allSatisfy({ $0.sourceType == "tennisrecord" }) {
+                let ours = try await live.teamData(schedule.ourTeamId).value
+                let fallback = buildSeason(
+                    collection: collection, teams: catalog.value.teams, schedule: nil,
+                    ourTeamData: ours, deviceChoice: schedule.ourTeamId, today: today
+                )
+                check(fallback.scheduleSource == .tennisRecord, "\(collection.name): fallback schedule unused")
+                check(fallback.matches.compactMap { $0.opponent?.id }.sorted() ==
+                      season.matches.compactMap { $0.opponent?.id }.sorted(),
+                      "\(collection.name): fallback linked different opponents")
+            }
+            check(schedule.matches.filter { $0.sourceType == matchEntrySource }.allSatisfy { $0.round != nil },
+                  "\(collection.name): an added match has no round")
         }
         // Match day: never Our team; a season without a schedule saves all.
         let chosen = matchDayTeams(season, today: today)
