@@ -1,7 +1,7 @@
 ---
 id: "028"
 title: Let the captain manage their doubles pairs on the phone
-status: ready
+status: in-progress
 priority: P0
 phase: phase-1
 area: ios
@@ -17,7 +17,7 @@ touches:
   - ios/CourtScoutKit/Sources/CourtScoutUI/PairsView.swift
   - ios/CourtScoutKit/Sources/CourtScoutUI/TeamDetailView.swift
   - ios/CourtScoutKit/Sources/CourtScoutUI/AppModel.swift
-branch:
+branch: codex/028-captain-doubles-pairs
 pr:
 updated: 2026-10-29
 ---
@@ -63,5 +63,6 @@ Phase 1 core: prove the value of scouting-informed lineup preparation. See featu
 
 - 2026-10-29: Written with the owner. Web support follows later as its own feature.
 - 2026-10-29: Marked ready by the owner.
+- 2026-10-29: Started in its own worktree after owner approval.
 
 - 2026-10-29: Owner prioritized phase 1 at P0; lineup preparation precedes team management.
