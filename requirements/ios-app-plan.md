@@ -260,7 +260,7 @@ the private repository is the backup.
 - The offline cache lives in Application Support, not Caches: iOS can purge
   the Caches directory under storage pressure, which would lose a report right
   before a match. Match Day data is never evicted automatically; the user
-  removes it. (Today `OfflineCache` uses Caches; move it in Phase 2.)
+  removes it. (Done: `OfflineCache` uses Application Support and moves older copies from Caches once.)
 - "Prepare for match day" downloads an event in one step: every opponent's
   `team-data.json`, analysis snapshots for the needed eligibility scope, the
   event schedule, and the Match Day Cards. Only opening a report is not enough

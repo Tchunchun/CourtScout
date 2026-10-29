@@ -8,9 +8,20 @@ public struct OfflineCache: Sendable {
         self.directory = directory
     }
 
+    /// Application Support, not Caches: iOS may empty Caches under storage
+    /// pressure, which could lose a report right before a match. Copies saved
+    /// in Caches by earlier builds move over once.
     public static func appDefault() -> OfflineCache {
-        let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        return OfflineCache(directory: caches.appending(path: "CourtScout/api", directoryHint: .isDirectory))
+        let files = FileManager.default
+        let support = files.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appending(path: "CourtScout/api", directoryHint: .isDirectory)
+        let legacy = files.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+            .appending(path: "CourtScout/api", directoryHint: .isDirectory)
+        if !files.fileExists(atPath: support.path), files.fileExists(atPath: legacy.path) {
+            try? files.createDirectory(at: support.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try? files.moveItem(at: legacy, to: support)
+        }
+        return OfflineCache(directory: support)
     }
 
     private func fileURL(_ key: String) -> URL {
