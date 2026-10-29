@@ -147,6 +147,19 @@ npm run generate:swift
 - Dates and date-times stay as `String`, the same as in the JSON. Parse them
   where they are displayed.
 
+## App icon
+
+The source is `ios/branding/app-icon.svg`. After changing it, export the
+1024 px PNG without an alpha channel (App Store Connect rejects icons with
+transparency) and copy it into the asset catalog:
+
+```bash
+qlmanage -t -s 1024 -o /tmp ios/branding/app-icon.svg
+sips -s format jpeg -s formatOptions 100 /tmp/app-icon.svg.png --out /tmp/app-icon.jpg
+sips -s format png /tmp/app-icon.jpg --out ios/CourtScout.swiftpm/App/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+cp ios/CourtScout.swiftpm/App/Assets.xcassets/AppIcon.appiconset/AppIcon.png ios/branding/app-icon-1024.png
+```
+
 ## Not done yet
 
 - Hosting and sign-in (Phase 1). The app has no authentication and expects a

@@ -70,7 +70,9 @@ The SwiftUI client depends on a formal, versioned API rather than on what
    an "update required" screen instead of writing data, so a breaking server
    change cannot corrupt data from a stale TestFlight build.
 7. Add bearer-token auth (Sign in with Apple to start) before hosting. The
-   current server assumes a trusted localhost user.
+   current server assumes a trusted localhost user. Sign-up is invite-only
+   (see Accounts and sharing), which adds `POST /api/v1/invites`,
+   `DELETE /api/v1/invites/:id`, and `POST /api/v1/invites/:token/redeem`.
 8. Collection jobs (`POST /api/v1/jobs`, `POST /api/v1/refresh-jobs`) get a
    per-user rate limit and a shared server-side queue, so hosted users cannot
    overload TennisRecord or run up hosting costs.
@@ -79,13 +81,36 @@ The SwiftUI client depends on a formal, versioned API rather than on what
 
 ### Accounts and sharing
 
-Decide these in Phase 1, because they shape the store's schema:
+Decided on 2026-10-28: Phase 1 sign-up is invite-only, by QR code. There is
+no open sign-up.
 
-- Who can sign up: the owner only, invited captains, or anyone.
-- Who owns data: user-owned state (Match Day Cards, notes, confirmed
+- **Bootstrap:** the owner's account is created on the server from
+  configuration at deploy time. Every other account starts from an invite.
+- **Creating an invite:** in Phase 1 only the owner can create invites. The
+  owner picks the workspace and role, and the app or web app shows a QR code.
+  `POST /api/v1/invites` returns `403` for everyone else. Letting captains
+  invite is a later change to the role rules, not to the invite flow. The server
+  stores the invite with its workspace, role, creator, expiry (7 days by
+  default), and use count. Each invite is single-use by default and can be
+  revoked before it is used.
+- **QR contents:** an HTTPS link, `https://<host>/invite/<token>`. The token
+  is random (at least 128 bits) and stored only as a hash. The link is a
+  universal link: it opens the app when installed, and otherwise a web page
+  that signs in to the home-screen web app.
+- **Redeeming:** scanning with the Camera opens the link, the user signs in
+  with Apple, and the server redeems the token in the same request that
+  creates the account. A Sign in with Apple identity that has no account and
+  no valid invite is rejected. Redemption is rate-limited, and expired, used,
+  or revoked tokens give one generic error.
+- **Existing users:** an invite redeemed by someone who already has an
+  account adds the workspace to that account instead of creating a second one.
+- **Who owns data:** user-owned state (Match Day Cards, notes, confirmed
   screenshot ratings) belongs to a team workspace, not to one person.
-- How a co-captain or teammate is invited to a workspace, and which roles can
-  edit cards versus only read them.
+- **Still open:** the roles (for example captain, co-captain, player) and
+  which of them can edit cards or only read. Who can invite after Phase 1.
+- **App Review:** with invite-only sign-up, the review notes for Phase 5 must
+  include a working invite or demo account, and account deletion is still
+  required.
 
 ## Phone user flow
 
@@ -97,8 +122,27 @@ gathers Our team and every league opponent into one event collection. The
 phone therefore starts from seasons, not from a list of every gathered team.
 
 1. **Seasons (home):** event collections, newest first, with Our team and the
-   next match. Starting a new season from the phone is P1; it uses the
-   existing preview and job routes.
+   next match. A "New season" button (toolbar `+`, and the main action of the
+   empty state) starts a season from the phone. P0: without it a new user's
+   first screen is a dead end that sends them to the web app.
+   - Paste or share a TennisRecord team profile link. A share extension from
+     Safari is P1.
+   - `POST /api/team-preview` shows the team name, league, level, and how many
+     opponents will be gathered; the user confirms.
+   - `POST /api/jobs` with `teamType: "home"` and public ratings only.
+     Exact-UTR collection needs the server's signed-in browser, so the phone
+     does not offer it.
+   - If a home collection for that team already exists, offer to refresh it
+     (`POST /api/refresh-jobs`) instead of creating a duplicate.
+   - The new season appears at the top of the list with job progress from
+     `GET /api/jobs/:id`. The job runs on the server, so the app can close;
+     progress resumes when it reopens.
+   - Disabled with an explanation when offline.
+   - **Done.** The server already reuses the existing season for a team link
+     it has gathered, so the phone says "Update" rather than offering a
+     separate refresh. Jobs live in server memory: a stopped job shows on its
+     season with "Start again", which passes the season id so a retry never
+     creates a second season.
 2. **Season:** Our team, the schedule in date order (upcoming, result not
    collected, completed), and the scouting pool. **Done.**
 3. **Opponent threat board:** available players first, usual roles, rating
@@ -117,7 +161,8 @@ phone therefore starts from seasons, not from a list of every gathered team.
 |---|---|---|
 | P0 | Seasons home, season screen, Our team | Done (Our team saved on device when the server has none) |
 | P0 | Matchup screen | Done (lineup saved on device; not yet a web Match Day Card) |
-| P1 | Threat board, scenario differences, coverage warnings, start a season | Not started |
+| P0 | New season from the home screen (paste link, preview, start job, progress) | Done (restart after a server restart; jobs still live in server memory) |
+| P1 | Threat board, scenario differences, coverage warnings, share extension for team links | Not started |
 | P2 | Day-of availability, lineup photo, sharing, results | Not started |
 
 ## Logic that moves on-device
@@ -234,11 +279,11 @@ Accessibility Inspector before Phase 3 is done.
 | Phase | Scope | Done when |
 |---|---|---|
 | 0. Screenshot prototype | `scripts/utr-screenshot-ocr.mjs` and tests (done); try it on real UTR profile and roster screenshots | Real screenshots parse with the expected pairs, or parser fixes are captured as fixtures |
-| 1. Hosted backend | Pre-work items 2–6, auth and the accounts-and-sharing decisions, Azure deployment over HTTPS, home-screen web app | Owner uses the hosted web app from an iPhone for a real match, and the native app runs on a physical iPhone against the hosted server over HTTPS |
+| 1. Hosted backend | Pre-work items 2–6, Sign in with Apple with invite-only QR sign-up, workspace roles, Azure deployment over HTTPS, home-screen web app | A second person joins by scanning an invite QR code; the owner uses the hosted web app from an iPhone for a real match; and the native app runs on a physical iPhone against the hosted server over HTTPS |
 | 2. Read-only native app | SwiftUI shell, `Codable` types generated from the schema, teams, rosters, analysis views, offline cache in Application Support, "prepare for match day" download, cache age display (in progress: `ios/CourtScoutKit`; runs on the iOS Simulator, not yet tested on a physical iPhone) | After preparing an event and switching to airplane mode, every opponent's report opens with its saved age shown |
 | 3. Native Match Day | JavaScriptCore spike decides on-device analysis; Match Day Cards with per-card sync, conflict handling, and idempotent retries; lineup scoring on-device or from cached snapshots; Match Day usability checks; client error reporting | A full Match Day runs offline and syncs afterward, with no duplicated or lost card edits |
 | 4. Vision OCR | Result screenshots and UTR screenshots through Vision, confirmation UI, contract update for screenshot provenance | A user confirms exact UTR from screenshots and the ratings appear in reports with the right provenance |
-| 5. TestFlight and App Store | Privacy policy, account deletion, review notes, terms review | Approved TestFlight build; App Store submission when the terms review is clear |
+| 5. TestFlight and App Store | Privacy policy, account deletion, review notes with a working invite or demo account, terms review | Approved TestFlight build; App Store submission when the terms review is clear |
 
 ## Open decisions for the owner
 
@@ -249,5 +294,6 @@ Accessibility Inspector before Phase 3 is done.
    the rest.
 3. Whether to contact UTR about partner API access now.
 4. ~~Whether to generate Swift `Codable` types now.~~ Done: `ios/CourtScoutModels`.
-5. Who can sign up and how team workspaces are shared (see Accounts and
-   sharing).
+5. ~~Who can sign up.~~ Decided: invite-only by QR code (see Accounts and
+   sharing). Only the owner creates invites in Phase 1. Still open: workspace
+   roles, and who else can invite after Phase 1.
