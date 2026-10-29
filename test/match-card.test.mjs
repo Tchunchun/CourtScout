@@ -28,6 +28,7 @@ import {
   summarizeRosterUsage,
   summarizeStackingStrategy,
   validateCardFinalization,
+  scenarioDifferences,
   validateDraft
 } from "../web/public/match-card.mjs";
 
@@ -832,4 +833,43 @@ test("onsite predictions deduplicate doubles pairs regardless of player order", 
   }];
 
   assert.equal(buildOnsitePredictions(predictions, [evidence]).length, 1);
+});
+
+test("scenario differences name changed courts, players, and the score change", () => {
+  const challenge = (rank, scenarioType, scorePercent, lines) => ({
+    rank,
+    scenarioType,
+    scorePercent,
+    comparisons: lines.map(([court, opponentPlayers, edge]) => ({ court, opponentPlayers, edge }))
+  });
+  const likely = challenge(1, "most_likely", 40, [
+    ["S1", ["Ann"], "swing"],
+    ["D1", ["Bea", "Cat"], "challenging"],
+    ["D2", ["Dee", "Eve"], "favorable"]
+  ]);
+  const alternate = challenge(3, "alternate", 47, [
+    ["S1", ["ann"], "swing"],
+    ["D1", ["Cat", "Fay"], "swing"],
+    ["D2", ["Eve", "Dee"], "favorable"]
+  ]);
+
+  const differences = scenarioDifferences(likely, alternate);
+  assert.deepEqual(differences.changedCourts, ["D1"]);
+  assert.deepEqual(differences.courts[0], {
+    court: "D1",
+    opponentPlayers: ["Cat", "Fay"],
+    baseOpponentPlayers: ["Bea", "Cat"],
+    edge: "swing",
+    baseEdge: "challenging"
+  });
+  assert.deepEqual([differences.playersIn, differences.playersOut], [["Fay"], ["Bea"]]);
+  assert.equal(differences.scoreDelta, 7);
+  assert.equal(
+    differences.read,
+    "1 of 3 courts differ from the most likely lineup: D1. Brings in Fay. Leaves out Bea. Our score is 7 points higher."
+  );
+  assert.equal(
+    scenarioDifferences(likely, likely).read,
+    "Same opponents on every court as the most likely lineup."
+  );
 });

@@ -116,6 +116,7 @@ struct MatchupView: View {
                         slot: slot,
                         matchup: matchup,
                         comparison: model.selectedChallenge?.comparisons.first { $0.court == slot.court },
+                        changed: model.selectedChallenge?.differences?.changedCourts.contains(slot.court) == true,
                         onPick: { picking = SlotPick(court: slot.court, slot: $0) }
                     )
                 }
@@ -218,6 +219,47 @@ struct MatchupView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            if let differences = model.selectedChallenge?.differences {
+                differencesView(differences, base: matchup.challenges.first { $0.rank == differences.baseRank })
+            }
+        }
+    }
+
+    /// What this scenario changes from the first one, court by court.
+    private func differencesView(_ differences: Matchup.Challenge.Differences, base: Matchup.Challenge?) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Divider()
+            Text("Compared with \(Scenario.name(base?.scenarioType).lowercased())")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+            Text(differences.read).font(.footnote)
+            ForEach(differences.courts) { court in
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(court.court)
+                        .font(.caption2.weight(.bold))
+                        .frame(width: 26)
+                        .padding(.vertical, 2)
+                        .foregroundStyle(.white)
+                        .background(Palette.brandStrong, in: RoundedRectangle(cornerRadius: 4))
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(court.opponentPlayers.isEmpty ? "No prediction" : court.opponentPlayers.joined(separator: " / "))
+                            .font(.caption.weight(.medium))
+                        Text("instead of " + (court.baseOpponentPlayers.isEmpty ? "no prediction" : court.baseOpponentPlayers.joined(separator: " / ")))
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    if let baseEdge = court.baseEdge, baseEdge != court.edge {
+                        Text("\(Edge.label(baseEdge)) → \(Edge.label(court.edge))")
+                            .font(.caption2.weight(.semibold))
+                            .foregroundStyle(Edge.color(court.edge))
+                    } else {
+                        Text(Edge.label(court.edge))
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
         }
     }
 
@@ -287,6 +329,8 @@ struct CourtMatchupCard: View {
     var slot: Matchup.CourtSlot
     var matchup: Matchup
     var comparison: Matchup.Comparison?
+    /// Their players differ from the first scenario on this court.
+    var changed = false
     var onPick: (Int) -> Void
 
     var body: some View {
@@ -299,6 +343,9 @@ struct CourtMatchupCard: View {
                     .foregroundStyle(.white)
                     .background(Palette.brandStrong, in: RoundedRectangle(cornerRadius: 5))
                 Text(slot.discipline.capitalized).font(.caption).foregroundStyle(.secondary)
+                if changed {
+                    Text("Changed").font(.caption2.weight(.semibold)).foregroundStyle(Palette.accent)
+                }
                 Spacer()
                 if let comparison {
                     Badge(text: Edge.label(comparison.edge), color: Edge.color(comparison.edge))

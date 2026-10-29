@@ -83,6 +83,10 @@ The app follows a captain's season, not a list of every gathered team.
 - **Prepare lineup:** tap an upcoming match (or, with no schedule, any team
   in the event) to test Our lineup against the opponent's three scenarios:
   most likely, strongest by ratings (unconfirmed), and alternate.
+  - Picking the ratings or alternate scenario says what it changes from the
+    first one: which courts have different opponents, who comes in or drops
+    out, how Our edge moves on each changed court, and the score change.
+    Changed courts are tagged on their cards.
   - Each court shows Our players, theirs, DR and UTR averages, our margin,
     and an edge: favorable, swing, challenging, or limited data.
   - Tap a player to change them; eligible players are listed first, and a

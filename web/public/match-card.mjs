@@ -1169,6 +1169,68 @@ export function challengeLineupAgainstPredictions({
   });
 }
 
+// Rosters and scorecards disagree on name case ("Emma SEGAL").
+function playerKey(name) {
+  return name.trim().toLowerCase();
+}
+
+function samePlayers(a = [], b = []) {
+  const left = a.map(playerKey).sort();
+  const right = b.map(playerKey).sort();
+  return left.length === right.length && left.every((name, index) => name === right[index]);
+}
+
+/**
+ * What changes when the opponent fields `other` instead of `base` (both
+ * challenges of the same Our lineup): the courts with different opponents,
+ * how Our edge moves on each, who comes in or drops out, and the score change.
+ */
+export function scenarioDifferences(base, other) {
+  const baseByCourt = new Map(base.comparisons.map(item => [item.court, item]));
+  const courts = other.comparisons
+    .map(comparison => {
+      const before = baseByCourt.get(comparison.court);
+      return {
+        court: comparison.court,
+        opponentPlayers: comparison.opponentPlayers,
+        baseOpponentPlayers: before?.opponentPlayers ?? [],
+        edge: comparison.edge,
+        baseEdge: before?.edge ?? null
+      };
+    })
+    .filter(item => !samePlayers(item.opponentPlayers, item.baseOpponentPlayers));
+  const names = comparisons => new Map(comparisons
+    .flatMap(item => item.opponentPlayers)
+    .map(name => [playerKey(name), name]));
+  const baseNames = names(base.comparisons);
+  const otherNames = names(other.comparisons);
+  const playersIn = [...otherNames].filter(([key]) => !baseNames.has(key)).map(([, name]) => name);
+  const playersOut = [...baseNames].filter(([key]) => !otherNames.has(key)).map(([, name]) => name);
+  const scoreDelta = other.scorePercent - base.scorePercent;
+  const baseName = base.scenarioType === "rating_ceiling"
+    ? "the ratings lineup"
+    : "the most likely lineup";
+  const read = courts.length
+    ? [
+        `${courts.length} of ${other.comparisons.length} courts differ from ${baseName}: ${courts.map(item => item.court).join(", ")}.`,
+        playersIn.length ? `Brings in ${playersIn.join(", ")}.` : null,
+        playersOut.length ? `Leaves out ${playersOut.join(", ")}.` : null,
+        scoreDelta === 0
+          ? "Our score is unchanged."
+          : `Our score is ${Math.abs(scoreDelta)} points ${scoreDelta > 0 ? "higher" : "lower"}.`
+      ].filter(Boolean).join(" ")
+    : `Same opponents on every court as ${baseName}.`;
+  return {
+    baseRank: base.rank,
+    changedCourts: courts.map(item => item.court),
+    courts,
+    playersIn,
+    playersOut,
+    scoreDelta,
+    read
+  };
+}
+
 export function summarizeStackingStrategy(matchStacking = []) {
   if (!matchStacking.length) return null;
   const orderedMatches = [...matchStacking].sort((a, b) =>

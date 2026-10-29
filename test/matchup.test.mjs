@@ -159,6 +159,10 @@ test("server compares Our lineup through POST /api/matchup", async t => {
   assert.equal(matchup.eligibilityScope, "national");
   assert.equal(matchup.opponentTeam.name, "Theirs");
   assert.equal(matchup.challenges[0].scorePercent, 100);
+  assert.equal(matchup.challenges[0].differences, null);
+  for (const challenge of matchup.challenges.slice(1)) {
+    assert.equal(challenge.differences.baseRank, matchup.challenges[0].rank);
+  }
 
   const same = await post({ ourTeamId: "ours", opponentTeamId: "ours" });
   assert.equal(same.status, 400);

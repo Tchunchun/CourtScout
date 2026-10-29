@@ -5,6 +5,7 @@ import {
   emptyDraft,
   matchCardCourtDefinitions,
   normalizePlayerGender,
+  scenarioDifferences,
   validateDraft
 } from "../../web/public/match-card.mjs";
 import { activeNationalRoster } from "../../web/public/render.mjs";
@@ -116,6 +117,10 @@ export function buildMatchup({
   }).map((challenge, index) => ({
     ...challenge,
     scenarioType: scenarios[index]?.scenarioType ?? null
+  })).map((challenge, index, all) => ({
+    ...challenge,
+    // Each other scenario is read against the first one.
+    differences: index === 0 ? null : scenarioDifferences(all[0], challenge)
   }));
   const percents = challenges.map(challenge => challenge.scorePercent);
 

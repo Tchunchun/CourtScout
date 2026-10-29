@@ -176,6 +176,9 @@ do {
         do {
             let matchup = try await live.matchup(ourTeamId: ourId, opponentTeamId: opponentId).value
             check(matchup.challenges.count == matchup.scenarios.count, "\(opponentId): challenge per scenario")
+            check(matchup.challenges.first?.differences == nil &&
+                  matchup.challenges.dropFirst().allSatisfy { $0.differences?.baseRank == matchup.challenges.first?.rank },
+                  "\(opponentId): scenario differences not read against the first scenario")
         } catch {
             failures.append("matchup \(opponentId): \(error)")
         }

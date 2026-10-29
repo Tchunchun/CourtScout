@@ -94,7 +94,28 @@ public struct Matchup: Codable, Hashable, Sendable {
         public var scorePercent: Int
         public var pros: [String]
         public var risks: [String]
+        /// What changes from the first scenario; nil for the first one.
+        public var differences: Differences?
         public var id: Int { rank }
+
+        public struct Differences: Codable, Hashable, Sendable {
+            public var baseRank: Int
+            public var changedCourts: [String]
+            public var courts: [ChangedCourt]
+            public var playersIn: [String]
+            public var playersOut: [String]
+            public var scoreDelta: Int
+            public var read: String
+        }
+
+        public struct ChangedCourt: Codable, Hashable, Identifiable, Sendable {
+            public var court: String
+            public var opponentPlayers: [String]
+            public var baseOpponentPlayers: [String]
+            public var edge: String
+            public var baseEdge: String?
+            public var id: String { court }
+        }
 
         public struct Summary: Codable, Hashable, Sendable {
             public var favorable: Int
