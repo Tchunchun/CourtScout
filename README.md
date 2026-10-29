@@ -74,8 +74,14 @@ row by row, reconciled against the confirmed schedule, and confirmed without
 discarding cards for postponed or removed matches. Manual match entry remains
 available as a fallback.
 Unfiled teams and the aggregate **All gathered teams** view do not have team
-roles. Team roles are cached in the current browser. Match Day Cards synchronize
-through `data/match-cards.json` and retain browser storage as an offline cache.
+roles. Team roles are shared with the iPhone app through `data/team-roles.json`,
+with a revision per season so a stale device cannot overwrite a newer choice;
+the browser keeps a copy for offline use. Match Day Cards synchronize through
+`data/match-cards.json` and retain browser storage as an offline cache.
+Seasons, schedules, team roles, Match Day Cards, and gathering-job progress
+(`data/jobs/`) are read and written through one storage layer
+(`scripts/lib/store.mjs`), so they can move to cloud storage as a copy; see
+`requirements/ios-app-plan.md`.
 
 For an existing gathered team, use **Refresh data** to repull TennisRecord, UTR,
 or both. Unselected sources and curated player roles/notes are preserved.

@@ -20,6 +20,7 @@ public protocol HTTPTransport: Sendable {
     func get(_ path: String, query: [URLQueryItem]) async throws -> Data
     func post(_ path: String, body: Data) async throws -> Data
     func patch(_ path: String, body: Data) async throws -> Data
+    func put(_ path: String, body: Data) async throws -> Data
 }
 
 public struct URLSessionTransport: HTTPTransport {
@@ -56,6 +57,10 @@ public struct URLSessionTransport: HTTPTransport {
 
     public func patch(_ path: String, body: Data) async throws -> Data {
         try await send("PATCH", path, body: body)
+    }
+
+    public func put(_ path: String, body: Data) async throws -> Data {
+        try await send("PUT", path, body: body)
     }
 
     private func send(_ method: String, _ path: String, body: Data) async throws -> Data {

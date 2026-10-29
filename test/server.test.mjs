@@ -905,3 +905,136 @@ test("server creates event collections and assigns gathered teams", async t => {
   );
   assert.equal(missingDeleteResponse.status, 404);
 });
+
+test("server shares team roles per season and refuses stale saves", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-team-roles-"));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+  for (const [folder, datasetId] of [["our-team", "2027-our"], ["their-team", "2027-their"]]) {
+    await mkdir(join(dataDirectory, folder));
+    await writeFile(join(dataDirectory, folder, "team-data.json"), JSON.stringify({
+      datasetId,
+      generatedAt: "2027-01-01T00:00:00.000Z",
+      collectionStage: "step_1_complete",
+      team: { name: folder, season: 2027 },
+      roster: [],
+      matches: []
+    }));
+  }
+  const server = createAppServer({ dataDirectory });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(() => server.close());
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const send = (method, path, body) => fetch(`${base}${path}`, {
+    method,
+    headers: { "content-type": "application/json" },
+    body: body && JSON.stringify(body)
+  });
+
+  const { collection } = await (await send("POST", "/api/team-collections", {
+    name: "2027 Mixed 7.0",
+    competitionLevel: "local",
+    datasetId: "2027-our"
+  })).json();
+  assert.equal((await send("PUT", `/api/team-collections/${collection.id}/team`, {
+    datasetId: "2027-their"
+  })).status, 200);
+
+  const unsaved = await (await send("GET", `/api/team-roles/${collection.id}`)).json();
+  assert.equal(unsaved.saved, false);
+  assert.equal(unsaved.revision, 0);
+
+  const saved = await send("PUT", `/api/team-roles/${collection.id}`, {
+    ourTeamId: "our-team",
+    scheduledOpponentIds: ["their-team"],
+    baseRevision: 0
+  });
+  assert.equal(saved.status, 200);
+  assert.equal((await saved.json()).revision, 1);
+
+  const stale = await send("PUT", `/api/team-roles/${collection.id}`, {
+    ourTeamId: "their-team",
+    scheduledOpponentIds: [],
+    baseRevision: 0
+  });
+  assert.equal(stale.status, 409);
+  assert.equal((await stale.json()).current.ourTeamId, "our-team");
+
+  const outsider = await send("PUT", `/api/team-roles/${collection.id}`, {
+    ourTeamId: "someone-else"
+  });
+  assert.equal(outsider.status, 400);
+  assert.match((await outsider.json()).error, /teams in this season/);
+
+  const read = await (await send("GET", `/api/team-roles/${collection.id}`)).json();
+  assert.deepEqual(
+    [read.saved, read.ourTeamId, read.scheduledOpponentIds],
+    [true, "our-team", ["their-team"]]
+  );
+  assert.equal((await send("GET", "/api/team-roles/missing")).status, 404);
+
+  assert.equal((await send("DELETE", `/api/team-collections/${collection.id}`)).status, 200);
+  const stored = JSON.parse(await readFile(join(dataDirectory, "team-roles.json"), "utf8"));
+  assert.deepEqual(stored.seasons, {});
+});
+
+test("server saves jobs and reports one interrupted by a restart", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-saved-jobs-"));
+  let releaseJob;
+  const jobGate = new Promise(resolve => {
+    releaseJob = resolve;
+  });
+  const server = createAppServer({
+    dataDirectory,
+    runCollectionJob: async job => {
+      job.status = "running";
+      await jobGate;
+      job.status = "failed";
+    }
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(async () => {
+    releaseJob();
+    server.close();
+    await rm(dataDirectory, { recursive: true, force: true });
+  });
+  const base = `http://127.0.0.1:${server.address().port}`;
+
+  const started = await (await fetch(`${base}/api/jobs`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      teamUrl: "https://www.tennisrecord.com/adult/teamprofile.aspx?year=2027&teamname=SAVED-JOB",
+      utrMode: "none",
+      includeWtn: false
+    })
+  })).json();
+  let snapshot;
+  for (let attempt = 0; attempt < 50 && !snapshot; attempt += 1) {
+    snapshot = await readFile(join(dataDirectory, "jobs", `${started.id}.json`), "utf8")
+      .catch(() => null);
+    if (!snapshot) await new Promise(resolve => setTimeout(resolve, 20));
+  }
+  assert.equal(JSON.parse(snapshot).id, started.id);
+
+  // A job this server never ran, saved mid-gather by an earlier process.
+  const orphanId = "0e1f2a3b-4c5d-4e6f-8a9b-0c1d2e3f4a5b";
+  await writeFile(join(dataDirectory, "jobs", `${orphanId}.json`), JSON.stringify({
+    id: orphanId,
+    kind: "league-collection",
+    status: "running",
+    phase: "opponents",
+    progress: 40,
+    detail: "Gathering opponents",
+    discoveredOpponentCount: 10,
+    collectedTeamCount: 4
+  }));
+  const orphan = await (await fetch(`${base}/api/jobs/${orphanId}`)).json();
+  assert.equal(orphan.status, "failed");
+  assert.equal(orphan.collectedTeamCount, 4);
+  assert.match(orphan.error, /server restarted/);
+
+  const unknown = await fetch(`${base}/api/jobs/${orphanId.replace("0e", "ff")}`);
+  assert.equal(unknown.status, 404);
+});

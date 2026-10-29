@@ -63,14 +63,17 @@ The app follows a captain's season, not a list of every gathered team.
     instead of creating another.
   - The season appears at once with a progress bar. The job runs on the
     server, so the app can close; progress resumes when it reopens.
-  - Jobs live in the server's memory. If the server restarts mid-way, the
-    season says so and offers "Start again", which gathers into the same
-    season.
+  - A running gather lives in the server's memory; the server saves each
+    job's progress to `data/jobs/`. If the server restarts mid-way, the season
+    says so and offers "Start again", which gathers into the same season.
 - **Season:** Our team, the next match, upcoming matches, past matches whose
   result has not been gathered yet, completed matches, and the scouting pool
   (other gathered teams that are not on the schedule).
-  - Our team comes from the confirmed schedule, then the web app's Match Day
-    default, then a choice saved on this device.
+  - Our team comes from the confirmed schedule, then the team roles shared
+    with the web app (`/api/team-roles`), then the web app's Match Day
+    default. Choosing Our team on the phone saves it to the server. Offline,
+    the choice is kept on the phone and shared on the next load that reaches
+    the server; if another device saved first, the newer choice is shown.
   - The schedule is the season's confirmed schedule. Without one, the app
     falls back to Our team's TennisRecord schedule and says it is unconfirmed.
 - **Prepare lineup:** tap an upcoming match (or, with no schedule, any team
@@ -112,7 +115,8 @@ swift run --package-path ios/CourtScoutKit verify-kit
 
 With the server running, decodes every team's catalog entry, dataset, and
 analysis through the app's API client, and checks the offline fallback,
-matchups, and the New season preview (it starts no jobs).
+matchups, team roles, and the New season preview (it starts no jobs and
+saves nothing).
 
 With Xcode installed and selected (`xcode-select -p` points into `Xcode.app`),
 the Swift Testing suite for the models also runs:
@@ -166,9 +170,6 @@ cp ios/CourtScout.swiftpm/App/Assets.xcassets/AppIcon.appiconset/AppIcon.png ios
   trusted local server.
 - Saving a phone lineup as a web Match Day Card, and on-site evidence in the
   phone matchup.
-- Saving Our team to the server from the phone. The existing server route also
-  rewrites the confirmed schedule from TennisRecord, which is wrong for
-  imported Nationals schedules, so the phone keeps its choice locally.
 - Match Day Cards, availability, and editing (Phase 3).
 - Tested on the iOS 26.3 Simulator (iPhone 17 Pro); not yet on a physical
   iPhone.

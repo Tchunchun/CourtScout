@@ -45,6 +45,13 @@ import {
   normalizeRatingScope,
   ratingScopeIncludes
 } from "../scripts/lib/ratings.mjs";
+import { storeFor } from "../scripts/lib/store.mjs";
+import {
+  TeamRolesConflictError,
+  deleteTeamRoles,
+  getTeamRoles,
+  saveTeamRoles
+} from "../scripts/lib/team-roles.mjs";
 import { previewTennisRecordTeam } from "../scripts/lib/tennisrecord.mjs";
 import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
@@ -231,6 +238,56 @@ function publicJob(job) {
     discoveredOpponentCount: job.discoveredOpponentCount ?? 0,
     collectedTeamCount: job.collectedTeamCount ?? 0,
     log: job.log.slice(-10)
+  };
+}
+
+// Running gathers live in memory; a saved snapshot lets a restarted server
+// still answer for a job, as interrupted, instead of forgetting it.
+const JOB_SNAPSHOT_INTERVAL_MS = 2_000;
+
+function jobKey(id) {
+  return `jobs/${id}.json`;
+}
+
+function isFinishedJob(job) {
+  return job.status === "complete" || job.status === "failed";
+}
+
+function trackJob(job, dataDirectory) {
+  jobs.set(job.id, job);
+  const store = storeFor(dataDirectory);
+  let saved = "";
+  let saving = Promise.resolve();
+  const save = () => {
+    saving = saving.then(async () => {
+      const snapshot = JSON.stringify(publicJob(job));
+      if (snapshot === saved) return;
+      saved = snapshot;
+      await store.write(jobKey(job.id), JSON.parse(snapshot));
+    }).catch(() => {});
+    return saving;
+  };
+  void save();
+  const timer = setInterval(() => {
+    const finished = isFinishedJob(job);
+    void save();
+    if (finished) clearInterval(timer);
+  }, JOB_SNAPSHOT_INTERVAL_MS);
+  timer.unref();
+}
+
+async function findJob(dataDirectory, id) {
+  if (jobs.has(id)) return publicJob(jobs.get(id));
+  const document = await storeFor(dataDirectory).read(jobKey(id));
+  if (!document) return null;
+  const job = document.value;
+  if (isFinishedJob(job)) return job;
+  return {
+    ...job,
+    status: "failed",
+    phase: "failed",
+    detail: "Gathering stopped",
+    error: "The server restarted before this finished. Start it again to gather the remaining teams."
   };
 }
 
@@ -1011,7 +1068,7 @@ export function createAppServer(options = {}) {
           ),
           log: []
         };
-        jobs.set(id, job);
+        trackJob(job, dataDirectory);
         void runScoutingJob(job, runUtrCommand, runCollectionJob);
         json(response, 202, publicJob(job));
         return;
@@ -1079,7 +1136,7 @@ export function createAppServer(options = {}) {
           ),
           log: []
         };
-        jobs.set(id, job);
+        trackJob(job, dataDirectory);
         void runRefreshJob(job, runUtrCommand);
         json(response, 202, publicJob(job));
         return;
@@ -1261,6 +1318,34 @@ export function createAppServer(options = {}) {
         return;
       }
 
+      const teamRolesMatch = pathname.match(
+        /^\/api\/team-roles\/([a-zA-Z0-9-]+)$/
+      );
+      if (request.method === "GET" && teamRolesMatch) {
+        await getTeamCollection(dataDirectory, teamRolesMatch[1]);
+        json(response, 200, await getTeamRoles(dataDirectory, teamRolesMatch[1]));
+        return;
+      }
+      if (request.method === "PUT" && teamRolesMatch) {
+        const collectionId = teamRolesMatch[1];
+        const collection = await getTeamCollection(dataDirectory, collectionId);
+        const body = await readBody(request);
+        const seasonDatasetIds = new Set(collection.teamDatasetIds);
+        const teamIds = (await listTeamCatalog(dataDirectory))
+          .filter(team => seasonDatasetIds.has(team.datasetId))
+          .map(team => team.id);
+        try {
+          json(response, 200, await saveTeamRoles(dataDirectory, collectionId, body, {
+            teamIds,
+            baseRevision: body.baseRevision
+          }));
+        } catch (error) {
+          if (!(error instanceof TeamRolesConflictError)) throw error;
+          json(response, 409, { error: error.message, current: error.current });
+        }
+        return;
+      }
+
       const collectionMatch = pathname.match(
         /^\/api\/team-collections\/([a-zA-Z0-9-]+)$/
       );
@@ -1270,6 +1355,7 @@ export function createAppServer(options = {}) {
           collectionMatch[1]
         );
         await deleteEventSchedule(dataDirectory, collectionMatch[1]);
+        await deleteTeamRoles(dataDirectory, collectionMatch[1]);
         json(response, 200, result);
         return;
       }
@@ -1373,9 +1459,9 @@ export function createAppServer(options = {}) {
 
       const jobMatch = pathname.match(/^\/api\/jobs\/([a-f0-9-]+)$/);
       if (request.method === "GET" && jobMatch) {
-        const job = jobs.get(jobMatch[1]);
+        const job = await findJob(dataDirectory, jobMatch[1]);
         if (!job) return json(response, 404, { error: "Collection job not found." });
-        json(response, 200, publicJob(job));
+        json(response, 200, job);
         return;
       }
 

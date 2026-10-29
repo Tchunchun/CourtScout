@@ -9,6 +9,8 @@ final class SeasonsModel {
     var collections: [TeamCollection] = []
     /// Confirmed schedule per collection id; nil when none was confirmed.
     var schedules: [String: EventSchedule] = [:]
+    /// Team roles shared with the web app, per collection id.
+    var roles: [String: TeamRoles] = [:]
     var offlineSince: Date?
     var phase: LoadPhase = .idle
     private let defaults: UserDefaults
@@ -27,14 +29,27 @@ final class SeasonsModel {
             let catalog = try await repository.catalog()
             let collections = try await repository.collections()
             var schedules: [String: EventSchedule] = [:]
+            var roles: [String: TeamRoles] = [:]
+            var pending: [TeamRoles] = []
             for collection in collections.value.collections {
                 if let schedule = try? await repository.eventSchedule(collection.id).value.schedule {
                     schedules[collection.id] = schedule
+                }
+                if let loaded = try? await repository.teamRoles(collection.id) {
+                    roles[collection.id] = loaded.value
+                    if loaded.source == .live, let choice = deviceOurTeam(for: collection.id) {
+                        pending.append(loaded.value.choosingOurTeam(choice))
+                    }
                 }
             }
             self.catalog = catalog.value
             self.collections = collections.value.collections
             self.schedules = schedules
+            self.roles = roles
+            // Choices made offline are shared once the server answers.
+            for choice in pending {
+                _ = await save(choice, repository: repository)
+            }
             offlineSince = catalog.source == .offline || collections.source == .offline
                 ? min(catalog.savedAt, collections.savedAt) : nil
             phase = .loaded
@@ -46,13 +61,43 @@ final class SeasonsModel {
         }
     }
 
-    // Our team chosen on this device, used only when the server has none.
+    // Our team chosen on this device while the server was unreachable; it is
+    // shared, and forgotten here, on the next load that reaches the server.
     func deviceOurTeam(for collectionId: String) -> String? {
         defaults.string(forKey: "ourTeam.\(collectionId)")
     }
 
-    func setDeviceOurTeam(_ teamId: String?, for collectionId: String) {
+    private func setDeviceOurTeam(_ teamId: String?, for collectionId: String) {
         defaults.set(teamId, forKey: "ourTeam.\(collectionId)")
+    }
+
+    /// Shares a new Our team with the web app. Returns a note when it could
+    /// not be shared as chosen.
+    func chooseOurTeam(_ teamId: String?, for collectionId: String, repository: TeamRepository?) async -> String? {
+        let current = roles[collectionId] ?? .unsaved(collectionId)
+        guard let repository else { return nil }
+        return await save(current.choosingOurTeam(teamId), repository: repository)
+    }
+
+    private func save(_ next: TeamRoles, repository: TeamRepository) async -> String? {
+        let collectionId = next.collectionId
+        do {
+            roles[collectionId] = try await repository.saveTeamRoles(next)
+            setDeviceOurTeam(nil, for: collectionId)
+            return nil
+        } catch APIError.http(status: 409, _) {
+            setDeviceOurTeam(nil, for: collectionId)
+            roles[collectionId] = try? await repository.teamRoles(collectionId).value
+            return "Our team was changed on another device, so that choice is shown."
+        } catch APIError.http(_, let message) {
+            return message
+        } catch {
+            if let teamId = next.ourTeamId {
+                setDeviceOurTeam(teamId, for: collectionId)
+                return "Saved on this phone. It will be shared when the server is reachable."
+            }
+            return "Can’t reach the Court Scout server, so Our team was not cleared."
+        }
     }
 
     // MARK: Seasons being gathered
@@ -144,6 +189,7 @@ final class SeasonsModel {
             teams: catalog.teams,
             schedule: schedules[collection.id],
             ourTeamData: nil,
+            roles: roles[collection.id],
             deviceChoice: deviceOurTeam(for: collection.id),
             today: Format.today()
         )
@@ -165,11 +211,14 @@ final class SeasonModel {
         guard let repository, let catalog = seasons.catalog else { return }
         let schedule = seasons.schedules[collection.id]
         let deviceChoice = seasons.deviceOurTeam(for: collection.id)
+        let roles = seasons.roles[collection.id]
         var ourTeamData: TeamData?
         // Without a confirmed schedule, fall back to Our team's own
         // TennisRecord schedule.
         if schedule == nil,
-           let ourTeam = resolveOurTeam(collection: collection, teams: catalog.teams, schedule: nil, deviceChoice: deviceChoice) {
+           let ourTeam = resolveOurTeam(
+               collection: collection, teams: catalog.teams, schedule: nil, roles: roles, deviceChoice: deviceChoice
+           ) {
             if season == nil { phase = .loading }
             ourTeamData = try? await repository.teamData(ourTeam.team.id).value
         }
@@ -178,6 +227,7 @@ final class SeasonModel {
             teams: catalog.teams,
             schedule: schedule,
             ourTeamData: ourTeamData,
+            roles: roles,
             deviceChoice: deviceChoice,
             today: Format.today()
         )

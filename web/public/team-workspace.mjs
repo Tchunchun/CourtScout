@@ -14,8 +14,10 @@ function validTeamId(value) {
 }
 
 export function parseTeamWorkspace(raw) {
-  if (!raw) return emptyTeamWorkspace();
-  const parsed = JSON.parse(raw);
+  return raw ? normalizeTeamWorkspace(JSON.parse(raw)) : emptyTeamWorkspace();
+}
+
+export function normalizeTeamWorkspace(parsed) {
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
     throw new Error("Team workspace must be an object.");
   }

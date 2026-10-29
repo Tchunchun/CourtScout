@@ -190,6 +190,7 @@ struct LevelBadge: View {
 struct SeasonView: View {
     @Environment(AppModel.self) private var app
     @State private var model: SeasonModel
+    @State private var ourTeamNote: String?
     private var seasons: SeasonsModel
 
     init(collection: TeamCollection, seasons: SeasonsModel) {
@@ -325,7 +326,7 @@ struct SeasonView: View {
             if let ourTeam = season.ourTeam {
                 NavigationLink(value: Route.team(ourTeam)) { TeamRow(summary: ourTeam) }
             }
-            if season.ourTeamSource != .confirmedSchedule && season.ourTeamSource != .collectionDefault {
+            if season.ourTeamSource != .confirmedSchedule {
                 Menu {
                     ForEach(season.teams.sorted { $0.team.name < $1.team.name }) { team in
                         Button(team.team.name) { choose(team.id) }
@@ -341,11 +342,16 @@ struct SeasonView: View {
         } header: {
             Text("Our team")
         } footer: {
-            switch season.ourTeamSource {
-            case .thisDevice: Text("Saved on this device only.")
-            case .collectionDefault: Text("From Match Day setup in the web app.")
-            case .confirmedSchedule: Text("From the confirmed schedule.")
-            case nil: Text("Choose your team to see your schedule and opponents.")
+            if let ourTeamNote {
+                Text(ourTeamNote).foregroundStyle(Palette.warning)
+            } else {
+                switch season.ourTeamSource {
+                case .thisDevice: Text("Saved on this phone. It will be shared when the server is reachable.")
+                case .teamRoles: Text("Shared with the web app.")
+                case .collectionDefault: Text("From Match Day setup in the web app.")
+                case .confirmedSchedule: Text("From the confirmed schedule.")
+                case nil: Text("Choose your team to see your schedule and opponents.")
+                }
             }
         }
     }
@@ -377,8 +383,10 @@ struct SeasonView: View {
     }
 
     private func choose(_ teamId: String?) {
-        seasons.setDeviceOurTeam(teamId, for: model.collection.id)
-        Task { await model.load(app.repository, seasons: seasons) }
+        Task {
+            ourTeamNote = await seasons.chooseOurTeam(teamId, for: model.collection.id, repository: app.repository)
+            await model.load(app.repository, seasons: seasons)
+        }
     }
 }
 

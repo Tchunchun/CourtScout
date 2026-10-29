@@ -18,6 +18,7 @@ data/collections/*
 !data/event-schedules.json
 !data/team-catalog.json
 !data/team-collections.json
+!data/team-roles.json
 --selector
 
 # Generated scouting reports.

@@ -18,12 +18,17 @@ struct UnreachableTransport: HTTPTransport {
     func patch(_ path: String, body: Data) async throws -> Data {
         throw URLError(.notConnectedToInternet)
     }
+
+    func put(_ path: String, body: Data) async throws -> Data {
+        throw URLError(.notConnectedToInternet)
+    }
 }
 
 struct CancelledTransport: HTTPTransport {
     func get(_ path: String, query: [URLQueryItem]) async throws -> Data { throw URLError(.cancelled) }
     func post(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
     func patch(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
+    func put(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
 }
 
 let address = CommandLine.arguments.dropFirst().first ?? "http://localhost:4173"
@@ -95,6 +100,28 @@ do {
         }
         seasonLines.append("\(collection.name): our team \(season.ourTeam?.team.name ?? "not set"), " +
             "\(season.matches.count) scheduled, \(season.scoutingPool.count) in scouting pool")
+    }
+
+    // Team roles: every season's shared roles decode, and Our team resolves in
+    // order: schedule, an unshared phone choice, shared roles, the default.
+    for collection in collections.value.collections {
+        let roles = try await live.teamRoles(collection.id).value
+        check(roles.collectionId == collection.id, "\(collection.name): team roles for another season")
+    }
+    if let collection = collections.value.collections.first(where: { $0.teamDatasetIds.count >= 3 }) {
+        let members = catalog.value.teams.filter { collection.teamDatasetIds.contains($0.datasetId) }
+        var roles = TeamRoles.unsaved(collection.id)
+        roles.scheduledOpponentIds = [members[0].id, members[2].id]
+        roles = roles.choosingOurTeam(members[0].id)
+        check(roles.scheduledOpponentIds == [members[2].id], "Our team stayed a scheduled opponent")
+        roles.saved = true
+        let resolve = { (roles: TeamRoles?, device: String?) in
+            resolveOurTeam(collection: collection, teams: catalog.value.teams, schedule: nil,
+                           roles: roles, deviceChoice: device)
+        }
+        check(resolve(roles, nil)?.source == .teamRoles, "Shared roles did not set Our team")
+        check(resolve(roles, members[1].id)?.team.id == members[1].id, "Unshared phone choice was hidden")
+        check(resolve(roles.choosingOurTeam(nil), nil) == nil, "Clearing shared Our team fell back to a default")
     }
 
     // Matchups: every scheduled opponent in seasons with a confirmed schedule,

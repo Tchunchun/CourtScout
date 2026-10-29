@@ -114,7 +114,7 @@ public struct TeamRepository: Sendable {
         }
     }
 
-    private func load<Value: Decodable & Sendable>(
+    func load<Value: Decodable & Sendable>(
         _ type: Value.Type,
         key: String,
         path: String,
@@ -125,7 +125,7 @@ public struct TeamRepository: Sendable {
         }
     }
 
-    private func load<Value: Decodable & Sendable>(
+    func load<Value: Decodable & Sendable>(
         _ type: Value.Type,
         key: String,
         fetch: () async throws -> Data

@@ -208,11 +208,49 @@ files, decides whether Phase 3 recomputes analysis on-device.
    never reach our server.
 6. Never use one shared UTR account on a server.
 
+## Data ownership and storage
+
+Decided on 2026-10-29: start locally, behind a storage layer, and move to the
+cloud as a copy rather than a rewrite. Start light; add a database only when
+it is needed.
+
+| Kind | Examples | Owner | Home |
+|---|---|---|---|
+| Scouting data | `team-data.json`, `analysis/<scope>.json` | Shared; can be gathered again | Server store |
+| Team workspace data | Seasons, Our team and team roles, Match Day Cards, event schedules, gathering jobs | A workspace (a captain and invited members) | Server store |
+| Personal and device data | Server address, sign-in token, a user's own UTR login, lineup drafts, UI preferences | One person on one device | Phone: Keychain for secrets, UserDefaults for the rest. Browser: localStorage |
+
+Team workspace data has one home, the server. The web app and the phone read
+and write the same records; their local copies are offline caches only.
+
+**Storage layer** (`scripts/lib/store.mjs`): JSON documents by key, with an
+ETag on every read and an optional `ifMatch` on writes, so two people saving at
+once get a conflict instead of overwriting each other.
+
+1. **Now (local):** a file-system store on the `data/` folder. Keys are paths
+   relative to it, so the layout is unchanged. Workspace documents are keyed by
+   workspace; the single `default` workspace keeps today's file names
+   (`team-collections.json`, `match-cards.json`, `event-schedules.json`,
+   `team-roles.json`), and any later workspace uses `workspaces/<id>/<name>`.
+   Gathering jobs are saved as `jobs/<id>.json`, so a restarted server still
+   reports a job, as interrupted, instead of forgetting it.
+2. **Cloud (Phase 1):** one Azure App Service (Linux B1, Always On, exactly one
+   instance, since running gathers live in server memory) and Azure Blob
+   Storage implementing the same store with the same keys and native ETags.
+   Moving is copying `data/` into a container. Sign-in ships with hosting, never
+   after it. The hosted server collects public UTR only; exact UTR stays on the
+   owner's Mac or comes from confirmed screenshots.
+3. **Later, only if needed:** a database (Cosmos DB or Postgres) when queries
+   across many workspaces call for one.
+
+Once the cloud store has backups, stop committing `data/` to git. Until then,
+the private repository is the backup.
+
 ## Data sync
 
-- Phase 1 moves `team-collections.json`, `match-cards.json`, and the dataset
-  folders into a real store (Azure Cosmos DB or Postgres for documents; Blob
-  Storage for `team-data.json` and analysis snapshots).
+- The storage layer above carries `team-collections.json`,
+  `match-cards.json`, `event-schedules.json`, and team roles today; in Phase 1
+  the dataset folders move behind it too, as Blob documents.
 - The phone keeps an offline cache: SwiftData or SQLite for collections, cards,
   and schedules; cached `team-data.json` and analysis snapshots as files.
 - The offline cache lives in Application Support, not Caches: iOS can purge
@@ -270,6 +308,8 @@ Accessibility Inspector before Phase 3 is done.
    inputs with checked-in `analysis/<scope>.json` outputs, validated against
    the schema in `npm test`. The Swift port must reproduce them.
 4. Move `team-collections.json` and `match-cards.json` into the shared store.
+   Started: they, event schedules, team roles, and job records go through the
+   local storage layer (see Data ownership and storage); the Blob store remains.
 5. Replace whole-list `PUT /api/match-cards` with per-card routes that carry a
    revision and accept an idempotency key (see Data sync).
 6. Add rate limits and a queue for collection jobs.
@@ -279,7 +319,7 @@ Accessibility Inspector before Phase 3 is done.
 | Phase | Scope | Done when |
 |---|---|---|
 | 0. Screenshot prototype | `scripts/utr-screenshot-ocr.mjs` and tests (done); try it on real UTR profile and roster screenshots | Real screenshots parse with the expected pairs, or parser fixes are captured as fixtures |
-| 1. Hosted backend | Pre-work items 2–6, Sign in with Apple with invite-only QR sign-up, workspace roles, Azure deployment over HTTPS, home-screen web app | A second person joins by scanning an invite QR code; the owner uses the hosted web app from an iPhone for a real match; and the native app runs on a physical iPhone against the hosted server over HTTPS |
+| 1. Hosted backend | Pre-work items 2–6, Sign in with Apple with invite-only QR sign-up, workspace roles, Azure App Service and Blob Storage over HTTPS, home-screen web app | A second person joins by scanning an invite QR code; the owner uses the hosted web app from an iPhone for a real match; and the native app runs on a physical iPhone against the hosted server over HTTPS |
 | 2. Read-only native app | SwiftUI shell, `Codable` types generated from the schema, teams, rosters, analysis views, offline cache in Application Support, "prepare for match day" download, cache age display (in progress: `ios/CourtScoutKit`; runs on the iOS Simulator, not yet tested on a physical iPhone) | After preparing an event and switching to airplane mode, every opponent's report opens with its saved age shown |
 | 3. Native Match Day | JavaScriptCore spike decides on-device analysis; Match Day Cards with per-card sync, conflict handling, and idempotent retries; lineup scoring on-device or from cached snapshots; Match Day usability checks; client error reporting | A full Match Day runs offline and syncs afterward, with no duplicated or lost card edits |
 | 4. Vision OCR | Result screenshots and UTR screenshots through Vision, confirmation UI, contract update for screenshot provenance | A user confirms exact UTR from screenshots and the ratings appear in reports with the right provenance |

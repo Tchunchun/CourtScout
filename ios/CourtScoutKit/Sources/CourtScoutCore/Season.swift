@@ -3,7 +3,7 @@ import Foundation
 /// One event collection seen from Our team's side: who we are, who we play
 /// and when, and which other teams were gathered for scouting.
 public struct Season: Sendable {
-    public enum OurTeamSource: Sendable { case confirmedSchedule, collectionDefault, thisDevice }
+    public enum OurTeamSource: Sendable { case confirmedSchedule, teamRoles, collectionDefault, thisDevice }
     public enum ScheduleSource: Sendable { case confirmed, tennisRecord, none }
 
     public var collection: TeamCollection
@@ -33,24 +33,32 @@ public struct SeasonMatch: Identifiable, Hashable, Sendable {
     public var opponentName: String { opponent?.team.name ?? match.sourceOpponentName }
 }
 
-/// Our team's catalog id: the confirmed schedule wins, then the collection's
-/// saved Match Day default, then a choice made on this device.
+/// Our team's catalog id: the confirmed schedule wins, then a choice made on
+/// this device that is not shared yet, then the team roles shared with the web
+/// app, then the collection's saved Match Day default.
 public func resolveOurTeam(
     collection: TeamCollection,
     teams: [TeamSummary],
     schedule: EventSchedule?,
+    roles: TeamRoles? = nil,
     deviceChoice: String?
 ) -> (team: TeamSummary, source: Season.OurTeamSource)? {
     let members = teams.filter { collection.teamDatasetIds.contains($0.datasetId) }
     if let id = schedule?.ourTeamId, let team = members.first(where: { $0.id == id }) {
         return (team, .confirmedSchedule)
     }
+    if let id = deviceChoice, let team = members.first(where: { $0.id == id }) {
+        return (team, .thisDevice)
+    }
+    if let roles, roles.saved {
+        // A saved choice of no Our team is still a choice.
+        return roles.ourTeamId
+            .flatMap { id in members.first { $0.id == id } }
+            .map { ($0, .teamRoles) }
+    }
     if let datasetId = collection.matchDayDefaults?.ourTeamDatasetId,
        let team = members.first(where: { $0.datasetId == datasetId }) {
         return (team, .collectionDefault)
-    }
-    if let id = deviceChoice, let team = members.first(where: { $0.id == id }) {
-        return (team, .thisDevice)
     }
     return nil
 }
@@ -70,11 +78,14 @@ public func buildSeason(
     teams: [TeamSummary],
     schedule: EventSchedule?,
     ourTeamData: TeamData?,
+    roles: TeamRoles? = nil,
     deviceChoice: String?,
     today: String
 ) -> Season {
     let members = teams.filter { collection.teamDatasetIds.contains($0.datasetId) }
-    let ourTeam = resolveOurTeam(collection: collection, teams: teams, schedule: schedule, deviceChoice: deviceChoice)
+    let ourTeam = resolveOurTeam(
+        collection: collection, teams: teams, schedule: schedule, roles: roles, deviceChoice: deviceChoice
+    )
 
     let rows: [ScheduledMatch]
     let source: Season.ScheduleSource
