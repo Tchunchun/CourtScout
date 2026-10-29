@@ -22,7 +22,7 @@ source provenance and exact ratings.
   it as the only component that talks to TennisRecord, public UTR, and WTN.
 - Build a SwiftUI app that reads and writes through `/api/*`.
 - Move the pure, offline-useful logic onto the phone: lineup analysis and
-  screenshot OCR.
+  result screenshot OCR.
 
 ### Considered and not recommended
 
@@ -59,7 +59,6 @@ The SwiftUI client depends on a formal, versioned API rather than on what
 | event-schedule routes | Schedule review and confirmation |
 | `POST /api/v1/team-preview`, `POST /api/v1/jobs`, `GET /api/v1/jobs/:id` | Start and watch a server-side collection |
 | `POST /api/v1/refresh-jobs` | Refresh an existing team |
-| `POST /api/v1/utr-screenshot/proposals` (new) | Optional server fallback for the screenshot path below |
 
 4. Excluded from the phone: `/api/utr/connect` and `/api/utr/status`. They
    drive a local signed-in browser and do not make sense for a hosted server.
@@ -104,8 +103,7 @@ no open sign-up.
   or revoked tokens give one generic error.
 - **Existing users:** an invite redeemed by someone who already has an
   account adds the workspace to that account instead of creating a second one.
-- **Who owns data:** user-owned state (Match Day Cards, notes, confirmed
-  screenshot ratings) belongs to a team workspace, not to one person.
+- **Who owns data:** user-owned state (Match Day Cards, notes) belongs to a team workspace, not to one person.
 - **Still open:** the roles (for example captain, co-captain, player) and
   which of them can edit cards or only read. Who can invite after Phase 1.
 - **App Review:** with invite-only sign-up, the review notes for Phase 5 must
@@ -175,7 +173,6 @@ phone therefore starts from seasons, not from a list of every gathered team.
 | Lineup prediction and evidence scoring | `scripts/lib/analysis.mjs` (`analyzeTeam`, `analyzeEligibility`, `analyzeSingles`, `analyzeDoubles`, `analyzeLineupPredictions`) | Port to Swift. Golden-file tests (below) must match the JS output exactly before the Swift port is trusted. |
 | Match Day lineup scoring | `web/public/match-card.mjs` | Port to Swift alongside analysis. |
 | Result screenshot OCR | `/api/result-ocr` with tesseract.js | Apple Vision `VNRecognizeTextRequest`. Same downstream parser. |
-| UTR screenshot parsing and name matching | `scripts/lib/utr-screenshot.mjs` | Port the parser and matcher to Swift; feed it Vision text. Shares fixtures with the JS tests. |
 | Collection and scraping | `scripts/collect-team.mjs`, collectors | Stays on the server. |
 
 Porting `analysis.mjs` is the largest risk in this plan. Two alternatives worth
@@ -195,20 +192,21 @@ files, decides whether Phase 3 recomputes analysis on-device.
 
 ## Exact UTR on iPhone
 
+Decided on 2026-10-29: exact UTR comes from UTR's official partner API, called
+by the server. Screenshot OCR and calling UTR's data service with a user's own
+login were dropped as too risky.
+
 1. Default to public masked UTR, TennisRecord ratings, and WTN.
-2. Exact decimals come from the user's own screenshots of UTR profiles or
-   team lists. Vision reads them, `utr-screenshot` proposes matches with a
-   confidence score, and the user confirms each match before anything is
-   saved. A prototype exists today as `scripts/utr-screenshot-ocr.mjs`.
-3. Confirmed screenshot ratings are stored with a distinct provenance
-   (`lookupStatus: "user_screenshot_confirmed"`, source type
-   `utr_user_screenshot`), the capture date, and the OCR confidence, so the
-   analysis can tell them apart from authenticated profile reads. This needs a
-   contract update before ratings are written.
-4. In parallel, ask UTR about official partner API access.
-5. Calling UTR's data service directly with the user's own login is an
-   unofficial, opt-in fallback only. Credentials stay in the iOS Keychain and
-   never reach our server.
+2. The owner is asking UTR for partner API access. Until it is granted, exact
+   decimals come only from the owner's signed-in Mac, as today.
+3. The server holds the partner key as a secret and fills in exact ratings
+   while gathering. The phone and web client never talk to UTR and hold no UTR
+   key or login.
+4. Partner ratings are stored with their own provenance (source type, UTR
+   player id, retrieval date) so the analysis and reports can tell them apart
+   from public masked and authenticated profile reads. This needs a contract
+   update before ratings are written.
+5. Store and show only what UTR's partner terms allow.
 6. Never use one shared UTR account on a server.
 
 ## Data ownership and storage
@@ -221,7 +219,7 @@ it is needed.
 |---|---|---|---|
 | Scouting data | `team-data.json`, `analysis/<scope>.json` | Shared; can be gathered again | Server store |
 | Team workspace data | Seasons, Our team and team roles, Match Day Cards, event schedules, gathering jobs | A workspace (a captain and invited members) | Server store |
-| Personal and device data | Server address, sign-in token, a user's own UTR login, lineup drafts, UI preferences | One person on one device | Phone: Keychain for secrets, UserDefaults for the rest. Browser: localStorage |
+| Personal and device data | Server address, sign-in token, lineup drafts, UI preferences | One person on one device | Phone: Keychain for secrets, UserDefaults for the rest. Browser: localStorage |
 
 Team workspace data has one home, the server. The web app and the phone read
 and write the same records; their local copies are offline caches only.
@@ -241,8 +239,8 @@ once get a conflict instead of overwriting each other.
    instance, since running gathers live in server memory) and Azure Blob
    Storage implementing the same store with the same keys and native ETags.
    Moving is copying `data/` into a container. Sign-in ships with hosting, never
-   after it. The hosted server collects public UTR only; exact UTR stays on the
-   owner's Mac or comes from confirmed screenshots.
+   after it. The hosted server collects public UTR, plus exact UTR from the partner
+   API once UTR grants access; until then exact UTR stays on the owner's Mac.
 3. **Later, only if needed:** a database (Cosmos DB or Postgres) when queries
    across many workspaces call for one.
 
@@ -269,8 +267,7 @@ the private repository is the backup.
 - Canonical datasets are read-only on the phone. Only the server collects or
   refreshes them, matching the contract rule that analysis never rewrites
   source data.
-- User-owned state (Match Day Cards, roles, notes, confirmed screenshot
-  ratings) syncs both ways. Each record carries `updatedAt` and a revision
+- User-owned state (Match Day Cards, roles, notes) syncs both ways. Each record carries `updatedAt` and a revision
   number; the server rejects stale writes with `409` and the app shows both
   versions for the user to choose. Last-writer-wins is acceptable only for
   per-device UI preferences.
@@ -290,8 +287,7 @@ the private repository is the backup.
 | App Review Guideline 5.2 (intellectual property) for third-party data | Show sources and retrieval dates; do not use UTR, USTA, or TennisRecord branding; attribute each rating to its source. |
 | Guideline 4.2 (minimum functionality) | Ship native Match Day, offline cards, and Vision OCR so the app is clearly more than a website. |
 | Guideline 5.1 (privacy) | Player names and ratings are personal data. Publish a privacy policy, add an account deletion flow (required when sign-in exists), and fill in the privacy nutrition labels. |
-| Unofficial UTR login fallback | Off by default, clearly labeled, credentials only in the Keychain. Drop it if UTR objects or a partner API becomes available. |
-| Screenshot OCR misreads a rating | Every match needs user confirmation; masked bands stay masked; low OCR confidence forces review. |
+| UTR partner access is refused or delayed | The app stays useful with public masked UTR, TennisRecord ratings, and WTN. Exact UTR stays on the owner's Mac. |
 | Hosted collection jobs overload source sites or run up costs | Per-user rate limits and a shared job queue on the server (API contract item 8). |
 
 ## Match Day usability
@@ -321,11 +317,11 @@ Accessibility Inspector before Phase 3 is done.
 
 | Phase | Scope | Done when |
 |---|---|---|
-| 0. Screenshot prototype | `scripts/utr-screenshot-ocr.mjs` and tests (done); try it on real UTR profile and roster screenshots | Real screenshots parse with the expected pairs, or parser fixes are captured as fixtures |
+| 0. UTR partner access | Ask UTR for official partner API access (owner); screenshot prototype dropped | UTR grants access and its terms are recorded in feature 034 |
 | 1. Hosted backend | Pre-work items 2–6, Sign in with Apple with invite-only QR sign-up, workspace roles, Azure App Service and Blob Storage over HTTPS, home-screen web app | A second person joins by scanning an invite QR code; the owner uses the hosted web app from an iPhone for a real match; and the native app runs on a physical iPhone against the hosted server over HTTPS |
 | 2. Read-only native app | SwiftUI shell, `Codable` types generated from the schema, teams, rosters, analysis views, offline cache in Application Support, "prepare for match day" download, cache age display (in progress: `ios/CourtScoutKit`; runs on the iOS Simulator, not yet tested on a physical iPhone) | After preparing an event and switching to airplane mode, every opponent's report opens with its saved age shown |
 | 3. Native Match Day | JavaScriptCore spike decides on-device analysis; Match Day Cards with per-card sync, conflict handling, and idempotent retries; lineup scoring on-device or from cached snapshots; Match Day usability checks; client error reporting | A full Match Day runs offline and syncs afterward, with no duplicated or lost card edits |
-| 4. Vision OCR | Result screenshots and UTR screenshots through Vision, confirmation UI, contract update for screenshot provenance | A user confirms exact UTR from screenshots and the ratings appear in reports with the right provenance |
+| 4. Exact UTR and Vision OCR | Partner API ratings on the server with a contract update for their provenance; exact UTR with its source on the phone; result screenshots through Vision | Exact UTR from the partner API appears in phone reports with the right source and date |
 | 5. TestFlight and App Store | Privacy policy, account deletion, review notes with a working invite or demo account, terms review | Approved TestFlight build; App Store submission when the terms review is clear |
 
 ## Open decisions for the owner
