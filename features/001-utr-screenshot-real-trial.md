@@ -34,3 +34,4 @@ The prototype (`npm run utr:screenshot`) and its tests already exist. This featu
 - 2026-10-29: Seeded from `requirements/ios-app-plan.md`.
 - 2026-10-29: Moved to a fresh worktree from `main` on `feature/utr-screenshot-real-trial`; the old branch was already merged in PR #3. Baseline `npm test` passes (158). No code changed.
 - 2026-10-29: Blocked by owner decision: exact UTR should come from UTR's APIs rather than from reading screenshots, which the owner sees as too risky a workaround. The planning session should drop or rewrite this feature and 017, update "Exact UTR on iPhone" in `requirements/ios-app-plan.md`, and add a feature for UTR API access. Still open: whether "UTR's APIs" means official partner access or `api.utrsports.net` called with each user's own login.
+- 2026-10-29: Superseded by 034 (official UTR partner API). No further work planned; the screenshot prototype stays in `scripts/` until someone removes it.
