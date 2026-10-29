@@ -11,10 +11,13 @@ are separate from the technical milestones in requirements/ios-app-plan.md.
 Core flow: choose the match → research the opponent → select available players
 → compare proposed lineups → adjust and save the chosen lineup.
 
-1. Build 028 (saved doubles pairs, P0).
-2. Build 029 (availability-aware lineup proposals and scenario comparison,
+1. Build 022 (leakage-safe baseline for opponent lineup prediction, P0).
+2. Build 028 (saved doubles pairs, P0).
+3. Build 029 (availability-aware lineup proposals and scenario comparison,
    P0) after 028. Captain-entered availability removes the dependency on 032.
-3. Reuse existing opponent reports, threat board, editable matchup comparisons,
+4. Build 035 (save predictions and compare them with actual lineups, P0) after
+   022 so every later model change has a measurable baseline.
+5. Reuse existing opponent reports, threat board, editable matchup comparisons,
    and lineup saving. Verify the complete flow during pilot evaluation.
 
 Validate repeat use across matches, preparation time saved, whether captains
@@ -25,8 +28,9 @@ are not approved by this prioritization.
 Existing infrastructure, analysis quality, and offline features remain
 supporting work. Their existing dependencies and statuses still apply; this
 plan does not require finishing the entire infrastructure or offline backlog
-before testing the core flow. Cold-start improvements (022–026) follow evidence
-from the pilot rather than blocking the first usable preparation experience.
+before testing the core flow. Cold-start model changes (023–026) follow
+evidence from 022 and 035 rather than blocking the first usable preparation
+experience.
 
 Exact UTR is an optional enhancement subject to suitable partner access and
 permissions. It must not gate Phase 1 or be the sole reason to subscribe.
