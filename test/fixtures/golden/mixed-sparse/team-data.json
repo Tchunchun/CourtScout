@@ -1,0 +1,912 @@
+{
+  "schemaVersion": "2.0.0",
+  "datasetId": "golden-mixed-sparse",
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "collectionStage": "step_1_complete",
+  "team": {
+    "level": "7.0",
+    "gender": "Mixed",
+    "leagueFormat": "mixed",
+    "season": 2027,
+    "name": "Golden mixed-sparse",
+    "section": "Fixture Section",
+    "league": "Mixed League"
+  },
+  "eligibilityRule": {
+    "regulation": "USTA League Regulation 2.03A(4)",
+    "nonSelfRated": {
+      "matchesRequired": 3,
+      "defaultReceivedMayCount": 1
+    },
+    "selfRatedOrAppealed": {
+      "actualMatchesRequired": 4,
+      "defaultsCount": false
+    },
+    "evaluatedThrough": "Sectional Championships"
+  },
+  "sources": [
+    {
+      "type": "fixture",
+      "url": "https://example.invalid/golden",
+      "retrievedAt": "2026-01-01",
+      "fields": [
+        "roster",
+        "matches"
+      ]
+    }
+  ],
+  "roster": [
+    {
+      "ntrp": {
+        "level": "4.0",
+        "type": "C"
+      },
+      "gender": "Unknown",
+      "dr": 3.78,
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      },
+      "name": "Player 01",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": 3.02,
+          "exactValue": 3.02,
+          "display": "3.02",
+          "status": "Projected",
+          "reliability": 32
+        },
+        "doubles": {
+          "value": 4.28,
+          "exactValue": 4.28,
+          "display": "4.28",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "gender": "Men",
+      "dr": 3.43,
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      },
+      "name": "Player 02",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 5.41,
+          "exactValue": 5.41,
+          "display": "5.41",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "gender": "Women",
+      "dr": 3.42,
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 2
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 2,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      },
+      "name": "Player 03",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": 3.45,
+          "exactValue": 3.45,
+          "display": "3.45",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 3.9,
+          "exactValue": 3.9,
+          "display": "3.90",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "gender": "Women",
+      "dr": 3.24,
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      },
+      "name": "Player 04",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 3.16,
+          "exactValue": 3.16,
+          "display": "3.16",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "3.5",
+        "type": "C"
+      },
+      "gender": "Men",
+      "dr": 3.05,
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      },
+      "name": "Player 05",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.53,
+          "exactValue": 4.53,
+          "display": "4.53",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "3.0",
+        "type": "C"
+      },
+      "gender": "Men",
+      "dr": 2.96,
+      "records": {
+        "singles": {
+          "wins": 0,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 0,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 1,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 0,
+      "nationalsEligibility": {
+        "status": "not_confirmed",
+        "display": "Not confirmed"
+      },
+      "name": "Player 06",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.91,
+          "exactValue": 4.91,
+          "display": "4.91",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    }
+  ],
+  "opponents": [
+    {
+      "name": "Opponent 01",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": 5.39,
+          "exactValue": 5.39,
+          "display": "5.39",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 5.29,
+          "exactValue": 5.29,
+          "display": "5.29",
+          "status": "Rated",
+          "reliability": 100
+        }
+      },
+      "appearances": []
+    },
+    {
+      "name": "Opponent 02",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": 2.18,
+          "exactValue": 2.18,
+          "display": "2.18",
+          "status": "Projected",
+          "reliability": 36
+        },
+        "doubles": {
+          "value": 4.68,
+          "exactValue": 4.68,
+          "display": "4.68",
+          "status": "Rated",
+          "reliability": 100
+        }
+      },
+      "appearances": []
+    },
+    {
+      "name": "Opponent 03",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": 5.1,
+          "exactValue": 5.1,
+          "display": "5.10",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "doubles": {
+          "value": 5.59,
+          "exactValue": 5.59,
+          "display": "5.59",
+          "status": "Rated",
+          "reliability": 100
+        }
+      },
+      "appearances": []
+    },
+    {
+      "name": "Opponent 04",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.19,
+          "exactValue": 4.19,
+          "display": "4.19",
+          "status": "Projected",
+          "reliability": 84
+        }
+      },
+      "appearances": []
+    },
+    {
+      "name": "Opponent 05",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": 4.17,
+          "exactValue": 4.17,
+          "display": "4.17",
+          "status": "Rated",
+          "reliability": 100
+        },
+        "doubles": {
+          "value": 4.93,
+          "exactValue": 4.93,
+          "display": "4.93",
+          "status": "Rated",
+          "reliability": 100
+        }
+      },
+      "appearances": []
+    },
+    {
+      "name": "Opponent 06",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-30",
+        "singles": {
+          "value": 3.32,
+          "exactValue": 3.32,
+          "display": "3.32",
+          "status": "Projected",
+          "reliability": 36
+        },
+        "doubles": {
+          "value": 4.01,
+          "exactValue": 4.01,
+          "display": "4.01",
+          "status": "Rated",
+          "reliability": 100
+        }
+      },
+      "appearances": []
+    }
+  ],
+  "matches": [
+    {
+      "date": "2026-09-12",
+      "phase": "local",
+      "teamResult": {
+        "wins": 0,
+        "losses": 3,
+        "result": "L",
+        "source": "tennisrecord",
+        "authoritative": false
+      },
+      "officialTeamResult": null,
+      "id": "match-1",
+      "opponent": "Opponent Team 1",
+      "courts": {
+        "D1": {
+          "result": "L",
+          "status": "L · 6-4 6-3",
+          "score": "6-4 6-3",
+          "adjudication": null,
+          "targetPlayers": [
+            "Player 03",
+            "Player 02"
+          ],
+          "opponentPlayers": [
+            "Opponent 01",
+            "Opponent 02"
+          ],
+          "targetRatings": [
+            {
+              "dr": 3.42,
+              "historicalDr": {
+                "value": 3.16,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Player 03",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": 3.45,
+                  "exactValue": 3.45,
+                  "display": "3.45",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 3.9,
+                  "exactValue": 3.9,
+                  "display": "3.90",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            },
+            {
+              "dr": 3.43,
+              "historicalDr": {
+                "value": 3.16,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Player 02",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 5.41,
+                  "exactValue": 5.41,
+                  "display": "5.41",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "currentDr": 3.42,
+              "historicalDr": {
+                "value": 3.6,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Opponent 01",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": 5.39,
+                  "exactValue": 5.39,
+                  "display": "5.39",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 5.29,
+                  "exactValue": 5.29,
+                  "display": "5.29",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            },
+            {
+              "currentDr": 2.9,
+              "historicalDr": {
+                "value": 3.6,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Opponent 02",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": 2.18,
+                  "exactValue": 2.18,
+                  "display": "2.18",
+                  "status": "Projected",
+                  "reliability": 36
+                },
+                "doubles": {
+                  "value": 4.68,
+                  "exactValue": 4.68,
+                  "display": "4.68",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            }
+          ]
+        },
+        "D2": {
+          "result": "L",
+          "status": "L · 4-6 6-3 1-0",
+          "score": "4-6 6-3 1-0",
+          "adjudication": null,
+          "targetPlayers": [
+            "Player 01",
+            "Player 06"
+          ],
+          "opponentPlayers": [
+            "Opponent 03",
+            "Opponent 04"
+          ],
+          "targetRatings": [
+            {
+              "dr": 3.78,
+              "historicalDr": {
+                "value": 3.71,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Player 01",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": 3.02,
+                  "exactValue": 3.02,
+                  "display": "3.02",
+                  "status": "Projected",
+                  "reliability": 32
+                },
+                "doubles": {
+                  "value": 4.28,
+                  "exactValue": 4.28,
+                  "display": "4.28",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            },
+            {
+              "dr": 2.96,
+              "historicalDr": {
+                "value": 3.71,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Player 06",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.91,
+                  "exactValue": 4.91,
+                  "display": "4.91",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "currentDr": 3.1,
+              "historicalDr": {
+                "value": 3.1,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Opponent 03",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": 5.1,
+                  "exactValue": 5.1,
+                  "display": "5.10",
+                  "status": "Projected",
+                  "reliability": 4
+                },
+                "doubles": {
+                  "value": 5.59,
+                  "exactValue": 5.59,
+                  "display": "5.59",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            },
+            {
+              "currentDr": 3.51,
+              "historicalDr": {
+                "value": 3.1,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Opponent 04",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.19,
+                  "exactValue": 4.19,
+                  "display": "4.19",
+                  "status": "Projected",
+                  "reliability": 84
+                }
+              }
+            }
+          ]
+        },
+        "D3": {
+          "result": "L",
+          "status": "L · 7-6 6-2",
+          "score": "7-6 6-2",
+          "adjudication": null,
+          "targetPlayers": [
+            "Player 04",
+            "Player 05"
+          ],
+          "opponentPlayers": [
+            "Opponent 05",
+            "Opponent 06"
+          ],
+          "targetRatings": [
+            {
+              "dr": 3.24,
+              "historicalDr": {
+                "value": 3.39,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Player 04",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 3.16,
+                  "exactValue": 3.16,
+                  "display": "3.16",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            },
+            {
+              "dr": 3.05,
+              "historicalDr": {
+                "value": 3.39,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Player 05",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": null,
+                  "exactValue": null,
+                  "display": "NR",
+                  "status": "Unrated",
+                  "reliability": 0
+                },
+                "doubles": {
+                  "value": 4.53,
+                  "exactValue": 4.53,
+                  "display": "4.53",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            }
+          ],
+          "opponentRatings": [
+            {
+              "currentDr": 3.14,
+              "historicalDr": {
+                "value": 3.31,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Opponent 05",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": 4.17,
+                  "exactValue": 4.17,
+                  "display": "4.17",
+                  "status": "Rated",
+                  "reliability": 100
+                },
+                "doubles": {
+                  "value": 4.93,
+                  "exactValue": 4.93,
+                  "display": "4.93",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            },
+            {
+              "currentDr": 3.37,
+              "historicalDr": {
+                "value": 3.31,
+                "evidenceType": "individual_match_page_dr"
+              },
+              "name": "Opponent 06",
+              "utr": {
+                "lookupStatus": "authenticated_exact_profile_resolved",
+                "exactDecimalsAvailable": true,
+                "exactDecimalsBlocker": null,
+                "retrievedAt": "2026-09-30",
+                "singles": {
+                  "value": 3.32,
+                  "exactValue": 3.32,
+                  "display": "3.32",
+                  "status": "Projected",
+                  "reliability": 36
+                },
+                "doubles": {
+                  "value": 4.01,
+                  "exactValue": 4.01,
+                  "display": "4.01",
+                  "status": "Rated",
+                  "reliability": 100
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "dataQuality": {
+    "limitations": [
+      "Anonymized fixture with trimmed match history; season appearance counts are preserved."
+    ]
+  },
+  "downstreamContract": {
+    "authoritativeInput": true,
+    "analysisMayDerive": [
+      "eligibility summary",
+      "singles analysis",
+      "doubles pair analysis",
+      "court stacking",
+      "postseason-weighted lineup projection",
+      "strategy",
+      "HTML report"
+    ],
+    "analysisMustNotOverride": [
+      "source identity matches",
+      "exact ratings",
+      "official match results",
+      "adjudications",
+      "source precedence",
+      "unresolved-profile status"
+    ],
+    "opponentRatingPolicy": [
+      "Use authenticated exact UTR values when available.",
+      "Treat NR/unresolved values as missing.",
+      "Never infer a decimal from a public rating band."
+    ]
+  }
+}

@@ -1,0 +1,699 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.2026-tennis-nationals/contracts/analysis.schema.json",
+  "title": "Team analysis JSON",
+  "description": "Analysis envelope and summary contract. Detailed evidence objects remain extensible and are compared in full by golden tests.",
+  "type": "object",
+  "required": [
+    "analysisVersion",
+    "generatedAt",
+    "dataset",
+    "team",
+    "summary",
+    "eligibility",
+    "singles",
+    "doubles",
+    "lineupPredictions",
+    "disclosures"
+  ],
+  "properties": {
+    "analysisVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dataset": {
+      "type": "object",
+      "required": [
+        "datasetId",
+        "schemaVersion",
+        "generatedAt",
+        "collectionStage",
+        "finalReportReady"
+      ],
+      "properties": {
+        "datasetId": {
+          "type": "string"
+        },
+        "schemaVersion": {
+          "type": "string"
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "collectionStage": {
+          "type": "string",
+          "enum": [
+            "tennisrecord_complete",
+            "utr_partial",
+            "step_1_complete"
+          ]
+        },
+        "finalReportReady": {
+          "type": "boolean"
+        }
+      }
+    },
+    "team": {
+      "$ref": "team-data.schema.json#/$defs/team"
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "rosterSize",
+        "matches",
+        "teamRecord",
+        "courtRecord",
+        "phases"
+      ],
+      "properties": {
+        "rosterSize": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matches": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "teamRecord": {
+          "$ref": "#/$defs/record"
+        },
+        "courtRecord": {
+          "$ref": "#/$defs/record"
+        },
+        "phases": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "matches",
+              "teamRecord",
+              "courtRecord"
+            ],
+            "properties": {
+              "matches": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "teamRecord": {
+                "$ref": "#/$defs/record"
+              },
+              "courtRecord": {
+                "$ref": "#/$defs/record"
+              }
+            }
+          }
+        }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "required": [
+        "scope",
+        "label",
+        "rules",
+        "summary",
+        "dataQualityIssues",
+        "players"
+      ],
+      "properties": {
+        "scope": {
+          "enum": [
+            "local",
+            "sectional",
+            "national"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "rules": {
+          "type": "object"
+        },
+        "summary": {
+          "type": "object",
+          "required": [
+            "rosterSize",
+            "eligible",
+            "ineligible",
+            "unavailable",
+            "unknown"
+          ],
+          "properties": {
+            "rosterSize": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "eligible": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ineligible": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unavailable": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unknown": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "dataQualityIssues": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "status",
+              "actualMatches",
+              "defaultsReceived",
+              "countedDefaults",
+              "countedMatches",
+              "matchesRequired",
+              "matchesNeeded",
+              "dr",
+              "role",
+              "standoutNote"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "eligible",
+                  "ineligible",
+                  "unavailable",
+                  "unknown"
+                ]
+              },
+              "actualMatches": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "defaultsReceived": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "countedDefaults": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "countedMatches": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "matchesRequired": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "matchesNeeded": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "dr": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "role": {
+                "type": "string"
+              },
+              "standoutNote": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "singles": {
+      "type": "object",
+      "required": [
+        "summary",
+        "courts",
+        "players",
+        "matchStacking"
+      ],
+      "properties": {
+        "summary": {
+          "type": "object",
+          "required": [
+            "record",
+            "matchesAnalyzed",
+            "lowerDrWins",
+            "favoriteDrLosses",
+            "lowerUtrWins",
+            "favoriteUtrLosses",
+            "playersUsed"
+          ],
+          "properties": {
+            "record": {
+              "$ref": "#/$defs/record"
+            },
+            "matchesAnalyzed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lowerDrWins": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "favoriteDrLosses": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lowerUtrWins": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "favoriteUtrLosses": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "playersUsed": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "courts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "matchStacking": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "doubles": {
+      "type": "object",
+      "required": [
+        "summary",
+        "courts",
+        "repeatedPairs",
+        "oneOffPairs",
+        "pairs",
+        "matchStacking"
+      ],
+      "properties": {
+        "summary": {
+          "type": "object",
+          "required": [
+            "record",
+            "matchesAnalyzed",
+            "lowerDrWins",
+            "favoriteDrLosses",
+            "lowerUtrWins",
+            "favoriteUtrLosses",
+            "uniquePairs",
+            "repeatedPairs",
+            "oneOffPairs",
+            "pairsWithIncompleteCurrentUtr"
+          ],
+          "properties": {
+            "record": {
+              "$ref": "#/$defs/record"
+            },
+            "matchesAnalyzed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lowerDrWins": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "favoriteDrLosses": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "lowerUtrWins": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "favoriteUtrLosses": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "uniquePairs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "repeatedPairs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "oneOffPairs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pairsWithIncompleteCurrentUtr": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "courts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "repeatedPairs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pair"
+          }
+        },
+        "oneOffPairs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pair"
+          }
+        },
+        "pairs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pair"
+          }
+        },
+        "matchStacking": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "lineupPredictions": {
+      "type": "object",
+      "required": [
+        "summary",
+        "methodology",
+        "predictions"
+      ],
+      "properties": {
+        "summary": {
+          "type": "object",
+          "required": [
+            "predictionsGenerated",
+            "matchesAnalyzed",
+            "eligiblePlayers",
+            "excludedPlayers",
+            "courts",
+            "leagueFormat"
+          ],
+          "properties": {
+            "predictionsGenerated": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "matchesAnalyzed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "eligiblePlayers": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "excludedPlayers": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "courts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "leagueFormat": {
+              "enum": [
+                "mixed",
+                "single_gender"
+              ]
+            }
+          }
+        },
+        "methodology": {
+          "type": "string"
+        },
+        "predictions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "rank",
+              "confidence",
+              "historicalSupport",
+              "observedTogether",
+              "evidence",
+              "lines"
+            ],
+            "properties": {
+              "rank": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "emerging"
+                ]
+              },
+              "historicalSupport": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "observedTogether": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "evidence": {
+                "type": "object",
+                "required": [
+                  "totalCourtAppearances",
+                  "postseasonCourtAppearances"
+                ],
+                "properties": {
+                  "totalCourtAppearances": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "postseasonCourtAppearances": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "lines": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "court",
+                    "players",
+                    "appearances",
+                    "postseasonAppearances",
+                    "record",
+                    "lastUsedDate",
+                    "usageShare"
+                  ],
+                  "properties": {
+                    "court": {
+                      "type": "string"
+                    },
+                    "players": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "appearances": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "postseasonAppearances": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "record": {
+                      "$ref": "#/$defs/record"
+                    },
+                    "lastUsedDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "format": "date"
+                    },
+                    "usageShare": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "disclosures": {
+      "type": "object",
+      "required": [
+        "warnings",
+        "sources",
+        "dataQuality"
+      ],
+      "properties": {
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "team-data.schema.json#/$defs/source"
+          }
+        },
+        "dataQuality": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "record": {
+      "type": "object",
+      "required": [
+        "wins",
+        "losses",
+        "ties",
+        "unknown",
+        "decisions",
+        "winRate"
+      ],
+      "properties": {
+        "wins": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "losses": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ties": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unknown": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "decisions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "winRate": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "pair": {
+      "type": "object",
+      "required": [
+        "pair",
+        "players",
+        "appearances",
+        "repeatedPair",
+        "record",
+        "postseasonRecord",
+        "currentRatings",
+        "comparisonMetrics",
+        "matchHistory"
+      ],
+      "properties": {
+        "pair": {
+          "type": "string"
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "appearances": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "repeatedPair": {
+          "type": "boolean"
+        },
+        "record": {
+          "$ref": "#/$defs/record"
+        },
+        "postseasonRecord": {
+          "$ref": "#/$defs/record"
+        },
+        "currentRatings": {
+          "type": "object"
+        },
+        "comparisonMetrics": {
+          "type": "object"
+        },
+        "matchHistory": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

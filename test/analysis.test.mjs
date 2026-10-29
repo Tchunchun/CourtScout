@@ -1,6 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  GOLDEN_ROOT, FIXTURE_NAMES, SCOPES, readJson,
+  validateInput, validateAnalysis, assertSchema, canonicalAnalysis
+} from "./support/analysis-golden.mjs";
+import {
   analyzeDoubles,
   analyzeEligibility,
   analyzeLineupPredictions,
@@ -445,4 +449,36 @@ test("team analysis discloses unresolved mixed-league player genders", () => {
 
   assert.equal(result.team.leagueFormat, "mixed");
   assert.match(result.disclosures.warnings.join(" "), /player genders are unresolved/);
+});
+
+// Golden files are read-only during tests. Regeneration is an explicit npm command.
+
+for (const name of FIXTURE_NAMES) {
+  test(`analysis golden: ${name}`, async t => {
+    const input = await readJson(new URL(`${name}/team-data.json`, GOLDEN_ROOT));
+    assertSchema(validateInput, input, `${name} input`);
+    for (const scope of SCOPES) {
+      await t.test(scope, async () => {
+        const expected = await readJson(new URL(`${name}/analysis/${scope}.json`, GOLDEN_ROOT));
+        assertSchema(validateAnalysis, expected, `${name}/${scope} expected`);
+        const actual = analyzeTeam(structuredClone(input), { eligibilityScope: scope });
+        assertSchema(validateAnalysis, actual, `${name}/${scope} actual`);
+        assert.deepStrictEqual(
+          canonicalAnalysis(actual),
+          expected,
+          `${name}/${scope} changed. Review the difference; for intentional changes run npm run golden:analysis.`
+        );
+      });
+    }
+  });
+}
+
+test("analysis schema rejects invalid summary metrics and missing output sections", async () => {
+  const expected = await readJson(new URL("women-rich/analysis/national.json", GOLDEN_ROOT));
+  const invalidMetric = structuredClone(expected);
+  invalidMetric.summary.teamRecord.winRate = "0.5";
+  assert.equal(validateAnalysis(invalidMetric), false);
+  const missingSection = structuredClone(expected);
+  delete missingSection.lineupPredictions;
+  assert.equal(validateAnalysis(missingSection), false);
 });
