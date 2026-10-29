@@ -5,7 +5,7 @@ status: idea
 priority: P1
 area: ios
 source: Owner request, planning session 2026-10-29
-depends_on: ["028"]
+depends_on: ["028", "032"]
 touches:
   - scripts/lib/lineup-proposals.mjs
   - scripts/lib/matchup.mjs
@@ -42,11 +42,11 @@ and "best vs this opponent", pick one, and adjust it in the matchup.
       Each proposal has a one-line reason.
 - [ ] Unavailable players never appear. When too few players are available,
       the response names the courts that cannot be filled.
-- [ ] On the iPhone matchup, the captain ticks availability, toggles the
-      mode, and sees the proposals. Choosing one makes it the draft; it stays
-      editable, and the scenario comparison updates.
-- [ ] Availability for a matchup is still there when the captain leaves it
-      and comes back.
+- [ ] On the iPhone matchup, availability starts from the players' answers
+      for that match (032). Players who said maybe or didn't answer are
+      flagged. The captain can untick or tick anyone before proposing.
+- [ ] The captain toggles the mode and sees the proposals. Choosing one makes
+      it the draft; it stays editable, and the scenario comparison updates.
 - [ ] Tests cover the proposer with fixtures (pairs used, preferred court
       honored or overridden, Mixed rules, too few players) and the API route.
       `npm test` passes and the iOS checks in `ios/README.md` pass.
@@ -61,9 +61,11 @@ and "best vs this opponent", pick one, and adjust it in the matchup.
   Reuse them rather than copying them.
 - Keep the search small: build lineups from pairs first, then fill. The court
   count per format is small enough to enumerate.
-- Open: whether availability is kept on the device or shared through the
-  server so co-captains see it. Ask the owner before building it.
+- Availability lives on the server and players enter it themselves (032).
+  The captain's ticks on the matchup adjust the proposal only and do not
+  change players' answers.
 
 ## Log
 
 - 2026-10-29: Written with the owner. Web support follows later as its own feature.
+- 2026-10-29: Availability comes from players through 032, so 029 now depends on it.
