@@ -83,6 +83,14 @@ Refresh runs against a temporary copy, validates the result, and only then
 replaces the existing dataset; a failed refresh leaves the previous data
 available.
 
+## Missing player genders
+
+Mixed lineup predictions need each player's gender, because every Mixed pair
+is one man and one woman. Datasets collected before the collector read player
+profiles have none. `npm run backfill:genders -- --input <team-data.json>`
+reads the TennisRecord profile of each player whose gender is missing and
+records it, leaving every other field alone.
+
 ## UTR screenshot proposals (prototype)
 
 `npm run utr:screenshot -- --dataset <team-data.json> --image <screenshot.png>`
