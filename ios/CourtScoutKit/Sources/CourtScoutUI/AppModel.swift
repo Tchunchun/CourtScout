@@ -60,6 +60,9 @@ final class TeamDetailModel {
     var teamData: TeamData?
     var analysis: TeamAnalysis?
     var threatBoard: ThreatBoard?
+    /// A TennisRecord refresh started from this screen, while it runs.
+    var refreshJob: CollectionJob?
+    var refreshError: String?
     var offlineSince: Date?
     var analysisError: String?
     var analysisLoading = false
@@ -94,6 +97,39 @@ final class TeamDetailModel {
             analysis = nil
             analysisError = error.localizedDescription
         }
+    }
+
+    var refreshing: Bool { refreshJob.map { !$0.isFinished } ?? false }
+
+    /// When the dataset last read TennisRecord.
+    var tennisRecordRetrievedAt: String? {
+        teamData?.sources.first { $0.type == "tennisrecord" }?.retrievedAt
+    }
+
+    /// Pulls the team's latest TennisRecord matches on the server, follows
+    /// the job, and reloads the report when it is done.
+    func refreshFromTennisRecord(_ repository: TeamRepository?) async {
+        guard let repository else { return }
+        refreshError = nil
+        do {
+            var job = try await repository.refreshFromTennisRecord(summary.id)
+            refreshJob = job
+            while !job.isFinished {
+                try await Task.sleep(for: .seconds(3))
+                job = try await repository.job(job.id)
+                refreshJob = job
+            }
+            if job.status == "failed" {
+                refreshError = job.error ?? job.detail
+            } else {
+                await load(repository)
+                await loadThreatBoard(repository)
+            }
+        } catch is CancellationError {
+        } catch {
+            refreshError = NewSeasonModel.message(for: error)
+        }
+        refreshJob = nil
     }
 
     /// Built from the analysis `load` just saved, so it is quick. Kept out of

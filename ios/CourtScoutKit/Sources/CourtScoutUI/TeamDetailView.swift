@@ -66,6 +66,36 @@ struct TeamDetailView: View {
                 Spacer()
                 scopeMenu
             }
+            refreshRow
+        }
+    }
+
+    /// Pulls the matches played since the team was gathered; during the
+    /// season an opponent's last few weeks matter most.
+    private var refreshRow: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                if let job = model.refreshJob {
+                    ProgressView().controlSize(.small)
+                    Text(job.detail).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                } else {
+                    Text("TennisRecord data from \(Format.day(model.tennisRecordRetrievedAt))")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button {
+                    Task { await model.refreshFromTennisRecord(app.repository) }
+                } label: {
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                        .font(.footnote.weight(.semibold))
+                }
+                .buttonStyle(.bordered)
+                .disabled(model.refreshing || model.offlineSince != nil || model.teamData == nil)
+            }
+            if let error = model.refreshError {
+                Text(error).font(.caption).foregroundStyle(Palette.error)
+            }
         }
     }
 

@@ -114,7 +114,11 @@ The app follows a captain's season, not a list of every gathered team.
     how well the lineup holds up if the opponent does something else.
   - The comparison comes from `POST /api/matchup`, which reuses
     `web/public/match-card.mjs`, so the phone and the web Match Day Card agree.
-- **Team report:** Overview (record, eligibility counts, data notes, sources),
+- **Team report:** the header says when the team's TennisRecord data was
+  read, and **Refresh** pulls its latest roster, matches, and scorecards on
+  the server, keeping UTR ratings; the report reloads when it is done. During
+  the season this picks up an opponent's matches since it was gathered.
+  Overview (record, eligibility counts, data notes, sources),
   Threats (the threat board: likely lineups with each line's weak spots, such
   as no postseason history or a missing rating; whether the team stacks its
   courts; available players strongest first with their usual role and
