@@ -862,6 +862,69 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /team-pairs/{teamId}:
+    get:
+      summary: Read saved and suggested doubles pairs for a team
+      operationId: get_team_pairs__teamId_
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          schema: *a1
+          description: Catalog ID. IDs containing slashes continue as the remainder of the path.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/TeamPairs"
+        default:
+          description: JSON error; stale writes return 409 with the current pairs.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Save a team's doubles pairs with a revision check
+      operationId: put_team_pairs__teamId_
+      parameters:
+        - name: teamId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pairs:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/TeamPairInput"
+                baseRevision: *a6
+              required:
+                - pairs
+                - baseRevision
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/TeamPairs"
+        default:
+          description: JSON error; stale writes return 409 with the current pairs.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /threat-board:
     get:
       summary: Read opponent threat evidence
@@ -1144,6 +1207,62 @@ components:
         - saved
         - ourTeamId
         - scheduledOpponentIds
+        - revision
+        - updatedAt
+    TeamPairInput:
+      type: object
+      properties:
+        players:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items: *a1
+        tag:
+          type: string
+          enum:
+            - go-to
+            - backup
+        preferredCourt:
+          type:
+            - string
+            - "null"
+      required:
+        - players
+        - tag
+    TeamPair:
+      allOf:
+        - $ref: "#/components/schemas/TeamPairInput"
+        - type: object
+          properties:
+            appearances: *a6
+            wins: *a6
+            losses: *a6
+            suggested: *a5
+          required:
+            - appearances
+            - wins
+            - losses
+            - suggested
+    TeamPairs:
+      type: object
+      properties:
+        teamId: *a1
+        saved: *a5
+        pairs:
+          type: array
+          items:
+            $ref: "#/components/schemas/TeamPair"
+        suggestions:
+          type: array
+          items:
+            $ref: "#/components/schemas/TeamPair"
+        revision: *a6
+        updatedAt: *a4
+      required:
+        - teamId
+        - saved
+        - pairs
+        - suggestions
         - revision
         - updatedAt
     Job:

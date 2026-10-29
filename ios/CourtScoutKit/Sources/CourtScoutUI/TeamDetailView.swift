@@ -14,11 +14,14 @@ struct TeamDetailView: View {
     @Environment(AppModel.self) private var app
     @State private var model: TeamDetailModel
     @State private var tab = Tab.overview
+    @State private var showingPairs = false
     private let scopes: [String: EligibilityScopeInfo]
+    private let isOurTeam: Bool
 
-    init(summary: TeamSummary, scopes: [String: EligibilityScopeInfo]) {
+    init(summary: TeamSummary, scopes: [String: EligibilityScopeInfo], isOurTeam: Bool = false) {
         _model = State(initialValue: TeamDetailModel(summary: summary))
         self.scopes = scopes
+        self.isOurTeam = isOurTeam
     }
 
     var body: some View {
@@ -51,6 +54,9 @@ struct TeamDetailView: View {
             await model.load(app.repository)
             await model.loadThreatBoard(app.repository)
         }
+        .sheet(isPresented: $showingPairs) {
+            PairsSheet(teamId: model.summary.id, roster: model.teamData?.roster ?? [])
+        }
     }
 
     private var header: some View {
@@ -64,6 +70,12 @@ struct TeamDetailView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Spacer()
+                if isOurTeam {
+                    Button { showingPairs = true } label: {
+                        Label("Pairs", systemImage: "person.2")
+                    }
+                    .buttonStyle(.bordered)
+                }
                 scopeMenu
             }
         }
@@ -105,6 +117,28 @@ struct TeamDetailView: View {
             case .roster: RosterTab(model: model)
             case .lineups: LineupsTab(model: model)
             case .matches: MatchesTab(matches: model.teamData?.matches ?? [])
+            }
+        }
+    }
+}
+
+private struct PairsSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let teamId: String
+    let roster: [RosterPlayer]
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                PairsView(teamId: teamId, roster: roster)
+                    .padding(16)
+            }
+            .background(Color.secondary.opacity(0.06))
+            .navigationTitle("Doubles pairs")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
             }
         }
     }

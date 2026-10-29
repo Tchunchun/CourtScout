@@ -52,6 +52,11 @@ import {
   getTeamRoles,
   saveTeamRoles
 } from "../scripts/lib/team-roles.mjs";
+import {
+  TeamPairsConflictError,
+  getTeamPairs,
+  saveTeamPairs
+} from "../scripts/lib/team-pairs.mjs";
 import { previewTennisRecordTeam } from "../scripts/lib/tennisrecord.mjs";
 import { buildThreatBoard } from "../scripts/lib/threat-board.mjs";
 import { updateCourtJoins } from "../scripts/lib/utr.mjs";
@@ -1403,6 +1408,32 @@ export function createAppServer(options = {}) {
           json(response, 409, { error: error.message, current: error.current });
         }
         return;
+      }
+
+      const teamPairsMatch = pathname.match(/^\/api\/team-pairs\/(.+)$/);
+      if (teamPairsMatch) {
+        const teamId = decodeURIComponent(teamPairsMatch[1]);
+        const dataset = await readCatalogTeam(dataDirectory, teamId);
+        if (request.method === "GET") {
+          json(response, 200, await getTeamPairs(dataDirectory, teamId, dataset));
+          return;
+        }
+        if (request.method === "PUT") {
+          const body = await readBody(request);
+          try {
+            json(response, 200, await saveTeamPairs(
+              dataDirectory,
+              teamId,
+              dataset,
+              body.pairs,
+              { baseRevision: body.baseRevision }
+            ));
+          } catch (error) {
+            if (!(error instanceof TeamPairsConflictError)) throw error;
+            json(response, 409, { error: error.message, current: error.current });
+          }
+          return;
+        }
       }
 
       const collectionMatch = pathname.match(
