@@ -66,6 +66,10 @@ The app follows a captain's season, not a list of every gathered team.
   - A running gather lives in the server's memory; the server saves each
     job's progress to `data/jobs/`. If the server restarts mid-way, the season
     says so and offers "Start again", which gathers into the same season.
+  - Starting a season again, or Update for a team already in one, reuses the
+    teams the season has and gathers only the missing opponents. A season
+    whose schedule names opponents it does not have offers "Gather missing
+    opponents". Refreshing a gathered team is Refresh data in the web app.
 - **Season:** Our team, the next match, upcoming matches, past matches whose
   result has not been gathered yet, completed matches, and the scouting pool
   (other gathered teams that are not on the schedule).

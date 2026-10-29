@@ -1038,3 +1038,79 @@ test("server saves jobs and reports one interrupted by a restart", async t => {
   const unknown = await fetch(`${base}/api/jobs/${orphanId.replace("0e", "ff")}`);
   assert.equal(unknown.status, 404);
 });
+
+test("starting a season again reuses its teams and gathers only missing opponents", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-season-again-"));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+  const profile = name =>
+    `https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=${name}&year=2027`;
+  const writeTeam = async (folder, datasetId, url, extra = {}) => {
+    await mkdir(join(dataDirectory, "collections", folder), { recursive: true });
+    await writeFile(join(dataDirectory, "collections", folder, "team-data.json"), JSON.stringify({
+      datasetId,
+      generatedAt: "2027-01-01T00:00:00.000Z",
+      collectionStage: "step_1_complete",
+      team: { name: folder, season: 2027 },
+      sources: [{ type: "tennisrecord", url }],
+      roster: [],
+      matches: [],
+      ...extra
+    }));
+  };
+  // The home team's league lists Gathered (already in the season, linked with
+  // different parameter order) and Missing.
+  await writeTeam("home", "2027-home", profile("Home"), {
+    leagueTeams: [
+      { name: "Home", url: profile("Home") },
+      { name: "Gathered", url: `${profile("Gathered")}&s=2` },
+      { name: "Missing", url: profile("Missing") }
+    ],
+    leagueSchedule: []
+  });
+  await writeTeam("gathered", "2027-gathered", profile("Gathered"));
+
+  const gathered = [];
+  const server = createAppServer({
+    dataDirectory,
+    runCollectionJob: async job => {
+      gathered.push(job.teamUrl);
+      job.status = "complete";
+    }
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(() => server.close());
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const send = (method, path, body) => fetch(`${base}${path}`, {
+    method,
+    headers: { "content-type": "application/json" },
+    body: body && JSON.stringify(body)
+  });
+
+  const { collection } = await (await send("POST", "/api/team-collections", {
+    name: "2027 Season",
+    competitionLevel: "local",
+    datasetId: "2027-home"
+  })).json();
+  await send("PUT", `/api/team-collections/${collection.id}/team`, { datasetId: "2027-gathered" });
+
+  const started = await (await send("POST", "/api/jobs", {
+    teamUrl: profile("Home"),
+    teamType: "home",
+    utrMode: "none",
+    eventCollectionId: collection.id
+  })).json();
+  assert.equal(started.teamId, "collections/home");
+
+  let job = started;
+  for (let attempt = 0; attempt < 50 && job.status !== "complete"; attempt += 1) {
+    await new Promise(resolve => setTimeout(resolve, 20));
+    job = await (await send("GET", `/api/jobs/${started.id}`)).json();
+  }
+  assert.equal(job.status, "complete");
+  assert.deepEqual(gathered, [profile("Missing")]);
+  assert.equal(job.discoveredOpponentCount, 2);
+  assert.equal(job.collectedTeamCount, 3);
+  assert.match(job.detail, /All 3 league teams are in this season; gathered 1 missing/);
+  assert.equal(await getEventSchedule(dataDirectory, collection.id), null);
+});

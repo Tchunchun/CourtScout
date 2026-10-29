@@ -16,6 +16,10 @@ public struct Season: Sendable {
     public var scoutingPool: [TeamSummary]
 
     public var upcoming: [SeasonMatch] { matches.filter { $0.state == .upcoming } }
+    /// Opponents on the schedule that were not gathered into the season.
+    public var missingOpponentNames: [String] {
+        Array(Set(matches.filter { $0.opponent == nil && $0.state != .cancelled }.map(\.opponentName))).sorted()
+    }
     public var awaitingResult: [SeasonMatch] { matches.filter { $0.state == .awaitingResult } }
     public var completed: [SeasonMatch] { matches.filter { $0.state == .completed } }
     public var nextMatch: SeasonMatch? { upcoming.first }

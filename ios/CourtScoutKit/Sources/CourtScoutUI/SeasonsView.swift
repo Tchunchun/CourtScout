@@ -191,6 +191,7 @@ struct SeasonView: View {
     @Environment(AppModel.self) private var app
     @State private var model: SeasonModel
     @State private var ourTeamNote: String?
+    @State private var gatherError: String?
     private var seasons: SeasonsModel
 
     init(collection: TeamCollection, seasons: SeasonsModel) {
@@ -236,6 +237,7 @@ struct SeasonView: View {
             if let job = seasons.jobs[season.collection.id] {
                 gatheringSection(job)
             }
+            missingOpponentsSection(season)
 
             ourTeamSection(season)
 
@@ -293,6 +295,34 @@ struct SeasonView: View {
                     if prepareAny {
                         Text("Tap a team to prepare your lineup against it.")
                     }
+                }
+            }
+        }
+    }
+
+    /// Scheduled opponents that are not in the season, once nothing is
+    /// gathering. Only those are gathered; teams already here are kept.
+    @ViewBuilder
+    private func missingOpponentsSection(_ season: Season) -> some View {
+        let missing = season.missingOpponentNames
+        if !missing.isEmpty, seasons.jobs[season.collection.id]?.isFinished != false,
+           let homeTeamUrl = season.ourTeam?.sourceUrl {
+            Section {
+                Button("Gather \(Format.count(missing.count, "missing opponent"))") {
+                    Task {
+                        do {
+                            gatherError = nil
+                            try await seasons.gatherMissing(in: season.collection, homeTeamUrl: homeTeamUrl, repository: app.repository)
+                        } catch {
+                            gatherError = NewSeasonModel.message(for: error)
+                        }
+                    }
+                }
+            } footer: {
+                if let gatherError {
+                    Text(gatherError).foregroundStyle(Palette.error)
+                } else {
+                    Text("Not gathered yet: \(missing.joined(separator: ", ")). Teams already in this season are kept as they are.")
                 }
             }
         }

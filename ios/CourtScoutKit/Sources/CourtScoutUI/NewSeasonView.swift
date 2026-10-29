@@ -178,7 +178,7 @@ struct NewSeasonView: View {
             Text("Team found")
         } footer: {
             if let existing = model.existing {
-                Text("This team is already in “\(existing.name)”. Updating gathers it and its opponents again into that season.")
+                Text("This team is already in “\(existing.name)”. Updating gathers the opponents that season is missing and keeps the teams it has. To refresh a gathered team, use Refresh data in the web app.")
             } else {
                 Text("Gathering \(Format.count(preview.opponentCount + 1, "team")) with public UTR ratings takes a few minutes. It runs on the server, so you can close the app.")
             }

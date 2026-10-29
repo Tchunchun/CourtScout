@@ -137,6 +137,15 @@ final class SeasonsModel {
         jobs[collectionId] = nil
     }
 
+    /// Gathers the scheduled opponents a season does not have yet. The server
+    /// reuses the teams already in the season.
+    func gatherMissing(in collection: TeamCollection, homeTeamUrl: String, repository: TeamRepository?) async throws {
+        guard let repository else { return }
+        let level = collection.competitionLevel ?? "local"
+        let job = try await repository.startSeason(teamUrl: homeTeamUrl, competitionLevel: level, into: collection.id)
+        track(job, teamUrl: homeTeamUrl, competitionLevel: level)
+    }
+
     /// Starts a stopped season's gathering again into the same season.
     func restartJob(for collectionId: String, repository: TeamRepository?) async throws {
         guard let repository, let tracked = trackedJobs.values.first(where: { $0.collectionId == collectionId })

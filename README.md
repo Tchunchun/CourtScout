@@ -56,7 +56,10 @@ Event collections are shared through `data/team-collections.json`. Each scouting
 run creates a temporary event collection. An opponent-team run gathers only the
 pasted profile. A home-team run also discovers every dated league opponent on
 the TennisRecord schedule and gathers all of those teams into the same
-collection.
+collection. Running a home team again into a collection that already has it
+reuses the teams there, keeps its confirmed schedule, and gathers only the
+opponents the collection is missing; use **Refresh data** to update a gathered
+team.
 
 Team analysis is saved beside each raw dataset as
 `analysis/<eligibility-scope>.json`. Match Cards reuse a saved analysis while it

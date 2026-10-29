@@ -166,6 +166,33 @@ export function findExistingHomeCollection(collections, teams, teamUrl) {
   ) ?? null;
 }
 
+/** TennisRecord links to one team differ in parameter order, encoding, and
+ * extra parameters; a team is its name and year. */
+export function teamProfileKey(value) {
+  try {
+    const url = new URL(value);
+    const name = url.searchParams.get("teamname")?.trim().toLowerCase();
+    return name ? `${name}|${url.searchParams.get("year") ?? ""}` : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Gathered teams in a season, by TennisRecord profile key. */
+async function seasonTeamsByProfile(dataDirectory, collectionId) {
+  if (!collectionId) return new Map();
+  let collection;
+  try {
+    collection = await getTeamCollection(dataDirectory, collectionId);
+  } catch {
+    return new Map();
+  }
+  const datasetIds = new Set(collection.teamDatasetIds);
+  return new Map((await listTeamCatalog(dataDirectory))
+    .filter(team => datasetIds.has(team.datasetId) && teamProfileKey(team.sourceUrl))
+    .map(team => [teamProfileKey(team.sourceUrl), team]));
+}
+
 function slugFolderSegment(value) {
   return value
     .normalize("NFKD")
@@ -542,8 +569,14 @@ export async function runScoutingJob(
   runUtrCommand,
   runSingleJob = runJob
 ) {
-  await runSingleJob(job, runUtrCommand);
-  if (job.status !== "complete") return;
+  // A home team already in the season is reused rather than gathered into a
+  // second folder; Refresh data updates it in place.
+  if (job.reuseHome) {
+    job.status = "complete";
+  } else {
+    await runSingleJob(job, runUtrCommand);
+    if (job.status !== "complete") return;
+  }
 
   job.collectedTeamCount = 1;
   if (job.teamType !== "home") return;
@@ -554,7 +587,9 @@ export async function runScoutingJob(
     job.progress = 95;
     job.detail = "Discovering league opponents from the confirmed home team";
     const dataset = await readJson(job.outputPath);
-    if (job.eventCollectionId && Array.isArray(dataset.leagueSchedule)) {
+    // A reused home team's schedule was confirmed when it was gathered, and
+    // may since have been replaced by an imported one.
+    if (!job.reuseHome && job.eventCollectionId && Array.isArray(dataset.leagueSchedule)) {
       try {
         await confirmEventSchedule(job.dataDirectory, {
           collectionId: job.eventCollectionId,
@@ -586,14 +621,18 @@ export async function runScoutingJob(
         }])
     ).values()];
     job.discoveredOpponentCount = leagueTeams.length;
+    // Opponents already in the season are kept; only missing ones are gathered.
+    const inSeason = await seasonTeamsByProfile(job.dataDirectory, job.eventCollectionId);
+    const missingTeams = leagueTeams.filter(team => !inSeason.has(teamProfileKey(team.url)));
+    job.collectedTeamCount += leagueTeams.length - missingTeams.length;
 
     const issues = job.warning ? [job.warning] : [];
-    for (const [index, team] of leagueTeams.entries()) {
+    for (const [index, team] of missingTeams.entries()) {
       job.status = "running";
       job.phase = "tennisrecord";
-      job.progress = 95 + Math.floor((index / Math.max(leagueTeams.length, 1)) * 4);
+      job.progress = 95 + Math.floor((index / Math.max(missingTeams.length, 1)) * 4);
       job.detail =
-        `Gathering league opponent ${index + 1} of ${leagueTeams.length}: ${team.name}`;
+        `Gathering league opponent ${index + 1} of ${missingTeams.length}: ${team.name}`;
       const createdAt = new Date();
       const collectionName = collectionFolderName(
         team.url,
@@ -638,7 +677,9 @@ export async function runScoutingJob(
     job.progress = 100;
     job.detail = issues.length
       ? `Gathered ${job.collectedTeamCount} of ${leagueTeams.length + 1} league teams`
-      : `Gathered the home team and ${leagueTeams.length} league opponents`;
+      : missingTeams.length < leagueTeams.length || job.reuseHome
+        ? `All ${leagueTeams.length + 1} league teams are in this season; gathered ${missingTeams.length} missing`
+        : `Gathered the home team and ${leagueTeams.length} league opponents`;
     job.completedAt = new Date().toISOString();
     job.warning = issues.length
       ? `Some teams need attention: ${issues.join("; ")}`
@@ -1039,16 +1080,24 @@ export function createAppServer(options = {}) {
           eventCollectionId = collection.id;
         }
         const createdAt = new Date();
-        const collectionName = collectionFolderName(
-          teamUrl,
-          ratingSelectionSlug(ratingSelections),
-          createdAt
-        );
+        const seasonHome = teamType === "home"
+          ? (await seasonTeamsByProfile(dataDirectory, eventCollectionId))
+            .get(teamProfileKey(teamUrl)) ?? null
+          : null;
+        const collectionName = seasonHome
+          ? seasonHome.id.replace(/^collections\//, "")
+          : collectionFolderName(
+            teamUrl,
+            ratingSelectionSlug(ratingSelections),
+            createdAt
+          );
         const job = {
           id,
           kind: teamType === "home" ? "league-collection" : "collection",
           collectionName,
-          catalogTeamId: `collections/${collectionName}`,
+          catalogTeamId: seasonHome?.id ?? `collections/${collectionName}`,
+          teamId: seasonHome?.id,
+          reuseHome: Boolean(seasonHome),
           eventCollectionId,
           competitionLevel,
           dataDirectory,
@@ -1058,14 +1107,13 @@ export function createAppServer(options = {}) {
           status: "queued",
           phase: "queued",
           progress: 2,
-          detail: "Preparing collection",
+          detail: seasonHome
+            ? "Looking for opponents this season is missing"
+            : "Preparing collection",
           createdAt: createdAt.toISOString(),
-          outputPath: join(
-            dataDirectory,
-            "collections",
-            collectionName,
-            "team-data.json"
-          ),
+          outputPath: seasonHome
+            ? join(dataDirectory, seasonHome.id, "team-data.json")
+            : join(dataDirectory, "collections", collectionName, "team-data.json"),
           log: []
         };
         trackJob(job, dataDirectory);

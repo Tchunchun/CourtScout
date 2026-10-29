@@ -159,9 +159,9 @@ phone therefore starts from seasons, not from a list of every gathered team.
 
 | Priority | Scope | Status |
 |---|---|---|
-| P0 | Seasons home, season screen, Our team | Done (Our team saved on device when the server has none) |
+| P0 | Seasons home, season screen, Our team | Done (Our team shared with the web app through `/api/team-roles`) |
 | P0 | Matchup screen | Done (lineup saved on device; not yet a web Match Day Card) |
-| P0 | New season from the home screen (paste link, preview, start job, progress) | Done (restart after a server restart; jobs still live in server memory) |
+| P0 | New season from the home screen (paste link, preview, start job, progress) | Done (job progress saved to `data/jobs/`; a restart reports the job as interrupted and offers Start again) |
 | P1 | Threat board, scenario differences, coverage warnings, share extension for team links | Not started |
 | P2 | Day-of availability, lineup photo, sharing, results | Not started |
 
