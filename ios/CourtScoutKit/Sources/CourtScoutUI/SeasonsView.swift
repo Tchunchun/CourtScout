@@ -333,12 +333,15 @@ struct SeasonView: View {
         }
     }
 
-    /// Saving the coming match day's reports on the phone, for venues with
-    /// poor signal. Hidden once a season is over and has no playoffs.
+    /// Saving the coming match day's reports on the phone, for Sectionals and
+    /// Nationals: several matches over a few days at a venue with poor
+    /// signal. Local seasons play one match at a time and skip it. Hidden
+    /// once the event is over and has no playoffs.
     @ViewBuilder
     private func matchDaySection(_ season: Season) -> some View {
         let collectionId = season.collection.id
-        if !season.isCompleted || !season.playoffOpponents.isEmpty {
+        if ["sectional", "national"].contains(season.collection.competitionLevel ?? "local"),
+           !season.isCompleted || !season.playoffOpponents.isEmpty {
             Section {
                 if let progress = seasons.preparing[collectionId] {
                     VStack(alignment: .leading, spacing: 4) {

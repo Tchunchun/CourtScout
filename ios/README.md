@@ -131,8 +131,10 @@ The app follows a captain's season, not a list of every gathered team.
   Support so iOS does not clear it under storage pressure. When the server is
   unreachable the app shows the saved copy with an "Offline" banner and its
   age. Server errors, such as a removed team, are shown instead of stale data.
-- **Match day:** a season's "Prepare for match day" saves Our team and the
-  chosen opponents ahead of time: each one's dataset, report, threat board,
+- **Match day:** on a Sectionals or Nationals season (several matches over a
+  few days at a venue with poor signal; local seasons do not show it),
+  "Prepare for match day" saves Our team and the chosen opponents ahead of
+  time: each one's dataset, report, threat board,
   and matchup against Our team. It starts with the opponents from the next
   match date through three days after it (an event weekend), plus playoff
   opponents; a season without a schedule starts with all its teams. The
