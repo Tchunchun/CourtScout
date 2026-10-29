@@ -9,7 +9,8 @@ source: requirements/lineup-prediction-cold-start-proposal.md (Delivery plan, Ph
 depends_on: []
 touches:
   - scripts/benchmark-lineups.mjs
-  - test/
+  - test/benchmark-lineups.test.mjs
+  - requirements/lineup-prediction-benchmark-design.md
 branch: codex/022-lineup-benchmark
 pr:
 updated: 2026-10-29
@@ -40,3 +41,6 @@ Read-only against `scripts/lib/analysis.mjs`: no ranking changes in this feature
   feedback loop in 035. Expanded metrics to cover players, pairs, courts,
   top-three scenarios and complete lineups.
 - 2026-10-29: Claimed for implementation on `codex/022-lineup-benchmark`.
+- 2026-10-29: Narrowed the test touch point to
+  `test/benchmark-lineups.test.mjs`, resolving the apparent overlap with 001,
+  and added the requested benchmark design document.
