@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { DEFAULT_WORKSPACE_ID, storeFor, workspaceKey } from "./store.mjs";
 
 const STORE_KEY = workspaceKey(DEFAULT_WORKSPACE_ID, "event-schedules.json");
@@ -204,8 +204,14 @@ export async function confirmEventSchedule(dataDirectory, input) {
       existing?.matches ?? [],
       proposed
     );
+    // Matches entered one at a time (knockout rounds, event days) are not
+    // in an imported or TennisRecord schedule; a re-confirm keeps them.
+    const proposedIds = new Set(proposed.map(match => match.id));
+    const entered = (existing?.matches ?? []).filter(match =>
+      match.sourceType === MATCH_ENTRY_SOURCE && !proposedIds.has(match.id)
+    );
     const removed = reconciliation
-      .filter(row => row.change === "removed")
+      .filter(row => row.change === "removed" && row.current.sourceType !== MATCH_ENTRY_SOURCE)
       .map(row => ({
         ...row.current,
         status: "cancelled",
@@ -228,7 +234,7 @@ export async function confirmEventSchedule(dataDirectory, input) {
         ...match,
         sourceRetrievedAt: match.sourceRetrievedAt ?? now,
         updatedAt: now
-      })), ...removed],
+      })), ...entered, ...removed],
       lastSuccessfulSyncAt: now,
       updatedAt: now
     };
@@ -236,6 +242,81 @@ export async function confirmEventSchedule(dataDirectory, input) {
     else store.schedules.push(schedule);
     await writeStore(dataDirectory, store);
     return { schedule, reconciliation };
+  });
+}
+
+export const MATCH_ENTRY_SOURCE = "manual_entry";
+
+/**
+ * Adds one match to a season's schedule, creating the schedule when the
+ * season has none. Used as matches are announced: an event's round robin,
+ * or each knockout round once the bracket names the opponent.
+ */
+export async function addScheduledMatch(dataDirectory, input) {
+  const { collectionId, ourTeamId, eventType, match } = input;
+  if (!EVENT_TYPES.has(eventType)) {
+    throw new Error("Choose Local, Sectionals, Nationals, or Other.");
+  }
+  if (typeof match?.sourceOpponentUrl !== "string") {
+    throw new Error("Choose the opponent's TennisRecord team.");
+  }
+  const now = new Date().toISOString();
+  const entered = {
+    ...normalizeScheduledMatch({
+      ...match,
+      id: `${MATCH_ENTRY_SOURCE}:${randomUUID().slice(0, 8)}`,
+      sourceType: MATCH_ENTRY_SOURCE,
+      sourceReference: match.sourceOpponentUrl,
+      status: "scheduled"
+    }, collectionId),
+    sourceRetrievedAt: now,
+    updatedAt: now
+  };
+  return queuedWrite(dataDirectory, async () => {
+    const store = await readStore(dataDirectory);
+    let schedule = store.schedules.find(item => item.collectionId === collectionId);
+    if (!schedule) {
+      if (typeof ourTeamId !== "string" || !ourTeamId) {
+        throw new Error("Choose Our team before adding a match.");
+      }
+      schedule = {
+        collectionId,
+        ourTeamId,
+        eventType,
+        eligibilityScope: input.eligibilityScope ?? defaultEligibilityScope(eventType),
+        timezone: null,
+        source: { type: "manual", reference: null, fileName: null, importedAt: now },
+        matches: [],
+        lastSuccessfulSyncAt: now,
+        updatedAt: now
+      };
+      store.schedules.push(schedule);
+    }
+    schedule.matches.push(entered);
+    schedule.updatedAt = now;
+    await writeStore(dataDirectory, store);
+    return { schedule, match: entered };
+  });
+}
+
+/** Removes a match that was entered by hand; imported rows stay. */
+export async function removeScheduledMatch(dataDirectory, collectionId, matchId) {
+  return queuedWrite(dataDirectory, async () => {
+    const store = await readStore(dataDirectory);
+    const schedule = store.schedules.find(item => item.collectionId === collectionId);
+    const match = schedule?.matches.find(item => item.id === matchId);
+    if (!match) {
+      const error = new Error("Scheduled match not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+    if (match.sourceType !== MATCH_ENTRY_SOURCE) {
+      throw new Error("Only matches added here can be removed; change imported ones in the web app.");
+    }
+    schedule.matches = schedule.matches.filter(item => item.id !== matchId);
+    schedule.updatedAt = new Date().toISOString();
+    await writeStore(dataDirectory, store);
+    return schedule;
   });
 }
 

@@ -30,12 +30,14 @@ import {
   validateTeamCollectionCompetitionLevel
 } from "../scripts/lib/team-collections.mjs";
 import {
+  addScheduledMatch,
   confirmEventSchedule,
   deleteEventSchedule,
   getEventSchedule,
   linkScheduledOpponent,
   normalizeScheduledMatch,
-  reconcileEventSchedule
+  reconcileEventSchedule,
+  removeScheduledMatch
 } from "../scripts/lib/event-schedules.mjs";
 import {
   readMatchCards,
@@ -1059,6 +1061,56 @@ export function createAppServer(options = {}) {
     return job;
   }
 
+  /**
+   * A knockout or event opponent named by its TennisRecord link: gather it
+   * into the season, or refresh it when the season already has it, and tag
+   * it as a playoff opponent.
+   */
+  async function gatherSeasonOpponent(collection, teamUrl, name) {
+    const collectionId = collection.id;
+    const teamKey = teamProfileKey(teamUrl);
+    const existing = (await seasonTeamsByProfile(dataDirectory, collectionId))
+      .get(teamKey) ?? null;
+    let job;
+    if (existing) {
+      job = [...jobs.values()].find(item =>
+        item.teamId === existing.id && ["queued", "running"].includes(item.status)
+      );
+      if (!job) {
+        const current = await readCatalogTeam(dataDirectory, existing.id);
+        const source = current.sources?.find(item => item.type === "tennisrecord" && item.url);
+        // TennisRecord only: their latest matches matter; ratings are kept.
+        job = startRefreshJob({
+          teamId: existing.id,
+          teamUrl: source?.url ?? teamUrl,
+          ratingSelections: datasetRatingSelections(current),
+          refreshSelections: parseRefreshSelections({
+            refreshTennisRecord: true,
+            refreshUtr: false
+          })
+        });
+      }
+    } else {
+      job = findActiveScoutingJob(jobs.values(), teamUrl, "opponent") ??
+        await startScoutingJob({
+          id: randomUUID().slice(0, 8),
+          teamUrl,
+          teamType: "opponent",
+          ratingSelections: parseRatingSelections({ utrMode: "public" }),
+          eventCollectionId: collectionId,
+          competitionLevel: collection.competitionLevel
+        });
+    }
+    const updated = await addPlayoffOpponent(dataDirectory, collectionId, {
+      teamKey,
+      teamUrl,
+      name: typeof name === "string" && name.trim()
+        ? name.trim()
+        : new URL(teamUrl).searchParams.get("teamname")
+    });
+    return { job, existing, updated };
+  }
+
   return createServer(async (request, response) => {
     const requestUrl = new URL(request.url, `http://${request.headers.host ?? "localhost"}`);
     const pathname = requestUrl.pathname;
@@ -1289,6 +1341,70 @@ export function createAppServer(options = {}) {
         return;
       }
 
+      const scheduleMatchesMatch = pathname.match(
+        /^\/api\/event-schedules\/([a-zA-Z0-9-]+)\/matches(?:\/([^/]+))?$/
+      );
+      if (request.method === "POST" && scheduleMatchesMatch && !scheduleMatchesMatch[2]) {
+        // One match as it is announced: an opponent from the season, or a
+        // TennisRecord link for a team the season may not have yet.
+        const collection = await getTeamCollection(dataDirectory, scheduleMatchesMatch[1]);
+        const body = await readBody(request);
+        const seasonIds = new Set(collection.teamDatasetIds);
+        const seasonTeams = (await listTeamCatalog(dataDirectory))
+          .filter(team => seasonIds.has(team.datasetId));
+        let opponent;
+        let job = null;
+        if (typeof body.opponentTeamId === "string" && body.opponentTeamId) {
+          const team = seasonTeams.find(item => item.id === body.opponentTeamId);
+          if (!team?.sourceUrl) throw new Error("Choose an opponent from this season.");
+          opponent = { name: team.team?.name ?? body.opponentName, url: team.sourceUrl, teamId: team.id };
+        } else {
+          const teamUrl = validateTeamUrl(body.opponentUrl);
+          const gathered = await gatherSeasonOpponent(collection, teamUrl, body.opponentName);
+          job = gathered.job;
+          opponent = {
+            name: gathered.existing?.team?.name ??
+              (typeof body.opponentName === "string" && body.opponentName.trim()
+                ? body.opponentName.trim()
+                : new URL(teamUrl).searchParams.get("teamname")),
+            url: teamUrl,
+            teamId: gathered.existing?.id ?? null
+          };
+        }
+        const eventType = {
+          local: "local",
+          sectional: "sectionals",
+          national: "nationals"
+        }[collection.competitionLevel] ?? "other";
+        const added = await addScheduledMatch(dataDirectory, {
+          collectionId: collection.id,
+          ourTeamId: body.ourTeamId,
+          eventType,
+          eligibilityScope: collection.competitionLevel,
+          match: {
+            sourceOpponentName: opponent.name,
+            sourceOpponentUrl: opponent.url,
+            linkedOpponentTeamId: opponent.teamId,
+            date: body.date,
+            time: body.time,
+            site: body.site,
+            round: body.round
+          }
+        });
+        json(response, 201, { ...added, job: job ? publicJob(job) : null });
+        return;
+      }
+      if (request.method === "DELETE" && scheduleMatchesMatch?.[2]) {
+        json(response, 200, {
+          schedule: await removeScheduledMatch(
+            dataDirectory,
+            scheduleMatchesMatch[1],
+            decodeURIComponent(scheduleMatchesMatch[2])
+          )
+        });
+        return;
+      }
+
       const eventSchedulePreviewMatch = pathname.match(
         /^\/api\/event-schedules\/([a-zA-Z0-9-]+)\/preview$/
       );
@@ -1408,47 +1524,11 @@ export function createAppServer(options = {}) {
         const collectionId = playoffMatch[1];
         const collection = await getTeamCollection(dataDirectory, collectionId);
         const body = await readBody(request);
-        const teamUrl = validateTeamUrl(body.teamUrl);
-        const teamKey = teamProfileKey(teamUrl);
-        const existing = (await seasonTeamsByProfile(dataDirectory, collectionId))
-          .get(teamKey) ?? null;
-        let job;
-        if (existing) {
-          job = [...jobs.values()].find(item =>
-            item.teamId === existing.id && ["queued", "running"].includes(item.status)
-          );
-          if (!job) {
-            const current = await readCatalogTeam(dataDirectory, existing.id);
-            const source = current.sources?.find(item => item.type === "tennisrecord" && item.url);
-            // TennisRecord only: their latest matches matter; ratings are kept.
-            job = startRefreshJob({
-              teamId: existing.id,
-              teamUrl: source?.url ?? teamUrl,
-              ratingSelections: datasetRatingSelections(current),
-              refreshSelections: parseRefreshSelections({
-                refreshTennisRecord: true,
-                refreshUtr: false
-              })
-            });
-          }
-        } else {
-          job = findActiveScoutingJob(jobs.values(), teamUrl, "opponent") ??
-            await startScoutingJob({
-              id: randomUUID().slice(0, 8),
-              teamUrl,
-              teamType: "opponent",
-              ratingSelections: parseRatingSelections({ utrMode: "public" }),
-              eventCollectionId: collectionId,
-              competitionLevel: collection.competitionLevel
-            });
-        }
-        const updated = await addPlayoffOpponent(dataDirectory, collectionId, {
-          teamKey,
-          teamUrl,
-          name: typeof body.name === "string" && body.name.trim()
-            ? body.name.trim()
-            : new URL(teamUrl).searchParams.get("teamname")
-        });
+        const { job, existing, updated } = await gatherSeasonOpponent(
+          collection,
+          validateTeamUrl(body.teamUrl),
+          body.name
+        );
         json(response, 202, {
           collection: updated,
           job: publicJob(job),

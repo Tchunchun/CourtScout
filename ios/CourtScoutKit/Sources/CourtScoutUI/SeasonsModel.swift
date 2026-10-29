@@ -102,6 +102,50 @@ final class SeasonsModel {
         }
     }
 
+    // MARK: Adding matches
+
+    /// Adds a match to the season's schedule. An opponent named by link is
+    /// gathered (or refreshed) on the server; that job is followed like a
+    /// playoff opponent's.
+    func addMatch(_ match: NewScheduledMatch, to collection: TeamCollection, repository: TeamRepository?) async throws {
+        guard let repository else { return }
+        let added = try await repository.addMatch(match, to: collection.id)
+        schedules[collection.id] = added.schedule
+        if let job = added.job, let teamUrl = match.opponentUrl, let teamKey = teamProfileKey(teamUrl) {
+            let slot = Self.playoffSlot(collection.id, teamKey)
+            trackedJobs = trackedJobs.filter { $0.value.slot != slot }
+            trackedJobs[job.id] = TrackedJob(
+                collectionId: collection.id,
+                teamUrl: teamUrl,
+                competitionLevel: collection.competitionLevel ?? "local",
+                playoffTeamKey: teamKey
+            )
+            jobs[slot] = job
+        }
+        await load(repository)
+    }
+
+    func removeMatch(_ matchId: String, from collection: TeamCollection, repository: TeamRepository?) async throws {
+        guard let repository else { return }
+        try await repository.removeMatch(matchId, from: collection.id)
+        await load(repository)
+    }
+
+    /// Opponents named by link that are still being gathered for a season.
+    func gatheringOpponents(in collectionId: String) -> [(name: String, job: CollectionJob)] {
+        trackedJobs.values
+            .filter { $0.collectionId == collectionId && $0.playoffTeamKey != nil }
+            .compactMap { tracked in
+                jobs[tracked.slot].map { job in
+                    let name = URLComponents(string: tracked.teamUrl)?.queryItems?
+                        .first { $0.name.lowercased() == "teamname" }?.value ?? tracked.teamUrl
+                    return (name, job)
+                }
+            }
+            .filter { $0.job.status != "complete" || $0.job.warning != nil }
+            .sorted { $0.name < $1.name }
+    }
+
     // MARK: Match day
 
     /// What was saved for offline use, per collection id.
@@ -175,9 +219,6 @@ final class SeasonsModel {
         "\(collectionId)|\(teamKey)"
     }
 
-    func playoffJob(_ collectionId: String, _ teamKey: String) -> CollectionJob? {
-        jobs[Self.playoffSlot(collectionId, teamKey)]
-    }
 
     /// Tracked jobs by job id.
     private var trackedJobs: [String: TrackedJob] {
@@ -202,42 +243,6 @@ final class SeasonsModel {
     func dismissJob(for slot: String) {
         trackedJobs = trackedJobs.filter { $0.value.slot != slot }
         jobs[slot] = nil
-    }
-
-    /// Adds the bracket's next opponent: the server gathers the team into the
-    /// season, or refreshes it when the season already has it.
-    func addPlayoffOpponent(
-        _ teamUrl: String,
-        name: String?,
-        to collection: TeamCollection,
-        repository: TeamRepository?
-    ) async throws -> PlayoffOpponentAdded? {
-        guard let repository else { return nil }
-        let added = try await repository.addPlayoffOpponent(teamUrl, name: name, to: collection.id)
-        if let index = collections.firstIndex(where: { $0.id == collection.id }) {
-            collections[index] = added.collection
-        }
-        if let teamKey = added.collection.playoffOpponents?.first(where: { $0.teamUrl == teamUrl })?.teamKey {
-            let slot = Self.playoffSlot(collection.id, teamKey)
-            trackedJobs = trackedJobs.filter { $0.value.slot != slot }
-            trackedJobs[added.job.id] = TrackedJob(
-                collectionId: collection.id,
-                teamUrl: teamUrl,
-                competitionLevel: collection.competitionLevel ?? "local",
-                playoffTeamKey: teamKey
-            )
-            jobs[slot] = added.job
-        }
-        return added
-    }
-
-    func removePlayoffOpponent(_ teamKey: String, from collection: TeamCollection, repository: TeamRepository?) async throws {
-        guard let repository else { return }
-        try await repository.removePlayoffOpponent(teamKey, from: collection.id)
-        dismissJob(for: Self.playoffSlot(collection.id, teamKey))
-        if let index = collections.firstIndex(where: { $0.id == collection.id }) {
-            collections[index].playoffOpponents?.removeAll { $0.teamKey == teamKey }
-        }
     }
 
     /// Gathers the scheduled opponents a season does not have yet. The server

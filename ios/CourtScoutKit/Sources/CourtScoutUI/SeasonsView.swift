@@ -210,7 +210,7 @@ struct SeasonView: View {
     @State private var model: SeasonModel
     @State private var ourTeamNote: String?
     @State private var gatherError: String?
-    @State private var addingPlayoffOpponent = false
+    @State private var addingMatch = false
     @State private var preparingMatchDay = false
     private var seasons: SeasonsModel
 
@@ -232,7 +232,7 @@ struct SeasonView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         // Reload as gathered teams arrive or playoff opponents change.
-        .task(id: "\(app.generation)-\(seasons.catalog?.teams.count ?? 0)-\(playoffCount)") {
+        .task(id: "\(app.generation)-\(seasons.catalog?.teams.count ?? 0)-\(scheduledCount)") {
             await model.load(app.repository, seasons: seasons)
         }
         .sheet(isPresented: $preparingMatchDay) {
@@ -240,8 +240,10 @@ struct SeasonView: View {
                 PrepareMatchDayView(season: season, seasons: seasons)
             }
         }
-        .sheet(isPresented: $addingPlayoffOpponent) {
-            PlayoffOpponentView(seasons: seasons, collection: model.collection)
+        .sheet(isPresented: $addingMatch) {
+            AddMatchView(seasons: seasons, collection: model.collection) { _ in
+                Task { await model.load(app.repository, seasons: seasons) }
+            }
         }
         .refreshable {
             await seasons.load(app.repository)
@@ -273,7 +275,7 @@ struct SeasonView: View {
 
             if let next = season.nextMatch {
                 Section("Next match") {
-                    NextMatchCard(entry: next, destination: prepare(next, in: season))
+                    removable(NextMatchCard(entry: next, destination: prepare(next, in: season)), next, in: season)
                     if let opponent = next.opponent {
                         NavigationLink(value: Route.team(opponent)) {
                             Label("Scout \(opponent.team.name)", systemImage: "doc.text.magnifyingglass")
@@ -284,12 +286,12 @@ struct SeasonView: View {
             }
             if season.upcoming.count > 1 {
                 Section("Upcoming") {
-                    ForEach(season.upcoming.dropFirst()) { MatchRow(entry: $0, destination: prepare($0, in: season)) }
+                    ForEach(season.upcoming.dropFirst()) { removable(MatchRow(entry: $0, destination: prepare($0, in: season)), $0, in: season) }
                 }
             }
             if !season.awaitingResult.isEmpty {
                 Section {
-                    ForEach(season.awaitingResult) { MatchRow(entry: $0, destination: prepare($0, in: season)) }
+                    ForEach(season.awaitingResult) { removable(MatchRow(entry: $0, destination: prepare($0, in: season)), $0, in: season) }
                 } header: {
                     Text("Result not collected yet")
                 } footer: {
@@ -328,8 +330,9 @@ struct SeasonView: View {
                 }
             }
 
-            // Playoffs follow the regular season, so they come last.
-            playoffSection(season)
+            // Knockout rounds and event matches are added as they are
+            // announced, so this comes last.
+            addMatchSection(season)
         }
     }
 
@@ -382,84 +385,63 @@ struct SeasonView: View {
         }
     }
 
-    private var playoffCount: Int {
-        seasons.collections.first { $0.id == model.collection.id }?.playoffOpponents?.count ?? 0
+    private var scheduledCount: Int {
+        seasons.schedules[model.collection.id]?.matches.count ?? 0
     }
 
-    /// Knockout opponents, newest first, added one at a time as the bracket
-    /// names them.
-    private func playoffSection(_ season: Season) -> some View {
+    /// Adds a match as it is announced: a local playoff, an event's round
+    /// robin, or a knockout round. Opponents named by link are gathered here.
+    private func addMatchSection(_ season: Season) -> some View {
         Section {
-            ForEach(season.playoffOpponents.reversed()) { entry in
-                playoffRow(entry, in: season)
-                    .swipeActions {
-                        Button("Remove", role: .destructive) {
-                            Task {
-                                try? await seasons.removePlayoffOpponent(entry.id, from: season.collection, repository: app.repository)
-                                await model.load(app.repository, seasons: seasons)
-                            }
+            ForEach(seasons.gatheringOpponents(in: season.collection.id), id: \.job.id) { item in
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(item.name).font(.subheadline.weight(.semibold))
+                    if !item.job.isFinished {
+                        HStack(spacing: 6) {
+                            ProgressView().controlSize(.small)
+                            Text(item.job.detail).font(.caption).foregroundStyle(.secondary).lineLimit(2)
                         }
+                    } else {
+                        Text(item.job.error ?? item.job.warning ?? item.job.detail)
+                            .font(.caption)
+                            .foregroundStyle(Palette.error)
                     }
+                }
             }
             Button {
-                addingPlayoffOpponent = true
+                addingMatch = true
             } label: {
-                Label("Add playoff opponent", systemImage: "plus.circle")
+                Label("Add match", systemImage: "plus.circle")
             }
         } header: {
-            Text("Playoffs")
+            Text("Matches")
         } footer: {
-            Text(season.playoffOpponents.isEmpty
-                 ? "In a knockout round, add each opponent once the bracket names them."
-                 : "Newest first. Swipe left to remove one added by mistake; the team stays in the season.")
+            Text(addMatchHint(season.collection.competitionLevel))
         }
     }
 
+    private func addMatchHint(_ level: String?) -> String {
+        switch level {
+        case "sectional": "Add the round robin as the schedule is published, and the final once you advance. Swipe left on a match you added to remove it."
+        case "national": "Add the round robin as the schedule is published, then the semifinal and final once you advance. Swipe left on a match you added to remove it."
+        default: "Add each playoff match once the bracket names your opponent. Swipe left on a match you added to remove it."
+        }
+    }
+
+    /// A hand-added match can be removed; imported ones change in the web app.
     @ViewBuilder
-    private func playoffRow(_ entry: PlayoffEntry, in season: Season) -> some View {
-        let job = seasons.playoffJob(season.collection.id, entry.id)
-        if let team = entry.team, job?.isFinished != false {
-            NavigationLink(value: season.ourTeam.map { Route.matchup(ourTeam: $0, opponent: team, scope: season.collection.competitionLevel) }
-                           ?? Route.team(team)) {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(entry.name).font(.headline)
-                    Text(season.ourTeam == nil ? "Scout" : "Prepare lineup")
-                        .font(.subheadline)
-                        .foregroundStyle(Palette.brand)
-                    if let job { playoffJobNote(job, entry: entry, season: season) }
+    private func removable(_ row: some View, _ entry: SeasonMatch, in season: Season) -> some View {
+        if entry.match.sourceType == matchEntrySource {
+            row.swipeActions {
+                Button("Remove", role: .destructive) {
+                    Task {
+                        try? await seasons.removeMatch(entry.match.id, from: season.collection, repository: app.repository)
+                        await model.load(app.repository, seasons: seasons)
+                    }
                 }
             }
         } else {
-            VStack(alignment: .leading, spacing: 3) {
-                Text(entry.name).font(.headline)
-                if let job {
-                    playoffJobNote(job, entry: entry, season: season)
-                } else {
-                    Text("Not gathered yet").font(.caption).foregroundStyle(.secondary)
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func playoffJobNote(_ job: CollectionJob, entry: PlayoffEntry, season: Season) -> some View {
-        if !job.isFinished {
-            HStack(spacing: 6) {
-                ProgressView().controlSize(.small)
-                Text(job.detail).font(.caption).foregroundStyle(.secondary).lineLimit(2)
-            }
-        } else if job.status == "failed" {
-            Text(job.error ?? job.detail).font(.caption).foregroundStyle(Palette.error)
-            Button("Try again") {
-                Task {
-                    _ = try? await seasons.addPlayoffOpponent(
-                        entry.opponent.teamUrl, name: entry.opponent.name, to: season.collection, repository: app.repository
-                    )
-                }
-            }
-            .font(.caption)
-        } else if let warning = job.warning {
-            Text(warning).font(.caption).foregroundStyle(Palette.warning)
+            row
         }
     }
 
@@ -589,7 +571,7 @@ struct NextMatchCard: View {
 
     var body: some View {
         let content = VStack(alignment: .leading, spacing: 6) {
-            Text([Format.day(entry.match.date), entry.match.time].compactMap { $0 }.joined(separator: " · "))
+            Text([entry.match.round, Format.day(entry.match.date), entry.match.time].compactMap { $0 }.joined(separator: " · "))
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(Palette.brand)
             Text("vs \(entry.opponentName)").font(.title3.weight(.bold))
@@ -624,7 +606,7 @@ struct MatchRow: View {
         let content = HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("vs \(entry.opponentName)").font(.subheadline.weight(.semibold)).lineLimit(2)
-                Text([Format.day(entry.match.date), entry.match.time, entry.match.site]
+                Text([entry.match.round, Format.day(entry.match.date), entry.match.time, entry.match.site]
                     .compactMap { $0 }.joined(separator: " · "))
                     .font(.caption)
                     .foregroundStyle(.secondary)

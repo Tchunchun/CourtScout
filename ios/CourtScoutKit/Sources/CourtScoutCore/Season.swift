@@ -142,7 +142,7 @@ public func buildSeason(
         }
         return SeasonMatch(match: row, opponent: opponent(for: row), state: state)
     }
-    .sorted { ($0.match.date ?? "9999") < ($1.match.date ?? "9999") }
+    .sorted { ($0.match.date ?? "9999", minutesIntoDay($0.match.time)) < ($1.match.date ?? "9999", minutesIntoDay($1.match.time)) }
 
     let playoffs = (collection.playoffOpponents ?? []).map { opponent in
         PlayoffEntry(opponent: opponent, team: members.first { teamProfileKey($0.sourceUrl) == opponent.teamKey })
@@ -163,6 +163,19 @@ public func buildSeason(
         scoutingPool: pool,
         playoffOpponents: playoffs
     )
+}
+
+/// "7:45 PM" or "19:45" as minutes after midnight, so matches on one day
+/// sort by time; an unreadable time sorts last.
+func minutesIntoDay(_ time: String?) -> Int {
+    guard let time else { return 24 * 60 }
+    let parts = time.uppercased().split(whereSeparator: { !$0.isNumber && !$0.isLetter })
+    guard parts.count >= 2, var hour = Int(parts[0]), let minute = Int(parts[1]) else { return 24 * 60 }
+    if parts.count >= 3 {
+        if parts[2].hasPrefix("P"), hour < 12 { hour += 12 }
+        if parts[2].hasPrefix("A"), hour == 12 { hour = 0 }
+    }
+    return hour * 60 + minute
 }
 
 /// Seasons newest first.

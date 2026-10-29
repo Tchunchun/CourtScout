@@ -2,11 +2,11 @@ import CourtScoutCore
 import SwiftUI
 
 /// The share extension's screen: a TennisRecord team page shared from Safari
-/// either starts (or updates) a season, or joins a season as the next
-/// playoff opponent. Either way the job is handed to the app, which shows
-/// its progress.
+/// either starts (or updates) a season, or becomes the opponent of a match
+/// added to a season, such as the next knockout round. Either way the job is
+/// handed to the app, which shows its progress.
 public struct ShareSeasonView: View {
-    private enum Mode { case season, playoff }
+    private enum Mode { case season, match }
 
     @State private var app = AppModel()
     @State private var seasons = SeasonsModel()
@@ -41,12 +41,12 @@ public struct ShareSeasonView: View {
                         // After Start, the confirmation stays up until Done.
                         onClose: { if started == nil { onDone() } }
                     )
-                case .playoff:
-                    PlayoffOpponentView(
+                case .match:
+                    AddMatchView(
                         seasons: seasons,
                         initialLink: link,
-                        onAdded: { added in
-                            started = "Court Scout is \(added.existingTeamId == nil ? "gathering" : "refreshing") this team for “\(added.collection.name)”. Open the app to follow progress in the season’s Playoffs section."
+                        onAdded: { collection in
+                            started = "The match is on “\(collection.name)”, and Court Scout is getting this team’s latest data. Open the app to follow progress in the season’s Matches section."
                         },
                         onClose: { if started == nil { onDone() } }
                     )
@@ -67,16 +67,16 @@ public struct ShareSeasonView: View {
                     Button { mode = .season } label: {
                         Label("Start or update a season", systemImage: "calendar.badge.plus")
                     }
-                    Button { mode = .playoff } label: {
-                        Label("Add as playoff opponent", systemImage: "trophy")
+                    Button { mode = .match } label: {
+                        Label("Add a match against this team", systemImage: "trophy")
                     }
                     .disabled(seasons.collections.isEmpty)
                 } header: {
                     Text("This team")
                 } footer: {
                     Text(seasons.collections.isEmpty
-                         ? "Use “Start or update a season” for your own team. Playoff opponents join a season you already have."
-                         : "Use “Start or update a season” for your own team, and “Add as playoff opponent” when a knockout bracket names your next opponent.")
+                         ? "Use “Start or update a season” for your own team. Matches are added to a season you already have."
+                         : "Use “Start or update a season” for your own team, and “Add a match” when a schedule or knockout bracket names your next opponent.")
                 }
             }
             .navigationTitle("Court Scout")
@@ -105,7 +105,7 @@ public struct ShareSeasonView: View {
     private func startedView(_ message: String) -> some View {
         NavigationStack {
             ContentUnavailableView {
-                Label("Gathering started", systemImage: "checkmark.circle")
+                Label("Done", systemImage: "checkmark.circle")
             } description: {
                 Text(message)
             }

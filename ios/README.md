@@ -61,8 +61,8 @@ The app follows a captain's season, not a list of every gathered team.
   TennisRecord team link, previews the team and how many league opponents
   will be gathered, and starts gathering on the server with public UTR.
   - From Safari: on a TennisRecord team page, Share > Court Scout asks
-    whether to start or update a season, or add the team as a playoff
-    opponent. Starting a season opens the same screen in the share sheet with
+    whether to start or update a season, or add a match against the team.
+    Starting a season opens the same screen in the share sheet with
     the link previewed. Starting there
     hands the job to the app, which shows its progress on the Seasons list
     the next time it opens or returns to the foreground.
@@ -89,13 +89,22 @@ The app follows a captain's season, not a list of every gathered team.
     the server; if another device saved first, the newer choice is shown.
   - The schedule is the season's confirmed schedule. Without one, the app
     falls back to Our team's TennisRecord schedule and says it is unconfirmed.
-- **Playoffs:** the last section of a season. In a knockout round the next
-  opponent is known only once the matches before yours finish, so "Add
-  playoff opponent" (or Share > Court Scout > Add as playoff opponent) takes
-  one team link at a time. A team from another flight is gathered into the
-  season with public UTR; a team the season already has gets its latest
-  TennisRecord matches refreshed, ratings kept. Each opens Prepare lineup;
-  swipe to remove one added by mistake (the team stays in the season).
+- **Matches:** the last section of a season. "Add match" puts one match on
+  the season's schedule as it is announced: round, an opponent from the
+  season's teams, date, time, and location. Rounds follow the level: a local
+  season's Playoff and Playoff final; a Sectionals Round robin and Final; a
+  Nationals Round robin, Semifinal, and Final. Rows show the round, and
+  same-day matches sort by time.
+  - On a Sectionals or Nationals season, Prepare for match day also takes
+    the published round robin: a chosen team with no match yet can be added
+    with "Add to schedule", starting from the date, time, and location
+    entered last.
+  - A team the season does not have can only come in through Share > Court
+    Scout > Add a match, which gathers it with public UTR (or refreshes it if
+    the season has it).
+  - Matches added here are kept when the schedule is imported or refreshed
+    later, and can be removed with a swipe; imported ones change in the web
+    app.
 - **Prepare lineup:** tap an upcoming match (or, with no schedule, any team
   in the event) to test Our lineup against the opponent's three scenarios:
   most likely, strongest by ratings (unconfirmed), and alternate.

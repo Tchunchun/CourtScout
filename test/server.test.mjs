@@ -1202,3 +1202,104 @@ test("playoff opponents are gathered one at a time, or refreshed when already in
   })).status, 404);
   assert.equal((await send("POST", playoff, { teamUrl: "https://example.com/team" })).status, 400);
 });
+
+test("matches are added one at a time and survive a schedule re-confirm", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-match-entry-"));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+  const profile = name =>
+    `https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=${name}&year=2026`;
+  for (const [folder, datasetId] of [["home", "2026-home"], ["flightmate", "2026-flightmate"]]) {
+    await mkdir(join(dataDirectory, "collections", folder), { recursive: true });
+    await writeFile(join(dataDirectory, "collections", folder, "team-data.json"), JSON.stringify({
+      datasetId,
+      generatedAt: "2026-01-01T00:00:00.000Z",
+      collectionStage: "step_1_complete",
+      team: { name: folder === "home" ? "Home" : "Flightmate", season: 2026 },
+      sources: [{ type: "tennisrecord", url: profile(folder) }],
+      roster: [],
+      matches: []
+    }));
+  }
+  const gathered = [];
+  const server = createAppServer({
+    dataDirectory,
+    runCollectionJob: async job => {
+      gathered.push(job.teamUrl);
+      job.status = "complete";
+    }
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(() => server.close());
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const send = (method, path, body) => fetch(`${base}${path}`, {
+    method,
+    headers: { "content-type": "application/json" },
+    body: body && JSON.stringify(body)
+  });
+
+  const { collection } = await (await send("POST", "/api/team-collections", {
+    name: "2026 Sectionals",
+    competitionLevel: "sectional",
+    datasetId: "2026-home"
+  })).json();
+  await send("PUT", `/api/team-collections/${collection.id}/team`, { datasetId: "2026-flightmate" });
+  const matches = `/api/event-schedules/${collection.id}/matches`;
+
+  // Round robin against a team from the flight creates the schedule.
+  const roundRobin = await send("POST", matches, {
+    ourTeamId: "collections/home",
+    opponentTeamId: "collections/flightmate",
+    round: "Round robin",
+    date: "2026-08-14",
+    time: "8:00 AM",
+    site: "Central Park Tennis Center"
+  });
+  assert.equal(roundRobin.status, 201);
+  const first = await roundRobin.json();
+  assert.equal(first.schedule.eventType, "sectionals");
+  assert.equal(first.schedule.ourTeamId, "collections/home");
+  assert.deepEqual(
+    [first.match.sourceOpponentName, first.match.linkedOpponentTeamId, first.match.round, first.match.site, first.match.sourceType],
+    ["Flightmate", "collections/flightmate", "Round robin", "Central Park Tennis Center", "manual_entry"]
+  );
+  assert.equal(first.match.sourceReference, profile("flightmate"));
+  assert.equal(first.job, null);
+
+  // The final against a team from another flight gathers it.
+  const final = await (await send("POST", matches, {
+    opponentUrl: profile("Outsider"),
+    round: "Final",
+    date: "2026-08-16",
+    time: "1:00 PM",
+    site: "Central Park Tennis Center"
+  })).json();
+  assert.equal(final.match.linkedOpponentTeamId, null);
+  assert.equal(final.match.sourceOpponentUrl, profile("Outsider"));
+  assert.equal(final.job.teamType, "opponent");
+  for (let attempt = 0; attempt < 50 && !gathered.length; attempt += 1) {
+    await new Promise(resolve => setTimeout(resolve, 20));
+  }
+  assert.deepEqual(gathered, [profile("Outsider")]);
+
+  // An imported schedule keeps the matches entered here.
+  await send("PUT", `/api/event-schedules/${collection.id}`, {
+    ourTeamId: "collections/home",
+    eventType: "sectionals",
+    source: { type: "csv" },
+    matches: [{ opponent: "Imported", date: "2026-08-15", time: "9:00 AM" }]
+  });
+  const { schedule } = await (await send("GET", `/api/event-schedules/${collection.id}`)).json();
+  const imported = schedule.matches.find(match => match.sourceOpponentName === "Imported");
+  assert.deepEqual(
+    schedule.matches.filter(match => match.status === "scheduled").map(match => match.round ?? match.sourceOpponentName).sort(),
+    ["Final", "Imported", "Round robin"]
+  );
+
+  const removed = await send("DELETE", `${matches}/${encodeURIComponent(first.match.id)}`);
+  assert.equal(removed.status, 200);
+  assert.ok(!(await removed.json()).schedule.matches.some(match => match.id === first.match.id));
+  const kept = await send("DELETE", `${matches}/${encodeURIComponent(imported.id)}`);
+  assert.equal(kept.status, 400);
+  assert.match((await kept.json()).error, /Only matches added here/);
+});
