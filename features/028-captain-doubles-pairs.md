@@ -1,7 +1,7 @@
 ---
 id: "028"
 title: Let the captain manage their doubles pairs on the phone
-status: review
+status: done
 priority: P0
 phase: phase-1
 area: ios
@@ -89,3 +89,4 @@ Phase 1 core: prove the value of scouting-informed lineup preparation. See featu
   `baseRevision`; pairs are validated against the national active roster when
   there is one and stored by dataset ID so they survive moves between
   collections; the phone no longer caches pairs (offline belongs to 012).
+- 2026-10-29: PR #6 merged into `main` (33e8e2e); status set to done.
