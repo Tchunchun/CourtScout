@@ -43,6 +43,13 @@ export function sortTeamsByReportTitle(teams) {
 
 export const TEMP_REPORTS_COLLECTION_ID = "__temp_reports__";
 
+// Missing results and empty schedules are not evidence that a season finished.
+export function isCompletedSeason(schedule) {
+  const matches = schedule?.matches ?? [];
+  return matches.some(match => match.status === "completed") &&
+    matches.every(match => ["completed", "cancelled"].includes(match.status));
+}
+
 export function buildReportCollections(collections, teams) {
   const cards = (collections ?? []).map(collection => ({
     id: collection.id,

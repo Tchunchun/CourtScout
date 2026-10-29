@@ -2,8 +2,9 @@ import CourtScoutCore
 import SwiftUI
 
 enum Scenario {
-    static func name(_ type: String?) -> String {
-        switch type {
+    static func name(_ type: String?, historicalRank: Int? = nil) -> String {
+        if let historicalRank { return "Likely lineup \(historicalRank)" }
+        return switch type {
         case "most_likely": "Most likely"
         case "rating_ceiling": "Strongest by ratings"
         case "alternate": "Alternate"
@@ -11,8 +12,9 @@ enum Scenario {
         }
     }
 
-    static func shortName(_ type: String?) -> String {
-        switch type {
+    static func shortName(_ type: String?, historicalRank: Int? = nil) -> String {
+        if let historicalRank { return "Likely #\(historicalRank)" }
+        return switch type {
         case "most_likely": "Likely"
         case "rating_ceiling": "Ratings"
         case "alternate": "Alternate"
@@ -197,12 +199,16 @@ struct MatchupView: View {
             HStack(spacing: 8) {
                 ForEach(matchup.challenges) { challenge in
                     let selected = challenge.rank == model.selectedChallenge?.rank
+                    let scenario = matchup.scenarios.first { $0.rank == challenge.rank }
                     Button {
                         model.selectedRank = challenge.rank
                     } label: {
                         VStack(spacing: 2) {
                             Text("\(challenge.scorePercent)%").font(.title3.weight(.bold)).monospacedDigit()
-                            Text(Scenario.shortName(challenge.scenarioType)).font(.caption)
+                            Text(Scenario.shortName(
+                                challenge.scenarioType,
+                                historicalRank: scenario?.historicalRank
+                            )).font(.caption)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
@@ -264,7 +270,10 @@ struct MatchupView: View {
     }
 
     private func scenarioDetail(_ scenario: Matchup.Scenario) -> String {
-        var parts = [Scenario.name(scenario.scenarioType)]
+        var parts = [Scenario.name(
+            scenario.scenarioType,
+            historicalRank: scenario.historicalRank
+        )]
         if scenario.scenarioType == "rating_ceiling" {
             parts.append("unconfirmed: their strongest eligible players by rating")
             if !scenario.unplayedPlayers.isEmpty {
