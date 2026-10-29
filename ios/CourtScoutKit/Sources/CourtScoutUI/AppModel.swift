@@ -15,7 +15,7 @@ public final class AppModel {
     public private(set) var generation = 0
     private let defaults: UserDefaults
 
-    public init(defaults: UserDefaults = .standard) {
+    public init(defaults: UserDefaults = SharedStore.defaults) {
         self.defaults = defaults
         serverAddress = defaults.string(forKey: Self.serverKey) ?? Self.defaultServerAddress
         configure()

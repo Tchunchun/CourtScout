@@ -85,6 +85,10 @@ struct NewSeasonView: View {
     var seasons: SeasonsModel
     /// The started job, its team link, and level, so it can be restarted.
     var onStarted: (CollectionJob, String, String) -> Void
+    /// A link to preview right away, such as one shared from Safari.
+    var initialLink: String?
+    /// Closes the screen; the share extension finishes its request instead.
+    var onClose: (() -> Void)?
 
     var body: some View {
         NavigationStack {
@@ -112,7 +116,7 @@ struct NewSeasonView: View {
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("Cancel") { close() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     if model.working {
@@ -127,7 +131,18 @@ struct NewSeasonView: View {
                 }
             }
             .onChange(of: model.link) { model.linkChanged() }
+            .task {
+                guard let initialLink, model.link.isEmpty else { return }
+                model.link = initialLink
+                if model.validLink != nil {
+                    await model.loadPreview(app.repository, seasons: seasons)
+                }
+            }
         }
+    }
+
+    private func close() {
+        if let onClose { onClose() } else { dismiss() }
     }
 
     private var linkSection: some View {
@@ -207,7 +222,7 @@ struct NewSeasonView: View {
         Task {
             if let job = await model.start(app.repository), let preview = model.preview {
                 onStarted(job, preview.teamUrl, model.competitionLevel)
-                dismiss()
+                close()
             }
         }
     }

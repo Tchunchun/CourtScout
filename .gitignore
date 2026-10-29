@@ -28,3 +28,4 @@ data/collections/*
 # Swift Package Manager build output.
 .build/
 .swiftpm/
+xcuserdata/

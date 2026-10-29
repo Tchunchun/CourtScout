@@ -8,25 +8,25 @@ Court Scout server (`npm start`), so the server has to be running.
 |---|---|---|
 | `CourtScoutModels` | `Codable` types generated from `contracts/team-data.schema.json` | Yes |
 | `CourtScoutKit` | All app code: API client, offline cache, SwiftUI screens. Builds for iOS and macOS. | Yes (macOS) |
-| `CourtScout.swiftpm` | The iPhone app itself, a thin wrapper around `CourtScoutKit` | No — open in Xcode |
+| `CourtScout.xcodeproj` | The iPhone app (`CourtScout/`) and its Safari share extension (`ShareExtension/`), thin wrappers around `CourtScoutKit`; signing settings in `Config/` | No — open in Xcode |
 
 ## Run on iPhone or the iOS Simulator (needs Xcode)
 
 1. Start the server: `npm start`.
-2. In Xcode, choose File > Open… and pick `ios/CourtScout.swiftpm`.
-3. Pick an iPhone simulator and press Run.
+2. In Xcode, choose File > Open… and pick `ios/CourtScout.xcodeproj`.
+3. Pick the "Court Scout" scheme and an iPhone simulator, and press Run.
 
 From the command line instead:
 
 ```bash
-cd ios/CourtScout.swiftpm
-xcodebuild -scheme CourtScout -destination 'generic/platform=iOS Simulator' -derivedDataPath ../.build/DerivedData build
-xcrun simctl install booted "../.build/DerivedData/Build/Products/Debug-iphonesimulator/Court Scout.app"
+cd ios
+xcodebuild -project CourtScout.xcodeproj -scheme "Court Scout" -destination 'generic/platform=iOS Simulator' -derivedDataPath .build/DerivedData build
+xcrun simctl install booted ".build/DerivedData/Build/Products/Debug-iphonesimulator/Court Scout.app"
 xcrun simctl launch booted com.courtscout.app
 ```
 
-Xcode only offers generic destinations for this package, so build for "Any
-iOS Simulator" and install on a booted device as above. If the build fails
+Building for "Any iOS Simulator" and installing on a booted device, as above,
+avoids picking a device by name. If the build fails
 with "No available simulator runtimes", the installed Simulator runtime does
 not match Xcode's iOS SDK: list both with `xcrun simctl runtime match list`
 and point the SDK at the installed runtime, e.g.
@@ -36,7 +36,10 @@ The Simulator reaches the server at `http://localhost:4173`, the default. On a
 real iPhone, open Settings (gear icon) in the app and enter
 `http://<this Mac's IP>:4173`; both devices must be on the same network. To
 install on your own iPhone, choose your Apple ID team under Signing &
-Capabilities first.
+Capabilities for both targets (Court Scout and Share) first. Both use the App
+Group `group.com.courtscout.app`, which shares the server address and the
+season jobs the app follows; a team that cannot use that group needs its own
+group id in `Config/*.entitlements` and `SharedStore.appGroup`.
 
 ## Preview on a Mac (no Xcode needed)
 
@@ -57,6 +60,10 @@ The app follows a captain's season, not a list of every gathered team.
 - **New season:** the `+` button (or the empty home screen) takes Our team's
   TennisRecord team link, previews the team and how many league opponents
   will be gathered, and starts gathering on the server with public UTR.
+  - From Safari: on a TennisRecord team page, Share > Court Scout opens the
+    same screen in the share sheet with the link previewed. Starting there
+    hands the job to the app, which shows its progress on the Seasons list
+    the next time it opens or returns to the foreground.
   - Exact UTR decimals need the server's signed-in browser, so the phone
     does not offer them; add them later from the web app.
   - A team that is already in a season gathers into that season again
@@ -173,8 +180,8 @@ transparency) and copy it into the asset catalog:
 ```bash
 qlmanage -t -s 1024 -o /tmp ios/branding/app-icon.svg
 sips -s format jpeg -s formatOptions 100 /tmp/app-icon.svg.png --out /tmp/app-icon.jpg
-sips -s format png /tmp/app-icon.jpg --out ios/CourtScout.swiftpm/App/Assets.xcassets/AppIcon.appiconset/AppIcon.png
-cp ios/CourtScout.swiftpm/App/Assets.xcassets/AppIcon.appiconset/AppIcon.png ios/branding/app-icon-1024.png
+sips -s format png /tmp/app-icon.jpg --out ios/CourtScout/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+cp ios/CourtScout/Assets.xcassets/AppIcon.appiconset/AppIcon.png ios/branding/app-icon-1024.png
 ```
 
 ## Not done yet

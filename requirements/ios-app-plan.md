@@ -126,7 +126,7 @@ phone therefore starts from seasons, not from a list of every gathered team.
    empty state) starts a season from the phone. P0: without it a new user's
    first screen is a dead end that sends them to the web app.
    - Paste or share a TennisRecord team profile link. A share extension from
-     Safari is P1.
+     Safari is P1. **Done:** Share > Court Scout on a team page.
    - `POST /api/team-preview` shows the team name, league, level, and how many
      opponents will be gathered; the user confirms.
    - `POST /api/jobs` with `teamType: "home"` and public ratings only.
@@ -165,7 +165,7 @@ phone therefore starts from seasons, not from a list of every gathered team.
 | P0 | Seasons home, season screen, Our team | Done (Our team shared with the web app through `/api/team-roles`) |
 | P0 | Matchup screen | Done (lineup saved on device; not yet a web Match Day Card) |
 | P0 | New season from the home screen (paste link, preview, start job, progress) | Done (job progress saved to `data/jobs/`; a restart reports the job as interrupted and offers Start again) |
-| P1 | Threat board, scenario differences, coverage warnings, share extension for team links | Threat board and coverage warnings done (`GET /api/threat-board`, the team's Threats tab); scenario differences done (each matchup challenge carries `differences` from the first scenario); share extension not started |
+| P1 | Threat board, scenario differences, coverage warnings, share extension for team links | Threat board and coverage warnings done (`GET /api/threat-board`, the team's Threats tab); scenario differences done (each matchup challenge carries `differences` from the first scenario); share extension done (`ios/ShareExtension`; the app moved from `CourtScout.swiftpm` to `CourtScout.xcodeproj`, since a Swift Playgrounds package cannot hold an extension) |
 | P2 | Day-of availability, lineup photo, sharing, results | Not started |
 
 ## Logic that moves on-device

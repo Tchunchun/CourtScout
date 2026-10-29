@@ -15,7 +15,7 @@ final class SeasonsModel {
     var phase: LoadPhase = .idle
     private let defaults: UserDefaults
 
-    init(defaults: UserDefaults = .standard) {
+    init(defaults: UserDefaults = SharedStore.defaults) {
         self.defaults = defaults
     }
 

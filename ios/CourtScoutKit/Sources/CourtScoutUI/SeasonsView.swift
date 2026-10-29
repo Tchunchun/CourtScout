@@ -11,7 +11,11 @@ enum Route: Hashable {
 /// Home: one card per season (event collection), newest first.
 struct SeasonsView: View {
     @Environment(AppModel.self) private var app
+    @Environment(\.scenePhase) private var scenePhase
     @State private var model = SeasonsModel()
+    /// Bumped on each return to the foreground: the share extension may have
+    /// started a season, which only the shared defaults record.
+    @State private var activations = 0
     @State private var showingSettings = false
     @State private var showingNewSeason = false
 
@@ -58,11 +62,15 @@ struct SeasonsView: View {
                     }
                 }
         }
-        .task(id: app.generation) {
+        .task(id: "\(app.generation)-\(activations)") {
             await model.load(app.repository)
         }
-        .task(id: PollKey(generation: app.generation, running: model.hasRunningJobs)) {
+        .task(id: PollKey(generation: app.generation, activations: activations, running: model.hasRunningJobs)) {
             await followJobs()
+        }
+        .onChange(of: scenePhase) { previous, phase in
+            // Not on launch: the first load is already running then.
+            if previous == .background && phase == .active { activations += 1 }
         }
     }
 
@@ -114,6 +122,7 @@ struct SeasonsView: View {
 
 private struct PollKey: Hashable {
     var generation: Int
+    var activations: Int
     var running: Bool
 }
 
