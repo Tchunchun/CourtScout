@@ -12,8 +12,12 @@ public struct Season: Sendable {
     public var ourTeamSource: OurTeamSource?
     public var scheduleSource: ScheduleSource
     public var matches: [SeasonMatch]
-    /// Teams in the collection that are neither Our team nor on the schedule.
+    /// Teams in the collection that are neither Our team, on the schedule,
+    /// nor a playoff opponent.
     public var scoutingPool: [TeamSummary]
+    /// Playoff opponents in the order they were added, with the gathered
+    /// team once it is in the season.
+    public var playoffOpponents: [PlayoffEntry]
 
     public var upcoming: [SeasonMatch] { matches.filter { $0.state == .upcoming } }
     /// Opponents on the schedule that were not gathered into the season.
@@ -23,6 +27,13 @@ public struct Season: Sendable {
     public var awaitingResult: [SeasonMatch] { matches.filter { $0.state == .awaitingResult } }
     public var completed: [SeasonMatch] { matches.filter { $0.state == .completed } }
     public var nextMatch: SeasonMatch? { upcoming.first }
+}
+
+public struct PlayoffEntry: Identifiable, Hashable, Sendable {
+    public var opponent: TeamCollection.PlayoffOpponent
+    public var team: TeamSummary?
+    public var id: String { opponent.teamKey }
+    public var name: String { team?.team.name ?? opponent.name ?? opponent.teamKey }
 }
 
 public struct SeasonMatch: Identifiable, Hashable, Sendable {
@@ -69,9 +80,11 @@ public func resolveOurTeam(
 
 /// TennisRecord team URLs differ in query order and encoding; compare by
 /// team name and year.
-func teamProfileKey(_ url: String?) -> String? {
+public func teamProfileKey(_ url: String?) -> String? {
     guard let url, let items = URLComponents(string: url)?.queryItems else { return nil }
-    let name = items.first { $0.name.lowercased() == "teamname" }?.value?.lowercased()
+    // Same key as the server's teamProfileKey: trimmed, lowercased name.
+    let name = items.first { $0.name.lowercased() == "teamname" }?.value?
+        .trimmingCharacters(in: .whitespaces).lowercased()
     let year = items.first { $0.name.lowercased() == "year" }?.value
     guard let name else { return nil }
     return "\(name)|\(year ?? "")"
@@ -127,7 +140,11 @@ public func buildSeason(
     }
     .sorted { ($0.match.date ?? "9999") < ($1.match.date ?? "9999") }
 
+    let playoffs = (collection.playoffOpponents ?? []).map { opponent in
+        PlayoffEntry(opponent: opponent, team: members.first { teamProfileKey($0.sourceUrl) == opponent.teamKey })
+    }
     let scheduledIds = Set(matches.compactMap { $0.opponent?.id })
+        .union(playoffs.compactMap { $0.team?.id })
     let pool = members
         .filter { $0.id != ourTeam?.team.id && !scheduledIds.contains($0.id) }
         .sorted { $0.team.name.localizedCaseInsensitiveCompare($1.team.name) == .orderedAscending }
@@ -139,7 +156,8 @@ public func buildSeason(
         ourTeamSource: ourTeam?.source,
         scheduleSource: source,
         matches: matches,
-        scoutingPool: pool
+        scoutingPool: pool,
+        playoffOpponents: playoffs
     )
 }
 

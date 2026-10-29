@@ -1114,3 +1114,91 @@ test("starting a season again reuses its teams and gathers only missing opponent
   assert.match(job.detail, /All 3 league teams are in this season; gathered 1 missing/);
   assert.equal(await getEventSchedule(dataDirectory, collection.id), null);
 });
+
+test("playoff opponents are gathered one at a time, or refreshed when already in the season", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-playoff-"));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+  const profile = name =>
+    `https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=${name}&year=2026`;
+  const writeTeam = async (folder, datasetId, url) => {
+    await mkdir(join(dataDirectory, "collections", folder), { recursive: true });
+    await writeFile(join(dataDirectory, "collections", folder, "team-data.json"), JSON.stringify({
+      datasetId,
+      generatedAt: "2026-01-01T00:00:00.000Z",
+      collectionStage: "step_1_complete",
+      team: { name: folder, season: 2026 },
+      sources: [{ type: "tennisrecord", url }],
+      roster: [],
+      matches: []
+    }));
+  };
+  await writeTeam("home", "2026-home", profile("Home"));
+  await writeTeam("rival", "2026-rival", profile("Rival"));
+
+  const gathered = [];
+  const refreshed = [];
+  const server = createAppServer({
+    dataDirectory,
+    runCollectionJob: async job => {
+      gathered.push(job.teamUrl);
+      job.status = "complete";
+    },
+    runRefreshJob: async job => {
+      refreshed.push([job.teamId, job.refreshSelections]);
+      job.status = "complete";
+    }
+  });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(() => server.close());
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const send = (method, path, body) => fetch(`${base}${path}`, {
+    method,
+    headers: { "content-type": "application/json" },
+    body: body && JSON.stringify(body)
+  });
+
+  const { collection } = await (await send("POST", "/api/team-collections", {
+    name: "2026 Local",
+    competitionLevel: "local",
+    datasetId: "2026-home"
+  })).json();
+  await send("PUT", `/api/team-collections/${collection.id}/team`, { datasetId: "2026-rival" });
+  const playoff = `/api/team-collections/${collection.id}/playoff-opponents`;
+
+  // A team from another flight is gathered into the season.
+  const fresh = await send("POST", playoff, { teamUrl: profile("Outsider") });
+  assert.equal(fresh.status, 202);
+  const added = await fresh.json();
+  assert.equal(added.existingTeamId, null);
+  assert.equal(added.job.teamType, "opponent");
+  assert.equal(added.job.eventCollectionId, collection.id);
+  assert.equal(added.job.mode, "public");
+
+  // A team already in the season is refreshed from TennisRecord, ratings kept.
+  const known = await (await send("POST", playoff, { teamUrl: `${profile("RIVAL")}&s=2` })).json();
+  assert.equal(known.existingTeamId, "collections/rival");
+  assert.equal(known.job.kind, "refresh");
+
+  for (let attempt = 0; attempt < 50 && (gathered.length < 1 || refreshed.length < 1); attempt += 1) {
+    await new Promise(resolve => setTimeout(resolve, 20));
+  }
+  assert.deepEqual(gathered, [profile("Outsider")]);
+  assert.deepEqual(refreshed, [["collections/rival", { tennisrecord: true, utr: "none", scope: "all" }]]);
+
+  // Adding the same team again keeps one entry.
+  const again = await (await send("POST", playoff, { teamUrl: profile("Outsider"), name: "Outsiders" })).json();
+  assert.deepEqual(
+    again.collection.playoffOpponents.map(item => [item.teamKey, item.name]),
+    [["rival|2026", "RIVAL"], ["outsider|2026", "Outsiders"]]
+  );
+
+  const removed = await (await send("DELETE", `${playoff}?team=${encodeURIComponent("rival|2026")}`)).json();
+  assert.deepEqual(removed.collection.playoffOpponents.map(item => item.teamKey), ["outsider|2026"]);
+  assert.ok(removed.collection.teamDatasetIds.includes("2026-rival"));
+
+  assert.equal((await send("POST", "/api/team-collections/missing/playoff-opponents", {
+    teamUrl: profile("Outsider")
+  })).status, 404);
+  assert.equal((await send("POST", playoff, { teamUrl: "https://example.com/team" })).status, 400);
+});

@@ -19,11 +19,13 @@ import {
   readCatalogTeam
 } from "../scripts/lib/team-catalog.mjs";
 import {
+  addPlayoffOpponent,
   assignTeamToCollection,
   createTeamCollection,
   deleteTeamCollection,
   getTeamCollection,
   listTeamCollections,
+  removePlayoffOpponent,
   renameTeamCollection,
   validateTeamCollectionCompetitionLevel
 } from "../scripts/lib/team-collections.mjs";
@@ -979,6 +981,84 @@ export function createAppServer(options = {}) {
   });
   const runUtrCommand = createUtrCommandQueue();
   const runCollectionJob = options.runCollectionJob ?? runJob;
+  const runRefresh = options.runRefreshJob ?? runRefreshJob;
+  async function startScoutingJob({
+    id,
+    teamUrl,
+    teamType,
+    ratingSelections,
+    eventCollectionId,
+    competitionLevel
+  }) {
+    const createdAt = new Date();
+    const seasonHome = teamType === "home"
+      ? (await seasonTeamsByProfile(dataDirectory, eventCollectionId))
+        .get(teamProfileKey(teamUrl)) ?? null
+      : null;
+    const collectionName = seasonHome
+      ? seasonHome.id.replace(/^collections\//, "")
+      : collectionFolderName(
+        teamUrl,
+        ratingSelectionSlug(ratingSelections),
+        createdAt
+      );
+    const job = {
+      id,
+      kind: teamType === "home" ? "league-collection" : "collection",
+      collectionName,
+      catalogTeamId: seasonHome?.id ?? `collections/${collectionName}`,
+      teamId: seasonHome?.id,
+      reuseHome: Boolean(seasonHome),
+      eventCollectionId,
+      competitionLevel,
+      dataDirectory,
+      teamUrl,
+      teamType,
+      ratingSelections,
+      status: "queued",
+      phase: "queued",
+      progress: 2,
+      detail: seasonHome
+        ? "Looking for opponents this season is missing"
+        : "Preparing collection",
+      createdAt: createdAt.toISOString(),
+      outputPath: seasonHome
+        ? join(dataDirectory, seasonHome.id, "team-data.json")
+        : join(dataDirectory, "collections", collectionName, "team-data.json"),
+      log: []
+    };
+    trackJob(job, dataDirectory);
+    void runScoutingJob(job, runUtrCommand, runCollectionJob);
+    return job;
+  }
+
+  function startRefreshJob({ teamId, teamUrl, ratingSelections, refreshSelections }) {
+    const id = randomUUID().slice(0, 8);
+    const outputPath = join(dataDirectory, teamId, "team-data.json");
+    const job = {
+      id,
+      kind: "refresh",
+      teamId,
+      teamUrl,
+      ratingSelections,
+      refreshSelections,
+      status: "queued",
+      phase: "queued",
+      progress: 2,
+      detail: "Preparing selective refresh",
+      createdAt: new Date().toISOString(),
+      outputPath,
+      workingPath: join(
+        dirname(outputPath),
+        `.team-data.refresh-${id}.json`
+      ),
+      log: []
+    };
+    trackJob(job, dataDirectory);
+    void runRefresh(job, runUtrCommand);
+    return job;
+  }
+
   return createServer(async (request, response) => {
     const requestUrl = new URL(request.url, `http://${request.headers.host ?? "localhost"}`);
     const pathname = requestUrl.pathname;
@@ -1080,45 +1160,14 @@ export function createAppServer(options = {}) {
           );
           eventCollectionId = collection.id;
         }
-        const createdAt = new Date();
-        const seasonHome = teamType === "home"
-          ? (await seasonTeamsByProfile(dataDirectory, eventCollectionId))
-            .get(teamProfileKey(teamUrl)) ?? null
-          : null;
-        const collectionName = seasonHome
-          ? seasonHome.id.replace(/^collections\//, "")
-          : collectionFolderName(
-            teamUrl,
-            ratingSelectionSlug(ratingSelections),
-            createdAt
-          );
-        const job = {
+        const job = await startScoutingJob({
           id,
-          kind: teamType === "home" ? "league-collection" : "collection",
-          collectionName,
-          catalogTeamId: seasonHome?.id ?? `collections/${collectionName}`,
-          teamId: seasonHome?.id,
-          reuseHome: Boolean(seasonHome),
-          eventCollectionId,
-          competitionLevel,
-          dataDirectory,
           teamUrl,
           teamType,
           ratingSelections,
-          status: "queued",
-          phase: "queued",
-          progress: 2,
-          detail: seasonHome
-            ? "Looking for opponents this season is missing"
-            : "Preparing collection",
-          createdAt: createdAt.toISOString(),
-          outputPath: seasonHome
-            ? join(dataDirectory, seasonHome.id, "team-data.json")
-            : join(dataDirectory, "collections", collectionName, "team-data.json"),
-          log: []
-        };
-        trackJob(job, dataDirectory);
-        void runScoutingJob(job, runUtrCommand, runCollectionJob);
+          eventCollectionId,
+          competitionLevel
+        });
         json(response, 202, publicJob(job));
         return;
       }
@@ -1164,29 +1213,12 @@ export function createAppServer(options = {}) {
             : currentSelections.utr,
           wtn: false
         };
-        const id = randomUUID().slice(0, 8);
-        const outputPath = join(dataDirectory, body.teamId, "team-data.json");
-        const job = {
-          id,
-          kind: "refresh",
+        const job = startRefreshJob({
           teamId: body.teamId,
           teamUrl: tennisRecordSource?.url ?? null,
           ratingSelections,
-          refreshSelections,
-          status: "queued",
-          phase: "queued",
-          progress: 2,
-          detail: "Preparing selective refresh",
-          createdAt: new Date().toISOString(),
-          outputPath,
-          workingPath: join(
-            dirname(outputPath),
-            `.team-data.refresh-${id}.json`
-          ),
-          log: []
-        };
-        trackJob(job, dataDirectory);
-        void runRefreshJob(job, runUtrCommand);
+          refreshSelections
+        });
         json(response, 202, publicJob(job));
         return;
       }
@@ -1363,6 +1395,72 @@ export function createAppServer(options = {}) {
         json(response, 201, {
           collection,
           collections: await listTeamCollections(dataDirectory)
+        });
+        return;
+      }
+
+      const playoffMatch = pathname.match(
+        /^\/api\/team-collections\/([a-zA-Z0-9-]+)\/playoff-opponents$/
+      );
+      if (request.method === "POST" && playoffMatch) {
+        // A knockout bracket names one opponent at a time: gather that team
+        // into the season, or refresh it if the season already has it.
+        const collectionId = playoffMatch[1];
+        const collection = await getTeamCollection(dataDirectory, collectionId);
+        const body = await readBody(request);
+        const teamUrl = validateTeamUrl(body.teamUrl);
+        const teamKey = teamProfileKey(teamUrl);
+        const existing = (await seasonTeamsByProfile(dataDirectory, collectionId))
+          .get(teamKey) ?? null;
+        let job;
+        if (existing) {
+          job = [...jobs.values()].find(item =>
+            item.teamId === existing.id && ["queued", "running"].includes(item.status)
+          );
+          if (!job) {
+            const current = await readCatalogTeam(dataDirectory, existing.id);
+            const source = current.sources?.find(item => item.type === "tennisrecord" && item.url);
+            // TennisRecord only: their latest matches matter; ratings are kept.
+            job = startRefreshJob({
+              teamId: existing.id,
+              teamUrl: source?.url ?? teamUrl,
+              ratingSelections: datasetRatingSelections(current),
+              refreshSelections: parseRefreshSelections({
+                refreshTennisRecord: true,
+                refreshUtr: false
+              })
+            });
+          }
+        } else {
+          job = findActiveScoutingJob(jobs.values(), teamUrl, "opponent") ??
+            await startScoutingJob({
+              id: randomUUID().slice(0, 8),
+              teamUrl,
+              teamType: "opponent",
+              ratingSelections: parseRatingSelections({ utrMode: "public" }),
+              eventCollectionId: collectionId,
+              competitionLevel: collection.competitionLevel
+            });
+        }
+        const updated = await addPlayoffOpponent(dataDirectory, collectionId, {
+          teamKey,
+          teamUrl,
+          name: typeof body.name === "string" && body.name.trim()
+            ? body.name.trim()
+            : new URL(teamUrl).searchParams.get("teamname")
+        });
+        json(response, 202, {
+          collection: updated,
+          job: publicJob(job),
+          existingTeamId: existing?.id ?? null
+        });
+        return;
+      }
+      if (request.method === "DELETE" && playoffMatch) {
+        const teamKey = requestUrl.searchParams.get("team");
+        if (!teamKey) throw new Error("Choose the playoff opponent to remove.");
+        json(response, 200, {
+          collection: await removePlayoffOpponent(dataDirectory, playoffMatch[1], teamKey)
         });
         return;
       }

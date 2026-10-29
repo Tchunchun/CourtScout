@@ -25,10 +25,30 @@ function normalizeStore(value) {
         ),
         teamDatasetIds,
         ...normalizeMatchDayDefaults(collection.matchDayDefaults, teamDatasetIds),
+        ...normalizePlayoffOpponents(collection.playoffOpponents),
         createdAt: collection.createdAt
       };
     })
   };
+}
+
+// Playoff opponents are added one at a time as the bracket is decided. Each
+// is keyed by its TennisRecord team (name and year), so it is listed while it
+// is still being gathered and stays tagged after a refresh.
+function normalizePlayoffOpponents(value) {
+  if (!Array.isArray(value) || !value.length) return {};
+  const byKey = new Map();
+  for (const item of value) {
+    if (typeof item?.teamKey !== "string" || !item.teamKey ||
+        typeof item.teamUrl !== "string") continue;
+    byKey.set(item.teamKey, {
+      teamKey: item.teamKey,
+      teamUrl: item.teamUrl,
+      name: typeof item.name === "string" ? item.name : null,
+      addedAt: item.addedAt ?? null
+    });
+  }
+  return byKey.size ? { playoffOpponents: [...byKey.values()] } : {};
 }
 
 function normalizeMatchDayDefaults(value, teamDatasetIds) {
@@ -320,5 +340,45 @@ export async function assignTeamToCollection(
     }
     await writeStore(dataDirectory, store);
     return store.collections;
+  });
+}
+
+/** Tags a team as a playoff opponent of the season, once. */
+export async function addPlayoffOpponent(dataDirectory, collectionId, opponent) {
+  return queuedWrite(dataDirectory, async () => {
+    const store = await readStore(dataDirectory);
+    const collection = store.collections.find(item => item.id === collectionId);
+    if (!collection) {
+      const error = new Error("Event collection not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+    const others = (collection.playoffOpponents ?? [])
+      .filter(item => item.teamKey !== opponent.teamKey);
+    Object.assign(collection, normalizePlayoffOpponents([
+      ...others,
+      { ...opponent, addedAt: new Date().toISOString() }
+    ]));
+    await writeStore(dataDirectory, store);
+    return collection;
+  });
+}
+
+/** Removes a playoff tag; the gathered team stays in the season. */
+export async function removePlayoffOpponent(dataDirectory, collectionId, teamKey) {
+  return queuedWrite(dataDirectory, async () => {
+    const store = await readStore(dataDirectory);
+    const collection = store.collections.find(item => item.id === collectionId);
+    if (!collection) {
+      const error = new Error("Event collection not found.");
+      error.statusCode = 404;
+      throw error;
+    }
+    const remaining = (collection.playoffOpponents ?? [])
+      .filter(item => item.teamKey !== teamKey);
+    delete collection.playoffOpponents;
+    Object.assign(collection, normalizePlayoffOpponents(remaining));
+    await writeStore(dataDirectory, store);
+    return collection;
   });
 }

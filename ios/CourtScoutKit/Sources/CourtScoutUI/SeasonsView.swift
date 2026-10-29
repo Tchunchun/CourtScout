@@ -201,6 +201,7 @@ struct SeasonView: View {
     @State private var model: SeasonModel
     @State private var ourTeamNote: String?
     @State private var gatherError: String?
+    @State private var addingPlayoffOpponent = false
     private var seasons: SeasonsModel
 
     init(collection: TeamCollection, seasons: SeasonsModel) {
@@ -220,8 +221,12 @@ struct SeasonView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .task(id: app.generation) {
+        // Reload as gathered teams arrive or playoff opponents change.
+        .task(id: "\(app.generation)-\(seasons.catalog?.teams.count ?? 0)-\(playoffCount)") {
             await model.load(app.repository, seasons: seasons)
+        }
+        .sheet(isPresented: $addingPlayoffOpponent) {
+            PlayoffOpponentView(seasons: seasons, collection: model.collection)
         }
         .refreshable {
             await seasons.load(app.repository)
@@ -306,6 +311,90 @@ struct SeasonView: View {
                     }
                 }
             }
+
+            // Playoffs follow the regular season, so they come last.
+            playoffSection(season)
+        }
+    }
+
+    private var playoffCount: Int {
+        seasons.collections.first { $0.id == model.collection.id }?.playoffOpponents?.count ?? 0
+    }
+
+    /// Knockout opponents, newest first, added one at a time as the bracket
+    /// names them.
+    private func playoffSection(_ season: Season) -> some View {
+        Section {
+            ForEach(season.playoffOpponents.reversed()) { entry in
+                playoffRow(entry, in: season)
+                    .swipeActions {
+                        Button("Remove", role: .destructive) {
+                            Task {
+                                try? await seasons.removePlayoffOpponent(entry.id, from: season.collection, repository: app.repository)
+                                await model.load(app.repository, seasons: seasons)
+                            }
+                        }
+                    }
+            }
+            Button {
+                addingPlayoffOpponent = true
+            } label: {
+                Label("Add playoff opponent", systemImage: "plus.circle")
+            }
+        } header: {
+            Text("Playoffs")
+        } footer: {
+            Text(season.playoffOpponents.isEmpty
+                 ? "In a knockout round, add each opponent once the bracket names them."
+                 : "Newest first. Swipe left to remove one added by mistake; the team stays in the season.")
+        }
+    }
+
+    @ViewBuilder
+    private func playoffRow(_ entry: PlayoffEntry, in season: Season) -> some View {
+        let job = seasons.playoffJob(season.collection.id, entry.id)
+        if let team = entry.team, job?.isFinished != false {
+            NavigationLink(value: season.ourTeam.map { Route.matchup(ourTeam: $0, opponent: team, scope: season.collection.competitionLevel) }
+                           ?? Route.team(team)) {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(entry.name).font(.headline)
+                    Text(season.ourTeam == nil ? "Scout" : "Prepare lineup")
+                        .font(.subheadline)
+                        .foregroundStyle(Palette.brand)
+                    if let job { playoffJobNote(job, entry: entry, season: season) }
+                }
+            }
+        } else {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(entry.name).font(.headline)
+                if let job {
+                    playoffJobNote(job, entry: entry, season: season)
+                } else {
+                    Text("Not gathered yet").font(.caption).foregroundStyle(.secondary)
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func playoffJobNote(_ job: CollectionJob, entry: PlayoffEntry, season: Season) -> some View {
+        if !job.isFinished {
+            HStack(spacing: 6) {
+                ProgressView().controlSize(.small)
+                Text(job.detail).font(.caption).foregroundStyle(.secondary).lineLimit(2)
+            }
+        } else if job.status == "failed" {
+            Text(job.error ?? job.detail).font(.caption).foregroundStyle(Palette.error)
+            Button("Try again") {
+                Task {
+                    _ = try? await seasons.addPlayoffOpponent(
+                        entry.opponent.teamUrl, name: entry.opponent.name, to: season.collection, repository: app.repository
+                    )
+                }
+            }
+            .font(.caption)
+        } else if let warning = job.warning {
+            Text(warning).font(.caption).foregroundStyle(Palette.warning)
         }
     }
 

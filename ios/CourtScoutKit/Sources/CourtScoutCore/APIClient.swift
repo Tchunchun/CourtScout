@@ -21,6 +21,7 @@ public protocol HTTPTransport: Sendable {
     func post(_ path: String, body: Data) async throws -> Data
     func patch(_ path: String, body: Data) async throws -> Data
     func put(_ path: String, body: Data) async throws -> Data
+    func delete(_ path: String, query: [URLQueryItem]) async throws -> Data
 }
 
 public struct URLSessionTransport: HTTPTransport {
@@ -61,6 +62,14 @@ public struct URLSessionTransport: HTTPTransport {
 
     public func put(_ path: String, body: Data) async throws -> Data {
         try await send("PUT", path, body: body)
+    }
+
+    public func delete(_ path: String, query: [URLQueryItem]) async throws -> Data {
+        var components = URLComponents(url: baseURL.appending(path: path), resolvingAgainstBaseURL: false)!
+        if !query.isEmpty { components.queryItems = query }
+        var request = URLRequest(url: components.url!, timeoutInterval: 20)
+        request.httpMethod = "DELETE"
+        return try await send(request)
     }
 
     private func send(_ method: String, _ path: String, body: Data) async throws -> Data {

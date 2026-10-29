@@ -22,6 +22,10 @@ struct UnreachableTransport: HTTPTransport {
     func put(_ path: String, body: Data) async throws -> Data {
         throw URLError(.notConnectedToInternet)
     }
+
+    func delete(_ path: String, query: [URLQueryItem]) async throws -> Data {
+        throw URLError(.notConnectedToInternet)
+    }
 }
 
 struct CancelledTransport: HTTPTransport {
@@ -29,6 +33,7 @@ struct CancelledTransport: HTTPTransport {
     func post(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
     func patch(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
     func put(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
+    func delete(_ path: String, query: [URLQueryItem]) async throws -> Data { throw URLError(.cancelled) }
 }
 
 let address = CommandLine.arguments.dropFirst().first ?? "http://localhost:4173"

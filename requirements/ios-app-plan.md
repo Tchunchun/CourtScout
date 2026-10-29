@@ -166,6 +166,7 @@ phone therefore starts from seasons, not from a list of every gathered team.
 | P0 | Matchup screen | Done (lineup saved on device; not yet a web Match Day Card) |
 | P0 | New season from the home screen (paste link, preview, start job, progress) | Done (job progress saved to `data/jobs/`; a restart reports the job as interrupted and offers Start again) |
 | P1 | Threat board, scenario differences, coverage warnings, share extension for team links | Threat board and coverage warnings done (`GET /api/threat-board`, the team's Threats tab); scenario differences done (each matchup challenge carries `differences` from the first scenario); share extension done (`ios/ShareExtension`; the app moved from `CourtScout.swiftpm` to `CourtScout.xcodeproj`, since a Swift Playgrounds package cannot hold an extension) |
+| P1+ | Playoff opponents, one at a time as a knockout bracket names them | Done (`POST /api/team-collections/:id/playoff-opponents`, the season's Playoffs section, and the share sheet) |
 | P2 | Day-of availability, lineup photo, sharing, results | Not started |
 
 ## Logic that moves on-device

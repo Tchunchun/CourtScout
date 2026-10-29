@@ -45,10 +45,21 @@ public struct TeamCollection: Codable, Hashable, Identifiable, Sendable {
     public var competitionLevel: String?
     public var teamDatasetIds: [String]
     public var matchDayDefaults: MatchDayDefaults?
+    /// Added one at a time as a knockout bracket names them.
+    public var playoffOpponents: [PlayoffOpponent]?
     public var createdAt: String?
 
     public struct MatchDayDefaults: Codable, Hashable, Sendable {
         public var ourTeamDatasetId: String?
+    }
+
+    public struct PlayoffOpponent: Codable, Hashable, Identifiable, Sendable {
+        /// TennisRecord team name and year, lowercased: "pl-li|2026".
+        public var teamKey: String
+        public var teamUrl: String
+        public var name: String?
+        public var addedAt: String?
+        public var id: String { teamKey }
     }
 }
 

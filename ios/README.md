@@ -60,8 +60,10 @@ The app follows a captain's season, not a list of every gathered team.
 - **New season:** the `+` button (or the empty home screen) takes Our team's
   TennisRecord team link, previews the team and how many league opponents
   will be gathered, and starts gathering on the server with public UTR.
-  - From Safari: on a TennisRecord team page, Share > Court Scout opens the
-    same screen in the share sheet with the link previewed. Starting there
+  - From Safari: on a TennisRecord team page, Share > Court Scout asks
+    whether to start or update a season, or add the team as a playoff
+    opponent. Starting a season opens the same screen in the share sheet with
+    the link previewed. Starting there
     hands the job to the app, which shows its progress on the Seasons list
     the next time it opens or returns to the foreground.
   - Exact UTR decimals need the server's signed-in browser, so the phone
@@ -87,6 +89,13 @@ The app follows a captain's season, not a list of every gathered team.
     the server; if another device saved first, the newer choice is shown.
   - The schedule is the season's confirmed schedule. Without one, the app
     falls back to Our team's TennisRecord schedule and says it is unconfirmed.
+- **Playoffs:** the last section of a season. In a knockout round the next
+  opponent is known only once the matches before yours finish, so "Add
+  playoff opponent" (or Share > Court Scout > Add as playoff opponent) takes
+  one team link at a time. A team from another flight is gathered into the
+  season with public UTR; a team the season already has gets its latest
+  TennisRecord matches refreshed, ratings kept. Each opens Prepare lineup;
+  swipe to remove one added by mistake (the team stays in the season).
 - **Prepare lineup:** tap an upcoming match (or, with no schedule, any team
   in the event) to test Our lineup against the opponent's three scenarios:
   most likely, strongest by ratings (unconfirmed), and alternate.

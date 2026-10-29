@@ -2,12 +2,17 @@ import CourtScoutCore
 import SwiftUI
 
 /// The share extension's screen: a TennisRecord team page shared from Safari
-/// opens New season with the link previewed. Starting it hands the job to the
-/// app, which shows its progress on the Seasons list.
+/// either starts (or updates) a season, or joins a season as the next
+/// playoff opponent. Either way the job is handed to the app, which shows
+/// its progress.
 public struct ShareSeasonView: View {
+    private enum Mode { case season, playoff }
+
     @State private var app = AppModel()
     @State private var seasons = SeasonsModel()
-    @State private var started: CollectionJob?
+    @State private var mode: Mode?
+    /// What to say once a job has started.
+    @State private var started: String?
     private let link: String?
     private let onDone: () -> Void
 
@@ -22,23 +27,68 @@ public struct ShareSeasonView: View {
             if let started {
                 startedView(started)
             } else if let link {
-                NewSeasonView(
-                    seasons: seasons,
-                    onStarted: { job, teamUrl, level in
-                        seasons.track(job, teamUrl: teamUrl, competitionLevel: level)
-                        started = job
-                    },
-                    initialLink: link,
-                    // After Start, the confirmation stays up until Done.
-                    onClose: { if started == nil { onDone() } }
-                )
-                .task { await seasons.load(app.repository) }
+                switch mode {
+                case nil:
+                    chooser(link)
+                case .season:
+                    NewSeasonView(
+                        seasons: seasons,
+                        onStarted: { job, teamUrl, level in
+                            seasons.track(job, teamUrl: teamUrl, competitionLevel: level)
+                            started = "Court Scout is gathering the team and its league opponents on the server. Open the app to follow progress on the Seasons list."
+                        },
+                        initialLink: link,
+                        // After Start, the confirmation stays up until Done.
+                        onClose: { if started == nil { onDone() } }
+                    )
+                case .playoff:
+                    PlayoffOpponentView(
+                        seasons: seasons,
+                        initialLink: link,
+                        onAdded: { added in
+                            started = "Court Scout is \(added.existingTeamId == nil ? "gathering" : "refreshing") this team for “\(added.collection.name)”. Open the app to follow progress in the season’s Playoffs section."
+                        },
+                        onClose: { if started == nil { onDone() } }
+                    )
+                }
             } else {
                 notATeamView
             }
         }
         .environment(app)
         .tint(Palette.brand)
+        .task { await seasons.load(app.repository) }
+    }
+
+    private func chooser(_ link: String) -> some View {
+        NavigationStack {
+            List {
+                Section {
+                    Button { mode = .season } label: {
+                        Label("Start or update a season", systemImage: "calendar.badge.plus")
+                    }
+                    Button { mode = .playoff } label: {
+                        Label("Add as playoff opponent", systemImage: "trophy")
+                    }
+                    .disabled(seasons.collections.isEmpty)
+                } header: {
+                    Text("This team")
+                } footer: {
+                    Text(seasons.collections.isEmpty
+                         ? "Use “Start or update a season” for your own team. Playoff opponents join a season you already have."
+                         : "Use “Start or update a season” for your own team, and “Add as playoff opponent” when a knockout bracket names your next opponent.")
+                }
+            }
+            .navigationTitle("Court Scout")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", action: onDone)
+                }
+            }
+        }
     }
 
     /// The first TennisRecord team profile link in the shared text.
@@ -52,12 +102,12 @@ public struct ShareSeasonView: View {
             .first
     }
 
-    private func startedView(_ job: CollectionJob) -> some View {
+    private func startedView(_ message: String) -> some View {
         NavigationStack {
             ContentUnavailableView {
                 Label("Gathering started", systemImage: "checkmark.circle")
             } description: {
-                Text("Court Scout is gathering the team and its league opponents on the server. Open the app to follow progress on the Seasons list.")
+                Text(message)
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

@@ -102,14 +102,28 @@ final class SeasonsModel {
 
     // MARK: Seasons being gathered
 
-    /// Latest state of the season jobs started on this device, by collection id.
+    /// Latest state of the jobs started on this device, by slot: the
+    /// collection id for a season's own gathering, "collection|team key" for
+    /// a playoff opponent.
     var jobs: [String: CollectionJob] = [:]
 
-    /// What is needed to follow, or restart, a season job after a relaunch.
+    /// What is needed to follow, or restart, a job after a relaunch.
     struct TrackedJob: Codable {
         var collectionId: String
         var teamUrl: String
         var competitionLevel: String
+        /// Set for a playoff opponent being gathered or refreshed.
+        var playoffTeamKey: String?
+
+        var slot: String { playoffTeamKey.map { SeasonsModel.playoffSlot(collectionId, $0) } ?? collectionId }
+    }
+
+    nonisolated static func playoffSlot(_ collectionId: String, _ teamKey: String) -> String {
+        "\(collectionId)|\(teamKey)"
+    }
+
+    func playoffJob(_ collectionId: String, _ teamKey: String) -> CollectionJob? {
+        jobs[Self.playoffSlot(collectionId, teamKey)]
     }
 
     /// Tracked jobs by job id.
@@ -122,19 +136,55 @@ final class SeasonsModel {
     }
 
     var hasRunningJobs: Bool {
-        trackedJobs.values.contains { jobs[$0.collectionId]?.isFinished != true }
+        trackedJobs.values.contains { jobs[$0.slot]?.isFinished != true }
     }
 
     func track(_ job: CollectionJob, teamUrl: String, competitionLevel: String) {
         guard let collectionId = job.eventCollectionId else { return }
-        trackedJobs = trackedJobs.filter { $0.value.collectionId != collectionId }
+        trackedJobs = trackedJobs.filter { $0.value.slot != collectionId }
         trackedJobs[job.id] = TrackedJob(collectionId: collectionId, teamUrl: teamUrl, competitionLevel: competitionLevel)
         jobs[collectionId] = job
     }
 
-    func dismissJob(for collectionId: String) {
-        trackedJobs = trackedJobs.filter { $0.value.collectionId != collectionId }
-        jobs[collectionId] = nil
+    func dismissJob(for slot: String) {
+        trackedJobs = trackedJobs.filter { $0.value.slot != slot }
+        jobs[slot] = nil
+    }
+
+    /// Adds the bracket's next opponent: the server gathers the team into the
+    /// season, or refreshes it when the season already has it.
+    func addPlayoffOpponent(
+        _ teamUrl: String,
+        name: String?,
+        to collection: TeamCollection,
+        repository: TeamRepository?
+    ) async throws -> PlayoffOpponentAdded? {
+        guard let repository else { return nil }
+        let added = try await repository.addPlayoffOpponent(teamUrl, name: name, to: collection.id)
+        if let index = collections.firstIndex(where: { $0.id == collection.id }) {
+            collections[index] = added.collection
+        }
+        if let teamKey = added.collection.playoffOpponents?.first(where: { $0.teamUrl == teamUrl })?.teamKey {
+            let slot = Self.playoffSlot(collection.id, teamKey)
+            trackedJobs = trackedJobs.filter { $0.value.slot != slot }
+            trackedJobs[added.job.id] = TrackedJob(
+                collectionId: collection.id,
+                teamUrl: teamUrl,
+                competitionLevel: collection.competitionLevel ?? "local",
+                playoffTeamKey: teamKey
+            )
+            jobs[slot] = added.job
+        }
+        return added
+    }
+
+    func removePlayoffOpponent(_ teamKey: String, from collection: TeamCollection, repository: TeamRepository?) async throws {
+        guard let repository else { return }
+        try await repository.removePlayoffOpponent(teamKey, from: collection.id)
+        dismissJob(for: Self.playoffSlot(collection.id, teamKey))
+        if let index = collections.firstIndex(where: { $0.id == collection.id }) {
+            collections[index].playoffOpponents?.removeAll { $0.teamKey == teamKey }
+        }
     }
 
     /// Gathers the scheduled opponents a season does not have yet. The server
@@ -148,7 +198,7 @@ final class SeasonsModel {
 
     /// Starts a stopped season's gathering again into the same season.
     func restartJob(for collectionId: String, repository: TeamRepository?) async throws {
-        guard let repository, let tracked = trackedJobs.values.first(where: { $0.collectionId == collectionId })
+        guard let repository, let tracked = trackedJobs.values.first(where: { $0.slot == collectionId })
         else { return }
         let job = try await repository.startSeason(
             teamUrl: tracked.teamUrl,
@@ -167,21 +217,22 @@ final class SeasonsModel {
         var reload = false
         for (jobId, tracked) in trackedJobs {
             let collectionId = tracked.collectionId
-            let previous = jobs[collectionId]
+            let slot = tracked.slot
+            let previous = jobs[slot]
             if previous?.isFinished == true { continue }
             do {
                 let job = try await repository.job(jobId)
-                jobs[collectionId] = job
+                jobs[slot] = job
                 if job.collectedTeamCount != previous?.collectedTeamCount || job.isFinished || offlineSince != nil {
                     reload = true
                 }
                 if job.status == "complete" && job.warning == nil {
                     trackedJobs[jobId] = nil
-                    jobs[collectionId] = nil
+                    jobs[slot] = nil
                 }
             } catch APIError.http(status: 404, _) {
                 // Jobs live in server memory; a restart forgets them.
-                jobs[collectionId] = .lost(id: jobId, collectionId: collectionId, last: previous)
+                jobs[slot] = .lost(id: jobId, collectionId: collectionId, last: previous)
                 reload = true
             } catch {
                 // Unreachable: keep the last state and try again later.
@@ -208,7 +259,8 @@ final class SeasonsModel {
 @MainActor
 @Observable
 final class SeasonModel {
-    let collection: TeamCollection
+    /// The season as last loaded; playoff opponents change while it is open.
+    private(set) var collection: TeamCollection
     var season: Season?
     var phase: LoadPhase = .idle
 
@@ -218,6 +270,7 @@ final class SeasonModel {
 
     func load(_ repository: TeamRepository?, seasons: SeasonsModel) async {
         guard let repository, let catalog = seasons.catalog else { return }
+        collection = seasons.collections.first { $0.id == collection.id } ?? collection
         let schedule = seasons.schedules[collection.id]
         let deviceChoice = seasons.deviceOurTeam(for: collection.id)
         let roles = seasons.roles[collection.id]
