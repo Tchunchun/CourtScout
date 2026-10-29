@@ -78,7 +78,7 @@ struct MatchupView: View {
         #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: Route.team(model.opponent)) {
+                NavigationLink(value: Route.team(model.opponent, isOurTeam: false)) {
                     Label("Opponent report", systemImage: "doc.text.magnifyingglass")
                 }
             }

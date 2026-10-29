@@ -3,7 +3,7 @@ import SwiftUI
 
 enum Route: Hashable {
     case season(TeamCollection)
-    case team(TeamSummary)
+    case team(TeamSummary, isOurTeam: Bool)
     case matchup(ourTeam: TeamSummary, opponent: TeamSummary, scope: String?)
     case allTeams
 }
@@ -27,8 +27,12 @@ struct SeasonsView: View {
                     switch route {
                     case .season(let collection):
                         SeasonView(collection: collection, seasons: model)
-                    case .team(let summary):
-                        TeamDetailView(summary: summary, scopes: model.catalog?.eligibilityScopes ?? [:])
+                    case .team(let summary, let isOurTeam):
+                        TeamDetailView(
+                            summary: summary,
+                            scopes: model.catalog?.eligibilityScopes ?? [:],
+                            isOurTeam: isOurTeam
+                        )
                     case .matchup(let ourTeam, let opponent, let scope):
                         MatchupView(ourTeam: ourTeam, opponent: opponent, scope: scope)
                     case .allTeams:
@@ -263,7 +267,7 @@ struct SeasonView: View {
                 Section("Next match") {
                     NextMatchCard(entry: next, destination: prepare(next, in: season))
                     if let opponent = next.opponent {
-                        NavigationLink(value: Route.team(opponent)) {
+                        NavigationLink(value: Route.team(opponent, isOurTeam: false)) {
                             Label("Scout \(opponent.team.name)", systemImage: "doc.text.magnifyingglass")
                                 .font(.subheadline)
                         }
@@ -287,7 +291,7 @@ struct SeasonView: View {
             if !season.completed.isEmpty {
                 Section("Completed") {
                     ForEach(season.completed.reversed()) { entry in
-                        MatchRow(entry: entry, destination: entry.opponent.map { Route.team($0) })
+                        MatchRow(entry: entry, destination: entry.opponent.map { Route.team($0, isOurTeam: false) })
                     }
                 }
             }
@@ -301,7 +305,7 @@ struct SeasonView: View {
                     ForEach(season.scoutingPool) { summary in
                         NavigationLink(value: prepareAny
                             ? Route.matchup(ourTeam: season.ourTeam!, opponent: summary, scope: season.collection.competitionLevel)
-                            : Route.team(summary)) {
+                            : Route.team(summary, isOurTeam: false)) {
                             TeamRow(summary: summary)
                         }
                     }
@@ -372,7 +376,7 @@ struct SeasonView: View {
     private func ourTeamSection(_ season: Season) -> some View {
         Section {
             if let ourTeam = season.ourTeam {
-                NavigationLink(value: Route.team(ourTeam)) { TeamRow(summary: ourTeam) }
+                NavigationLink(value: Route.team(ourTeam, isOurTeam: true)) { TeamRow(summary: ourTeam) }
             }
             if season.ourTeamSource != .confirmedSchedule {
                 Menu {
@@ -425,7 +429,7 @@ struct SeasonView: View {
     /// Upcoming matches open lineup preparation when both teams are known.
     private func prepare(_ entry: SeasonMatch, in season: Season) -> Route? {
         guard let ourTeam = season.ourTeam, let opponent = entry.opponent else {
-            return entry.opponent.map { Route.team($0) }
+            return entry.opponent.map { Route.team($0, isOurTeam: false) }
         }
         return .matchup(ourTeam: ourTeam, opponent: opponent, scope: season.collection.competitionLevel)
     }

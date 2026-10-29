@@ -26,7 +26,7 @@ struct AllTeamsView: View {
             ForEach(sections) { section in
                 Section(section.title) {
                     ForEach(section.teams) { summary in
-                        NavigationLink(value: Route.team(summary)) {
+                        NavigationLink(value: Route.team(summary, isOurTeam: false)) {
                             TeamRow(summary: summary)
                         }
                     }

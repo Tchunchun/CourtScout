@@ -57,6 +57,10 @@ do {
         do {
             let data = try await live.teamData(summary.id)
             check(data.value.datasetId == summary.datasetId, "\(summary.datasetId): dataset id mismatch")
+            let pairs = try await live.teamPairs(summary.id)
+            check(pairs.value.teamId == summary.id, "\(summary.datasetId): doubles pairs for another team")
+            check(pairs.value.suggestions.allSatisfy { $0.players.count == 2 },
+                  "\(summary.datasetId): invalid doubles pair suggestion")
             if summary.reportAvailable != false {
                 let analysis = try await live.analysis(summary.id)
                 check(analysis.value.eligibility.players.count == analysis.value.eligibility.summary.rosterSize,

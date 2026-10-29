@@ -993,6 +993,52 @@ test("server shares team roles per season and refuses stale saves", async t => {
   assert.deepEqual(stored.seasons, {});
 });
 
+test("server suggests and saves doubles pairs for a gathered team", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-team-pairs-"));
+  t.after(() => rm(dataDirectory, { recursive: true, force: true }));
+  await mkdir(join(dataDirectory, "our-team"));
+  await writeFile(join(dataDirectory, "our-team", "team-data.json"), JSON.stringify({
+    datasetId: "2027-our",
+    generatedAt: "2027-01-01T00:00:00.000Z",
+    collectionStage: "step_1_complete",
+    team: { name: "Our team", season: 2027, gender: "Women" },
+    roster: [{ name: "Alice" }, { name: "Beth" }, { name: "Cara" }],
+    matches: [{ courts: {
+      D1: { targetPlayers: ["Alice", "Beth"], result: "W" },
+      D2: { targetPlayers: ["Alice", "Cara"], result: "L" }
+    } }]
+  }));
+  const server = createAppServer({ dataDirectory });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(() => server.close());
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const send = (method, prefix, body) => fetch(`${base}${prefix}/team-pairs/our-team`, {
+    method,
+    headers: { "content-type": "application/json" },
+    body: body && JSON.stringify(body)
+  });
+
+  const suggested = await (await send("GET", "/api")).json();
+  assert.equal(suggested.saved, false);
+  assert.equal(suggested.suggestions.length, 2);
+
+  const savedResponse = await send("PUT", "/api/v1", {
+    pairs: [{ players: ["Alice", "Beth"], tag: "go-to", preferredCourt: "D1" }],
+    baseRevision: 0
+  });
+  assert.equal(savedResponse.status, 200);
+  const saved = await savedResponse.json();
+  assert.equal(saved.revision, 1);
+  assert.equal(saved.contractVersion, API_CONTRACT_VERSION);
+  assert.equal(saved.pairs[0].appearances, 1);
+
+  const stale = await send("PUT", "/api", { pairs: [], baseRevision: 0 });
+  assert.equal(stale.status, 409);
+  assert.equal((await stale.json()).current.revision, 1);
+  assert.equal((await fetch(`${base}/api/team-pairs/missing`)).status, 404);
+});
+
 test("server saves jobs and reports one interrupted by a restart", async t => {
   const dataDirectory = await mkdtemp(join(tmpdir(), "tennis-saved-jobs-"));
   let releaseJob;
