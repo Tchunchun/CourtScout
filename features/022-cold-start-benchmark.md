@@ -1,7 +1,7 @@
 ---
 id: "022"
 title: Benchmark lineup prediction on early-season data
-status: in-progress
+status: review
 priority: P0
 phase: phase-1
 area: analysis
@@ -12,7 +12,7 @@ touches:
   - test/benchmark-lineups.test.mjs
   - requirements/lineup-prediction-benchmark-design.md
 branch: codex/022-lineup-benchmark
-pr:
+pr: https://github.com/Tchunchun/CourtScout/pull/7
 updated: 2026-10-29
 ---
 
@@ -54,3 +54,4 @@ Read-only against `scripts/lib/analysis.mjs`: no ranking changes in this feature
   combined 0/1/3-match top-three coverage by at least 15 percentage points,
   reduce established exact-court accuracy by no more than 2 points, permit no
   same-day/future-result leakage, and generate no invalid lineups.
+- 2026-10-29: Opened PR #7 after all 188 tests passed.
