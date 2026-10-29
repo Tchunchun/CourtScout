@@ -221,12 +221,20 @@ export function temporaryCollectionName(teamUrl, id) {
     .slice(0, 80);
 }
 
+// Transport metadata is added only on the wire, never to stored datasets or analysis.
+export const API_CONTRACT_VERSION = "1.0.0";
+export const MINIMUM_APP_VERSION = "1.0.0";
+
 function json(response, status, body) {
   response.writeHead(status, {
     "content-type": "application/json; charset=utf-8",
     "cache-control": "no-store"
   });
-  response.end(JSON.stringify(body));
+  response.end(JSON.stringify({
+    ...body,
+    contractVersion: API_CONTRACT_VERSION,
+    minimumAppVersion: MINIMUM_APP_VERSION
+  }));
 }
 
 async function readBody(request, maxBytes = 16 * 1024) {
@@ -981,7 +989,9 @@ export function createAppServer(options = {}) {
   const runCollectionJob = options.runCollectionJob ?? runJob;
   return createServer(async (request, response) => {
     const requestUrl = new URL(request.url, `http://${request.headers.host ?? "localhost"}`);
-    const pathname = requestUrl.pathname;
+    // Normalize once so literal and parameterized routes share the same handlers.
+    // Match the complete version segment; /api/v10 must not alias /api/v1.
+    const pathname = requestUrl.pathname.replace(/^\/api\/v1(?=\/|$)/, "/api");
 
     try {
       if (request.method === "POST" && pathname === "/api/result-ocr") {

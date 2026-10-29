@@ -1,0 +1,1261 @@
+openapi: 3.1.0
+info:
+  title: Court Scout API
+  version: 1.0.0
+  description: "Versioned contract for the existing local server. All JSON responses, including errors
+    and legacy aliases, include contractVersion and minimumAppVersion (currently both 1.0.0).
+    Existing response fields stay at the top level. Metadata is transport-only and is never written
+    to canonical datasets or analysis caches. /api paths remain aliases; clients need not migrate in
+    this feature. Unknown versions are not aliases. No authentication exists yet: feature 008 adds
+    it before hosting. Request bodies default to a 16 KiB limit unless specified. Browser-only UTR
+    connect/status routes are intentionally excluded from this phone-facing contract, although their
+    v1 aliases work. The proposed POST /utr-screenshot/proposals is NOT implemented and is
+    intentionally absent from paths; it currently returns 405. It belongs to later screenshot work."
+servers:
+  - url: /api/v1
+    description: Versioned API
+  - url: /api
+    description: Legacy compatibility alias
+paths:
+  /teams:
+    get:
+      summary: List gathered and configured teams
+      operationId: get_teams
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      teams:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/TeamSummary"
+                      defaultEligibilityScope: &a2
+                        type: string
+                        enum:
+                          - local
+                          - sectional
+                          - national
+                      eligibilityScopes:
+                        type: object
+                        properties: {}
+                    required:
+                      - teams
+                      - defaultEligibilityScope
+                      - eligibilityScopes
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /team-data:
+    get:
+      summary: Read a team dataset
+      operationId: get_team_data
+      parameters:
+        - name: team
+          in: query
+          required: true
+          schema: &a1
+            type: string
+          description: Catalog ID, including collections/ prefix where present.
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamDataResponse"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /analysis:
+    get:
+      summary: Read or regenerate cached team analysis
+      operationId: get_analysis
+      parameters:
+        - name: team
+          in: query
+          required: true
+          schema: *a1
+        - name: eligibility
+          in: query
+          required: false
+          schema: *a2
+          description: Defaults to the collection competition level, or national for an unfiled team.
+        - name: refresh
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/Analysis"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /team-collections:
+    get:
+      summary: List event collections
+      operationId: get_team_collections
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      collections:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/TeamCollection"
+                    required:
+                      - collections
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create an event collection
+      operationId: post_team_collections
+      description: Optional datasetId assigns an existing dataset.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: *a1
+                datasetId: &a4
+                  type:
+                    - string
+                    - "null"
+                competitionLevel: *a2
+              required:
+                - name
+                - competitionLevel
+      responses:
+        "201":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - &a3
+                    type: object
+                    properties:
+                      collection:
+                        $ref: "#/components/schemas/TeamCollection"
+                      collections:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/TeamCollection"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /team-collections/{collectionId}:
+    patch:
+      summary: Rename an event collection
+      operationId: patch_team_collections__collectionId_
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: *a1
+              required:
+                - name
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - *a3
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete collection, schedule and roles
+      operationId: delete_team_collections__collectionId_
+      description: Gathered datasets are retained and become unfiled.
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - *a3
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /team-collections/{collectionId}/team:
+    put:
+      summary: Assign or unfile a gathered team
+      operationId: put_team_collections__collectionId__team
+      description: Set collectionId to null in the body to unfile; otherwise the path collection is used.
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                datasetId: *a1
+                collectionId: *a4
+              required:
+                - datasetId
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      collections:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/TeamCollection"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /match-cards:
+    get:
+      summary: Read all Match Day Cards
+      operationId: get_match_cards
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      cards:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/MatchCard"
+                    required:
+                      - cards
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Replace all Match Day Cards
+      operationId: put_match_cards
+      description: "Whole-list replacement; per-card revisions and idempotency are future feature 005.
+        Maximum request body: 1 MiB."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cards:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/MatchCard"
+              required:
+                - cards
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      cards:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/MatchCard"
+                    required:
+                      - cards
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /event-schedules/{collectionId}:
+    get:
+      summary: Read the saved schedule
+      operationId: get_event_schedules__collectionId_
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      schedule:
+                        anyOf:
+                          - $ref: "#/components/schemas/EventSchedule"
+                          - type: "null"
+                    required:
+                      - schedule
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Confirm a schedule and reconcile removed matches
+      operationId: put_event_schedules__collectionId_
+      description: "Maximum body: 256 KiB. Eligibility is taken from the collection. Removed matches are
+        preserved as cancelled."
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ourTeamId: *a1
+                eventType:
+                  enum:
+                    - local
+                    - sectionals
+                    - nationals
+                    - other
+                timezone: *a4
+                source:
+                  type: object
+                  properties: {}
+                matches:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/ScheduleMatch"
+              required:
+                - ourTeamId
+                - eventType
+                - matches
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      schedule:
+                        $ref: "#/components/schemas/EventSchedule"
+                      reconciliation:
+                        $ref: "#/components/schemas/Reconciliation"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /event-schedules/{collectionId}/preview:
+    post:
+      summary: Normalize and compare proposed schedule rows
+      operationId: post_event_schedules__collectionId__preview
+      description: "Does not save. Maximum body: 256 KiB."
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                matches:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/ScheduleMatch"
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      matches:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/ScheduleMatch"
+                      reconciliation:
+                        $ref: "#/components/schemas/Reconciliation"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /event-schedules/{collectionId}/local-preview:
+    post:
+      summary: Preview the latest TennisRecord schedule
+      operationId: post_event_schedules__collectionId__local_preview
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ourTeamId: *a1
+              required:
+                - ourTeamId
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      matches:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/ScheduleMatch"
+                      reconciliation:
+                        $ref: "#/components/schemas/Reconciliation"
+                      eventType: *a1
+                      eligibilityScope: *a2
+                      timezone: *a4
+                      source:
+                        type: object
+                        properties: {}
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /event-schedules/{collectionId}/link:
+    put:
+      summary: Link or unlink a scheduled opponent
+      operationId: put_event_schedules__collectionId__link
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                matchId: *a1
+                teamId: *a4
+              required:
+                - matchId
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      schedule:
+                        $ref: "#/components/schemas/EventSchedule"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /team-preview:
+    post:
+      summary: Resolve a TennisRecord team before gathering
+      operationId: post_team_preview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamUrl: *a1
+                teamType:
+                  enum:
+                    - home
+                    - opponent
+                  default: opponent
+              required:
+                - teamUrl
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      teamUrl: *a1
+                      teamType: *a1
+                      team:
+                        type: object
+                        properties: {}
+                      rosterSize: &a6
+                        type: integer
+                      leagueTeams:
+                        type: array
+                        items:
+                          type: object
+                          properties: {}
+                      leagueSchedule:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/ScheduleMatch"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /jobs:
+    post:
+      summary: Start or reuse a collection job
+      operationId: post_jobs
+      description: Use public or no UTR for phone workflows. Authenticated UTR requires the local browser
+        session and can return 409. A home-team gather also discovers its scheduled opponents.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamUrl: *a1
+                teamType:
+                  enum:
+                    - home
+                    - opponent
+                  default: opponent
+                utrMode:
+                  enum:
+                    - none
+                    - public
+                    - authenticated
+                mode:
+                  enum:
+                    - none
+                    - public
+                    - authenticated
+                  description: Legacy alias for utrMode.
+                eventCollectionId: *a4
+                competitionLevel: *a2
+              required:
+                - teamUrl
+      responses:
+        "202":
+          description: Job accepted or existing active job reused.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/Job"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /jobs/{jobId}:
+    get:
+      summary: Read gathering or refresh progress
+      operationId: get_jobs__jobId_
+      description: Job IDs use lowercase hexadecimal characters and hyphens. Persisted unfinished jobs
+        report failed after restart, with an explanatory error.
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema: *a1
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/Job"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /jobs/{jobId}/data:
+    get:
+      summary: Read a completed in-memory job dataset
+      operationId: get_jobs__jobId__data
+      description: 404 if no in-memory job, including after restart; 409 while incomplete. Use /team-data
+        for durable access.
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema: *a1
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TeamDataResponse"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /refresh-jobs:
+    post:
+      summary: Refresh selected sources for a gathered team
+      operationId: post_refresh_jobs
+      description: Select at least one source. When refreshUtr is true, supply utrMode. Returns 409 if
+        refresh is already active or authenticated UTR is unavailable.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                teamId: *a1
+                refreshTennisRecord: &a5
+                  type: boolean
+                refreshUtr: *a5
+                utrMode:
+                  enum:
+                    - none
+                    - public
+                    - authenticated
+                ratingScope:
+                  enum:
+                    - all
+                    - team
+                    - opponents
+              required:
+                - teamId
+                - refreshTennisRecord
+                - refreshUtr
+      responses:
+        "202":
+          description: Job accepted or existing active job reused.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/Job"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /team-roles/{collectionId}:
+    get:
+      summary: Read team roles for a season
+      operationId: get_team_roles__collectionId_
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/TeamRoles"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Save team roles with an optional revision check
+      operationId: put_team_roles__collectionId_
+      description: Send baseRevision from the last GET to reject stale writes with 409 and current roles.
+      parameters:
+        - name: collectionId
+          in: path
+          required: true
+          schema: *a1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ourTeamId: *a4
+                scheduledOpponentIds:
+                  type: array
+                  items: *a1
+                baseRevision: *a6
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - $ref: "#/components/schemas/TeamRoles"
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /threat-board:
+    get:
+      summary: Read opponent threat evidence
+      operationId: get_threat_board
+      parameters:
+        - name: team
+          in: query
+          required: true
+          schema: *a1
+        - name: eligibility
+          in: query
+          required: false
+          schema: *a2
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      teamId: *a1
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /matchup:
+    post:
+      summary: Score our draft against opponent scenarios
+      operationId: post_matchup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ourTeamId: *a1
+                opponentTeamId: *a1
+                eligibility: *a2
+                draft:
+                  type:
+                    - object
+                    - "null"
+              required:
+                - ourTeamId
+                - opponentTeamId
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties: {}
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /result-ocr:
+    post:
+      summary: Extract text from a result screenshot
+      operationId: post_result_ocr
+      description: "Maximum JSON body: 8 MiB. This extracts result text; it is not the planned UTR rating
+        proposal endpoint."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageDataUrl:
+                  type: string
+                  pattern: ^data:image/(png|jpeg|webp);base64,
+              required:
+                - imageDataUrl
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ResponseMetadata"
+                  - type: object
+                    properties:
+                      text: *a1
+                      confidence:
+                        type:
+                          - number
+                          - "null"
+                    required:
+                      - text
+                      - confidence
+        default:
+          description: "JSON error: 400 invalid input, malformed JSON or oversized body; 404 missing resource;
+            405 unsupported method; 409 conflict where applicable. Team-role conflicts include
+            current. Unexpected errors currently also return 400."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    ResponseMetadata:
+      type: object
+      properties:
+        contractVersion: &a7
+          type: string
+          const: 1.0.0
+        minimumAppVersion: &a8
+          type: string
+          const: 1.0.0
+      required:
+        - contractVersion
+        - minimumAppVersion
+    Error:
+      allOf:
+        - $ref: "#/components/schemas/ResponseMetadata"
+        - type: object
+          properties:
+            error: *a1
+            current:
+              $ref: "#/components/schemas/TeamRoles"
+          required:
+            - error
+    TeamCollection:
+      type: object
+      properties:
+        id: *a1
+        name: *a1
+        competitionLevel: *a2
+        teamDatasetIds:
+          type: array
+          items: *a1
+        createdAt: *a1
+        updatedAt: *a1
+      required:
+        - id
+        - name
+        - competitionLevel
+        - teamDatasetIds
+    TeamSummary:
+      type: object
+      properties:
+        id: *a1
+        datasetId: *a1
+        team:
+          type: object
+          properties: {}
+        generatedAt: *a4
+        rosterSize: *a6
+        matchCount: *a6
+        sourceUrl: *a4
+        reportAvailable: *a5
+        finalReportReady: *a5
+      required:
+        - id
+        - datasetId
+        - team
+        - reportAvailable
+    TeamData:
+      $ref: ./team-data.schema.json
+    TeamDataResponse:
+      type: object
+      properties:
+        schemaVersion:
+          $ref: ./team-data.schema.json#/properties/schemaVersion
+        datasetId:
+          $ref: ./team-data.schema.json#/properties/datasetId
+        generatedAt:
+          $ref: ./team-data.schema.json#/properties/generatedAt
+        collectionStage:
+          $ref: ./team-data.schema.json#/properties/collectionStage
+        ratingSelections:
+          $ref: ./team-data.schema.json#/properties/ratingSelections
+        team:
+          $ref: ./team-data.schema.json#/properties/team
+        eligibilityRule:
+          $ref: ./team-data.schema.json#/properties/eligibilityRule
+        sources:
+          $ref: ./team-data.schema.json#/properties/sources
+        roster:
+          $ref: ./team-data.schema.json#/properties/roster
+        leagueTeams:
+          $ref: ./team-data.schema.json#/properties/leagueTeams
+        leagueSchedule:
+          $ref: ./team-data.schema.json#/properties/leagueSchedule
+        opponents:
+          $ref: ./team-data.schema.json#/properties/opponents
+        matches:
+          $ref: ./team-data.schema.json#/properties/matches
+        dataQuality:
+          $ref: ./team-data.schema.json#/properties/dataQuality
+        downstreamContract:
+          $ref: ./team-data.schema.json#/properties/downstreamContract
+        contractVersion: *a7
+        minimumAppVersion: *a8
+      required:
+        - schemaVersion
+        - datasetId
+        - generatedAt
+        - collectionStage
+        - team
+        - eligibilityRule
+        - sources
+        - roster
+        - opponents
+        - matches
+        - dataQuality
+        - downstreamContract
+        - contractVersion
+        - minimumAppVersion
+      description: Canonical dataset fields, reused by reference, plus transport metadata and optional
+        catalog roster annotations. Remove contractVersion and minimumAppVersion before validating
+        or exporting as a canonical dataset. Stored files are unchanged. Extra catalog annotations
+        already supplied by the server remain allowed.
+    Analysis:
+      type: object
+      properties:
+        analysisVersion: *a1
+        dataset:
+          type: object
+          properties:
+            datasetId: *a1
+            generatedAt: *a1
+        eligibility:
+          type: object
+          properties:
+            scope: *a2
+        lineupPredictions:
+          type: object
+          properties:
+            predictions:
+              type: array
+              items:
+                type: object
+                properties: {}
+      required:
+        - analysisVersion
+        - dataset
+        - eligibility
+        - lineupPredictions
+    MatchCard:
+      type: object
+      properties:
+        id: *a1
+        ourTeamId: *a1
+        opponentTeamId: *a1
+      required:
+        - id
+        - ourTeamId
+        - opponentTeamId
+    TeamRoles:
+      type: object
+      properties:
+        collectionId: *a1
+        saved: *a5
+        ourTeamId: *a4
+        scheduledOpponentIds:
+          type: array
+          items: *a1
+        revision: *a6
+        updatedAt: *a4
+      required:
+        - collectionId
+        - saved
+        - ourTeamId
+        - scheduledOpponentIds
+        - revision
+        - updatedAt
+    Job:
+      type: object
+      properties:
+        id: *a1
+        kind:
+          enum:
+            - collection
+            - refresh
+        teamId: *a4
+        status:
+          enum:
+            - queued
+            - running
+            - complete
+            - failed
+        phase: *a1
+        progress:
+          type: number
+        detail: *a1
+        mode: *a1
+        createdAt: *a1
+        completedAt: *a4
+        error: *a4
+        warning: *a4
+        eventCollectionId: *a4
+        log:
+          type: array
+          items: *a1
+      required:
+        - id
+        - status
+        - phase
+        - progress
+        - createdAt
+    ScheduleMatch:
+      type: object
+      properties:
+        id: *a1
+        sourceOpponentName: *a1
+        opponent: *a1
+        linkedOpponentTeamId: *a4
+        date: *a4
+        time: *a4
+        round: *a4
+        site: *a4
+        designation:
+          enum:
+            - home
+            - away
+            - neutral
+            - unknown
+        status:
+          enum:
+            - scheduled
+            - postponed
+            - completed
+            - cancelled
+        sourceOpponentUrl: *a4
+        sourceMatchId: *a4
+        sourceType: *a4
+      description: A schedule row requires sourceOpponentName or its accepted alias opponent. Omitted IDs
+        are generated. Dates use YYYY-MM-DD; time and site are local display strings.
+    EventSchedule:
+      type: object
+      properties:
+        collectionId: *a1
+        ourTeamId: *a1
+        eventType:
+          enum:
+            - local
+            - sectionals
+            - nationals
+            - other
+        eligibilityScope: *a2
+        timezone: *a4
+        source:
+          type: object
+          properties: {}
+        matches:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScheduleMatch"
+        updatedAt: *a1
+        lastSuccessfulSyncAt: *a1
+      required:
+        - collectionId
+        - ourTeamId
+        - eventType
+        - eligibilityScope
+        - matches
+    Reconciliation:
+      type: array
+      items:
+        type: object
+        properties:
+          change:
+            enum:
+              - added
+              - changed
+              - unchanged
+              - removed
+          current:
+            anyOf:
+              - $ref: "#/components/schemas/ScheduleMatch"
+              - type: "null"
+          proposed:
+            anyOf:
+              - $ref: "#/components/schemas/ScheduleMatch"
+              - type: "null"
+        required:
+          - change
+          - current
+          - proposed

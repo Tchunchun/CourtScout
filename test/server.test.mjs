@@ -5,6 +5,8 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
+  API_CONTRACT_VERSION,
+  MINIMUM_APP_VERSION,
   collectionFolderName,
   createAppServer,
   createUtrCommandQueue,
@@ -566,6 +568,8 @@ test("server extracts text from a locally processed result screenshot", async t 
 
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), {
+    contractVersion: API_CONTRACT_VERSION,
+    minimumAppVersion: MINIMUM_APP_VERSION,
     text: "S1 Alex Player",
     confidence: 91
   });
@@ -630,6 +634,12 @@ test("server lists teams and returns national analysis by default", async t => {
   );
   assert.equal(dataResponse.status, 200);
   const data = await dataResponse.json();
+  const v1Data = await fetch(`http://127.0.0.1:${port}/api/v1/team-data?team=test-team`);
+  assert.equal(v1Data.status, 200);
+  assert.deepEqual(await v1Data.json(), data);
+  const storedDataset = JSON.parse(await readFile(join(teamDirectory, "team-data.json"), "utf8"));
+  assert.equal(storedDataset.contractVersion, undefined);
+  assert.equal(storedDataset.minimumAppVersion, undefined);
   assert.equal(data.team.name, "Test Team");
   assert.equal(data.roster[0].utr.singles.display, "3.00");
 
@@ -655,19 +665,24 @@ test("server lists teams and returns national analysis by default", async t => {
   assert.equal(analysisResponse.status, 200);
   const analysis = await analysisResponse.json();
   assert.equal(analysis.analysisVersion, "1.3.0");
+  const v1Analysis = await fetch(`http://127.0.0.1:${port}/api/v1/analysis?team=test-team&eligibility=local`);
+  assert.equal(v1Analysis.status, 200);
+  assert.equal(withoutApiMetadata(await v1Analysis.json()).eligibility.scope, "local");
   assert.equal(analysis.eligibility.scope, "national");
   assert.equal(analysis.eligibility.summary.eligible, 1);
   assert.deepEqual(analysis.lineupPredictions.predictions, []);
 
   const analysisPath = join(teamDirectory, "analysis", "national.json");
   const savedAnalysis = JSON.parse(await readFile(analysisPath, "utf8"));
-  assert.deepEqual(savedAnalysis, analysis);
+  assert.deepEqual({ ...savedAnalysis, contractVersion: API_CONTRACT_VERSION, minimumAppVersion: MINIMUM_APP_VERSION }, analysis);
+  assert.equal(savedAnalysis.contractVersion, undefined);
+  assert.equal(savedAnalysis.minimumAppVersion, undefined);
 
   const cachedResponse = await fetch(
     `http://127.0.0.1:${port}/api/analysis?team=test-team`
   );
   assert.equal(cachedResponse.status, 200);
-  assert.deepEqual(await cachedResponse.json(), savedAnalysis);
+  assert.deepEqual(await cachedResponse.json(), analysis);
 
   const refreshedResponse = await fetch(
     `http://127.0.0.1:${port}/api/analysis?team=test-team&refresh=true`
@@ -677,7 +692,7 @@ test("server lists teams and returns national analysis by default", async t => {
   assert.equal(refreshedAnalysis.dataset.generatedAt, data.generatedAt);
   assert.deepEqual(
     JSON.parse(await readFile(analysisPath, "utf8")),
-    refreshedAnalysis
+    withoutApiMetadata(refreshedAnalysis)
   );
 });
 
@@ -1113,4 +1128,67 @@ test("starting a season again reuses its teams and gathers only missing opponent
   assert.equal(job.collectedTeamCount, 3);
   assert.match(job.detail, /All 3 league teams are in this season; gathered 1 missing/);
   assert.equal(await getEventSchedule(dataDirectory, collection.id), null);
+});
+
+function withoutApiMetadata({ contractVersion, minimumAppVersion, ...body }) {
+  assert.equal(contractVersion, API_CONTRACT_VERSION);
+  assert.equal(minimumAppVersion, MINIMUM_APP_VERSION);
+  return body;
+}
+
+test("v1 and legacy routes share reads, writes, query parameters and errors", async t => {
+  const dataDirectory = await mkdtemp(join(tmpdir(), "court-scout-api-v1-"));
+  const server = createAppServer({ dataDirectory });
+  server.listen(0, "127.0.0.1");
+  await once(server, "listening");
+  t.after(async () => {
+    await new Promise(resolve => server.close(resolve));
+    await rm(dataDirectory, { recursive: true, force: true });
+  });
+  const base = `http://127.0.0.1:${server.address().port}`;
+  async function call(path, method = "GET", body) {
+    const response = await fetch(base + path, {
+      method,
+      headers: { "content-type": "application/json" },
+      ...(body === undefined ? {} : { body: JSON.stringify(body) })
+    });
+    assert.match(response.headers.get("content-type"), /application\/json/);
+    return { status: response.status, body: withoutApiMetadata(await response.json()) };
+  }
+  for (const path of ["teams", "team-collections", "match-cards", "jobs/deadbeef", "jobs/deadbeef/data", "team-data?team=missing", "analysis?team=missing&eligibility=local", "unknown"]) {
+    assert.deepEqual(await call(`/api/v1/${path}`), await call(`/api/${path}`), path);
+  }
+  const created = await call("/api/v1/team-collections", "POST", { name: "API season", competitionLevel: "local" });
+  assert.equal(created.status, 201);
+  const id = created.body.collection.id;
+  assert.equal((await call("/api/team-collections")).body.collections[0].id, id);
+  assert.equal((await call(`/api/v1/team-collections/${id}`, "PATCH", { name: "Renamed" })).status, 200);
+  assert.equal((await call("/api/team-collections")).body.collections[0].name, "Renamed");
+  for (const path of [`team-roles/${id}`, `event-schedules/${id}`]) {
+    assert.deepEqual(await call(`/api/v1/${path}`), await call(`/api/${path}`));
+  }
+  const roles = { ourTeamId: null, scheduledOpponentIds: [], baseRevision: 0 };
+  assert.equal((await call(`/api/v1/team-roles/${id}`, "PUT", roles)).status, 200);
+  const conflict = await call(`/api/team-roles/${id}`, "PUT", roles);
+  assert.equal(conflict.status, 409);
+  assert.equal(conflict.body.current.revision, 1);
+  const card = { id: "card", ourTeamId: "ours", opponentTeamId: "theirs" };
+  assert.equal((await call("/api/v1/match-cards", "PUT", { cards: [card] })).status, 200);
+  assert.deepEqual((await call("/api/match-cards")).body.cards, [card]);
+  assert.equal((await call("/api/match-cards", "PUT", { cards: [] })).status, 200);
+  assert.deepEqual((await call("/api/v1/match-cards")).body.cards, []);
+  for (const prefix of ["/api", "/api/v1"]) {
+    assert.equal((await call(`${prefix}/match-cards`, "PUT", { cards: null })).status, 400);
+    assert.equal((await call(`${prefix}/teams`, "POST", {})).status, 405);
+    const malformed = await fetch(`${base}${prefix}/team-collections`, { method: "POST", body: "{" });
+    assert.equal(malformed.status, 400);
+    assert.match(withoutApiMetadata(await malformed.json()).error, /valid JSON/);
+  }
+  for (const path of ["/api/v10/teams", "/api/v2/teams", "/api/v1extra/teams"]) {
+    assert.equal((await call(path)).status, 404);
+  }
+  assert.equal((await call(`/api/v1/team-collections/${id}`, "DELETE")).status, 200);
+  assert.deepEqual((await call("/api/team-collections")).body.collections, []);
+  const page = await fetch(base + "/");
+  assert.match(page.headers.get("content-type"), /text\/html/);
 });
