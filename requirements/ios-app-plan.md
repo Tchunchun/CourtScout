@@ -148,6 +148,9 @@ phone therefore starts from seasons, not from a list of every gathered team.
 3. **Opponent threat board:** available players first, usual roles, rating
    freshness and source (exact or public band), regular partners, stacking
    patterns, and postseason coverage gaps shown next to predictions. P1.
+   **Done** as `GET /api/threat-board` (`scripts/lib/threat-board.mjs`) and
+   the Threats tab on a team. Stacking is read only from four or more matches
+   with ratings on two or more courts.
 4. **Prepare lineup / matchup:** Our lineup built from eligible, available
    players; court-by-court edges against each predicted scenario; expected
    courts won per scenario; and the lineup that holds up across scenarios.
@@ -162,7 +165,7 @@ phone therefore starts from seasons, not from a list of every gathered team.
 | P0 | Seasons home, season screen, Our team | Done (Our team shared with the web app through `/api/team-roles`) |
 | P0 | Matchup screen | Done (lineup saved on device; not yet a web Match Day Card) |
 | P0 | New season from the home screen (paste link, preview, start job, progress) | Done (job progress saved to `data/jobs/`; a restart reports the job as interrupted and offers Start again) |
-| P1 | Threat board, scenario differences, coverage warnings, share extension for team links | Not started |
+| P1 | Threat board, scenario differences, coverage warnings, share extension for team links | Threat board and coverage warnings done (`GET /api/threat-board`, the team's Threats tab); scenario differences and the share extension not started |
 | P2 | Day-of availability, lineup photo, sharing, results | Not started |
 
 ## Logic that moves on-device

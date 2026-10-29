@@ -95,6 +95,11 @@ The app follows a captain's season, not a list of every gathered team.
   - The comparison comes from `POST /api/matchup`, which reuses
     `web/public/match-card.mjs`, so the phone and the web Match Day Card agree.
 - **Team report:** Overview (record, eligibility counts, data notes, sources),
+  Threats (the threat board: likely lineups with each line's weak spots, such
+  as no postseason history or a missing rating; whether the team stacks its
+  courts; available players strongest first with their usual role and
+  courts, regular partner, and whether their UTR is exact or a public band
+  and how old it is; regular pairs; and data-coverage warnings),
   Roster (DR, UTR, NTRP, eligibility, role), Lineups (up to three likely
   lineups with court history), and Matches (results with court-by-court
   scores). Eligibility defaults to the team's own level and can be switched.
@@ -119,7 +124,7 @@ swift run --package-path ios/CourtScoutKit verify-kit
 
 With the server running, decodes every team's catalog entry, dataset, and
 analysis through the app's API client, and checks the offline fallback,
-matchups, team roles, and the New season preview (it starts no jobs and
+matchups, team roles, threat boards, and the New season preview (it starts no jobs and
 saves nothing).
 
 With Xcode installed and selected (`xcode-select -p` points into `Xcode.app`),

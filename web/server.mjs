@@ -53,6 +53,7 @@ import {
   saveTeamRoles
 } from "../scripts/lib/team-roles.mjs";
 import { previewTennisRecordTeam } from "../scripts/lib/tennisrecord.mjs";
+import { buildThreatBoard } from "../scripts/lib/threat-board.mjs";
 import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -1458,6 +1459,20 @@ export function createAppServer(options = {}) {
             requestUrl.searchParams.get("refresh") === "true"
           )
         );
+        return;
+      }
+
+      if (request.method === "GET" && pathname === "/api/threat-board") {
+        const teamId = requestUrl.searchParams.get("team");
+        if (!teamId) throw new Error("Choose a team dataset.");
+        const eligibilityScope =
+          requestUrl.searchParams.get("eligibility") ??
+          await eligibilityScopeForTeam(dataDirectory, teamId);
+        const [dataset, analysis] = await Promise.all([
+          readCatalogTeam(dataDirectory, teamId),
+          getTeamAnalysis(dataDirectory, teamId, eligibilityScope)
+        ]);
+        json(response, 200, { teamId, ...buildThreatBoard({ dataset, analysis }) });
         return;
       }
 

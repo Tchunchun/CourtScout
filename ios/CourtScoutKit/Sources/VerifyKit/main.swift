@@ -61,6 +61,11 @@ do {
                 let analysis = try await live.analysis(summary.id)
                 check(analysis.value.eligibility.players.count == analysis.value.eligibility.summary.rosterSize,
                       "\(summary.datasetId): eligibility player count")
+                let board = try await live.threatBoard(summary.id).value
+                check(board.players.count == analysis.value.eligibility.players.count,
+                      "\(summary.datasetId): threat board lost players")
+                check(board.players.drop { $0.available }.allSatisfy { !$0.available },
+                      "\(summary.datasetId): threat board lists an unavailable player first")
                 analyses += 1
             }
         } catch {

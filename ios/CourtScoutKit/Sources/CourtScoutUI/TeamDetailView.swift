@@ -4,6 +4,7 @@ import SwiftUI
 struct TeamDetailView: View {
     enum Tab: String, CaseIterable, Identifiable {
         case overview = "Overview"
+        case threats = "Threats"
         case roster = "Roster"
         case lineups = "Lineups"
         case matches = "Matches"
@@ -44,8 +45,12 @@ struct TeamDetailView: View {
         #endif
         .task(id: "\(app.generation)-\(model.scope ?? "team-default")") {
             await model.load(app.repository)
+            await model.loadThreatBoard(app.repository)
         }
-        .refreshable { await model.load(app.repository) }
+        .refreshable {
+            await model.load(app.repository)
+            await model.loadThreatBoard(app.repository)
+        }
     }
 
     private var header: some View {
@@ -96,6 +101,7 @@ struct TeamDetailView: View {
         case .loaded:
             switch tab {
             case .overview: OverviewTab(model: model)
+            case .threats: ThreatsTab(model: model)
             case .roster: RosterTab(model: model)
             case .lineups: LineupsTab(model: model)
             case .matches: MatchesTab(matches: model.teamData?.matches ?? [])

@@ -59,6 +59,7 @@ final class TeamDetailModel {
     var scope: String?
     var teamData: TeamData?
     var analysis: TeamAnalysis?
+    var threatBoard: ThreatBoard?
     var offlineSince: Date?
     var analysisError: String?
     var analysisLoading = false
@@ -93,5 +94,13 @@ final class TeamDetailModel {
             analysis = nil
             analysisError = error.localizedDescription
         }
+    }
+
+    /// Built from the analysis `load` just saved, so it is quick. Kept out of
+    /// `load`: another await alongside its async lets aborts the Swift
+    /// concurrency runtime (swift_task_dealloc) on iOS 26.
+    func loadThreatBoard(_ repository: TeamRepository?) async {
+        guard let repository else { return }
+        threatBoard = try? await repository.threatBoard(summary.id, scope: scope).value
     }
 }
