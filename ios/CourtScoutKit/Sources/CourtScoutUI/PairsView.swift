@@ -3,6 +3,7 @@ import SwiftUI
 
 struct PairsView: View {
     @Environment(AppModel.self) private var app
+    @Environment(\.dismiss) private var dismiss
     let teamId: String
     let roster: [RosterPlayer]
     @State private var value: TeamPairs?
@@ -10,6 +11,11 @@ struct PairsView: View {
     @State private var saving = false
     @State private var message: String?
     @State private var editor: PairEditor?
+    /// The pairs as last loaded or saved, to tell when there are edits to save.
+    @State private var loadedPairs: [TeamPairs.Pair] = []
+    @State private var confirmingDiscard = false
+
+    private var hasChanges: Bool { value.map { $0.pairs != loadedPairs } ?? false }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -24,15 +30,6 @@ struct PairsView: View {
                     Label("Add pair", systemImage: "person.2.badge.plus")
                 }
                 .buttonStyle(.bordered)
-
-                Button {
-                    Task { await save(value) }
-                } label: {
-                    if saving { ProgressView().frame(maxWidth: .infinity) }
-                    else { Text("Save pairs").frame(maxWidth: .infinity) }
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(saving)
             } else if let message {
                 LoadFailedView(message: message) { Task { await load() } }
             }
@@ -41,6 +38,27 @@ struct PairsView: View {
             }
         }
         .task(id: teamId) { await load() }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Close") {
+                    if hasChanges { confirmingDiscard = true } else { dismiss() }
+                }
+            }
+            ToolbarItem(placement: .confirmationAction) {
+                if saving {
+                    ProgressView()
+                } else {
+                    Button("Save") {
+                        Task { if let value, await save(value) { dismiss() } }
+                    }
+                    .disabled(!hasChanges)
+                }
+            }
+        }
+        .interactiveDismissDisabled(hasChanges)
+        .confirmationDialog("Discard unsaved pair changes?", isPresented: $confirmingDiscard) {
+            Button("Discard changes", role: .destructive) { dismiss() }
+        }
         .sheet(item: $editor) { draft in
             PairEditorView(draft: draft, roster: roster.map(\.name)) { edited in
                 apply(edited)
@@ -120,26 +138,40 @@ struct PairsView: View {
         loading = true
         defer { loading = false }
         do {
-            value = try await repository.teamPairs(teamId).value
+            let loaded = try await repository.teamPairs(teamId).value
+            value = loaded
+            loadedPairs = loaded.pairs
             message = nil
         } catch {
             message = error.localizedDescription
         }
     }
 
-    private func save(_ current: TeamPairs) async {
-        guard let repository = app.repository else { return }
+    /// Returns whether the pairs were saved.
+    private func save(_ current: TeamPairs) async -> Bool {
+        guard let repository = app.repository else { return false }
         saving = true
         defer { saving = false }
         do {
-            value = try await repository.saveTeamPairs(current)
-            message = "Saved."
-        } catch APIError.http(let status, let text) where status == 409 {
-            await load()
-            message = text.isEmpty ? "Pairs changed elsewhere; the latest copy is shown." : text
+            let saved = try await repository.saveTeamPairs(current)
+            value = saved
+            loadedPairs = saved.pairs
+            return true
+        } catch APIError.http(let status, _) where status == 409 {
+            // Keep the captain's edits on top of the newer revision so a
+            // second save replaces it deliberately.
+            do {
+                let latest = try await repository.teamPairs(teamId).value
+                value?.revision = latest.revision
+                loadedPairs = latest.pairs
+                message = "Pairs were changed on another device. Your edits are kept; save again to replace them."
+            } catch {
+                message = error.localizedDescription
+            }
         } catch {
             message = error.localizedDescription
         }
+        return false
     }
 
     private func confirm(_ suggestion: TeamPairs.Pair) {
@@ -164,7 +196,8 @@ struct PairsView: View {
 
     private func apply(_ draft: PairEditor) {
         guard var current = value, draft.players.count == 2 else { return }
-        let history = (current.pairs + current.suggestions).first { $0.id == draft.editingId }
+        let id = TeamPairs.Pair(players: draft.players, tag: draft.tag).id
+        let history = (current.pairs + current.suggestions).first { $0.id == id }
         let pair = TeamPairs.Pair(
             players: draft.players,
             tag: draft.tag,
@@ -173,11 +206,12 @@ struct PairsView: View {
             wins: history?.wins ?? 0,
             losses: history?.losses ?? 0
         )
+        // Editing into a pair that is already saved replaces that one too.
+        current.pairs.removeAll { $0.id == pair.id && $0.id != draft.editingId }
         if let editingId = draft.editingId,
            let index = current.pairs.firstIndex(where: { $0.id == editingId }) {
             current.pairs[index] = pair
         } else {
-            current.pairs.removeAll { $0.id == pair.id }
             current.pairs.append(pair)
         }
         current.suggestions.removeAll { $0.id == pair.id }
@@ -236,6 +270,9 @@ private struct PairEditorView: View {
             set: { value in
                 if draft.players.isEmpty { draft.players = [value] }
                 else { draft.players[0] = value }
+                // Player 2 cannot repeat Player 1, so clear it rather than
+                // leave the picker on an option it no longer shows.
+                if draft.players.count > 1 && draft.players[1] == value { draft.players[1] = "" }
             }
         )
     }

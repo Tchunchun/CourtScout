@@ -1411,7 +1411,7 @@ export function createAppServer(options = {}) {
       }
 
       const teamPairsMatch = pathname.match(/^\/api\/team-pairs\/(.+)$/);
-      if (teamPairsMatch) {
+      if (teamPairsMatch && ["GET", "PUT"].includes(request.method)) {
         const teamId = decodeURIComponent(teamPairsMatch[1]);
         const dataset = await readCatalogTeam(dataDirectory, teamId);
         if (request.method === "GET") {
@@ -1434,6 +1434,10 @@ export function createAppServer(options = {}) {
           }
           return;
         }
+      }
+      if (teamPairsMatch) {
+        json(response, 405, { error: "Method not allowed" });
+        return;
       }
 
       const collectionMatch = pathname.match(

@@ -61,3 +61,29 @@ test("saves pairs with revisions and refuses stale or invalid changes", async t 
     /active roster/
   );
 });
+
+test("requires a base revision and keeps pairs with the dataset across moves", async t => {
+  const directory = await mkdtemp(join(tmpdir(), "court-scout-pairs-"));
+  t.after(() => rm(directory, { recursive: true, force: true }));
+  const ours = { ...dataset, datasetId: "2027-ours" };
+
+  await assert.rejects(
+    saveTeamPairs(directory, "collections/a/ours", ours, [{ players: ["A", "B"], tag: "go-to" }]),
+    /baseRevision/
+  );
+  await saveTeamPairs(directory, "collections/a/ours", ours, [
+    { players: ["A", "B"], tag: "go-to" }
+  ], { baseRevision: 0 });
+  const moved = await getTeamPairs(directory, "collections/b/ours", ours);
+  assert.equal(moved.teamId, "collections/b/ours");
+  assert.equal(moved.revision, 1);
+});
+
+test("uses the national active roster when the team has one", async () => {
+  const national = { ...dataset, nationalRoster: [{ name: "A" }, { name: "B" }] };
+  assert.deepEqual(suggestTeamPairs(national).map(pair => pair.players), [["A", "B"]]);
+  await assert.rejects(
+    saveTeamPairs("/unused", "ours", national, [{ players: ["A", "C"], tag: "go-to" }], { baseRevision: 0 }),
+    /active roster/
+  );
+});

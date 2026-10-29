@@ -122,8 +122,8 @@ struct TeamDetailView: View {
     }
 }
 
+/// Close and Save live in PairsView, which knows whether there are unsaved edits.
 private struct PairsSheet: View {
-    @Environment(\.dismiss) private var dismiss
     let teamId: String
     let roster: [RosterPlayer]
 
@@ -135,11 +135,6 @@ private struct PairsSheet: View {
             }
             .background(Color.secondary.opacity(0.06))
             .navigationTitle("Doubles pairs")
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
-                }
-            }
         }
     }
 }

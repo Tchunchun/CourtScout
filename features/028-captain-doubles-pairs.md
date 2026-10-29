@@ -83,3 +83,9 @@ Phase 1 core: prove the value of scouting-informed lineup preparation. See featu
 - 2026-10-29: Opened PR #6 for review.
 
 - 2026-10-29: Owner prioritized phase 1 at P0; lineup preparation precedes team management.
+- 2026-10-29: Review fixes: the Pairs sheet's Close and Save now track
+  unsaved edits; a 409 keeps the captain's edits on the newer revision; editing
+  a pair recomputes its history and replaces a duplicate; saves require
+  `baseRevision`; pairs are validated against the national active roster when
+  there is one and stored by dataset ID so they survive moves between
+  collections; the phone no longer caches pairs (offline belongs to 012).

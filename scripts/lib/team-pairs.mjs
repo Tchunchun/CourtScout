@@ -32,8 +32,13 @@ function pairKey(players) {
   return [...players].sort((a, b) => a.localeCompare(b)).join("\u0000");
 }
 
+// National teams name their active players separately from the gathered roster.
+function activeRosterNames(dataset) {
+  return new Set((dataset.nationalRoster ?? dataset.roster ?? []).map(player => player.name));
+}
+
 function pairHistory(dataset) {
-  const roster = new Set((dataset.roster ?? []).map(player => player.name));
+  const roster = activeRosterNames(dataset);
   const histories = new Map();
   for (const match of dataset.matches ?? []) {
     for (const [court, result] of Object.entries(match.courts ?? {})) {
@@ -85,6 +90,7 @@ export function suggestTeamPairs(dataset) {
 
 function validatePairs(dataset, input) {
   if (!Array.isArray(input)) throw new Error("Pairs must be a list.");
+  const active = activeRosterNames(dataset);
   const roster = new Map((dataset.roster ?? []).map(player => [player.name, player]));
   const seen = new Set();
   return input.map(pair => {
@@ -95,7 +101,7 @@ function validatePairs(dataset, input) {
     if (!players[0] || players[0] === players[1]) {
       throw new Error("A pair must contain two different players.");
     }
-    if (players.some(name => !roster.has(name))) {
+    if (players.some(name => !active.has(name))) {
       throw new Error("Pairs can only use players on the active roster.");
     }
     const key = pairKey(players);
@@ -140,26 +146,35 @@ function response(teamId, stored, dataset) {
   };
 }
 
+// Stored by dataset ID, which stays the same when a team moves between collections.
+function storeId(teamId, dataset) {
+  return dataset.datasetId ?? teamId;
+}
+
 export async function getTeamPairs(dataDirectory, teamId, dataset) {
   const document = await storeFor(dataDirectory).read(STORE_KEY);
   const store = document ? normalizeStore(document.value) : emptyStore();
-  return response(teamId, store.teams[teamId], dataset);
+  return response(teamId, store.teams[storeId(teamId, dataset)], dataset);
 }
 
 export async function saveTeamPairs(dataDirectory, teamId, dataset, input, { baseRevision } = {}) {
   const pairs = validatePairs(dataset, input);
+  if (!Number.isInteger(baseRevision)) {
+    throw new Error("Send baseRevision from the last load of these pairs.");
+  }
+  const id = storeId(teamId, dataset);
   try {
     const { value } = await updateDocument(storeFor(dataDirectory), STORE_KEY, current => {
       const store = normalizeStore(current);
-      const previous = store.teams[teamId];
-      if (baseRevision != null && baseRevision !== (previous?.revision ?? 0)) {
+      const previous = store.teams[id];
+      if (baseRevision !== (previous?.revision ?? 0)) {
         throw new TeamPairsConflictError(response(teamId, previous, dataset));
       }
       return {
         ...store,
         teams: {
           ...store.teams,
-          [teamId]: {
+          [id]: {
             pairs,
             revision: (previous?.revision ?? 0) + 1,
             updatedAt: new Date().toISOString()
@@ -167,7 +182,7 @@ export async function saveTeamPairs(dataDirectory, teamId, dataset, input, { bas
         }
       };
     }, { initial: emptyStore });
-    return response(teamId, value.teams[teamId], dataset);
+    return response(teamId, value.teams[id], dataset);
   } catch (error) {
     if (error instanceof StoreConflictError) {
       throw new TeamPairsConflictError(await getTeamPairs(dataDirectory, teamId, dataset));

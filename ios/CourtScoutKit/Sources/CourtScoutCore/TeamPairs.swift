@@ -52,12 +52,10 @@ private struct TeamPairsUpdate: Encodable {
 }
 
 extension TeamRepository {
+    /// Pairs always come from the server; offline use comes with feature 012.
     public func teamPairs(_ teamId: String) async throws -> Loaded<TeamPairs> {
-        try await load(
-            TeamPairs.self,
-            key: "team-pairs-\(teamId)",
-            path: "api/team-pairs/\(teamId)"
-        )
+        let data = try await transport.get("api/team-pairs/\(teamId)", query: [])
+        return Loaded(value: try JSONDecoder().decode(TeamPairs.self, from: data), source: .live, savedAt: .now)
     }
 
     /// Saving needs the server; it never falls back to an offline copy.
@@ -72,11 +70,9 @@ extension TeamRepository {
             },
             baseRevision: value.revision
         ))
-        let saved = try await JSONDecoder().decode(
+        return try await JSONDecoder().decode(
             TeamPairs.self,
             from: transport.put("api/team-pairs/\(value.teamId)", body: body)
         )
-        try? cache.store(JSONEncoder().encode(saved), for: "team-pairs-\(value.teamId)")
-        return saved
     }
 }
