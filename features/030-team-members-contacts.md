@@ -2,7 +2,8 @@
 id: "030"
 title: Create a team and keep players' contact details
 status: ready
-priority: P1
+priority: P2
+phase: phase-2
 area: ios
 source: Owner request, planning session 2026-10-29 (team management, replacing Breakpoint)
 depends_on: []
@@ -45,6 +46,8 @@ base for invites, availability and lineup emails (031–033).
 
 ## Notes for the coding agent
 
+Deferred to Phase 2: team management follows validation of Phase 1 lineup preparation. Do not start for the Phase 1 release; see features/README.md. Readiness is spec maturity, not release approval.
+
 - Follow `scripts/lib/team-roles.mjs` for storage and conflicts.
 - Contact details are personal data. Keep them out of `data/` files that
   could be committed, and out of logs.
@@ -61,3 +64,5 @@ base for invites, availability and lineup emails (031–033).
 - 2026-10-29: Written with the owner. Court Scout replaces Breakpoint for
   team management.
 - 2026-10-29: Marked ready by the owner.
+
+- 2026-10-29: Owner prioritized phase 2 at P2; deferred team management until after Phase 1 value validation.

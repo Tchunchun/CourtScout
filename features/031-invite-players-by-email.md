@@ -2,7 +2,8 @@
 id: "031"
 title: Invite players by email with a personal link
 status: idea
-priority: P1
+priority: P2
+phase: phase-2
 area: server
 source: Owner request, planning session 2026-10-29 (team management, replacing Breakpoint)
 depends_on: ["030", "009"]
@@ -47,6 +48,8 @@ or password.
 
 ## Notes for the coding agent
 
+Deferred to Phase 2: team management follows validation of Phase 1 lineup preparation. Do not start for the Phase 1 release; see features/README.md. Readiness is spec maturity, not release approval.
+
 - Players must reach the server, so this needs hosting (009).
 - Open owner decisions: which email service (Azure Communication Services
   Email fits the Azure plan) and the sending address and domain. Ask before
@@ -61,3 +64,5 @@ or password.
 ## Log
 
 - 2026-10-29: Written with the owner. Links now, player app later.
+
+- 2026-10-29: Owner prioritized phase 2 at P2; deferred team management until after Phase 1 value validation.

@@ -2,7 +2,8 @@
 id: "032"
 title: Collect match and practice availability from players
 status: idea
-priority: P1
+priority: P2
+phase: phase-2
 area: server
 source: Owner request, planning session 2026-10-29 (team management, replacing Breakpoint)
 depends_on: ["031"]
@@ -45,8 +46,11 @@ uses Breakpoint for.
 
 ## Notes for the coding agent
 
+Deferred to Phase 2: team management follows validation of Phase 1 lineup preparation. Do not start for the Phase 1 release; see features/README.md. Readiness is spec maturity, not release approval.
+
 - Uses the mailer and player links from 031.
-- Match availability is what lineup proposals (029) read.
+- In Phase 2, player responses can feed lineup proposals (029). Phase 1
+  proposals use captain-entered availability and do not depend on this feature.
 - Open owner decisions: whether to import current availability from
   Breakpoint once, and whether practices repeat weekly or are entered one at
   a time. Ask before building.
@@ -54,3 +58,5 @@ uses Breakpoint for.
 ## Log
 
 - 2026-10-29: Written with the owner.
+
+- 2026-10-29: Owner prioritized phase 2 at P2; deferred team management until after Phase 1 value validation.

@@ -2,7 +2,8 @@
 id: "028"
 title: Let the captain manage their doubles pairs on the phone
 status: ready
-priority: P1
+priority: P0
+phase: phase-1
 area: ios
 source: Owner request, planning session 2026-10-29
 depends_on: []
@@ -45,6 +46,8 @@ can build around them.
 
 ## Notes for the coding agent
 
+Phase 1 core: prove the value of scouting-informed lineup preparation. See features/README.md for release priorities.
+
 - Pair history already exists: `primaryPartner` in `scripts/lib/analysis.mjs`
   counts appearances and record per partner. Suggestions should come from the
   same court data, covering every pair, not only each player's top partner.
@@ -60,3 +63,5 @@ can build around them.
 
 - 2026-10-29: Written with the owner. Web support follows later as its own feature.
 - 2026-10-29: Marked ready by the owner.
+
+- 2026-10-29: Owner prioritized phase 1 at P0; lineup preparation precedes team management.

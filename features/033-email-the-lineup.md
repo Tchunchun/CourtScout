@@ -2,7 +2,8 @@
 id: "033"
 title: Email the lineup to the team
 status: idea
-priority: P1
+priority: P2
+phase: phase-2
 area: server
 source: Owner request, planning session 2026-10-29 (team management, replacing Breakpoint)
 depends_on: ["031"]
@@ -41,6 +42,8 @@ learns where they play, with whom, and when.
 
 ## Notes for the coding agent
 
+Deferred to Phase 2: team management follows validation of Phase 1 lineup preparation. Do not start for the Phase 1 release; see features/README.md. Readiness is spec maturity, not release approval.
+
 - Uses the mailer and member contacts from 030 and 031.
 - The lineup is the matchup draft (`buildMatchup` in
   `scripts/lib/matchup.mjs`). Saved Match Day Cards (005) may become the
@@ -51,3 +54,5 @@ learns where they play, with whom, and when.
 ## Log
 
 - 2026-10-29: Written with the owner.
+
+- 2026-10-29: Owner prioritized phase 2 at P2; deferred team management until after Phase 1 value validation.
