@@ -23,6 +23,7 @@ final class SeasonsModel {
         guard let repository else { return }
         if catalog == nil { phase = .loading }
         do {
+            try Task.checkCancellation()
             let catalog = try await repository.catalog()
             let collections = try await repository.collections()
             var schedules: [String: EventSchedule] = [:]
@@ -37,6 +38,9 @@ final class SeasonsModel {
             offlineSince = catalog.source == .offline || collections.source == .offline
                 ? min(catalog.savedAt, collections.savedAt) : nil
             phase = .loaded
+        } catch is CancellationError {
+            // Keep what is shown; the next load replaces it.
+        } catch let error as URLError where error.code == .cancelled {
         } catch {
             phase = .failed(error.localizedDescription)
         }
@@ -49,6 +53,87 @@ final class SeasonsModel {
 
     func setDeviceOurTeam(_ teamId: String?, for collectionId: String) {
         defaults.set(teamId, forKey: "ourTeam.\(collectionId)")
+    }
+
+    // MARK: Seasons being gathered
+
+    /// Latest state of the season jobs started on this device, by collection id.
+    var jobs: [String: CollectionJob] = [:]
+
+    /// What is needed to follow, or restart, a season job after a relaunch.
+    struct TrackedJob: Codable {
+        var collectionId: String
+        var teamUrl: String
+        var competitionLevel: String
+    }
+
+    /// Tracked jobs by job id.
+    private var trackedJobs: [String: TrackedJob] {
+        get {
+            (defaults.data(forKey: "seasonJobs"))
+                .flatMap { try? JSONDecoder().decode([String: TrackedJob].self, from: $0) } ?? [:]
+        }
+        set { defaults.set(try? JSONEncoder().encode(newValue), forKey: "seasonJobs") }
+    }
+
+    var hasRunningJobs: Bool {
+        trackedJobs.values.contains { jobs[$0.collectionId]?.isFinished != true }
+    }
+
+    func track(_ job: CollectionJob, teamUrl: String, competitionLevel: String) {
+        guard let collectionId = job.eventCollectionId else { return }
+        trackedJobs = trackedJobs.filter { $0.value.collectionId != collectionId }
+        trackedJobs[job.id] = TrackedJob(collectionId: collectionId, teamUrl: teamUrl, competitionLevel: competitionLevel)
+        jobs[collectionId] = job
+    }
+
+    func dismissJob(for collectionId: String) {
+        trackedJobs = trackedJobs.filter { $0.value.collectionId != collectionId }
+        jobs[collectionId] = nil
+    }
+
+    /// Starts a stopped season's gathering again into the same season.
+    func restartJob(for collectionId: String, repository: TeamRepository?) async throws {
+        guard let repository, let tracked = trackedJobs.values.first(where: { $0.collectionId == collectionId })
+        else { return }
+        let job = try await repository.startSeason(
+            teamUrl: tracked.teamUrl,
+            competitionLevel: tracked.competitionLevel,
+            into: collectionId
+        )
+        track(job, teamUrl: tracked.teamUrl, competitionLevel: tracked.competitionLevel)
+    }
+
+    /// Polls each tracked job once. Returns true when the seasons should
+    /// reload: teams were added, a job ended, or the server answered again
+    /// after the list was loaded offline. A finished job stops being
+    /// tracked; a failed one stays on its season until dismissed.
+    func refreshJobs(_ repository: TeamRepository?) async -> Bool {
+        guard let repository else { return false }
+        var reload = false
+        for (jobId, tracked) in trackedJobs {
+            let collectionId = tracked.collectionId
+            let previous = jobs[collectionId]
+            if previous?.isFinished == true { continue }
+            do {
+                let job = try await repository.job(jobId)
+                jobs[collectionId] = job
+                if job.collectedTeamCount != previous?.collectedTeamCount || job.isFinished || offlineSince != nil {
+                    reload = true
+                }
+                if job.status == "complete" && job.warning == nil {
+                    trackedJobs[jobId] = nil
+                    jobs[collectionId] = nil
+                }
+            } catch APIError.http(status: 404, _) {
+                // Jobs live in server memory; a restart forgets them.
+                jobs[collectionId] = .lost(id: jobId, collectionId: collectionId, last: previous)
+                reload = true
+            } catch {
+                // Unreachable: keep the last state and try again later.
+            }
+        }
+        return reload
     }
 
     /// Season summary for the home list, from the confirmed schedule only.

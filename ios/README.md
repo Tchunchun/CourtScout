@@ -54,6 +54,18 @@ The app follows a captain's season, not a list of every gathered team.
 - **Seasons (home):** one card per event collection, newest first, with its
   level, Our team, and next match. The search button finds any gathered team
   across seasons.
+- **New season:** the `+` button (or the empty home screen) takes Our team's
+  TennisRecord team link, previews the team and how many league opponents
+  will be gathered, and starts gathering on the server with public UTR.
+  - Exact UTR decimals need the server's signed-in browser, so the phone
+    does not offer them; add them later from the web app.
+  - A team that is already in a season gathers into that season again
+    instead of creating another.
+  - The season appears at once with a progress bar. The job runs on the
+    server, so the app can close; progress resumes when it reopens.
+  - Jobs live in the server's memory. If the server restarts mid-way, the
+    season says so and offers "Start again", which gathers into the same
+    season.
 - **Season:** Our team, the next match, upcoming matches, past matches whose
   result has not been gathered yet, completed matches, and the scouting pool
   (other gathered teams that are not on the schedule).
@@ -99,7 +111,8 @@ swift run --package-path ios/CourtScoutKit verify-kit
 ```
 
 With the server running, decodes every team's catalog entry, dataset, and
-analysis through the app's API client, and checks the offline fallback.
+analysis through the app's API client, and checks the offline fallback,
+matchups, and the New season preview (it starts no jobs).
 
 With Xcode installed and selected (`xcode-select -p` points into `Xcode.app`),
 the Swift Testing suite for the models also runs:

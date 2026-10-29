@@ -19,6 +19,7 @@ public enum APIError: LocalizedError, Equatable {
 public protocol HTTPTransport: Sendable {
     func get(_ path: String, query: [URLQueryItem]) async throws -> Data
     func post(_ path: String, body: Data) async throws -> Data
+    func patch(_ path: String, body: Data) async throws -> Data
 }
 
 public struct URLSessionTransport: HTTPTransport {
@@ -50,8 +51,16 @@ public struct URLSessionTransport: HTTPTransport {
     }
 
     public func post(_ path: String, body: Data) async throws -> Data {
+        try await send("POST", path, body: body)
+    }
+
+    public func patch(_ path: String, body: Data) async throws -> Data {
+        try await send("PATCH", path, body: body)
+    }
+
+    private func send(_ method: String, _ path: String, body: Data) async throws -> Data {
         var request = URLRequest(url: baseURL.appending(path: path), timeoutInterval: 20)
-        request.httpMethod = "POST"
+        request.httpMethod = method
         request.httpBody = body
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         return try await send(request)

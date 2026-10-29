@@ -137,6 +137,8 @@ public struct TeamRepository: Sendable {
             // Server errors (such as an unknown team) are real answers; only
             // unreachable servers fall back to the saved copy.
             if case APIError.http = error { throw error }
+            // A cancelled request says nothing about the server.
+            if error is CancellationError || (error as? URLError)?.code == .cancelled { throw error }
             guard let saved = cache.load(key) else { throw error }
             return Loaded(
                 value: try JSONDecoder().decode(type, from: saved.data),

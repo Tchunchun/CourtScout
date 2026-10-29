@@ -13,6 +13,7 @@ struct SeasonsView: View {
     @Environment(AppModel.self) private var app
     @State private var model = SeasonsModel()
     @State private var showingSettings = false
+    @State private var showingNewSeason = false
 
     var body: some View {
         NavigationStack {
@@ -32,6 +33,11 @@ struct SeasonsView: View {
                 }
                 .toolbar {
                     ToolbarItemGroup(placement: .primaryAction) {
+                        Button {
+                            showingNewSeason = true
+                        } label: {
+                            Label("New season", systemImage: "plus")
+                        }
                         NavigationLink(value: Route.allTeams) {
                             Label("Find a team", systemImage: "magnifyingglass")
                         }
@@ -45,9 +51,18 @@ struct SeasonsView: View {
                 .sheet(isPresented: $showingSettings) {
                     SettingsView()
                 }
+                .sheet(isPresented: $showingNewSeason) {
+                    NewSeasonView(seasons: model) { job, teamUrl, level in
+                        model.track(job, teamUrl: teamUrl, competitionLevel: level)
+                        Task { await model.load(app.repository) }
+                    }
+                }
         }
         .task(id: app.generation) {
             await model.load(app.repository)
+        }
+        .task(id: PollKey(generation: app.generation, running: model.hasRunningJobs)) {
+            await followJobs()
         }
     }
 
@@ -65,18 +80,30 @@ struct SeasonsView: View {
                 }
                 ForEach(model.seasons) { collection in
                     NavigationLink(value: Route.season(collection)) {
-                        SeasonRow(collection: collection, season: model.summary(for: collection))
+                        SeasonRow(
+                            collection: collection,
+                            season: model.summary(for: collection),
+                            job: model.jobs[collection.id]
+                        )
+                    }
+                    .swipeActions {
+                        if model.jobs[collection.id]?.isFinished == true {
+                            Button("Dismiss") { model.dismissJob(for: collection.id) }
+                        }
                     }
                 }
             }
             .refreshable { await model.load(app.repository) }
             .overlay {
                 if model.seasons.isEmpty {
-                    ContentUnavailableView(
-                        "No seasons yet",
-                        systemImage: "calendar.badge.plus",
-                        description: Text("Start a season in the web app by looking up your team’s TennisRecord profile. Its league opponents are gathered into one season.")
-                    )
+                    ContentUnavailableView {
+                        Label("No seasons yet", systemImage: "calendar.badge.plus")
+                    } description: {
+                        Text("Start with your team’s TennisRecord link. Court Scout gathers your team and every league opponent into one season.")
+                    } actions: {
+                        Button("New season") { showingNewSeason = true }
+                            .buttonStyle(.borderedProminent)
+                    }
                 }
             }
         } else {
@@ -85,9 +112,29 @@ struct SeasonsView: View {
     }
 }
 
+private struct PollKey: Hashable {
+    var generation: Int
+    var running: Bool
+}
+
+extension SeasonsView {
+    /// Follows seasons the server is gathering, reloading as teams arrive.
+    fileprivate func followJobs() async {
+        // A job that ends restarts this task; the reload it asked for runs
+        // on its own so that restart does not cancel it.
+        let reload = { [model, app] in Task { await model.load(app.repository) } }
+        if await model.refreshJobs(app.repository) { reload() }
+        while model.hasRunningJobs, !Task.isCancelled {
+            try? await Task.sleep(for: .seconds(3))
+            if await model.refreshJobs(app.repository) { reload() }
+        }
+    }
+}
+
 struct SeasonRow: View {
     var collection: TeamCollection
     var season: Season?
+    var job: CollectionJob?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -98,6 +145,11 @@ struct SeasonRow: View {
                     .font(.subheadline)
                     .foregroundStyle(Palette.brand)
                     .lineLimit(1)
+            } else if let job, !job.isFinished {
+                // Our team is set once the home team has been gathered.
+                Label("Gathering teams", systemImage: "arrow.down.circle")
+                    .font(.subheadline)
+                    .foregroundStyle(Palette.brand)
             } else {
                 Label("Our team not set", systemImage: "person.crop.circle.badge.questionmark")
                     .font(.subheadline)
@@ -113,6 +165,9 @@ struct SeasonRow: View {
             .font(.footnote)
             .foregroundStyle(.secondary)
             .lineLimit(1)
+            if let job {
+                SeasonJobStatus(job: job).padding(.top, 2)
+            }
         }
         .padding(.vertical, 3)
     }
@@ -177,6 +232,10 @@ struct SeasonView: View {
                 .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
             }
 
+            if let job = seasons.jobs[season.collection.id] {
+                gatheringSection(job)
+            }
+
             ourTeamSection(season)
 
             if let next = season.nextMatch {
@@ -234,6 +293,28 @@ struct SeasonView: View {
                         Text("Tap a team to prepare your lineup against it.")
                     }
                 }
+            }
+        }
+    }
+
+    private func gatheringSection(_ job: CollectionJob) -> some View {
+        Section {
+            SeasonJobStatus(job: job)
+            if job.status == "failed" {
+                Button("Start again") {
+                    Task {
+                        try? await seasons.restartJob(for: model.collection.id, repository: app.repository)
+                    }
+                }
+            }
+            if job.isFinished {
+                Button("Dismiss", role: .cancel) { seasons.dismissJob(for: model.collection.id) }
+            }
+        } header: {
+            Text(job.isFinished ? "Gathering" : "Gathering teams")
+        } footer: {
+            if !job.isFinished {
+                Text("Our team and the schedule appear once the home team is gathered. Opponents follow one by one.")
             }
         }
     }

@@ -14,6 +14,16 @@ struct UnreachableTransport: HTTPTransport {
     func post(_ path: String, body: Data) async throws -> Data {
         throw URLError(.notConnectedToInternet)
     }
+
+    func patch(_ path: String, body: Data) async throws -> Data {
+        throw URLError(.notConnectedToInternet)
+    }
+}
+
+struct CancelledTransport: HTTPTransport {
+    func get(_ path: String, query: [URLQueryItem]) async throws -> Data { throw URLError(.cancelled) }
+    func post(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
+    func patch(_ path: String, body: Data) async throws -> Data { throw URLError(.cancelled) }
 }
 
 let address = CommandLine.arguments.dropFirst().first ?? "http://localhost:4173"
@@ -160,6 +170,39 @@ do {
         failures.append("Uncached team loaded while offline")
     } catch {}
 
+    // New season: link checks, the home-team preview, and the season an
+    // already-gathered team belongs to. No job is started here.
+    let tong = "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=AYTC-LevelUp-Tong&year=2027"
+    check(normalizedTeamProfileLink("  \(tong)\n") == tong, "Team link was not accepted")
+    check(normalizedTeamProfileLink("https://www.tennisrecord.com/adult/profile.aspx?playername=A") == nil, "Player link accepted")
+    check(normalizedTeamProfileLink("https://example.com/teamprofile.aspx?teamname=A") == nil, "Other site accepted")
+    let reordered = "https://tennisrecord.com/adult/teamprofile.aspx?year=2027&teamname=aytc-levelup-tong"
+    let tongSeason = existingSeason(for: reordered, teams: catalog.value.teams, collections: collections.value.collections)
+    check(tongSeason?.teamDatasetIds.contains("2027-aytc-levelup-tong") == true, "Existing season not found for Tong")
+    check(existingSeason(for: "https://www.tennisrecord.com/adult/teamprofile.aspx?teamname=Nobody&year=2027",
+                         teams: catalog.value.teams, collections: collections.value.collections) == nil,
+          "Unknown team matched a season")
+    let preview = try await live.previewHomeTeam(tong)
+    check(preview.team.name == "AYTC-LevelUp-Tong", "Preview team name")
+    check(preview.opponentCount == 10, "Preview found \(preview.opponentCount) opponents, expected 10")
+    check(suggestedSeasonName(preview.team) == "2027 Mixed 18 & Over (A) 7.0 — AYTC-LevelUp-Tong",
+          "Suggested name: \(suggestedSeasonName(preview.team))")
+    do {
+        _ = try await live.job("deadbeef")
+        failures.append("Unknown job did not fail")
+    } catch APIError.http(status: 404, _) {
+    } catch {
+        failures.append("Unknown job failed with \(error), not a 404")
+    }
+    let lost = CollectionJob.lost(id: "deadbeef", collectionId: "c1", last: nil)
+    check(lost.isFinished && lost.error != nil, "Lost job is not shown as stopped")
+
+    // A cancelled request is not "offline": the saved copy is not shown.
+    do {
+        _ = try await TeamRepository(transport: CancelledTransport(), cache: cache).catalog()
+        failures.append("Cancelled request fell back to the saved copy")
+    } catch {}
+
     // Server errors are not hidden behind the cache.
     do {
         _ = try await live.teamData("collections/does-not-exist")
@@ -172,6 +215,7 @@ do {
     if failures.isEmpty {
         seasonLines.forEach { print("  \($0)") }
         print("  \(matchupPairs.count) matchups decoded")
+        print("  New season preview: \(preview.team.name), \(preview.opponentCount) opponents; existing season \(tongSeason?.name ?? "none")")
         print("verify-kit: \(catalog.value.teams.count) teams and \(analyses) analyses decoded from \(address); offline cache checks passed")
     }
 } catch {
