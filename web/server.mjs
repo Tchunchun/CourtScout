@@ -13,6 +13,7 @@ import {
   ELIGIBILITY_SCOPES
 } from "../scripts/lib/analysis.mjs";
 import { readJson, writeJsonAtomic } from "../scripts/lib/io.mjs";
+import { buildMatchup } from "../scripts/lib/matchup.mjs";
 import {
   listTeamCatalog,
   readCatalogTeam
@@ -44,7 +45,15 @@ import {
   normalizeRatingScope,
   ratingScopeIncludes
 } from "../scripts/lib/ratings.mjs";
+import { storeFor } from "../scripts/lib/store.mjs";
+import {
+  TeamRolesConflictError,
+  deleteTeamRoles,
+  getTeamRoles,
+  saveTeamRoles
+} from "../scripts/lib/team-roles.mjs";
 import { previewTennisRecordTeam } from "../scripts/lib/tennisrecord.mjs";
+import { buildThreatBoard } from "../scripts/lib/threat-board.mjs";
 import { updateCourtJoins } from "../scripts/lib/utr.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -158,6 +167,33 @@ export function findExistingHomeCollection(collections, teams, teamUrl) {
   ) ?? null;
 }
 
+/** TennisRecord links to one team differ in parameter order, encoding, and
+ * extra parameters; a team is its name and year. */
+export function teamProfileKey(value) {
+  try {
+    const url = new URL(value);
+    const name = url.searchParams.get("teamname")?.trim().toLowerCase();
+    return name ? `${name}|${url.searchParams.get("year") ?? ""}` : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Gathered teams in a season, by TennisRecord profile key. */
+async function seasonTeamsByProfile(dataDirectory, collectionId) {
+  if (!collectionId) return new Map();
+  let collection;
+  try {
+    collection = await getTeamCollection(dataDirectory, collectionId);
+  } catch {
+    return new Map();
+  }
+  const datasetIds = new Set(collection.teamDatasetIds);
+  return new Map((await listTeamCatalog(dataDirectory))
+    .filter(team => datasetIds.has(team.datasetId) && teamProfileKey(team.sourceUrl))
+    .map(team => [teamProfileKey(team.sourceUrl), team]));
+}
+
 function slugFolderSegment(value) {
   return value
     .normalize("NFKD")
@@ -230,6 +266,56 @@ function publicJob(job) {
     discoveredOpponentCount: job.discoveredOpponentCount ?? 0,
     collectedTeamCount: job.collectedTeamCount ?? 0,
     log: job.log.slice(-10)
+  };
+}
+
+// Running gathers live in memory; a saved snapshot lets a restarted server
+// still answer for a job, as interrupted, instead of forgetting it.
+const JOB_SNAPSHOT_INTERVAL_MS = 2_000;
+
+function jobKey(id) {
+  return `jobs/${id}.json`;
+}
+
+function isFinishedJob(job) {
+  return job.status === "complete" || job.status === "failed";
+}
+
+function trackJob(job, dataDirectory) {
+  jobs.set(job.id, job);
+  const store = storeFor(dataDirectory);
+  let saved = "";
+  let saving = Promise.resolve();
+  const save = () => {
+    saving = saving.then(async () => {
+      const snapshot = JSON.stringify(publicJob(job));
+      if (snapshot === saved) return;
+      saved = snapshot;
+      await store.write(jobKey(job.id), JSON.parse(snapshot));
+    }).catch(() => {});
+    return saving;
+  };
+  void save();
+  const timer = setInterval(() => {
+    const finished = isFinishedJob(job);
+    void save();
+    if (finished) clearInterval(timer);
+  }, JOB_SNAPSHOT_INTERVAL_MS);
+  timer.unref();
+}
+
+async function findJob(dataDirectory, id) {
+  if (jobs.has(id)) return publicJob(jobs.get(id));
+  const document = await storeFor(dataDirectory).read(jobKey(id));
+  if (!document) return null;
+  const job = document.value;
+  if (isFinishedJob(job)) return job;
+  return {
+    ...job,
+    status: "failed",
+    phase: "failed",
+    detail: "Gathering stopped",
+    error: "The server restarted before this finished. Start it again to gather the remaining teams."
   };
 }
 
@@ -484,8 +570,14 @@ export async function runScoutingJob(
   runUtrCommand,
   runSingleJob = runJob
 ) {
-  await runSingleJob(job, runUtrCommand);
-  if (job.status !== "complete") return;
+  // A home team already in the season is reused rather than gathered into a
+  // second folder; Refresh data updates it in place.
+  if (job.reuseHome) {
+    job.status = "complete";
+  } else {
+    await runSingleJob(job, runUtrCommand);
+    if (job.status !== "complete") return;
+  }
 
   job.collectedTeamCount = 1;
   if (job.teamType !== "home") return;
@@ -496,7 +588,9 @@ export async function runScoutingJob(
     job.progress = 95;
     job.detail = "Discovering league opponents from the confirmed home team";
     const dataset = await readJson(job.outputPath);
-    if (job.eventCollectionId && Array.isArray(dataset.leagueSchedule)) {
+    // A reused home team's schedule was confirmed when it was gathered, and
+    // may since have been replaced by an imported one.
+    if (!job.reuseHome && job.eventCollectionId && Array.isArray(dataset.leagueSchedule)) {
       try {
         await confirmEventSchedule(job.dataDirectory, {
           collectionId: job.eventCollectionId,
@@ -528,14 +622,18 @@ export async function runScoutingJob(
         }])
     ).values()];
     job.discoveredOpponentCount = leagueTeams.length;
+    // Opponents already in the season are kept; only missing ones are gathered.
+    const inSeason = await seasonTeamsByProfile(job.dataDirectory, job.eventCollectionId);
+    const missingTeams = leagueTeams.filter(team => !inSeason.has(teamProfileKey(team.url)));
+    job.collectedTeamCount += leagueTeams.length - missingTeams.length;
 
     const issues = job.warning ? [job.warning] : [];
-    for (const [index, team] of leagueTeams.entries()) {
+    for (const [index, team] of missingTeams.entries()) {
       job.status = "running";
       job.phase = "tennisrecord";
-      job.progress = 95 + Math.floor((index / Math.max(leagueTeams.length, 1)) * 4);
+      job.progress = 95 + Math.floor((index / Math.max(missingTeams.length, 1)) * 4);
       job.detail =
-        `Gathering league opponent ${index + 1} of ${leagueTeams.length}: ${team.name}`;
+        `Gathering league opponent ${index + 1} of ${missingTeams.length}: ${team.name}`;
       const createdAt = new Date();
       const collectionName = collectionFolderName(
         team.url,
@@ -580,7 +678,9 @@ export async function runScoutingJob(
     job.progress = 100;
     job.detail = issues.length
       ? `Gathered ${job.collectedTeamCount} of ${leagueTeams.length + 1} league teams`
-      : `Gathered the home team and ${leagueTeams.length} league opponents`;
+      : missingTeams.length < leagueTeams.length || job.reuseHome
+        ? `All ${leagueTeams.length + 1} league teams are in this season; gathered ${missingTeams.length} missing`
+        : `Gathered the home team and ${leagueTeams.length} league opponents`;
     job.completedAt = new Date().toISOString();
     job.warning = issues.length
       ? `Some teams need attention: ${issues.join("; ")}`
@@ -981,16 +1081,24 @@ export function createAppServer(options = {}) {
           eventCollectionId = collection.id;
         }
         const createdAt = new Date();
-        const collectionName = collectionFolderName(
-          teamUrl,
-          ratingSelectionSlug(ratingSelections),
-          createdAt
-        );
+        const seasonHome = teamType === "home"
+          ? (await seasonTeamsByProfile(dataDirectory, eventCollectionId))
+            .get(teamProfileKey(teamUrl)) ?? null
+          : null;
+        const collectionName = seasonHome
+          ? seasonHome.id.replace(/^collections\//, "")
+          : collectionFolderName(
+            teamUrl,
+            ratingSelectionSlug(ratingSelections),
+            createdAt
+          );
         const job = {
           id,
           kind: teamType === "home" ? "league-collection" : "collection",
           collectionName,
-          catalogTeamId: `collections/${collectionName}`,
+          catalogTeamId: seasonHome?.id ?? `collections/${collectionName}`,
+          teamId: seasonHome?.id,
+          reuseHome: Boolean(seasonHome),
           eventCollectionId,
           competitionLevel,
           dataDirectory,
@@ -1000,17 +1108,16 @@ export function createAppServer(options = {}) {
           status: "queued",
           phase: "queued",
           progress: 2,
-          detail: "Preparing collection",
+          detail: seasonHome
+            ? "Looking for opponents this season is missing"
+            : "Preparing collection",
           createdAt: createdAt.toISOString(),
-          outputPath: join(
-            dataDirectory,
-            "collections",
-            collectionName,
-            "team-data.json"
-          ),
+          outputPath: seasonHome
+            ? join(dataDirectory, seasonHome.id, "team-data.json")
+            : join(dataDirectory, "collections", collectionName, "team-data.json"),
           log: []
         };
-        jobs.set(id, job);
+        trackJob(job, dataDirectory);
         void runScoutingJob(job, runUtrCommand, runCollectionJob);
         json(response, 202, publicJob(job));
         return;
@@ -1078,7 +1185,7 @@ export function createAppServer(options = {}) {
           ),
           log: []
         };
-        jobs.set(id, job);
+        trackJob(job, dataDirectory);
         void runRefreshJob(job, runUtrCommand);
         json(response, 202, publicJob(job));
         return;
@@ -1260,6 +1367,34 @@ export function createAppServer(options = {}) {
         return;
       }
 
+      const teamRolesMatch = pathname.match(
+        /^\/api\/team-roles\/([a-zA-Z0-9-]+)$/
+      );
+      if (request.method === "GET" && teamRolesMatch) {
+        await getTeamCollection(dataDirectory, teamRolesMatch[1]);
+        json(response, 200, await getTeamRoles(dataDirectory, teamRolesMatch[1]));
+        return;
+      }
+      if (request.method === "PUT" && teamRolesMatch) {
+        const collectionId = teamRolesMatch[1];
+        const collection = await getTeamCollection(dataDirectory, collectionId);
+        const body = await readBody(request);
+        const seasonDatasetIds = new Set(collection.teamDatasetIds);
+        const teamIds = (await listTeamCatalog(dataDirectory))
+          .filter(team => seasonDatasetIds.has(team.datasetId))
+          .map(team => team.id);
+        try {
+          json(response, 200, await saveTeamRoles(dataDirectory, collectionId, body, {
+            teamIds,
+            baseRevision: body.baseRevision
+          }));
+        } catch (error) {
+          if (!(error instanceof TeamRolesConflictError)) throw error;
+          json(response, 409, { error: error.message, current: error.current });
+        }
+        return;
+      }
+
       const collectionMatch = pathname.match(
         /^\/api\/team-collections\/([a-zA-Z0-9-]+)$/
       );
@@ -1269,6 +1404,7 @@ export function createAppServer(options = {}) {
           collectionMatch[1]
         );
         await deleteEventSchedule(dataDirectory, collectionMatch[1]);
+        await deleteTeamRoles(dataDirectory, collectionMatch[1]);
         json(response, 200, result);
         return;
       }
@@ -1326,6 +1462,48 @@ export function createAppServer(options = {}) {
         return;
       }
 
+      if (request.method === "GET" && pathname === "/api/threat-board") {
+        const teamId = requestUrl.searchParams.get("team");
+        if (!teamId) throw new Error("Choose a team dataset.");
+        const eligibilityScope =
+          requestUrl.searchParams.get("eligibility") ??
+          await eligibilityScopeForTeam(dataDirectory, teamId);
+        const [dataset, analysis] = await Promise.all([
+          readCatalogTeam(dataDirectory, teamId),
+          getTeamAnalysis(dataDirectory, teamId, eligibilityScope)
+        ]);
+        json(response, 200, { teamId, ...buildThreatBoard({ dataset, analysis }) });
+        return;
+      }
+
+      if (request.method === "POST" && pathname === "/api/matchup") {
+        const body = await readBody(request);
+        if (typeof body.ourTeamId !== "string" || typeof body.opponentTeamId !== "string") {
+          throw new Error("Choose Our team and an opponent.");
+        }
+        if (body.ourTeamId === body.opponentTeamId) {
+          throw new Error("Our team and the opponent must be different teams.");
+        }
+        const eligibilityScope =
+          body.eligibility ??
+          await eligibilityScopeForTeam(dataDirectory, body.ourTeamId);
+        const [ourData, opponentData, ourAnalysis, opponentAnalysis] =
+          await Promise.all([
+            readCatalogTeam(dataDirectory, body.ourTeamId),
+            readCatalogTeam(dataDirectory, body.opponentTeamId),
+            getTeamAnalysis(dataDirectory, body.ourTeamId, eligibilityScope),
+            getTeamAnalysis(dataDirectory, body.opponentTeamId, eligibilityScope)
+          ]);
+        json(response, 200, buildMatchup({
+          ourData,
+          ourAnalysis,
+          opponentData,
+          opponentAnalysis,
+          draft: body.draft ?? null
+        }));
+        return;
+      }
+
       if (request.method === "GET" && pathname === "/api/team-data") {
         const teamId = requestUrl.searchParams.get("team");
         if (!teamId) throw new Error("Choose a team dataset.");
@@ -1344,9 +1522,9 @@ export function createAppServer(options = {}) {
 
       const jobMatch = pathname.match(/^\/api\/jobs\/([a-f0-9-]+)$/);
       if (request.method === "GET" && jobMatch) {
-        const job = jobs.get(jobMatch[1]);
+        const job = await findJob(dataDirectory, jobMatch[1]);
         if (!job) return json(response, 404, { error: "Collection job not found." });
-        json(response, 200, publicJob(job));
+        json(response, 200, job);
         return;
       }
 

@@ -921,6 +921,75 @@ export function buildRatingCeilingPrediction({
   };
 }
 
+/**
+ * The three opponent scenarios a Match Day Card tests Our lineup against:
+ * most likely and alternate (history plus onsite evidence) and the rating
+ * ceiling. `activeRoster` is the opponent's active roster (national roster
+ * when one was imported); history-based lines drop players not on it.
+ */
+export function buildOpponentScenarios({
+  opponentData,
+  opponentAnalysis,
+  activeRoster,
+  leagueFormat = "single_gender",
+  evidence = []
+}) {
+  const genderByName = new Map(
+    activeRoster.map(player => [player.name, player.gender])
+  );
+  const ntrpByName = new Map(
+    activeRoster.map(player => [player.name, player.ntrp?.level])
+  );
+  const maxCombinedNtrp = Number(opponentData.team?.level);
+  const evidencePredictions = buildOnsitePredictions(
+    opponentAnalysis.lineupPredictions?.predictions ?? [],
+    evidence
+  ).map(prediction => ({
+    ...prediction,
+    lines: prediction.lines.map(line => ({
+      ...line,
+      players: line.players.flatMap(name => {
+        const activePlayer = activeRoster.find(player =>
+          player.name.localeCompare(name, undefined, {
+            sensitivity: "base"
+          }) === 0
+        );
+        return activePlayer ? [activePlayer.name] : [];
+      })
+    }))
+  })).filter(prediction =>
+    leagueFormat !== "mixed" ||
+    prediction.lines.every(line =>
+      validateMixedPair(
+        line.players ?? [],
+        genderByName,
+        ntrpByName,
+        maxCombinedNtrp
+      ).valid
+    )
+  );
+  const ratingCeiling = buildRatingCeilingPrediction({
+    roster: activeRoster,
+    eligibilityPlayers: opponentAnalysis.eligibility?.players ?? [],
+    pairs: opponentAnalysis.doubles?.pairs ?? [],
+    matches: opponentData.matches ?? [],
+    leagueFormat,
+    maxCombinedNtrp
+  });
+  const mostLikely = evidencePredictions[0]
+    ? { ...evidencePredictions[0], scenarioType: "most_likely" }
+    : null;
+  const alternate = evidencePredictions[1]
+    ? { ...evidencePredictions[1], scenarioType: "alternate" }
+    : null;
+  return [mostLikely, ratingCeiling, alternate]
+    .filter(Boolean)
+    .map((prediction, index) => ({
+      ...prediction,
+      rank: index + 1
+    }));
+}
+
 export function cloneMatchCard(card, input) {
   const now = input.now ?? new Date().toISOString();
   return {
@@ -1098,6 +1167,68 @@ export function challengeLineupAgainstPredictions({
       risks: risks.length ? risks : ["No clear rating disadvantage in this scenario."]
     };
   });
+}
+
+// Rosters and scorecards disagree on name case ("Emma SEGAL").
+function playerKey(name) {
+  return name.trim().toLowerCase();
+}
+
+function samePlayers(a = [], b = []) {
+  const left = a.map(playerKey).sort();
+  const right = b.map(playerKey).sort();
+  return left.length === right.length && left.every((name, index) => name === right[index]);
+}
+
+/**
+ * What changes when the opponent fields `other` instead of `base` (both
+ * challenges of the same Our lineup): the courts with different opponents,
+ * how Our edge moves on each, who comes in or drops out, and the score change.
+ */
+export function scenarioDifferences(base, other) {
+  const baseByCourt = new Map(base.comparisons.map(item => [item.court, item]));
+  const courts = other.comparisons
+    .map(comparison => {
+      const before = baseByCourt.get(comparison.court);
+      return {
+        court: comparison.court,
+        opponentPlayers: comparison.opponentPlayers,
+        baseOpponentPlayers: before?.opponentPlayers ?? [],
+        edge: comparison.edge,
+        baseEdge: before?.edge ?? null
+      };
+    })
+    .filter(item => !samePlayers(item.opponentPlayers, item.baseOpponentPlayers));
+  const names = comparisons => new Map(comparisons
+    .flatMap(item => item.opponentPlayers)
+    .map(name => [playerKey(name), name]));
+  const baseNames = names(base.comparisons);
+  const otherNames = names(other.comparisons);
+  const playersIn = [...otherNames].filter(([key]) => !baseNames.has(key)).map(([, name]) => name);
+  const playersOut = [...baseNames].filter(([key]) => !otherNames.has(key)).map(([, name]) => name);
+  const scoreDelta = other.scorePercent - base.scorePercent;
+  const baseName = base.scenarioType === "rating_ceiling"
+    ? "the ratings lineup"
+    : "the most likely lineup";
+  const read = courts.length
+    ? [
+        `${courts.length} of ${other.comparisons.length} courts differ from ${baseName}: ${courts.map(item => item.court).join(", ")}.`,
+        playersIn.length ? `Brings in ${playersIn.join(", ")}.` : null,
+        playersOut.length ? `Leaves out ${playersOut.join(", ")}.` : null,
+        scoreDelta === 0
+          ? "Our score is unchanged."
+          : `Our score is ${Math.abs(scoreDelta)} points ${scoreDelta > 0 ? "higher" : "lower"}.`
+      ].filter(Boolean).join(" ")
+    : `Same opponents on every court as ${baseName}.`;
+  return {
+    baseRank: base.rank,
+    changedCourts: courts.map(item => item.court),
+    courts,
+    playersIn,
+    playersOut,
+    scoreDelta,
+    read
+  };
 }
 
 export function summarizeStackingStrategy(matchStacking = []) {

@@ -47,7 +47,8 @@
         "match schedule",
         "lineups",
         "scores",
-        "historical match DR"
+        "historical match DR",
+        "player gender"
       ]
     },
     {
@@ -134,7 +135,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Meagan Milca",
@@ -203,7 +205,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Keith Green",
@@ -272,7 +275,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Khin Oo",
@@ -341,7 +345,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Andy Wang",
@@ -410,7 +415,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Simon Swifter",
@@ -479,7 +485,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Dinesh Parimi",
@@ -548,7 +555,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Anthony Peterson",
@@ -617,7 +625,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Alexis Gentry",
@@ -686,7 +695,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Sarah Smith",
@@ -755,7 +765,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Elia Bishara",
@@ -824,7 +835,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Alexia Cosatto",
@@ -893,7 +905,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "James Harvey",
@@ -962,7 +975,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Stephanie Hughes",
@@ -1031,7 +1045,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Kurt Nikaitani",
@@ -1100,7 +1115,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Divya Parimi",
@@ -1169,7 +1185,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     }
   ],
   "opponents": [

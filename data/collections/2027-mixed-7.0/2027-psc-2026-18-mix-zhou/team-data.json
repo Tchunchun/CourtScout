@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "datasetId": "2027-psc-2026-18-mix-zhou",
-  "generatedAt": "2026-09-30T18:14:51.000Z",
+  "generatedAt": "2026-10-29T00:45:22.838Z",
   "collectionStage": "step_1_complete",
   "team": {
     "name": "PSC-2026 18+ Mix-Zhou",
@@ -47,7 +47,8 @@
         "match schedule",
         "lineups",
         "scores",
-        "historical match DR"
+        "historical match DR",
+        "player gender"
       ]
     },
     {
@@ -137,7 +138,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Heidi Richter",
@@ -209,7 +211,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Emiko Way",
@@ -281,7 +284,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Miho Slavik",
@@ -353,7 +357,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Jessie Song",
@@ -425,7 +430,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Zhe Li",
@@ -497,7 +503,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Celia Zhu",
@@ -569,7 +576,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Yue Zhao",
@@ -641,7 +649,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Jiaofeng Xu",
@@ -713,7 +722,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Arav Singhal",
@@ -785,7 +795,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Ji Zhang",
@@ -857,7 +868,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "David Zhao",
@@ -929,7 +941,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Joe Zhou",
@@ -1001,7 +1014,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Davis Feng",
@@ -1073,7 +1087,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Zhihang Liu",
@@ -1145,7 +1160,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     }
   ],
   "opponents": [

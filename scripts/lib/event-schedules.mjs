@@ -1,9 +1,7 @@
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { writeJsonAtomic } from "./io.mjs";
+import { DEFAULT_WORKSPACE_ID, storeFor, workspaceKey } from "./store.mjs";
 
-const FILE_NAME = "event-schedules.json";
+const STORE_KEY = workspaceKey(DEFAULT_WORKSPACE_ID, "event-schedules.json");
 const EVENT_TYPES = new Set(["local", "sectionals", "nationals", "other"]);
 const ELIGIBILITY_SCOPES = new Set(["local", "sectional", "national"]);
 const MATCH_STATUSES = new Set([
@@ -14,10 +12,6 @@ const MATCH_STATUSES = new Set([
 ]);
 const DESIGNATIONS = new Set(["home", "away", "neutral", "unknown"]);
 const writeQueues = new Map();
-
-function storeFile(dataDirectory) {
-  return join(dataDirectory, FILE_NAME);
-}
 
 function emptyStore() {
   return { version: 1, schedules: [] };
@@ -31,14 +25,12 @@ function normalizeStore(value) {
 }
 
 async function readStore(dataDirectory) {
-  try {
-    return normalizeStore(JSON.parse(
-      await readFile(storeFile(dataDirectory), "utf8")
-    ));
-  } catch (error) {
-    if (error.code === "ENOENT") return emptyStore();
-    throw error;
-  }
+  const document = await storeFor(dataDirectory).read(STORE_KEY);
+  return document ? normalizeStore(document.value) : emptyStore();
+}
+
+function writeStore(dataDirectory, store) {
+  return storeFor(dataDirectory).write(STORE_KEY, store);
 }
 
 function queuedWrite(dataDirectory, operation) {
@@ -172,7 +164,7 @@ export async function deleteEventSchedule(dataDirectory, collectionId) {
       item => item.collectionId !== collectionId
     );
     if (store.schedules.length !== before) {
-      await writeJsonAtomic(storeFile(dataDirectory), store);
+      await writeStore(dataDirectory, store);
     }
   });
 }
@@ -242,7 +234,7 @@ export async function confirmEventSchedule(dataDirectory, input) {
     };
     if (existingIndex >= 0) store.schedules[existingIndex] = schedule;
     else store.schedules.push(schedule);
-    await writeJsonAtomic(storeFile(dataDirectory), store);
+    await writeStore(dataDirectory, store);
     return { schedule, reconciliation };
   });
 }
@@ -272,7 +264,7 @@ export async function linkScheduledOpponent(
     match.linkedOpponentTeamId = teamId || null;
     match.updatedAt = new Date().toISOString();
     schedule.updatedAt = match.updatedAt;
-    await writeJsonAtomic(storeFile(dataDirectory), store);
+    await writeStore(dataDirectory, store);
     return schedule;
   });
 }

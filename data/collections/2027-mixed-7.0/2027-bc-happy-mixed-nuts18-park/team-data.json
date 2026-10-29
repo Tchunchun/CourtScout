@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "datasetId": "2027-bc-happy-mixed-nuts18-park",
-  "generatedAt": "2026-09-30T18:14:51.000Z",
+  "generatedAt": "2026-10-29T00:50:32.000Z",
   "collectionStage": "step_1_complete",
   "team": {
     "name": "BC-Happy Mixed Nuts18-Park",
@@ -47,7 +47,8 @@
         "match schedule",
         "lineups",
         "scores",
-        "historical match DR"
+        "historical match DR",
+        "player gender"
       ]
     },
     {
@@ -137,7 +138,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Thuong Pham",
@@ -209,7 +211,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Carolyn Frederick",
@@ -281,7 +284,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Bryan Yu",
@@ -353,7 +357,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Derek Lee",
@@ -425,7 +430,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "kwang kim",
@@ -497,7 +503,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Carl Ng",
@@ -569,7 +576,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Michael Parker",
@@ -641,7 +649,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Brendalen Hutchinson",
@@ -713,7 +722,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Chris Martin",
@@ -785,7 +795,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Jingjing Cai",
@@ -857,7 +868,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Elizabeth Norris",
@@ -929,7 +941,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Rutchel Lois Abella",
@@ -1001,7 +1014,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Esther Choy",
@@ -1073,7 +1087,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Dan Truong",
@@ -1145,7 +1160,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Laurie Jacobson",
@@ -1217,7 +1233,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Tereza Birch",
@@ -1289,7 +1306,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Shawn Li",
@@ -1361,7 +1379,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Wellesley Parker",
@@ -1433,7 +1452,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Kelly Luo",
@@ -1505,7 +1525,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Erin Park",
@@ -1577,7 +1598,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     }
   ],
   "opponents": [

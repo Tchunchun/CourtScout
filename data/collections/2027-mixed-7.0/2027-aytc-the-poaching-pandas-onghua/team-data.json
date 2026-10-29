@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0.0",
   "datasetId": "2027-aytc-the-poaching-pandas-onghua",
-  "generatedAt": "2026-09-30T18:14:51.000Z",
+  "generatedAt": "2026-10-29T00:50:32.000Z",
   "collectionStage": "step_1_complete",
   "team": {
     "name": "AYTC-The Poaching Pandas-Ong/Hua",
@@ -47,7 +47,8 @@
         "match schedule",
         "lineups",
         "scores",
-        "historical match DR"
+        "historical match DR",
+        "player gender"
       ]
     },
     {
@@ -137,7 +138,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Amanda Lin",
@@ -209,7 +211,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "SarahJoan Salvador",
@@ -281,7 +284,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Eva Lin",
@@ -353,7 +357,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Kai Deng",
@@ -425,7 +430,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Henry Hua",
@@ -497,7 +503,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Ellen Acuario",
@@ -569,7 +576,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Guo Feng",
@@ -641,7 +649,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Jessie Drakulich",
@@ -713,7 +722,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Jason Bak",
@@ -785,7 +795,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Andrew Shin",
@@ -857,7 +868,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Edie Mei",
@@ -929,7 +941,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     },
     {
       "name": "Gene Chu",
@@ -1001,7 +1014,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Dylan Kan",
@@ -1105,7 +1119,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Men"
     },
     {
       "name": "Sarah Lu",
@@ -1177,7 +1192,8 @@
       "nationalsEligibility": {
         "status": "not_confirmed",
         "display": "Not confirmed"
-      }
+      },
+      "gender": "Women"
     }
   ],
   "opponents": [

@@ -56,7 +56,10 @@ Event collections are shared through `data/team-collections.json`. Each scouting
 run creates a temporary event collection. An opponent-team run gathers only the
 pasted profile. A home-team run also discovers every dated league opponent on
 the TennisRecord schedule and gathers all of those teams into the same
-collection.
+collection. Running a home team again into a collection that already has it
+reuses the teams there, keeps its confirmed schedule, and gathers only the
+opponents the collection is missing; use **Refresh data** to update a gathered
+team.
 
 Team analysis is saved beside each raw dataset as
 `analysis/<eligibility-scope>.json`. Match Cards reuse a saved analysis while it
@@ -74,14 +77,37 @@ row by row, reconciled against the confirmed schedule, and confirmed without
 discarding cards for postponed or removed matches. Manual match entry remains
 available as a fallback.
 Unfiled teams and the aggregate **All gathered teams** view do not have team
-roles. Team roles are cached in the current browser. Match Day Cards synchronize
-through `data/match-cards.json` and retain browser storage as an offline cache.
+roles. Team roles are shared with the iPhone app through `data/team-roles.json`,
+with a revision per season so a stale device cannot overwrite a newer choice;
+the browser keeps a copy for offline use. Match Day Cards synchronize through
+`data/match-cards.json` and retain browser storage as an offline cache.
+Seasons, schedules, team roles, Match Day Cards, and gathering-job progress
+(`data/jobs/`) are read and written through one storage layer
+(`scripts/lib/store.mjs`), so they can move to cloud storage as a copy; see
+`requirements/ios-app-plan.md`.
 
 For an existing gathered team, use **Refresh data** to repull TennisRecord, UTR,
 or both. Unselected sources and curated player roles/notes are preserved.
 Refresh runs against a temporary copy, validates the result, and only then
 replaces the existing dataset; a failed refresh leaves the previous data
 available.
+
+## Missing player genders
+
+Mixed lineup predictions need each player's gender, because every Mixed pair
+is one man and one woman. Datasets collected before the collector read player
+profiles have none. `npm run backfill:genders -- --input <team-data.json>`
+reads the TennisRecord profile of each player whose gender is missing and
+records it, leaving every other field alone.
+
+## UTR screenshot proposals (prototype)
+
+`npm run utr:screenshot -- --dataset <team-data.json> --image <screenshot.png>`
+reads a UTR profile or team-roster screenshot with OCR and prints proposed
+singles/doubles UTR matches for the dataset's players, each with a status
+(`proposed`, `needs_review`, `ambiguous`, `duplicate_match`, `no_match`) and a
+confidence. It never writes ratings into the dataset; masked displays such as
+`3.xx` stay masked. Use `--text <file>` to parse OCR text you already have.
 
 ## Validation
 

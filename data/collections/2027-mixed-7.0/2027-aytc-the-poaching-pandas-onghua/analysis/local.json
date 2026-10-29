@@ -1,10 +1,10 @@
 {
   "analysisVersion": "1.3.0",
-  "generatedAt": "2026-09-30T23:08:37.355Z",
+  "generatedAt": "2026-10-29T00:50:33.530Z",
   "dataset": {
     "datasetId": "2027-aytc-the-poaching-pandas-onghua",
     "schemaVersion": "2.0.0",
-    "generatedAt": "2026-09-30T18:14:51.000Z",
+    "generatedAt": "2026-10-29T00:50:32.000Z",
     "collectionStage": "step_1_complete",
     "finalReportReady": true
   },
@@ -3566,8 +3566,7 @@
   },
   "disclosures": {
     "warnings": [
-      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage.",
-      "15 mixed-league player genders are unresolved; observed pairs remain available, but gender validation is limited."
+      "TennisRecord may omit Sectionals or later adjudications. Final reports must disclose unreconciled official coverage."
     ],
     "sources": [
       {
@@ -3584,7 +3583,8 @@
           "match schedule",
           "lineups",
           "scores",
-          "historical match DR"
+          "historical match DR",
+          "player gender"
         ]
       },
       {

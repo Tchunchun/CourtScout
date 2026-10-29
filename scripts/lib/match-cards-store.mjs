@@ -1,13 +1,7 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { writeJsonAtomic } from "./io.mjs";
+import { DEFAULT_WORKSPACE_ID, storeFor, workspaceKey } from "./store.mjs";
 
-const FILE_NAME = "match-cards.json";
+const STORE_KEY = workspaceKey(DEFAULT_WORKSPACE_ID, "match-cards.json");
 let writeQueue = Promise.resolve();
-
-function filePath(dataDirectory) {
-  return join(dataDirectory, FILE_NAME);
-}
 
 function validCards(cards) {
   if (!Array.isArray(cards)) throw new Error("Match cards must be an array.");
@@ -25,22 +19,19 @@ function validCards(cards) {
 }
 
 export async function readMatchCards(dataDirectory) {
-  try {
-    const store = JSON.parse(await readFile(filePath(dataDirectory), "utf8"));
-    if (!store || store.version !== 1) {
-      throw new Error("Match cards file is invalid.");
-    }
-    return validCards(store.cards);
-  } catch (error) {
-    if (error.code === "ENOENT") return [];
-    throw error;
+  const document = await storeFor(dataDirectory).read(STORE_KEY);
+  if (!document) return [];
+  const store = document.value;
+  if (!store || store.version !== 1) {
+    throw new Error("Match cards file is invalid.");
   }
+  return validCards(store.cards);
 }
 
 export function writeMatchCards(dataDirectory, cards) {
   const validated = validCards(cards);
   const operation = async () => {
-    await writeJsonAtomic(filePath(dataDirectory), {
+    await storeFor(dataDirectory).write(STORE_KEY, {
       version: 1,
       cards: validated,
       updatedAt: new Date().toISOString()

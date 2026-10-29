@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="40 40 180 180">
+  <!-- Concept A, "Scout lens". Full-bleed square: iOS applies the rounded mask,
+       so the artwork is scaled in to keep the handle clear of the corners. -->
+  <rect x="40" y="40" width="180" height="180" fill="#1F6B4F"/>
+  <g transform="translate(130 130) scale(0.86) translate(-139.5 -136)">
+    <rect x="75" y="60" width="110" height="140" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+    <line x1="75" y1="95" x2="185" y2="95" stroke="#FFFFFF" stroke-width="3"/>
+    <line x1="75" y1="165" x2="185" y2="165" stroke="#FFFFFF" stroke-width="3"/>
+    <line x1="130" y1="95" x2="130" y2="165" stroke="#FFFFFF" stroke-width="3"/>
+    <line x1="67" y1="130" x2="193" y2="130" stroke="#FFFFFF" stroke-width="6"/>
+    <line x1="186" y1="186" x2="206" y2="206" stroke="#D7F04B" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="165" cy="165" r="30" fill="#D7F04B" stroke="#1F6B4F" stroke-width="6"/>
+    <path d="M142 148 C158 158 158 172 142 182" fill="none" stroke="#1F6B4F" stroke-width="3"/>
+    <path d="M188 148 C172 158 172 172 188 182" fill="none" stroke="#1F6B4F" stroke-width="3"/>
+  </g>
+</svg>

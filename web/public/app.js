@@ -17,8 +17,7 @@ import {
   topDoublesPairsTable
 } from "./render.mjs";
 import {
-  buildRatingCeilingPrediction,
-  buildOnsitePredictions,
+  buildOpponentScenarios,
   challengeLineupAgainstPredictions,
   cloneMatchCard,
   compareCourtLine,
@@ -412,27 +411,99 @@ function loadStoredTeamWorkspace() {
     state.teamWorkspaceStorageError =
       `Team roles could not be read: ${error.message}`;
   }
+  void syncTeamWorkspace(state.activeCollectionId);
+}
+
+// Team roles live on the server, shared with the phone; localStorage is this
+// browser's offline copy. Saves are queued so each one carries the revision
+// the previous one returned.
+const teamRoleRevisions = new Map();
+let teamRoleSaves = Promise.resolve();
+
+function cacheTeamWorkspace(collectionId, workspace) {
+  try {
+    localStorage.setItem(
+      teamWorkspaceStorageKey(collectionId),
+      JSON.stringify(workspace)
+    );
+  } catch {
+    // The server copy is the one that matters.
+  }
+}
+
+function adoptTeamWorkspace(collectionId, roles) {
+  teamRoleRevisions.set(collectionId, roles.revision);
+  const workspace = {
+    ourTeamId: roles.ourTeamId,
+    scheduledOpponentIds: roles.scheduledOpponentIds
+  };
+  cacheTeamWorkspace(collectionId, workspace);
+  if (collectionId !== state.activeCollectionId) return;
+  if (JSON.stringify(workspace) === JSON.stringify(state.teamWorkspace)) return;
+  state.teamWorkspace = workspace;
+  renderTeamList();
+  renderReportsTeamList();
+  updateTeamWorkspaceActions();
+  if (!views.matchCards.hidden && !state.activeMatchCardId) {
+    renderMatchCardsHome();
+  }
+}
+
+async function syncTeamWorkspace(collectionId) {
+  if (!collectionId) return;
+  try {
+    const roles = await api(`/api/team-roles/${encodeURIComponent(collectionId)}`);
+    if (roles.saved) {
+      adoptTeamWorkspace(collectionId, roles);
+      return;
+    }
+    teamRoleRevisions.set(collectionId, roles.revision);
+    // Roles chosen before they were shared: hand this browser's copy over.
+    const local = localStorage.getItem(teamWorkspaceStorageKey(collectionId));
+    if (local && collectionId === state.activeCollectionId) {
+      saveTeamWorkspace(collectionId, state.teamWorkspace);
+    }
+  } catch {
+    // Offline or not a server season: keep the local copy.
+  }
+}
+
+function saveTeamWorkspace(collectionId, workspace) {
+  teamRoleSaves = teamRoleSaves.then(async () => {
+    try {
+      const roles = await api(`/api/team-roles/${encodeURIComponent(collectionId)}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          ...workspace,
+          baseRevision: teamRoleRevisions.get(collectionId)
+        })
+      });
+      teamRoleRevisions.set(collectionId, roles.revision);
+    } catch (error) {
+      // A newer save from another device wins; show it.
+      await syncTeamWorkspace(collectionId);
+      if (collectionId === state.activeCollectionId) {
+        state.teamWorkspaceStorageError = error.status === 409
+          ? "Team roles were changed on another device, so the latest are shown."
+          : `Team roles are saved in this browser only: ${error.message}`;
+        updateTeamWorkspaceActions();
+      }
+    }
+  });
+  return teamRoleSaves;
 }
 
 function persistTeamWorkspace() {
-  const storageKey = teamWorkspaceStorageKey();
-  if (!storageKey) {
+  const collectionId = state.activeCollectionId;
+  if (!collectionId) {
     state.teamWorkspaceStorageError =
       "Choose an event collection before assigning team roles.";
     return false;
   }
-  try {
-    localStorage.setItem(
-      storageKey,
-      JSON.stringify(state.teamWorkspace)
-    );
-    state.teamWorkspaceStorageError = null;
-    return true;
-  } catch (error) {
-    state.teamWorkspaceStorageError =
-      `Team roles could not be saved locally: ${error.message}`;
-    return false;
-  }
+  cacheTeamWorkspace(collectionId, state.teamWorkspace);
+  state.teamWorkspaceStorageError = null;
+  void saveTeamWorkspace(collectionId, state.teamWorkspace);
+  return true;
 }
 
 function workspaceRole(teamId) {
@@ -636,7 +707,11 @@ async function api(path, options = {}) {
     }
   });
   const body = await response.json();
-  if (!response.ok) throw new Error(body.error ?? "Something went wrong.");
+  if (!response.ok) {
+    const error = new Error(body.error ?? "Something went wrong.");
+    error.status = response.status;
+    throw error;
+  }
   return body;
 }
 
@@ -2469,62 +2544,13 @@ function evidenceForCard(card) {
 }
 
 function matchCardPredictions(card, context) {
-  const activeRoster = activeNationalRoster(context.opponentData);
-  const genderByName = new Map(
-    activeRoster.map(player => [player.name, player.gender])
-  );
-  const ntrpByName = new Map(
-    activeRoster.map(player => [player.name, player.ntrp?.level])
-  );
-  const maxCombinedNtrp = Number(context.opponentData.team?.level);
-  const evidencePredictions = buildOnsitePredictions(
-    context.opponentAnalysis.lineupPredictions?.predictions ?? [],
-    evidenceForCard(card)
-  ).map(prediction => ({
-    ...prediction,
-    lines: prediction.lines.map(line => ({
-      ...line,
-      players: line.players.flatMap(name => {
-        const activePlayer = activeRoster.find(player =>
-          player.name.localeCompare(name, undefined, {
-            sensitivity: "base"
-          }) === 0
-        );
-        return activePlayer ? [activePlayer.name] : [];
-      })
-    }))
-  })).filter(prediction =>
-    card.leagueFormat !== "mixed" ||
-    prediction.lines.every(line =>
-      validateMixedPair(
-        line.players ?? [],
-        genderByName,
-        ntrpByName,
-        maxCombinedNtrp
-      ).valid
-    )
-  );
-  const ratingCeiling = buildRatingCeilingPrediction({
-    roster: activeRoster,
-    eligibilityPlayers:
-      context.opponentAnalysis.eligibility?.players ?? [],
-    pairs: context.opponentAnalysis.doubles?.pairs ?? [],
-    matches: context.opponentData.matches ?? [],
+  return buildOpponentScenarios({
+    opponentData: context.opponentData,
+    opponentAnalysis: context.opponentAnalysis,
+    activeRoster: activeNationalRoster(context.opponentData),
     leagueFormat: card.leagueFormat,
-    maxCombinedNtrp
+    evidence: evidenceForCard(card)
   });
-  const mostLikely = evidencePredictions[0]
-    ? { ...evidencePredictions[0], scenarioType: "most_likely" }
-    : null;
-  const alternate = evidencePredictions[1]
-    ? { ...evidencePredictions[1], scenarioType: "alternate" }
-    : null;
-  return [mostLikely, ratingCeiling, alternate]
-    .filter(Boolean)
-    .map((prediction, index) => ({
-      ...prediction,
-      rank: index + 1
-    }));
 }
 
 function opponentPrediction(card, context, rank) {

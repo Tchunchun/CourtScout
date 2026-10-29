@@ -1,16 +1,10 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { randomUUID } from "node:crypto";
-import { writeJsonAtomic } from "./io.mjs";
+import { DEFAULT_WORKSPACE_ID, storeFor, workspaceKey } from "./store.mjs";
 
-const FILE_NAME = "team-collections.json";
+const STORE_KEY = workspaceKey(DEFAULT_WORKSPACE_ID, "team-collections.json");
 const writeQueues = new Map();
 const TEAM_COLLECTION_LEVELS = new Set(["local", "sectional", "national"]);
 const MATCH_DAY_OPPONENT_LIMIT = 4;
-
-function collectionFile(dataDirectory) {
-  return join(dataDirectory, FILE_NAME);
-}
 
 function normalizeStore(value) {
   if (!value || value.version !== 1 || !Array.isArray(value.collections)) {
@@ -142,14 +136,14 @@ function normalizeStoredCompetitionLevel(value, name) {
 }
 
 async function readStore(dataDirectory) {
-  try {
-    return normalizeStore(JSON.parse(
-      await readFile(collectionFile(dataDirectory), "utf8")
-    ));
-  } catch (error) {
-    if (error.code === "ENOENT") return { version: 1, collections: [] };
-    throw error;
-  }
+  const document = await storeFor(dataDirectory).read(STORE_KEY);
+  return document
+    ? normalizeStore(document.value)
+    : { version: 1, collections: [] };
+}
+
+function writeStore(dataDirectory, store) {
+  return storeFor(dataDirectory).write(STORE_KEY, store);
 }
 
 function queuedWrite(dataDirectory, operation) {
@@ -228,7 +222,7 @@ export async function createTeamCollection(
       }
     }
     store.collections.push(collection);
-    await writeJsonAtomic(collectionFile(dataDirectory), store);
+    await writeStore(dataDirectory, store);
     return collection;
   });
 }
@@ -248,7 +242,7 @@ export async function deleteTeamCollection(dataDirectory, collectionId) {
       throw error;
     }
     const [collection] = store.collections.splice(index, 1);
-    await writeJsonAtomic(collectionFile(dataDirectory), store);
+    await writeStore(dataDirectory, store);
     return { collection, collections: store.collections };
   });
 }
@@ -277,7 +271,7 @@ export async function renameTeamCollection(dataDirectory, collectionId, name) {
       throw error;
     }
     collection.name = normalizedName;
-    await writeJsonAtomic(collectionFile(dataDirectory), store);
+    await writeStore(dataDirectory, store);
     return { collection, collections: store.collections };
   });
 }
@@ -324,7 +318,7 @@ export async function assignTeamToCollection(
         collection.id === collectionId
       ).teamDatasetIds.push(datasetId);
     }
-    await writeJsonAtomic(collectionFile(dataDirectory), store);
+    await writeStore(dataDirectory, store);
     return store.collections;
   });
 }
