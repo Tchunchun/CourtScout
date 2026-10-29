@@ -1,0 +1,2820 @@
+{
+  "analysisVersion": "1.3.0",
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "dataset": {
+    "datasetId": "golden-mixed-sparse",
+    "schemaVersion": "2.0.0",
+    "generatedAt": "2026-01-01T00:00:00.000Z",
+    "collectionStage": "step_1_complete",
+    "finalReportReady": true
+  },
+  "team": {
+    "level": "7.0",
+    "gender": "Mixed",
+    "leagueFormat": "mixed",
+    "season": 2027,
+    "name": "Golden mixed-sparse",
+    "section": "Fixture Section",
+    "league": "Mixed League"
+  },
+  "summary": {
+    "rosterSize": 6,
+    "matches": 1,
+    "teamRecord": {
+      "wins": 0,
+      "losses": 1,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 1,
+      "winRate": 0
+    },
+    "courtRecord": {
+      "wins": 0,
+      "losses": 3,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 3,
+      "winRate": 0
+    },
+    "phases": {
+      "local": {
+        "matches": 1,
+        "teamRecord": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "courtRecord": {
+          "wins": 0,
+          "losses": 3,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 3,
+          "winRate": 0
+        }
+      }
+    }
+  },
+  "eligibility": {
+    "scope": "national",
+    "label": "National",
+    "rules": {
+      "computerRatedMatches": 3,
+      "selfRatedOrAppealedMatches": 4,
+      "computerRatedDefaultReceivedMayCount": 1,
+      "selfRatedOrAppealedDefaultsCount": false,
+      "disqualifiedPlayersAvailable": false
+    },
+    "summary": {
+      "rosterSize": 6,
+      "eligible": 0,
+      "ineligible": 6,
+      "unavailable": 0,
+      "unknown": 0
+    },
+    "dataQualityIssues": [
+      {
+        "player": "Player 03",
+        "code": "qualifying_appearances_mismatch",
+        "source": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "matchLedger": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "resolution": "roster_source_retained"
+      }
+    ],
+    "players": [
+      {
+        "name": "Player 01",
+        "ntrpLevel": "4.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 3,
+        "matchesNeeded": 2,
+        "sectionalsAppearances": 0,
+        "dr": 3.78,
+        "utr": {
+          "singles": {
+            "value": 3.02,
+            "exactValue": 3.02,
+            "display": "3.02",
+            "status": "Projected",
+            "reliability": 32
+          },
+          "doubles": {
+            "value": 4.28,
+            "exactValue": 4.28,
+            "display": "4.28",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Player 06",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "ineligible",
+        "role": "Ineligible — 2 matches needed · Doubles Depth (D2)",
+        "standoutNote": "2 more qualifying matches needed; highest roster DR (3.78) is only a historical ceiling until eligible; 1 local doubles appearance, mainly D2 (0–1)."
+      },
+      {
+        "name": "Player 02",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 3,
+        "matchesNeeded": 2,
+        "sectionalsAppearances": 0,
+        "dr": 3.43,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 5.41,
+            "exactValue": 5.41,
+            "display": "5.41",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Player 03",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "ineligible",
+        "role": "Ineligible — 2 matches needed · Doubles Depth (D1)",
+        "standoutNote": "2 more qualifying matches needed; 1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "Player 03",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 2,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 2,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 2,
+        "matchesRequired": 3,
+        "matchesNeeded": 1,
+        "sectionalsAppearances": 0,
+        "dr": 3.42,
+        "utr": {
+          "singles": {
+            "value": 3.45,
+            "exactValue": 3.45,
+            "display": "3.45",
+            "status": "Rated",
+            "reliability": 100
+          },
+          "doubles": {
+            "value": 3.9,
+            "exactValue": 3.9,
+            "display": "3.90",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Player 02",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "ineligible",
+        "role": "Ineligible — 1 match needed · Doubles Depth (D1)",
+        "standoutNote": "1 more qualifying match needed; 1 local doubles appearance, mainly D1 (0–1)."
+      },
+      {
+        "name": "Player 04",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 3,
+        "matchesNeeded": 2,
+        "sectionalsAppearances": 0,
+        "dr": 3.24,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 3.16,
+            "exactValue": 3.16,
+            "display": "3.16",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Player 05",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "ineligible",
+        "role": "Ineligible — 2 matches needed · Doubles Depth (D3)",
+        "standoutNote": "2 more qualifying matches needed; 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Player 05",
+        "ntrpLevel": "3.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 3,
+        "matchesNeeded": 2,
+        "sectionalsAppearances": 0,
+        "dr": 3.05,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.53,
+            "exactValue": 4.53,
+            "display": "4.53",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Player 04",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "ineligible",
+        "role": "Ineligible — 2 matches needed · Doubles Depth (D3)",
+        "standoutNote": "2 more qualifying matches needed; 1 local doubles appearance, mainly D3 (0–1)."
+      },
+      {
+        "name": "Player 06",
+        "ntrpLevel": "3.0",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 1,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 1,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 1,
+        "matchesRequired": 3,
+        "matchesNeeded": 2,
+        "sectionalsAppearances": 0,
+        "dr": 2.96,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.91,
+            "exactValue": 4.91,
+            "display": "4.91",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 1,
+            "record": {
+              "wins": 0,
+              "losses": 1,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 1,
+              "winRate": 0
+            }
+          },
+          "appearances": 1
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "localCourtUsage": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "postseasonCourtUsage": [],
+        "primaryPartner": {
+          "name": "Player 01",
+          "appearances": 1,
+          "record": {
+            "wins": 0,
+            "losses": 1,
+            "ties": 0,
+            "unknown": 0,
+            "decisions": 1,
+            "winRate": 0
+          }
+        },
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "ineligible",
+        "role": "Ineligible — 2 matches needed · Doubles Depth (D2)",
+        "standoutNote": "2 more qualifying matches needed; 1 local doubles appearance, mainly D2 (0–1)."
+      }
+    ]
+  },
+  "singles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "playersUsed": 0,
+      "matchesAnalyzed": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "players": [],
+    "matchStacking": []
+  },
+  "doubles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 3,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 3,
+        "winRate": 0
+      },
+      "uniquePairs": 3,
+      "matchesAnalyzed": 1,
+      "repeatedPairs": 0,
+      "oneOffPairs": 3,
+      "pairsWithIncompleteCurrentUtr": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 2,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [
+      {
+        "court": "D1",
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Player 02 + Player 03",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D2",
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Player 01 + Player 06",
+            "appearances": 1
+          }
+        ]
+      },
+      {
+        "court": "D3",
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "defaults": 0,
+        "dqReversals": 0,
+        "primaryPersonnel": [
+          {
+            "name": "Player 04 + Player 05",
+            "appearances": 1
+          }
+        ]
+      }
+    ],
+    "repeatedPairs": [],
+    "oneOffPairs": [
+      {
+        "pair": "Player 01 + Player 06",
+        "players": [
+          "Player 01",
+          "Player 06"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.37,
+          "doublesUtrAverage": 4.595,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Player 01",
+              "dr": 3.78,
+              "doublesUtr": {
+                "value": 4.28,
+                "exactValue": 4.28,
+                "display": "4.28",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Player 06",
+              "dr": 2.96,
+              "doublesUtr": {
+                "value": 4.91,
+                "exactValue": 4.91,
+                "display": "4.91",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D2",
+            "pair": "Player 01 + Player 06",
+            "players": [
+              "Player 01",
+              "Player 06"
+            ],
+            "opponentPair": "Opponent 03 + Opponent 04",
+            "opponentPlayers": [
+              "Opponent 03",
+              "Opponent 04"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.61,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D2",
+            "pair": "Player 01 + Player 06",
+            "players": [
+              "Player 01",
+              "Player 06"
+            ],
+            "opponentPair": "Opponent 03 + Opponent 04",
+            "opponentPlayers": [
+              "Opponent 03",
+              "Opponent 04"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.61,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Player 02 + Player 03",
+        "players": [
+          "Player 02",
+          "Player 03"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.425,
+          "doublesUtrAverage": 4.655,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Player 02",
+              "dr": 3.43,
+              "doublesUtr": {
+                "value": 5.41,
+                "exactValue": 5.41,
+                "display": "5.41",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Player 03",
+              "dr": 3.42,
+              "doublesUtr": {
+                "value": 3.9,
+                "exactValue": 3.9,
+                "display": "3.90",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D1",
+            "pair": "Player 02 + Player 03",
+            "players": [
+              "Player 02",
+              "Player 03"
+            ],
+            "opponentPair": "Opponent 01 + Opponent 02",
+            "opponentPlayers": [
+              "Opponent 01",
+              "Opponent 02"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-3",
+            "score": "6-4 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.16,
+                  "values": [
+                    {
+                      "name": "Player 03",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 02",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.655,
+                  "values": [
+                    {
+                      "name": "Player 03",
+                      "value": 3.9,
+                      "sourceRating": {
+                        "value": 3.9,
+                        "exactValue": 3.9,
+                        "display": "3.90",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 02",
+                      "value": 5.41,
+                      "sourceRating": {
+                        "value": 5.41,
+                        "exactValue": 5.41,
+                        "display": "5.41",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.6,
+                  "values": [
+                    {
+                      "name": "Opponent 01",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 02",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.985,
+                  "values": [
+                    {
+                      "name": "Opponent 01",
+                      "value": 5.29,
+                      "sourceRating": {
+                        "value": 5.29,
+                        "exactValue": 5.29,
+                        "display": "5.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 02",
+                      "value": 4.68,
+                      "sourceRating": {
+                        "value": 4.68,
+                        "exactValue": 4.68,
+                        "display": "4.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.44,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.33,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Player 04 + Player 05",
+        "players": [
+          "Player 04",
+          "Player 05"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.145,
+          "doublesUtrAverage": 3.845,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Player 04",
+              "dr": 3.24,
+              "doublesUtr": {
+                "value": 3.16,
+                "exactValue": 3.16,
+                "display": "3.16",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Player 05",
+              "dr": 3.05,
+              "doublesUtr": {
+                "value": 4.53,
+                "exactValue": 4.53,
+                "display": "4.53",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D3",
+            "pair": "Player 04 + Player 05",
+            "players": [
+              "Player 04",
+              "Player 05"
+            ],
+            "opponentPair": "Opponent 05 + Opponent 06",
+            "opponentPlayers": [
+              "Opponent 05",
+              "Opponent 06"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.08,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D3",
+            "pair": "Player 04 + Player 05",
+            "players": [
+              "Player 04",
+              "Player 05"
+            ],
+            "opponentPair": "Opponent 05 + Opponent 06",
+            "opponentPlayers": [
+              "Opponent 05",
+              "Opponent 06"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.08,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "pair": "Player 01 + Player 06",
+        "players": [
+          "Player 01",
+          "Player 06"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D2",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.37,
+          "doublesUtrAverage": 4.595,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Player 01",
+              "dr": 3.78,
+              "doublesUtr": {
+                "value": 4.28,
+                "exactValue": 4.28,
+                "display": "4.28",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Player 06",
+              "dr": 2.96,
+              "doublesUtr": {
+                "value": 4.91,
+                "exactValue": 4.91,
+                "display": "4.91",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D2",
+            "pair": "Player 01 + Player 06",
+            "players": [
+              "Player 01",
+              "Player 06"
+            ],
+            "opponentPair": "Opponent 03 + Opponent 04",
+            "opponentPlayers": [
+              "Opponent 03",
+              "Opponent 04"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.61,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D2",
+            "pair": "Player 01 + Player 06",
+            "players": [
+              "Player 01",
+              "Player 06"
+            ],
+            "opponentPair": "Opponent 03 + Opponent 04",
+            "opponentPlayers": [
+              "Opponent 03",
+              "Opponent 04"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 4-6 6-3 1-0",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 4,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                },
+                {
+                  "target": 1,
+                  "opponent": 0
+                }
+              ],
+              "straightSets": false,
+              "matchTiebreak": true,
+              "bagelSets": 1,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.71,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 3.71,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.595,
+                  "values": [
+                    {
+                      "name": "Player 01",
+                      "value": 4.28,
+                      "sourceRating": {
+                        "value": 4.28,
+                        "exactValue": 4.28,
+                        "display": "4.28",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 06",
+                      "value": 4.91,
+                      "sourceRating": {
+                        "value": 4.91,
+                        "exactValue": 4.91,
+                        "display": "4.91",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.1,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 3.1,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.89,
+                  "values": [
+                    {
+                      "name": "Opponent 03",
+                      "value": 5.59,
+                      "sourceRating": {
+                        "value": 5.59,
+                        "exactValue": 5.59,
+                        "display": "5.59",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 04",
+                      "value": 4.19,
+                      "sourceRating": {
+                        "value": 4.19,
+                        "exactValue": 4.19,
+                        "display": "4.19",
+                        "status": "Projected",
+                        "reliability": 84
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.61,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.295,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Player 02 + Player 03",
+        "players": [
+          "Player 02",
+          "Player 03"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D1",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.425,
+          "doublesUtrAverage": 4.655,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Player 02",
+              "dr": 3.43,
+              "doublesUtr": {
+                "value": 5.41,
+                "exactValue": 5.41,
+                "display": "5.41",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Player 03",
+              "dr": 3.42,
+              "doublesUtr": {
+                "value": 3.9,
+                "exactValue": 3.9,
+                "display": "3.90",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 0,
+          "largestFavoriteDrLoss": null,
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D1",
+            "pair": "Player 02 + Player 03",
+            "players": [
+              "Player 02",
+              "Player 03"
+            ],
+            "opponentPair": "Opponent 01 + Opponent 02",
+            "opponentPlayers": [
+              "Opponent 01",
+              "Opponent 02"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 6-4 6-3",
+            "score": "6-4 6-3",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 6,
+                  "opponent": 4
+                },
+                {
+                  "target": 6,
+                  "opponent": 3
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.16,
+                  "values": [
+                    {
+                      "name": "Player 03",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 02",
+                      "value": 3.16,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.655,
+                  "values": [
+                    {
+                      "name": "Player 03",
+                      "value": 3.9,
+                      "sourceRating": {
+                        "value": 3.9,
+                        "exactValue": 3.9,
+                        "display": "3.90",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 02",
+                      "value": 5.41,
+                      "sourceRating": {
+                        "value": 5.41,
+                        "exactValue": 5.41,
+                        "display": "5.41",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.6,
+                  "values": [
+                    {
+                      "name": "Opponent 01",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 02",
+                      "value": 3.6,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.985,
+                  "values": [
+                    {
+                      "name": "Opponent 01",
+                      "value": 5.29,
+                      "sourceRating": {
+                        "value": 5.29,
+                        "exactValue": 5.29,
+                        "display": "5.29",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 02",
+                      "value": 4.68,
+                      "sourceRating": {
+                        "value": 4.68,
+                        "exactValue": 4.68,
+                        "display": "4.68",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": -0.44,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              },
+              "doublesUtrComparison": {
+                "margin": -0.33,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      },
+      {
+        "pair": "Player 04 + Player 05",
+        "players": [
+          "Player 04",
+          "Player 05"
+        ],
+        "appearances": 1,
+        "repeatedPair": false,
+        "courts": [
+          {
+            "court": "D3",
+            "appearances": 1
+          }
+        ],
+        "record": {
+          "wins": 0,
+          "losses": 1,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 1,
+          "winRate": 0
+        },
+        "postseasonRecord": {
+          "wins": 0,
+          "losses": 0,
+          "ties": 0,
+          "unknown": 0,
+          "decisions": 0,
+          "winRate": null
+        },
+        "currentRatings": {
+          "drAverage": 3.145,
+          "doublesUtrAverage": 3.845,
+          "doublesUtrComplete": true,
+          "players": [
+            {
+              "name": "Player 04",
+              "dr": 3.24,
+              "doublesUtr": {
+                "value": 3.16,
+                "exactValue": 3.16,
+                "display": "3.16",
+                "status": "Rated",
+                "reliability": 100
+              }
+            },
+            {
+              "name": "Player 05",
+              "dr": 3.05,
+              "doublesUtr": {
+                "value": 4.53,
+                "exactValue": 4.53,
+                "display": "4.53",
+                "status": "Rated",
+                "reliability": 100
+              }
+            }
+          ]
+        },
+        "comparisonMetrics": {
+          "completeDrComparisons": 1,
+          "lowerDrWins": 0,
+          "largestLowerDrWin": null,
+          "favoriteDrLosses": 1,
+          "largestFavoriteDrLoss": {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D3",
+            "pair": "Player 04 + Player 05",
+            "players": [
+              "Player 04",
+              "Player 05"
+            ],
+            "opponentPair": "Opponent 05 + Opponent 06",
+            "opponentPlayers": [
+              "Opponent 05",
+              "Opponent 06"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.08,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          },
+          "completeUtrComparisons": 1,
+          "lowerUtrWins": 0,
+          "largestLowerUtrWin": null,
+          "favoriteUtrLosses": 0,
+          "largestFavoriteUtrLoss": null
+        },
+        "matchHistory": [
+          {
+            "matchId": "match-1",
+            "date": "2026-09-12",
+            "phase": "local",
+            "postseason": false,
+            "opponentTeam": "Opponent Team 1",
+            "court": "D3",
+            "pair": "Player 04 + Player 05",
+            "players": [
+              "Player 04",
+              "Player 05"
+            ],
+            "opponentPair": "Opponent 05 + Opponent 06",
+            "opponentPlayers": [
+              "Opponent 05",
+              "Opponent 06"
+            ],
+            "result": "L",
+            "onCourtResult": "L",
+            "status": "L · 7-6 6-2",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "scoreProfile": {
+              "sets": [
+                {
+                  "target": 7,
+                  "opponent": 6
+                },
+                {
+                  "target": 6,
+                  "opponent": 2
+                }
+              ],
+              "straightSets": true,
+              "matchTiebreak": false,
+              "bagelSets": 0,
+              "defaulted": false,
+              "retired": false
+            },
+            "ratings": {
+              "target": {
+                "dr": {
+                  "average": 3.39,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 3.39,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 3.845,
+                  "values": [
+                    {
+                      "name": "Player 04",
+                      "value": 3.16,
+                      "sourceRating": {
+                        "value": 3.16,
+                        "exactValue": 3.16,
+                        "display": "3.16",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Player 05",
+                      "value": 4.53,
+                      "sourceRating": {
+                        "value": 4.53,
+                        "exactValue": 4.53,
+                        "display": "4.53",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "opponent": {
+                "dr": {
+                  "average": 3.31,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 3.31,
+                      "evidenceType": "individual_match_page_dr"
+                    }
+                  ],
+                  "complete": true
+                },
+                "doublesUtr": {
+                  "average": 4.47,
+                  "values": [
+                    {
+                      "name": "Opponent 05",
+                      "value": 4.93,
+                      "sourceRating": {
+                        "value": 4.93,
+                        "exactValue": 4.93,
+                        "display": "4.93",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    },
+                    {
+                      "name": "Opponent 06",
+                      "value": 4.01,
+                      "sourceRating": {
+                        "value": 4.01,
+                        "exactValue": 4.01,
+                        "display": "4.01",
+                        "status": "Rated",
+                        "reliability": 100
+                      }
+                    }
+                  ],
+                  "complete": true
+                }
+              },
+              "drComparison": {
+                "margin": 0.08,
+                "lowerRatedWin": false,
+                "favoriteLoss": true
+              },
+              "doublesUtrComparison": {
+                "margin": -0.625,
+                "lowerRatedWin": false,
+                "favoriteLoss": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "matchStacking": [
+      {
+        "matchId": "match-1",
+        "date": "2026-09-12",
+        "phase": "local",
+        "targetTeamName": "Golden mixed-sparse",
+        "opponentTeam": "Opponent Team 1",
+        "officialTeamResult": null,
+        "sourceRead": null,
+        "lines": [
+          {
+            "court": "D1",
+            "result": "L",
+            "score": "6-4 6-3",
+            "adjudication": null,
+            "targetPlayers": [
+              "Player 03",
+              "Player 02"
+            ],
+            "opponentPlayers": [
+              "Opponent 01",
+              "Opponent 02"
+            ],
+            "averageDr": 3.16,
+            "averageUtr": 4.655,
+            "opponentAverageDr": 3.6,
+            "opponentAverageUtr": 4.985
+          },
+          {
+            "court": "D2",
+            "result": "L",
+            "score": "4-6 6-3 1-0",
+            "adjudication": null,
+            "targetPlayers": [
+              "Player 01",
+              "Player 06"
+            ],
+            "opponentPlayers": [
+              "Opponent 03",
+              "Opponent 04"
+            ],
+            "averageDr": 3.71,
+            "averageUtr": 4.595,
+            "opponentAverageDr": 3.1,
+            "opponentAverageUtr": 4.89
+          },
+          {
+            "court": "D3",
+            "result": "L",
+            "score": "7-6 6-2",
+            "adjudication": null,
+            "targetPlayers": [
+              "Player 04",
+              "Player 05"
+            ],
+            "opponentPlayers": [
+              "Opponent 05",
+              "Opponent 06"
+            ],
+            "averageDr": 3.39,
+            "averageUtr": 3.845,
+            "opponentAverageDr": 3.31,
+            "opponentAverageUtr": 4.47
+          }
+        ],
+        "strongestCourtByDr": "D2",
+        "strongestCourtByUtr": "D1"
+      }
+    ]
+  },
+  "lineupPredictions": {
+    "summary": {
+      "predictionsGenerated": 0,
+      "matchesAnalyzed": 1,
+      "courts": [],
+      "leagueFormat": "mixed",
+      "eligiblePlayers": 0,
+      "excludedPlayers": 6
+    },
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Mixed doubles pairs require one men’s and one women’s player when both player genders are known. Predicted lineups cannot assign one player to multiple courts.",
+    "predictions": []
+  },
+  "disclosures": {
+    "warnings": [
+      "1 mixed-league player gender is unresolved; observed pairs remain available, but gender validation is limited.",
+      "Anonymized fixture with trimmed match history; season appearance counts are preserved.",
+      "1 player appearance count(s) differ from the match ledger; see eligibility.dataQualityIssues."
+    ],
+    "sources": [
+      {
+        "type": "fixture",
+        "url": "https://example.invalid/golden",
+        "retrievedAt": "2026-01-01",
+        "fields": [
+          "roster",
+          "matches"
+        ]
+      }
+    ],
+    "dataQuality": {
+      "limitations": [
+        "Anonymized fixture with trimmed match history; season appearance counts are preserved."
+      ]
+    }
+  }
+}

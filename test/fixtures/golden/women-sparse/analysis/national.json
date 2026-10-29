@@ -1,0 +1,509 @@
+{
+  "analysisVersion": "1.3.0",
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "dataset": {
+    "datasetId": "golden-women-sparse",
+    "schemaVersion": "2.0.0",
+    "generatedAt": "2026-01-01T00:00:00.000Z",
+    "collectionStage": "tennisrecord_complete",
+    "finalReportReady": false
+  },
+  "team": {
+    "level": "3.0",
+    "gender": "Women",
+    "leagueFormat": "single_gender",
+    "season": 2026,
+    "name": "Golden women-sparse",
+    "section": "Fixture Section",
+    "league": "Adult League"
+  },
+  "summary": {
+    "rosterSize": 4,
+    "matches": 0,
+    "teamRecord": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 0,
+      "winRate": null
+    },
+    "courtRecord": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0,
+      "unknown": 0,
+      "decisions": 0,
+      "winRate": null
+    },
+    "phases": {}
+  },
+  "eligibility": {
+    "scope": "national",
+    "label": "National",
+    "rules": {
+      "computerRatedMatches": 3,
+      "selfRatedOrAppealedMatches": 4,
+      "computerRatedDefaultReceivedMayCount": 1,
+      "selfRatedOrAppealedDefaultsCount": false,
+      "disqualifiedPlayersAvailable": false
+    },
+    "summary": {
+      "rosterSize": 4,
+      "eligible": 4,
+      "ineligible": 0,
+      "unavailable": 0,
+      "unknown": 0
+    },
+    "dataQualityIssues": [
+      {
+        "player": "Player 01",
+        "code": "qualifying_appearances_mismatch",
+        "source": {
+          "actual": 7,
+          "defaultsReceived": 0
+        },
+        "matchLedger": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "resolution": "roster_source_retained"
+      },
+      {
+        "player": "Player 02",
+        "code": "qualifying_appearances_mismatch",
+        "source": {
+          "actual": 9,
+          "defaultsReceived": 0
+        },
+        "matchLedger": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "resolution": "roster_source_retained"
+      },
+      {
+        "player": "Player 03",
+        "code": "qualifying_appearances_mismatch",
+        "source": {
+          "actual": 6,
+          "defaultsReceived": 1
+        },
+        "matchLedger": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "resolution": "roster_source_retained"
+      },
+      {
+        "player": "Player 04",
+        "code": "qualifying_appearances_mismatch",
+        "source": {
+          "actual": 4,
+          "defaultsReceived": 0
+        },
+        "matchLedger": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "resolution": "roster_source_retained"
+      }
+    ],
+    "players": [
+      {
+        "name": "Player 01",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 7,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 7,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 7,
+        "matchesRequired": 4,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 2,
+        "dr": 3.44,
+        "utr": {
+          "singles": {
+            "value": 1.87,
+            "exactValue": 1.87,
+            "display": "1.87",
+            "status": "Projected",
+            "reliability": 64
+          },
+          "doubles": {
+            "value": 2.87,
+            "exactValue": 2.87,
+            "display": "2.87",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the national target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Player 02",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 9,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 9,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 9,
+        "matchesRequired": 4,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 3,
+        "dr": 3.27,
+        "utr": {
+          "singles": {
+            "value": 3.05,
+            "exactValue": 3.05,
+            "display": "3.05",
+            "status": "Projected",
+            "reliability": 4
+          },
+          "doubles": {
+            "value": 4,
+            "exactValue": 4,
+            "display": "4.00",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the national target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Player 03",
+        "ntrpLevel": "3.0",
+        "ntrpType": "S",
+        "ratingCategory": "self_rated_or_appealed",
+        "appearanceSource": "roster",
+        "actualMatches": 6,
+        "defaultsReceived": 1,
+        "sourceAppearances": {
+          "actual": 6,
+          "defaultsReceived": 1
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 6,
+        "matchesRequired": 4,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 3,
+        "dr": 3.13,
+        "utr": {
+          "singles": {
+            "value": null,
+            "exactValue": null,
+            "display": "NR",
+            "status": "Unrated",
+            "reliability": 0
+          },
+          "doubles": {
+            "value": 4.1,
+            "exactValue": 4.1,
+            "display": "4.10",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the national target, but no collected court usage supports a projected role."
+      },
+      {
+        "name": "Player 04",
+        "ntrpLevel": "2.5",
+        "ntrpType": "C",
+        "ratingCategory": "computer_rated",
+        "appearanceSource": "roster",
+        "actualMatches": 4,
+        "defaultsReceived": 0,
+        "sourceAppearances": {
+          "actual": 4,
+          "defaultsReceived": 0
+        },
+        "matchLedgerAppearances": {
+          "actual": 0,
+          "defaultsReceived": 0
+        },
+        "countedDefaults": 0,
+        "countedMatches": 4,
+        "matchesRequired": 3,
+        "matchesNeeded": 0,
+        "sectionalsAppearances": 1,
+        "dr": 3.08,
+        "utr": {
+          "singles": {
+            "value": 3.28,
+            "exactValue": 3.28,
+            "display": "3.28",
+            "status": "Projected",
+            "reliability": 16
+          },
+          "doubles": {
+            "value": 4.58,
+            "exactValue": 4.58,
+            "display": "4.58",
+            "status": "Rated",
+            "reliability": 100
+          }
+        },
+        "local": {
+          "singles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "doubles": {
+            "appearances": 0,
+            "record": {
+              "wins": 0,
+              "losses": 0,
+              "ties": 0,
+              "unknown": 0,
+              "decisions": 0,
+              "winRate": null
+            }
+          },
+          "appearances": 0
+        },
+        "postseasonAppearances": 0,
+        "courtUsage": [],
+        "localCourtUsage": [],
+        "postseasonCourtUsage": [],
+        "primaryPartner": null,
+        "singlesUpsets": {
+          "higherDrWins": 0,
+          "higherUtrWins": 0
+        },
+        "sourceLikelyRole": null,
+        "sourceNote": null,
+        "status": "eligible",
+        "role": "No observed lineup role",
+        "standoutNote": "Eligible for the national target, but no collected court usage supports a projected role."
+      }
+    ]
+  },
+  "singles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "playersUsed": 0,
+      "matchesAnalyzed": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "players": [],
+    "matchStacking": []
+  },
+  "doubles": {
+    "summary": {
+      "record": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0,
+        "unknown": 0,
+        "decisions": 0,
+        "winRate": null
+      },
+      "uniquePairs": 0,
+      "matchesAnalyzed": 0,
+      "repeatedPairs": 0,
+      "oneOffPairs": 0,
+      "pairsWithIncompleteCurrentUtr": 0,
+      "lowerDrWins": 0,
+      "favoriteDrLosses": 0,
+      "lowerUtrWins": 0,
+      "favoriteUtrLosses": 0
+    },
+    "courts": [],
+    "repeatedPairs": [],
+    "oneOffPairs": [],
+    "pairs": [],
+    "matchStacking": []
+  },
+  "lineupPredictions": {
+    "summary": {
+      "predictionsGenerated": 0,
+      "matchesAnalyzed": 0,
+      "courts": [],
+      "leagueFormat": "single_gender",
+      "eligiblePlayers": 4,
+      "excludedPlayers": 0
+    },
+    "methodology": "Court choices are weighted by frequency, recency, and postseason use. Predicted lineups cannot assign one player to multiple courts.",
+    "predictions": []
+  },
+  "disclosures": {
+    "warnings": [
+      "Dataset stage tennisrecord_complete supports preliminary analysis only.",
+      "Anonymized fixture with trimmed match history; season appearance counts are preserved.",
+      "4 player appearance count(s) differ from the match ledger; see eligibility.dataQualityIssues."
+    ],
+    "sources": [
+      {
+        "type": "fixture",
+        "url": "https://example.invalid/golden",
+        "retrievedAt": "2026-01-01",
+        "fields": [
+          "roster",
+          "matches"
+        ]
+      }
+    ],
+    "dataQuality": {
+      "limitations": [
+        "Anonymized fixture with trimmed match history; season appearance counts are preserved."
+      ]
+    }
+  }
+}

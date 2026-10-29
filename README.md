@@ -115,3 +115,12 @@ confidence. It never writes ratings into the dataset; masked displays such as
 npm test
 npm run validate:data -- --input data/<dataset-id>/team-data.json
 ```
+
+## Analysis regression baseline
+
+`npm test` compares team analysis against four anonymized golden datasets across
+Local, Sectional, and National eligibility scopes, with schema validation of both
+inputs and outputs. When analysis behavior intentionally changes, run
+`npm run golden:analysis`, review the output diffs, and rerun `npm test`.
+See [the fixture guide](test/fixtures/golden/README.md) for coverage and timestamp
+normalization details.

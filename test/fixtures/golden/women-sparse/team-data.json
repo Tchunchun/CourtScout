@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "2.0.0",
+  "datasetId": "golden-women-sparse",
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "collectionStage": "tennisrecord_complete",
+  "team": {
+    "level": "3.0",
+    "gender": "Women",
+    "leagueFormat": "single_gender",
+    "season": 2026,
+    "name": "Golden women-sparse",
+    "section": "Fixture Section",
+    "league": "Adult League"
+  },
+  "eligibilityRule": {
+    "regulation": "USTA League Regulation 2.03A(4)",
+    "nonSelfRated": {
+      "matchesRequired": 3,
+      "defaultReceivedMayCount": 1
+    },
+    "selfRatedOrAppealed": {
+      "actualMatchesRequired": 4,
+      "defaultsCount": false
+    },
+    "evaluatedThrough": "Sectional Championships"
+  },
+  "sources": [
+    {
+      "type": "fixture",
+      "url": "https://example.invalid/golden",
+      "retrievedAt": "2026-01-01",
+      "fields": [
+        "roster",
+        "matches"
+      ]
+    }
+  ],
+  "roster": [
+    {
+      "ntrp": {
+        "level": "3.0",
+        "type": "S"
+      },
+      "dr": 3.44,
+      "records": {
+        "singles": {
+          "wins": 1,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 5,
+          "losses": 1
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 7,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 2,
+      "nationalsEligibility": {
+        "status": "confirmed_eligible",
+        "display": "Eligible"
+      },
+      "name": "Player 01",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-28",
+        "singles": {
+          "value": 1.87,
+          "exactValue": 1.87,
+          "display": "1.87",
+          "status": "Projected",
+          "reliability": 64
+        },
+        "doubles": {
+          "value": 2.87,
+          "exactValue": 2.87,
+          "display": "2.87",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "3.0",
+        "type": "S"
+      },
+      "dr": 3.27,
+      "records": {
+        "singles": {
+          "wins": 1,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 8,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 9,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 3,
+      "nationalsEligibility": {
+        "status": "confirmed_eligible",
+        "display": "Eligible"
+      },
+      "name": "Player 02",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-28",
+        "singles": {
+          "value": 3.05,
+          "exactValue": 3.05,
+          "display": "3.05",
+          "status": "Projected",
+          "reliability": 4
+        },
+        "doubles": {
+          "value": 4,
+          "exactValue": 4,
+          "display": "4.00",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "3.0",
+        "type": "S"
+      },
+      "dr": 3.13,
+      "records": {
+        "singles": {
+          "wins": 1,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 6,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 6,
+        "defaultsReceived": 1
+      },
+      "sectionalsAppearances": 3,
+      "nationalsEligibility": {
+        "status": "confirmed_eligible",
+        "display": "Eligible"
+      },
+      "name": "Player 03",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-01",
+        "singles": {
+          "value": null,
+          "exactValue": null,
+          "display": "NR",
+          "status": "Unrated",
+          "reliability": 0
+        },
+        "doubles": {
+          "value": 4.1,
+          "exactValue": 4.1,
+          "display": "4.10",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    },
+    {
+      "ntrp": {
+        "level": "2.5",
+        "type": "C"
+      },
+      "dr": 3.08,
+      "records": {
+        "singles": {
+          "wins": 2,
+          "losses": 0
+        },
+        "doubles": {
+          "wins": 2,
+          "losses": 0
+        }
+      },
+      "qualifyingAppearances": {
+        "actual": 4,
+        "defaultsReceived": 0
+      },
+      "sectionalsAppearances": 1,
+      "nationalsEligibility": {
+        "status": "confirmed_eligible",
+        "display": "Eligible"
+      },
+      "name": "Player 04",
+      "utr": {
+        "lookupStatus": "authenticated_exact_profile_resolved",
+        "exactDecimalsAvailable": true,
+        "exactDecimalsBlocker": null,
+        "retrievedAt": "2026-09-01",
+        "singles": {
+          "value": 3.28,
+          "exactValue": 3.28,
+          "display": "3.28",
+          "status": "Projected",
+          "reliability": 16
+        },
+        "doubles": {
+          "value": 4.58,
+          "exactValue": 4.58,
+          "display": "4.58",
+          "status": "Rated",
+          "reliability": 100
+        }
+      }
+    }
+  ],
+  "opponents": [],
+  "matches": [],
+  "dataQuality": {
+    "limitations": [
+      "Anonymized fixture with trimmed match history; season appearance counts are preserved."
+    ]
+  },
+  "downstreamContract": {
+    "authoritativeInput": true,
+    "analysisMayDerive": [
+      "eligibility summary",
+      "singles analysis",
+      "doubles pair analysis",
+      "court stacking",
+      "postseason-weighted lineup projection",
+      "strategy",
+      "HTML report"
+    ],
+    "analysisMustNotOverride": [
+      "source identity matches",
+      "exact ratings",
+      "official match results",
+      "adjudications",
+      "source precedence",
+      "unresolved-profile status"
+    ],
+    "opponentRatingPolicy": [
+      "Use authenticated exact UTR values when available.",
+      "Treat NR/unresolved values as missing.",
+      "Never infer a decimal from a public rating band."
+    ]
+  }
+}
